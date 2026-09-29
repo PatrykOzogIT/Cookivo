@@ -1,0 +1,145 @@
+<div class="cook" *transloco="let t" role="region" [attr.aria-label]="t('recipes.cook.title')">
+  <header class="bar">
+    <button mat-icon-button type="button" (click)="exit()" [attr.aria-label]="t('recipes.cook.exit')">
+      <span class="material-symbols-rounded" aria-hidden="true">close</span>
+    </button>
+    <div class="title">
+      <strong>{{ recipe()?.title }}</strong>
+      @if (recipe()) {
+        <span>
+          {{
+            index() === 0
+              ? t('recipes.cook.ingredientsCard')
+              : t('recipes.cook.stepOf', { n: index(), total: cardCount() - 1 })
+          }}
+        </span>
+      }
+    </div>
+    <span
+      class="wake material-symbols-rounded"
+      [class.on]="wakeLockActive()"
+      [attr.title]="t(wakeLockActive() ? 'recipes.cook.screenOn' : 'recipes.cook.screenMayDim')"
+      aria-hidden="true"
+      >{{ wakeLockActive() ? 'light_mode' : 'bedtime' }}</span
+    >
+  </header>
+
+  <!-- Komunikaty dla czytnika ekranu (koniec minutnika) -->
+  <p class="visually-hidden" aria-live="assertive">{{ announcement() }}</p>
+
+  @if (error(); as code) {
+    <p class="error" role="alert">{{ t('errors.' + code) }}</p>
+  } @else if (recipe(); as r) {
+    <div class="progress" aria-hidden="true">
+      <span [style.width.%]="(index() / (cardCount() - 1 || 1)) * 100"></span>
+    </div>
+
+    <div class="track" #track (scroll)="onScroll()">
+      <!-- Karta 0: składniki -->
+      <section class="card" [attr.aria-hidden]="index() !== 0" [attr.inert]="index() !== 0 ? '' : null">
+        <h2>
+          {{ t('recipes.ingredients') }}
+          <small>({{ t('recipes.servingsCount', { count: portions() }) }})</small>
+        </h2>
+        @for (g of groups(); track $index) {
+          @if (g.name) {
+            <h3>{{ g.name }}</h3>
+          }
+          <ul class="check">
+            @for (l of g.lines; track l.id) {
+              <li [class.done]="checked().has(l.id)">
+                <mat-checkbox [checked]="checked().has(l.id)" (change)="toggle(l.id, $event.checked)">
+                  <span class="amount">{{ scaled(l) | amountLabel: l.unitCode : lang() }}</span>
+                  {{ l.ingredient ? (l.ingredient | localized: lang()) : l.subRecipe?.title }}
+                  @if (l.note) {
+                    <span class="note">, {{ l.note }}</span>
+                  }
+                </mat-checkbox>
+              </li>
+            }
+          </ul>
+        }
+      </section>
+
+      <!-- Kroki -->
+      @for (s of r.steps; track $index; let i = $index) {
+        <section
+          class="card step"
+          [attr.aria-hidden]="index() !== i + 1"
+          [attr.inert]="index() !== i + 1 ? '' : null"
+        >
+          <p class="step-num">{{ t('recipes.cook.step', { n: i + 1 }) }}</p>
+          <p class="step-text">{{ s.text }}</p>
+          @if (s.photo; as p) {
+            <img [src]="p.urls.medium" [alt]="t('recipes.stepPhotoAlt', { n: i + 1 })" loading="lazy" />
+          }
+          @if (s.timerMinutes) {
+            <div class="timer" [class.done]="timerFor(i + 1)?.done">
+              @if (timerFor(i + 1); as tm) {
+                <span class="clock" role="timer" [attr.aria-label]="t('recipes.cook.timerLeft')">{{
+                  clock(tm)
+                }}</span>
+                @if (tm.done) {
+                  <strong>{{ t('recipes.cook.timerDoneShort') }}</strong>
+                  <button mat-stroked-button type="button" (click)="stopTimer(i + 1)">
+                    {{ t('common.close') }}
+                  </button>
+                } @else {
+                  <button mat-stroked-button type="button" (click)="togglePause(i + 1)">
+                    {{ t(tm.pausedLeft !== null ? 'recipes.cook.resume' : 'recipes.cook.pause') }}
+                  </button>
+                  <button mat-button type="button" (click)="stopTimer(i + 1)">
+                    {{ t('recipes.cook.stop') }}
+                  </button>
+                }
+              } @else {
+                <button
+                  mat-flat-button
+                  class="ck-cta"
+                  type="button"
+                  (click)="startTimer(i + 1, s.timerMinutes)"
+                >
+                  <span class="material-symbols-rounded" aria-hidden="true">timer</span>
+                  {{ t('recipes.cook.startTimer', { minutes: s.timerMinutes }) }}
+                </button>
+              }
+            </div>
+          }
+        </section>
+      }
+    </div>
+
+    <!-- Aktywne minutniki z innych kroków -->
+    @if (timers().length) {
+      <div class="running" role="status">
+        @for (tm of timers(); track tm.step) {
+          @if (tm.step !== index()) {
+            <button type="button" class="pill" [class.done]="tm.done" (click)="go(tm.step)">
+              <span class="material-symbols-rounded" aria-hidden="true">timer</span>
+              {{ t('recipes.cook.step', { n: tm.step }) }}:
+              {{ tm.done ? t('recipes.cook.timerDoneShort') : clock(tm) }}
+            </button>
+          }
+        }
+      </div>
+    }
+
+    <nav class="nav" [attr.aria-label]="t('recipes.cook.navigation')">
+      <button mat-stroked-button type="button" (click)="go(index() - 1)" [disabled]="index() === 0">
+        <span class="material-symbols-rounded" aria-hidden="true">arrow_back</span>
+        {{ t('recipes.cook.prev') }}
+      </button>
+      @if (index() < cardCount() - 1) {
+        <button mat-flat-button class="ck-cta" type="button" (click)="go(index() + 1)">
+          {{ t(index() === 0 ? 'recipes.cook.begin' : 'recipes.cook.next') }}
+          <span class="material-symbols-rounded" aria-hidden="true">arrow_forward</span>
+        </button>
+      } @else {
+        <button mat-flat-button class="ck-cta" type="button" (click)="exit()">
+          <span class="material-symbols-rounded" aria-hidden="true">check</span>
+          {{ t('recipes.cook.finish') }}
+        </button>
+      }
+    </nav>
+  }
+</div>

@@ -1,0 +1,215 @@
+// Tryb gotowania przykrywa cały ekran (nagłówek i dolny pasek też)
+.cook {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  display: flex;
+  flex-direction: column;
+  background: var(--ck-bg);
+  color: var(--ck-text);
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom)
+    env(safe-area-inset-left);
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--ck-border);
+  .title {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    strong {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    span {
+      color: var(--ck-text-muted);
+      font-size: 0.85rem;
+    }
+  }
+  .wake {
+    color: var(--ck-text-muted);
+    &.on {
+      color: var(--ck-link);
+    }
+  }
+}
+
+.progress {
+  height: 4px;
+  background: var(--ck-border);
+  span {
+    display: block;
+    height: 100%;
+    background: linear-gradient(90deg, var(--ck-accent-from), var(--ck-accent-to));
+    transition: width 0.3s ease;
+  }
+}
+
+.track {
+  flex: 1;
+  display: flex;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
+}
+
+.card {
+  flex: 0 0 100%;
+  scroll-snap-align: start;
+  overflow-y: auto;
+  padding: 24px max(20px, 5vw) 32px;
+  max-width: 100%;
+
+  h2 {
+    font-size: 1.6rem;
+    small {
+      font-size: 1rem;
+      color: var(--ck-text-muted);
+      font-weight: 500;
+    }
+  }
+  h3 {
+    margin: 20px 0 6px;
+    color: var(--ck-link);
+  }
+}
+
+.check {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  li {
+    padding: 6px 0;
+    border-bottom: 1px solid var(--ck-border);
+    font-size: 1.2rem;
+    &.done {
+      opacity: 0.55;
+      text-decoration: line-through;
+    }
+  }
+  .amount {
+    font-weight: 800;
+    margin-right: 6px;
+  }
+  .note {
+    color: var(--ck-text-muted);
+  }
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.step-num {
+  margin: 0;
+  color: var(--ck-link);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.step-text {
+  margin: 0;
+  font-size: clamp(1.4rem, 1.1rem + 1.4vw, 2.1rem);
+  line-height: 1.45;
+  white-space: pre-line;
+}
+
+img {
+  width: 100%;
+  max-height: 40vh;
+  object-fit: cover;
+  border-radius: var(--ck-radius);
+}
+
+.timer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  border-radius: var(--ck-radius);
+  background: var(--ck-surface);
+  border: 1px solid var(--ck-border);
+  .clock {
+    font-size: 2.4rem;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+  }
+  &.done {
+    border-color: var(--ck-success);
+    background: var(--ck-sage-bg);
+    animation: pulse 1s ease-in-out infinite;
+  }
+  button {
+    min-height: 48px;
+    .material-symbols-rounded {
+      margin-right: 6px;
+    }
+  }
+}
+
+@keyframes pulse {
+  50% {
+    box-shadow: 0 0 0 8px color-mix(in srgb, var(--ck-success) 25%, transparent);
+  }
+}
+
+.running {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 8px 12px 0;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  padding: 0 14px;
+  border: 1px solid var(--ck-border);
+  border-radius: 999px;
+  background: var(--ck-surface);
+  color: var(--ck-text);
+  font: inherit;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+  &.done {
+    border-color: var(--ck-success);
+    color: var(--ck-success);
+  }
+}
+
+.nav {
+  display: grid;
+  grid-template-columns: 1fr 1.6fr;
+  gap: 12px;
+  padding: 12px;
+  border-top: 1px solid var(--ck-border);
+  button {
+    min-height: 56px;
+    font-size: 1.05rem;
+  }
+  .material-symbols-rounded {
+    margin: 0 6px;
+  }
+}
+
+.error {
+  padding: 24px;
+  color: var(--ck-danger);
+}

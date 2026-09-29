@@ -31,6 +31,9 @@ describe('Składniki (e2e)', () => {
 
   beforeEach(async () => {
     // Czyścimy tylko dane użytkowników - składniki z seeda zostają
+    // Przepisy z innych testów mogą trzymać składniki użytkowników
+    await t.prisma.recipeIngredient.deleteMany();
+    await t.prisma.recipe.deleteMany();
     await t.prisma.ingredient.deleteMany({ where: { source: 'USER' } });
     await t.prisma.user.deleteMany();
   });

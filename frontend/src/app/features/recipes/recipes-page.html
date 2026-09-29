@@ -1,38 +1,228 @@
-<app-page-layout *transloco="let t" [hasFilters]="true" [activeFilters]="activeCount()">
+<app-page-layout *transloco="let t" [hasFilters]="true" [activeFilters]="activeFilters()">
   <div filters>
-    <fieldset>
-      <legend>{{ t('recipes.filters.mealType') }}</legend>
-      @for (type of mealTypes; track type) {
-        <mat-checkbox [checked]="selected().has(type)" (change)="toggleMealType(type, $event.checked)">
-          {{ t('mealTypes.' + type) }}
-        </mat-checkbox>
+    @if (dictionaries(); as dict) {
+      @if (auth.isLoggedIn()) {
+        <fieldset>
+          <legend>{{ t('ingredients.filters.show') }}</legend>
+          <mat-slide-toggle
+            [checked]="mine() === '1'"
+            (change)="setParams({ mine: $event.checked ? '1' : null })"
+          >
+            {{ t('recipes.filters.mine') }}
+          </mat-slide-toggle>
+        </fieldset>
       }
-    </fieldset>
-    <fieldset>
-      <legend>{{ t('recipes.filters.forMe') }}</legend>
-      <mat-slide-toggle [checked]="withoutAllergens()" (change)="withoutAllergens.set($event.checked)">
-        {{ t('recipes.filters.withoutAllergens') }}
-      </mat-slide-toggle>
-      <mat-slide-toggle [checked]="fromPantry()" (change)="fromPantry.set($event.checked)">
-        {{ t('recipes.filters.fromPantry') }}
-      </mat-slide-toggle>
-    </fieldset>
+
+      <fieldset>
+        <legend>{{ t('recipes.filters.mealType') }}</legend>
+        @for (m of dict.mealTypes; track m.code) {
+          <mat-checkbox
+            [checked]="meals().has(m.code)"
+            (change)="toggleIn('meal', meals(), m.code, $event.checked)"
+          >
+            {{ m | localized: lang() }}
+          </mat-checkbox>
+        }
+      </fieldset>
+
+      <fieldset>
+        <legend>{{ t('recipes.filters.kcal') }}</legend>
+        <mat-radio-group
+          class="radios"
+          [value]="kcal() ?? ''"
+          (change)="setParams({ kcal: $event.value || null })"
+        >
+          <mat-radio-button value="">{{ t('recipes.filters.any') }}</mat-radio-button>
+          @for (k of kcalLimits; track k) {
+            <mat-radio-button [value]="'' + k">{{
+              t('recipes.filters.upToKcal', { kcal: k })
+            }}</mat-radio-button>
+          }
+        </mat-radio-group>
+      </fieldset>
+
+      <fieldset>
+        <legend>{{ t('recipes.filters.time') }}</legend>
+        <mat-radio-group
+          class="radios"
+          [value]="time() ?? ''"
+          (change)="setParams({ time: $event.value || null })"
+        >
+          <mat-radio-button value="">{{ t('recipes.filters.any') }}</mat-radio-button>
+          @for (m of timeLimits; track m) {
+            <mat-radio-button [value]="'' + m">{{
+              t('recipes.filters.upToMinutes', { minutes: m })
+            }}</mat-radio-button>
+          }
+        </mat-radio-group>
+      </fieldset>
+
+      <fieldset>
+        <legend>{{ t('ingredients.filters.without') }}</legend>
+        @for (a of dict.allergens; track a.code) {
+          <mat-checkbox
+            [checked]="excluded().has(a.code)"
+            (change)="toggleIn('allergens', excluded(), a.code, $event.checked)"
+          >
+            {{ a | localized: lang() }}
+          </mat-checkbox>
+        }
+      </fieldset>
+
+      <fieldset>
+        <legend>{{ t('recipes.filters.other') }}</legend>
+        <mat-slide-toggle
+          [checked]="asIngredient() === '1'"
+          (change)="setParams({ asIngredient: $event.checked ? '1' : null })"
+        >
+          {{ t('recipes.filters.canBeIngredient') }}
+        </mat-slide-toggle>
+      </fieldset>
+
+      @if (activeFilters() > 0) {
+        <button mat-button type="button" (click)="clearFilters()">
+          <span class="material-symbols-rounded" aria-hidden="true">filter_alt_off</span>
+          {{ t('filters.clear') }}
+        </button>
+      }
+    }
   </div>
 
   <app-catalog-tabs />
 
   <header class="head">
-    <h1>{{ t('nav.recipes') }}</h1>
-    <p>{{ t('recipes.comingSoon') }}</p>
+    <div>
+      <h1>{{ t('nav.recipes') }}</h1>
+      <p class="lead">{{ t('recipes.lead') }}</p>
+    </div>
+    @if (auth.isLoggedIn()) {
+      <a mat-flat-button class="ck-cta" routerLink="/recipes/new">
+        <span class="material-symbols-rounded" aria-hidden="true">add</span>
+        {{ t('recipes.add') }}
+      </a>
+    }
   </header>
 
-  <ul class="grid" [attr.aria-label]="t('recipes.placeholderList')">
-    @for (i of skeletons; track i) {
-      <li class="ck-card skeleton" aria-hidden="true">
-        <div class="img"></div>
-        <div class="line w70"></div>
-        <div class="line w40"></div>
+  <div class="toolbar">
+    <mat-form-field class="search" subscriptSizing="dynamic">
+      <mat-label>{{ t('recipes.search') }}</mat-label>
+      <span matIconPrefix class="material-symbols-rounded prefix" aria-hidden="true">search</span>
+      <input matInput type="search" [formControl]="search" autocomplete="off" enterkeyhint="search" />
+      @if (search.value) {
+        <button
+          matIconSuffix
+          mat-icon-button
+          type="button"
+          (click)="search.setValue('')"
+          [attr.aria-label]="t('common.clear')"
+        >
+          <span class="material-symbols-rounded" aria-hidden="true">close</span>
+        </button>
+      }
+    </mat-form-field>
+    <mat-form-field class="sort" subscriptSizing="dynamic">
+      <mat-label>{{ t('recipes.sort.label') }}</mat-label>
+      <mat-select
+        [value]="sort() ?? 'newest'"
+        (valueChange)="setParams({ sort: $event === 'newest' ? null : $event })"
+      >
+        @for (s of sorts; track s) {
+          <mat-option [value]="s">{{ t('recipes.sort.' + s) }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <p class="count" aria-live="polite">
+    @if (!loading() || items().length) {
+      {{ t('ingredients.count', { count: total() }) }}
+    }
+  </p>
+
+  @if (error(); as code) {
+    <div class="alert" role="alert">{{ t('errors.' + code) }}</div>
+  }
+
+  @if (!loading() && !error() && items().length === 0) {
+    <div class="empty ck-card">
+      <span class="material-symbols-rounded" aria-hidden="true">menu_book</span>
+      <p>{{ t(activeFilters() || q() ? 'recipes.emptyFiltered' : 'recipes.empty') }}</p>
+      @if (auth.isLoggedIn()) {
+        <a mat-stroked-button routerLink="/recipes/new">{{ t('recipes.addFirst') }}</a>
+      }
+    </div>
+  }
+
+  <ul class="grid">
+    @for (r of items(); track r.id) {
+      <li>
+        <a class="card ck-card" [routerLink]="['/recipes', r.id]">
+          <div class="cover">
+            @if (r.cover; as c) {
+              <img
+                [src]="c.urls.small"
+                [srcset]="c.urls.small + ' 400w, ' + c.urls.medium + ' 900w'"
+                sizes="(max-width: 600px) 100vw, 320px"
+                [width]="c.width"
+                [height]="c.height"
+                alt=""
+                loading="lazy"
+                decoding="async"
+              />
+            } @else {
+              <span class="placeholder material-symbols-rounded" aria-hidden="true">restaurant</span>
+            }
+            <div class="badges">
+              @if (r.visibility === 'PRIVATE') {
+                <span class="badge">
+                  <span class="material-symbols-rounded" aria-hidden="true">lock</span
+                  >{{ t('recipes.private') }}
+                </span>
+              }
+              @if (r.hidden) {
+                <span class="badge danger">{{ t('recipes.hiddenBadge') }}</span>
+              }
+            </div>
+          </div>
+          <div class="body">
+            <h2>{{ r.title }}</h2>
+            <p class="meta">
+              <span>
+                <strong>{{ r.kcalPerServing | num: lang() : 0 }}</strong> {{ t('recipes.kcalPerServing') }}
+              </span>
+              @if (totalMinutes(r); as min) {
+                <span>
+                  <span class="material-symbols-rounded" aria-hidden="true">schedule</span>
+                  {{ t('recipes.minutes', { minutes: min }) }}
+                </span>
+              }
+            </p>
+            @if (r.mealTypes.length) {
+              <p class="chips">
+                @for (m of r.mealTypes; track m.code) {
+                  <span class="chip">{{ m | localized: lang() }}</span>
+                }
+              </p>
+            }
+            @if (r.author && !r.isOwn) {
+              <p class="author">{{ t('recipes.by', { username: r.author.username }) }}</p>
+            }
+          </div>
+        </a>
       </li>
     }
+    @if (loading()) {
+      @for (s of [1, 2, 3, 4, 5, 6]; track s) {
+        <li aria-hidden="true"><div class="card ck-card skeleton"></div></li>
+      }
+    }
   </ul>
+
+  @if (hasMore() && !loading()) {
+    <div class="more">
+      <button mat-stroked-button type="button" (click)="loadMore()">
+        {{ t('ingredients.loadMore', { shown: items().length, total: total() }) }}
+      </button>
+    </div>
+  }
 </app-page-layout>

@@ -6,6 +6,8 @@ import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { AuthModule } from './auth/auth.module.js';
 import { HealthController } from './health.controller.js';
 import { IngredientsModule } from './ingredients/ingredients.module.js';
+import { PhotosModule } from './photos/photos.module.js';
+import { RecipesModule } from './recipes/recipes.module.js';
 import { VerifiedEmailGuard } from './common/verified-email.guard.js';
 import { JwtAuthGuard } from './common/jwt-auth.guard.js';
 import { RolesGuard } from './common/roles.guard.js';
@@ -39,6 +41,8 @@ import { PrismaModule } from './prisma/prisma.module.js';
     MailModule,
     AuthModule,
     IngredientsModule,
+    PhotosModule,
+    RecipesModule,
   ],
   controllers: [HealthController],
   providers: [

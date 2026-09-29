@@ -28,3 +28,8 @@ Komunikacja z właścicielem projektu po polsku. Komentarze w kodzie też po pol
 - Nazwy ze słowników (alergeny, kategorie, jednostki) przychodzą jako `namePl`/`nameEn` - wyświetlać pipe'em `localized`.
 - Dane startowe: `npm run db:seed` (idempotentny). Katalog składników w `backend/prisma/seed/ingredients.catalog.ts`; test `seed-data.spec.ts` sprawdza spójność. W testach e2e nie używać `TRUNCATE ... CASCADE` na `users` - wyczyści też składniki.
 - Przyklejony nagłówek i dolny pasek: `scroll-padding` w `styles.scss` pilnuje, by fokus nie chował się pod nimi (WCAG 2.4.11).
+- Przepisy: sumy wartości, waga i alergeny są zapisane w tabeli `recipes` i przeliczane przez `RecipeCalculatorService` (po zapisie przepisu, zmianie podprzepisu albo składnika z bazy - propagacja w górę). Czysta logika liczenia: `backend/src/recipes/recipe-math.ts`.
+- Wartości przepisu: na porcję zawsze dokładne; na 100 g z opcjonalnego `cookedGrams` (waga po ugotowaniu), a bez niego z sumy surowych składników (flaga `approximate`).
+- Zdjęcia: `POST /api/photos` (max 5 MB, JPG/PNG/WebP) → WebP 400/900/1600 px w `UPLOADS_DIR`, serwowane z `/api/media/`. Nieprzypięte do przepisu są sprzątane po dobie. Front zmniejsza zdjęcie przed wysyłką (`image-compress.ts`).
+- Ilości w przepisach wyświetlać pipe'em `amountLabel` (polska odmiana: 1 łyżka / 2 łyżki / 5 łyżek; formy w `recipes.unitForms`).
+- Testy E2E w WebKit na Windowsie (`PW_WEBKIT=1`) potrafią losowo crashować przy nawigacji ("Page crashed") - to błąd przeglądarki testowej; wiążący jest wynik CI (Linux).

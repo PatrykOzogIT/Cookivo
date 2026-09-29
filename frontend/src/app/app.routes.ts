@@ -10,8 +10,37 @@ export const routes: Routes = [
   },
   {
     path: 'recipes',
-    loadComponent: () => import('./features/recipes/recipes-page').then((m) => m.RecipesPage),
-    data: { titleKey: 'nav.recipes' },
+    children: [
+      {
+        path: '',
+        loadComponent: () => import('./features/recipes/recipes-page').then((m) => m.RecipesPage),
+        data: { titleKey: 'nav.recipes' },
+      },
+      {
+        path: 'new',
+        canMatch: [authGuard],
+        loadComponent: () => import('./features/recipes/form/recipe-form-page').then((m) => m.RecipeFormPage),
+        data: { titleKey: 'recipes.form.addTitle' },
+      },
+      {
+        path: ':id/edit',
+        canMatch: [authGuard],
+        loadComponent: () => import('./features/recipes/form/recipe-form-page').then((m) => m.RecipeFormPage),
+        data: { titleKey: 'recipes.form.editTitle' },
+      },
+      {
+        path: ':id/cook',
+        loadComponent: () =>
+          import('./features/recipes/cook/cooking-mode-page').then((m) => m.CookingModePage),
+        data: { titleKey: 'recipes.cook.title' },
+      },
+      {
+        path: ':id',
+        loadComponent: () =>
+          import('./features/recipes/detail/recipe-detail-page').then((m) => m.RecipeDetailPage),
+        data: { titleKey: 'nav.recipes' },
+      },
+    ],
   },
   {
     path: 'ingredients',

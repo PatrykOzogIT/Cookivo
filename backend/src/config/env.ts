@@ -20,6 +20,8 @@ export const envSchema = z.object({
   SMTP_PASS: z.string().optional(),
   MAIL_FROM: z.string().default('Cookivo <no-reply@cookivo.local>'),
   HIBP_ENABLED: bool,
+  /** Katalog na zdjęcia (WebP). W produkcji zamienimy na magazyn S3. */
+  UPLOADS_DIR: z.string().default('uploads'),
   /** Limity żądań (ochrona przed zgadywaniem haseł). Wyłączamy tylko w testach E2E. */
   THROTTLE_ENABLED: z
     .enum(['true', 'false', '1', '0'])

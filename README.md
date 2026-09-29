@@ -115,6 +115,8 @@ backend/
   src/auth/          rejestracja, logowanie, sesje, reset hasła
   src/common/        guardy (JWT, role) i dekoratory (@Public, @Roles, @CurrentUser)
   src/ingredients/   składniki: wyszukiwarka (pg_trgm), akceptacja admina, walidacja wartości
+  src/recipes/       przepisy: podprzepisy, wyliczanie wartości i alergenów (recipe-math.ts)
+  src/photos/        zdjęcia: WebP w 3 rozmiarach (sharp), bez metadanych GPS
   src/moderation/    filtr wulgaryzmów
   src/mail/          maile (PL/EN)
   test/              testy integracyjne API
@@ -136,7 +138,7 @@ e2e/                 testy Playwright
 
 ### Plan
 
-0. Fundament ✅ · 1. Konta ✅ · 2. Składniki i alergeny ✅ · 3. Przepisy (+ tryb gotowania, zdjęcia z aparatu) · 4. Profil żywieniowy, kalkulator, RODO (eksport/usuwanie) · 5. Gospodarstwa · 6. Planer · 7. Lodówka, zakupy, cenniki · 8. Warianty i oceny · 9. Moderacja i panel admina · 10. PWA · 11. Wdrożenie
+0. Fundament ✅ · 1. Konta ✅ · 2. Składniki i alergeny ✅ · 3. Przepisy, tryb gotowania, zdjęcia ✅ · 4. Profil żywieniowy, kalkulator, RODO (eksport/usuwanie) · 5. Gospodarstwa · 6. Planer · 7. Lodówka, zakupy, cenniki · 8. Warianty i oceny · 9. Moderacja i panel admina · 10. PWA · 11. Wdrożenie
 
 ---
 

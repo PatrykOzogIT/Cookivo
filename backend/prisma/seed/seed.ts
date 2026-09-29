@@ -7,7 +7,7 @@ import type { PrismaClient } from '../../src/generated/prisma/client.js';
 import { normalizeSearch } from '../../src/common/text.js';
 import { INGREDIENT_CATALOG } from './ingredients.catalog.js';
 import usdaData from './ingredients.data.json' with { type: 'json' };
-import { ALLERGENS, CATEGORIES, UNITS } from './reference-data.js';
+import { ALLERGENS, CATEGORIES, MEAL_TYPES, UNITS } from './reference-data.js';
 
 interface UsdaValues {
   fdcId: number;
@@ -43,6 +43,15 @@ export async function seed(prisma: PrismaClient): Promise<{ ingredients: number 
   for (const [i, u] of UNITS.entries()) {
     const data = { namePl: u.pl, nameEn: u.en, ml: u.ml, sortOrder: i };
     await prisma.unit.upsert({ where: { code: u.code }, create: { code: u.code, ...data }, update: data });
+  }
+
+  for (const [i, m] of MEAL_TYPES.entries()) {
+    const data = { namePl: m.pl, nameEn: m.en, icon: m.icon, sortOrder: i };
+    await prisma.mealType.upsert({
+      where: { code: m.code },
+      create: { code: m.code, ...data },
+      update: data,
+    });
   }
 
   const allergenIds = new Map((await prisma.allergen.findMany()).map((a) => [a.code, a.id]));

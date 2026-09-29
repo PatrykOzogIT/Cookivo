@@ -10,6 +10,7 @@ import { normalizeSearch } from '../common/text.js';
 import { Prisma } from '../generated/prisma/client.js';
 import { containsProfanity } from '../moderation/profanity.js';
 import { PrismaService } from '../prisma/prisma.service.js';
+import { RecipeCalculatorService } from '../recipes/recipe-calculator.service.js';
 import type { ListIngredientsQuery, SaveIngredientDto } from './ingredients.dto.js';
 import { checkNutrition } from './nutrition.js';
 
@@ -33,17 +34,26 @@ export interface Page<T> {
 
 @Injectable()
 export class IngredientsService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly recipeCalculator: RecipeCalculatorService,
+  ) {}
 
   async dictionaries() {
-    const [allergens, categories, units] = await Promise.all([
+    const [allergens, categories, units, mealTypes] = await Promise.all([
       this.prisma.allergen.findMany({ orderBy: { sortOrder: 'asc' } }),
       this.prisma.ingredientCategory.findMany({ orderBy: { sortOrder: 'asc' } }),
       this.prisma.unit.findMany({ orderBy: { sortOrder: 'asc' } }),
+      this.prisma.mealType.findMany({ orderBy: { sortOrder: 'asc' } }),
     ]);
     const strip = <T extends { id?: number; sortOrder: number }>({ id: _id, sortOrder: _s, ...rest }: T) =>
       rest;
-    return { allergens: allergens.map(strip), categories: categories.map(strip), units: units.map(strip) };
+    return {
+      allergens: allergens.map(strip),
+      categories: categories.map(strip),
+      units: units.map(strip),
+      mealTypes: mealTypes.map(strip),
+    };
   }
 
   /**
@@ -161,6 +171,8 @@ export class IngredientsService {
         });
       })
       .catch(duplicateName);
+    // Przepisy z tym składnikiem mają zapisane sumy - przeliczamy je
+    await this.recipeCalculator.recalculateForIngredient(id);
     return toDto(updated, user);
   }
 
@@ -170,7 +182,13 @@ export class IngredientsService {
     if (!isAdmin(user) && (existing.createdById !== user.id || existing.status === 'APPROVED')) {
       throw new ForbiddenException({ code: 'FORBIDDEN' });
     }
-    await this.prisma.ingredient.delete({ where: { id } });
+    await this.prisma.ingredient.delete({ where: { id } }).catch((err: unknown) => {
+      // Składnik użyty w przepisach (klucz obcy) - nie usuwamy
+      if (err instanceof Prisma.PrismaClientKnownRequestError && ['P2003', 'P2014'].includes(err.code)) {
+        throw new ConflictException({ code: 'INGREDIENT_IN_USE' });
+      }
+      throw err;
+    });
   }
 
   async review(id: string, decision: 'APPROVED' | 'REJECTED', admin: AuthUser, reason?: string) {
@@ -188,6 +206,7 @@ export class IngredientsService {
         include: INCLUDE,
       })
       .catch(duplicateName);
+    await this.recipeCalculator.recalculateForIngredient(id);
     return toDto(updated, admin);
   }
 

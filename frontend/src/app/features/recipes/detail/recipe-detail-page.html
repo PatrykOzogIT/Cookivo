@@ -1,0 +1,327 @@
+<div class="page" *transloco="let t">
+  <a class="back" routerLink="/recipes">
+    <span class="material-symbols-rounded" aria-hidden="true">arrow_back</span>
+    {{ t('recipes.backToList') }}
+  </a>
+
+  @if (error(); as code) {
+    <div class="state ck-card" role="alert">
+      <span class="material-symbols-rounded" aria-hidden="true">search_off</span>
+      <h1>{{ t(code === 'NOT_FOUND' ? 'recipes.notFound' : 'errors.' + code) }}</h1>
+    </div>
+  } @else if (recipe(); as r) {
+    <article>
+      <header class="head">
+        <div class="titles">
+          <h1>{{ r.title }}</h1>
+          <p class="sub">
+            @if (r.author) {
+              {{ t('recipes.by', { username: r.author.username }) }}
+            }
+            @if (r.visibility === 'PRIVATE') {
+              <span class="badge"
+                ><span class="material-symbols-rounded" aria-hidden="true">lock</span
+                >{{ t('recipes.private') }}</span
+              >
+            }
+          </p>
+        </div>
+        @if (r.steps.length) {
+          <a
+            mat-flat-button
+            class="ck-cta cook"
+            [routerLink]="['/recipes', r.id, 'cook']"
+            [queryParams]="{ servings: servings() }"
+          >
+            <span class="material-symbols-rounded" aria-hidden="true">skillet</span>
+            {{ t('recipes.cook.start') }}
+          </a>
+        }
+      </header>
+
+      @if (r.hidden) {
+        <p class="notice danger" role="status">
+          <span class="material-symbols-rounded" aria-hidden="true">visibility_off</span>
+          <span>
+            <strong>{{ t('recipes.hiddenNotice') }}</strong>
+            @if (r.hiddenReason) {
+              {{ r.hiddenReason }}
+            }
+          </span>
+        </p>
+      }
+
+      <div class="top">
+        <div class="gallery">
+          @if (photo(); as p) {
+            <img
+              class="main"
+              [src]="p.urls.medium"
+              [srcset]="p.urls.medium + ' 900w, ' + p.urls.large + ' 1600w'"
+              sizes="(max-width: 900px) 100vw, 60vw"
+              [width]="p.width"
+              [height]="p.height"
+              [alt]="t('recipes.photoAlt', { title: r.title, n: photoIndex() + 1 })"
+            />
+            @if (r.photos.length > 1) {
+              <div class="thumbs" role="group" [attr.aria-label]="t('recipes.gallery')">
+                @for (th of r.photos; track th.id; let i = $index) {
+                  <button
+                    type="button"
+                    [class.active]="i === photoIndex()"
+                    [attr.aria-pressed]="i === photoIndex()"
+                    [attr.aria-label]="t('recipes.showPhoto', { n: i + 1 })"
+                    (click)="photoIndex.set(i)"
+                  >
+                    <img [src]="th.urls.small" alt="" loading="lazy" />
+                  </button>
+                }
+              </div>
+            }
+          } @else {
+            <div class="main placeholder" aria-hidden="true">
+              <span class="material-symbols-rounded">restaurant</span>
+            </div>
+          }
+        </div>
+
+        <div class="facts">
+          <dl class="stats">
+            @if (totalMinutes(r)) {
+              <div>
+                <dt>
+                  <span class="material-symbols-rounded" aria-hidden="true">schedule</span
+                  >{{ t('recipes.time') }}
+                </dt>
+                <dd>
+                  {{ t('recipes.minutes', { minutes: totalMinutes(r) }) }}
+                  @if (r.prepMinutes && r.cookMinutes) {
+                    <small>{{ t('recipes.timeSplit', { prep: r.prepMinutes, cook: r.cookMinutes }) }}</small>
+                  }
+                </dd>
+              </div>
+            }
+            <div>
+              <dt>
+                <span class="material-symbols-rounded" aria-hidden="true">local_fire_department</span
+                >{{ t('recipes.energy') }}
+              </dt>
+              <dd>{{ r.nutrition.perServing.kcal | num: lang() : 0 }} {{ t('recipes.kcalPerServing') }}</dd>
+            </div>
+            @if (r.difficulty) {
+              <div>
+                <dt>
+                  <span class="material-symbols-rounded" aria-hidden="true">signal_cellular_alt</span
+                  >{{ t('recipes.difficulty.label') }}
+                </dt>
+                <dd>{{ t('recipes.difficulty.' + r.difficulty) }}</dd>
+              </div>
+            }
+          </dl>
+
+          @if (r.mealTypes.length) {
+            <p class="chips">
+              @for (m of r.mealTypes; track m.code) {
+                <span class="chip"
+                  ><span class="material-symbols-rounded" aria-hidden="true">{{ m.icon }}</span
+                  >{{ m | localized: lang() }}</span
+                >
+              }
+            </p>
+          }
+
+          <div class="allergens">
+            <h2 class="small-title">{{ t('ingredients.allergens') }}</h2>
+            @if (r.allergens.length) {
+              <ul>
+                @for (a of r.allergens; track a.code) {
+                  <li>
+                    <span class="material-symbols-rounded" aria-hidden="true">{{ a.icon }}</span>
+                    {{ a | localized: lang() }}
+                  </li>
+                }
+              </ul>
+            } @else {
+              <p class="muted">{{ t('ingredients.noAllergens') }}</p>
+            }
+          </div>
+
+          @if (r.description) {
+            <p class="description">{{ r.description }}</p>
+          }
+        </div>
+      </div>
+
+      <div class="columns">
+        <section class="ck-card box ingredients" aria-labelledby="ingredients-title">
+          <div class="box-head">
+            <h2 id="ingredients-title">{{ t('recipes.ingredients') }}</h2>
+            <div class="stepper" role="group" [attr.aria-label]="t('recipes.servingsLabel')">
+              <button
+                mat-icon-button
+                type="button"
+                (click)="changeServings(-1)"
+                [disabled]="servings() <= 1"
+                [attr.aria-label]="t('recipes.lessServings')"
+              >
+                <span class="material-symbols-rounded" aria-hidden="true">remove</span>
+              </button>
+              <output aria-live="polite">{{ t('recipes.servingsCount', { count: servings() }) }}</output>
+              <button
+                mat-icon-button
+                type="button"
+                (click)="changeServings(1)"
+                [attr.aria-label]="t('recipes.moreServings')"
+              >
+                <span class="material-symbols-rounded" aria-hidden="true">add</span>
+              </button>
+            </div>
+          </div>
+
+          @for (g of groups(); track $index) {
+            @if (g.name) {
+              <h3 class="group">{{ g.name }}</h3>
+            }
+            <ul class="lines">
+              @for (l of g.lines; track l.id) {
+                <li>
+                  <span class="amount">{{ scaled(l) | amountLabel: l.unitCode : lang() }}</span>
+                  <span class="name">
+                    @if (l.ingredient; as i) {
+                      <a [routerLink]="['/ingredients', i.id]">{{ i | localized: lang() }}</a>
+                    } @else if (l.subRecipe; as s) {
+                      @if (s.viewable) {
+                        <a [routerLink]="['/recipes', s.id]">{{ s.title }}</a>
+                      } @else {
+                        {{ s.title }}
+                      }
+                      <span class="sub-badge">{{ t('recipes.subRecipe') }}</span>
+                    }
+                    @if (l.note) {
+                      <span class="note">, {{ l.note }}</span>
+                    }
+                  </span>
+                </li>
+              }
+            </ul>
+          }
+        </section>
+
+        <section class="steps" aria-labelledby="steps-title">
+          <h2 id="steps-title">{{ t('recipes.steps') }}</h2>
+          @if (r.steps.length) {
+            <ol>
+              @for (s of r.steps; track $index; let i = $index) {
+                <li class="ck-card">
+                  <span class="num" aria-hidden="true">{{ i + 1 }}</span>
+                  <div class="step-body">
+                    <p>{{ s.text }}</p>
+                    @if (s.timerMinutes) {
+                      <span class="timer"
+                        ><span class="material-symbols-rounded" aria-hidden="true">timer</span
+                        >{{ t('recipes.minutes', { minutes: s.timerMinutes }) }}</span
+                      >
+                    }
+                    @if (s.photo; as p) {
+                      <img
+                        [src]="p.urls.medium"
+                        [width]="p.width"
+                        [height]="p.height"
+                        [alt]="t('recipes.stepPhotoAlt', { n: i + 1 })"
+                        loading="lazy"
+                      />
+                    }
+                  </div>
+                </li>
+              }
+            </ol>
+          } @else {
+            <p class="muted">{{ t('recipes.noSteps') }}</p>
+          }
+        </section>
+      </div>
+
+      <section class="ck-card box nutrition" aria-labelledby="nutrition-title">
+        <h2 id="nutrition-title">{{ t('nutrition.title') }}</h2>
+        @if (r.nutrition.per100g; as per100) {
+          <app-nutrition-table
+            [nutrition]="per100"
+            [portionGrams]="r.nutrition.servingGrams"
+            [portionLabel]="
+              t('recipes.portionLabel', { grams: (r.nutrition.servingGrams | num: lang() : 0) })
+            "
+          />
+        }
+        <p class="muted small">
+          @if (r.nutrition.approximate) {
+            {{ t('recipes.approximateNote') }}
+          } @else {
+            {{ t('recipes.exactNote', { grams: (r.cookedGrams! | num: lang() : 0) }) }}
+          }
+          {{ t('recipes.notMedical') }}
+        </p>
+      </section>
+
+      @if (r.canEdit || auth.isAdmin()) {
+        <section class="ck-card box actions" [attr.aria-label]="t('recipes.actions')">
+          @if (actionError(); as code) {
+            <p class="error" role="alert">{{ t('errors.' + code) }}</p>
+          }
+          @if (r.canEdit) {
+            <a mat-stroked-button [routerLink]="['/recipes', r.id, 'edit']">
+              <span class="material-symbols-rounded" aria-hidden="true">edit</span>
+              {{ t('common.edit') }}
+            </a>
+            @if (!confirmDelete()) {
+              <button mat-button type="button" class="danger" (click)="confirmDelete.set(true)">
+                <span class="material-symbols-rounded" aria-hidden="true">delete</span>
+                {{ t('common.delete') }}
+              </button>
+            } @else {
+              <span role="alert">{{ t('recipes.deleteConfirm') }}</span>
+              <button
+                mat-flat-button
+                type="button"
+                class="danger-fill"
+                (click)="remove()"
+                [disabled]="busy()"
+              >
+                {{ t('common.delete') }}
+              </button>
+              <button mat-button type="button" (click)="confirmDelete.set(false)">
+                {{ t('common.cancel') }}
+              </button>
+            }
+          }
+          @if (auth.isAdmin()) {
+            @if (r.hidden) {
+              <button mat-stroked-button type="button" (click)="setHidden(false)" [disabled]="busy()">
+                {{ t('recipes.unhide') }}
+              </button>
+            } @else if (!hiding()) {
+              <button mat-stroked-button type="button" (click)="hiding.set(true)">
+                {{ t('recipes.hide') }}
+              </button>
+            } @else {
+              <mat-form-field subscriptSizing="dynamic" class="reason">
+                <mat-label>{{ t('recipes.hideReason') }}</mat-label>
+                <input matInput maxlength="500" [(ngModel)]="hideReason" />
+              </mat-form-field>
+              <button
+                mat-flat-button
+                type="button"
+                (click)="setHidden(true)"
+                [disabled]="busy() || hideReason.trim().length < 3"
+              >
+                {{ t('recipes.hide') }}
+              </button>
+              <button mat-button type="button" (click)="hiding.set(false)">{{ t('common.cancel') }}</button>
+            }
+          }
+        </section>
+      }
+    </article>
+  } @else {
+    <div class="skeleton ck-card" aria-hidden="true"></div>
+  }
+</div>

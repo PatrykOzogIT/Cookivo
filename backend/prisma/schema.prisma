@@ -49,6 +49,9 @@ model User {
 
   ingredientsCreated  Ingredient[] @relation("IngredientCreatedBy")
   ingredientsReviewed Ingredient[] @relation("IngredientReviewedBy")
+  recipes             Recipe[]     @relation("RecipeAuthor")
+  recipesHidden       Recipe[]     @relation("RecipeHiddenBy")
+  photos              Photo[]
 
   @@map("users")
 }
@@ -67,6 +70,7 @@ model Allergen {
   sortOrder Int    @default(0) @map("sort_order")
 
   ingredients IngredientAllergen[]
+  recipes     RecipeAllergen[]
 
   @@map("allergens")
 }
@@ -149,6 +153,7 @@ model Ingredient {
 
   allergens IngredientAllergen[]
   units     IngredientUnit[]
+  usedIn    RecipeIngredient[]
 
   @@index([status, categoryId])
   @@index([createdById])
@@ -237,4 +242,173 @@ model EmailToken {
 
   @@index([userId, type])
   @@map("email_tokens")
+}
+
+// =============================================================================
+// Przepisy (etap 3)
+// =============================================================================
+
+/// Typ posiłku (śniadanie, obiad…) - słownik, przepis może mieć kilka
+model MealType {
+  code      String @id @db.VarChar(32)
+  namePl    String @map("name_pl") @db.VarChar(60)
+  nameEn    String @map("name_en") @db.VarChar(60)
+  icon      String @db.VarChar(40)
+  sortOrder Int    @default(0) @map("sort_order")
+
+  recipes RecipeMealType[]
+
+  @@map("meal_types")
+}
+
+enum RecipeVisibility {
+  PRIVATE
+  PUBLIC
+}
+
+enum Difficulty {
+  EASY
+  MEDIUM
+  HARD
+}
+
+/// Wartości odżywcze trzymamy jako sumy dla całego przepisu (liczone przy zapisie),
+/// żeby lista mogła filtrować po kaloriach na porcję. null = brak danych w którymś składniku.
+model Recipe {
+  id              String           @id @default(uuid(7)) @db.Uuid
+  authorId        String?          @map("author_id") @db.Uuid
+  author          User?            @relation("RecipeAuthor", fields: [authorId], references: [id], onDelete: SetNull)
+  title           String           @db.VarChar(150)
+  description     String?          @db.VarChar(2000)
+  /// Znormalizowany tytuł (bez polskich znaków) - do wyszukiwania
+  searchText      String           @map("search_text")
+  servings        Int
+  prepMinutes     Int?             @map("prep_minutes")
+  cookMinutes     Int?             @map("cook_minutes")
+  difficulty      Difficulty?
+  visibility      RecipeVisibility @default(PRIVATE)
+  /// Może być użyty jako składnik innego przepisu (np. rosół → zupa)
+  canBeIngredient Boolean          @default(false) @map("can_be_ingredient")
+  /// Ukryty przez admina (np. nieodpowiednia treść) - widzi go tylko autor i admin
+  hiddenAt        DateTime?        @map("hidden_at")
+  hiddenById      String?          @map("hidden_by_id") @db.Uuid
+  hiddenBy        User?            @relation("RecipeHiddenBy", fields: [hiddenById], references: [id], onDelete: SetNull)
+  hiddenReason    String?          @map("hidden_reason") @db.VarChar(500)
+
+  /// Opcjonalna waga gotowej potrawy - jeśli podana, wartości na 100 g są dokładne
+  /// (gotowanie odparowuje albo wchłania wodę); jeśli nie, przybliżamy sumą składników.
+  cookedGrams Float? @map("cooked_grams")
+
+  // --- Wyliczane przy zapisie ---
+  /// Suma wag składników (surowych)
+  totalGrams     Float  @default(0) @map("total_grams")
+  kcal           Float  @default(0)
+  protein        Float  @default(0)
+  fat            Float  @default(0)
+  saturatedFat   Float? @map("saturated_fat")
+  carbs          Float  @default(0)
+  sugars         Float?
+  fiber          Float?
+  salt           Float?
+  /// Kalorie na porcję - do filtrowania i sortowania
+  kcalPerServing Float  @default(0) @map("kcal_per_serving")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  mealTypes   RecipeMealType[]
+  ingredients RecipeIngredient[] @relation("RecipeLines")
+  usedIn      RecipeIngredient[] @relation("SubRecipe")
+  steps       RecipeStep[]
+  photos      Photo[]
+  allergens   RecipeAllergen[]
+
+  @@index([visibility, hiddenAt])
+  @@index([authorId])
+  @@map("recipes")
+}
+
+model RecipeMealType {
+  recipeId     String   @map("recipe_id") @db.Uuid
+  recipe       Recipe   @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+  mealTypeCode String   @map("meal_type_code") @db.VarChar(32)
+  mealType     MealType @relation(fields: [mealTypeCode], references: [code])
+
+  @@id([recipeId, mealTypeCode])
+  @@index([mealTypeCode])
+  @@map("recipe_meal_types")
+}
+
+/// Pozycja na liście składników: składnik z bazy ALBO inny przepis (podprzepis).
+model RecipeIngredient {
+  id           String      @id @default(uuid(7)) @db.Uuid
+  recipeId     String      @map("recipe_id") @db.Uuid
+  recipe       Recipe      @relation("RecipeLines", fields: [recipeId], references: [id], onDelete: Cascade)
+  position     Int
+  /// Opcjonalna grupa, np. "Ciasto", "Krem"
+  groupName    String?     @map("group_name") @db.VarChar(80)
+  ingredientId String?     @map("ingredient_id") @db.Uuid
+  ingredient   Ingredient? @relation(fields: [ingredientId], references: [id], onDelete: Restrict)
+  subRecipeId  String?     @map("sub_recipe_id") @db.Uuid
+  subRecipe    Recipe?     @relation("SubRecipe", fields: [subRecipeId], references: [id], onDelete: Restrict)
+  amount       Float
+  /// 'g', 'ml', 'SERVING' (porcja podprzepisu) albo kod jednostki kuchennej
+  unitCode     String      @map("unit_code") @db.VarChar(32)
+  /// Wyliczona waga w gramach (do wartości odżywczych i skalowania)
+  grams        Float
+  /// Np. "posiekana", "do smaku"
+  note         String?     @db.VarChar(120)
+
+  @@index([recipeId])
+  @@index([ingredientId])
+  @@index([subRecipeId])
+  @@map("recipe_ingredients")
+}
+
+model RecipeStep {
+  id           String  @id @default(uuid(7)) @db.Uuid
+  recipeId     String  @map("recipe_id") @db.Uuid
+  recipe       Recipe  @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+  position     Int
+  text         String  @db.VarChar(2000)
+  /// Minutnik w trybie gotowania
+  timerMinutes Int?    @map("timer_minutes")
+  photoId      String? @unique @map("photo_id") @db.Uuid
+  photo        Photo?  @relation("StepPhoto", fields: [photoId], references: [id], onDelete: SetNull)
+
+  @@index([recipeId])
+  @@map("recipe_steps")
+}
+
+/// Zestaw alergenów przepisu (także z podprzepisów) - przeliczany przy zapisie
+model RecipeAllergen {
+  recipeId   String   @map("recipe_id") @db.Uuid
+  recipe     Recipe   @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+  allergenId Int      @map("allergen_id")
+  allergen   Allergen @relation(fields: [allergenId], references: [id])
+
+  @@id([recipeId, allergenId])
+  @@index([allergenId])
+  @@map("recipe_allergens")
+}
+
+/// Zdjęcie w WebP (kilka rozmiarów na dysku). Po wysłaniu nie jest przypięte (recipeId = null),
+/// przypinamy je przy zapisie przepisu; nieprzypięte starsze niż doba są sprzątane.
+model Photo {
+  id        String      @id @default(uuid(7)) @db.Uuid
+  ownerId   String      @map("owner_id") @db.Uuid
+  owner     User        @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  recipeId  String?     @map("recipe_id") @db.Uuid
+  recipe    Recipe?     @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+  /// Kolejność w galerii (null = zdjęcie kroku)
+  position  Int?
+  width     Int
+  height    Int
+  bytes     Int
+  createdAt DateTime    @default(now()) @map("created_at")
+  step      RecipeStep? @relation("StepPhoto")
+
+  @@index([recipeId])
+  @@index([ownerId, recipeId])
+  @@map("photos")
 }

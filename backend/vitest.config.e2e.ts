@@ -1,3 +1,5 @@
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 import { defineConfig } from 'vitest/config';
 
 const TEST_DATABASE_URL =
@@ -20,6 +22,8 @@ export default defineConfig({
       JWT_ACCESS_SECRET: 'e2e-secret-e2e-secret-e2e-secret-e2e-secret',
       APP_URL: 'http://localhost:4200',
       HIBP_ENABLED: 'false',
+      // Zdjęcia z testów lądują w katalogu tymczasowym, nie w uploads/
+      UPLOADS_DIR: join(tmpdir(), 'cookivo-e2e-uploads'),
     },
   },
 });

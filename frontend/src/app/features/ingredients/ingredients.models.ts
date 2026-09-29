@@ -23,6 +23,7 @@ export interface Dictionaries {
   allergens: Allergen[];
   categories: Category[];
   units: Unit[];
+  mealTypes: (Localized & { code: string; icon: string })[];
 }
 
 /** Na 100 g; null = brak danych */

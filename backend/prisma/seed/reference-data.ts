@@ -64,3 +64,16 @@ export const UNITS = [
 ] as const;
 
 export type UnitCode = (typeof UNITS)[number]['code'];
+
+/** Typy posiłków - przepis może mieć kilka (np. obiad i kolacja). */
+export const MEAL_TYPES = [
+  { code: 'BREAKFAST', pl: 'Śniadanie', en: 'Breakfast', icon: 'egg_alt' },
+  { code: 'LUNCH', pl: 'Lunch', en: 'Lunch', icon: 'lunch_dining' },
+  { code: 'DINNER', pl: 'Obiad', en: 'Dinner', icon: 'dinner_dining' },
+  { code: 'AFTERNOON_SNACK', pl: 'Podwieczorek', en: 'Afternoon snack', icon: 'bakery_dining' },
+  { code: 'SUPPER', pl: 'Kolacja', en: 'Supper', icon: 'nightlight' },
+  { code: 'SNACK', pl: 'Przekąska', en: 'Snack', icon: 'cookie' },
+  { code: 'PARTY', pl: 'Na przyjęcie', en: 'Party', icon: 'celebration' },
+] as const;
+
+export type MealTypeCode = (typeof MEAL_TYPES)[number]['code'];
