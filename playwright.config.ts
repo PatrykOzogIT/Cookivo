@@ -23,8 +23,10 @@ export default defineConfig({
     { name: 'desktop', use: { ...devices['Desktop Chrome'] } },
     { name: 'tablet', use: { ...devices['Desktop Chrome'], viewport: { width: 768, height: 1024 } } },
     { name: 'mobile', use: { ...devices['Pixel 7'] } },
-    // Safari/iOS - w CI (lokalnie wymaga `npx playwright install webkit`)
-    ...(isCI ? [{ name: 'mobile-safari', use: { ...devices['iPhone 15'] } }] : []),
+    // Safari/iOS - w CI; lokalnie z PW_WEBKIT=1 (wymaga `npx playwright install webkit`)
+    ...(isCI || process.env['PW_WEBKIT']
+      ? [{ name: 'mobile-safari', use: { ...devices['iPhone 15'] } }]
+      : []),
   ],
   webServer: [
     {

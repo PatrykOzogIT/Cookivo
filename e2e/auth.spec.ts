@@ -8,7 +8,15 @@ function newUser(prefix: string) {
 }
 
 test.describe('Konto', () => {
-  test('rejestracja → potwierdzenie maila → logowanie → wylogowanie', async ({ page, isMobile }) => {
+  test('rejestracja → potwierdzenie maila → logowanie → wylogowanie', async ({
+    page,
+    isMobile,
+    browserName,
+  }) => {
+    test.skip(
+      browserName === 'webkit' && process.platform === 'win32',
+      'WebKit na Windowsie nie obsługuje SameSite i crashuje przy View Transitions - ten scenariusz sprawdza CI (Linux)',
+    );
     const user = newUser('e2e');
 
     await page.goto('/auth/register');

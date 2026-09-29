@@ -162,8 +162,16 @@ a {
   border: 0;
 }
 
-// Ikony Material Symbols
+// Ikony Material Symbols.
+// Stały kwadrat 1em: zanim font się wczyta, nazwa ikony (np. "restaurant_menu")
+// jest zwykłym tekstem i bez tego rozpychała układ na telefonach.
 .material-symbols-rounded {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  overflow: hidden;
+  line-height: 1;
+  vertical-align: middle;
   font-variation-settings:
     'FILL' 0,
     'wght' 400,

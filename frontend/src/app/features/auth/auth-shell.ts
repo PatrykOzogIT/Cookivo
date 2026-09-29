@@ -24,6 +24,9 @@ import { Component, input } from '@angular/core';
       display: block;
       padding: 32px max(var(--ck-gutter), env(safe-area-inset-right)) 0
         max(var(--ck-gutter), env(safe-area-inset-left));
+      // Poświata (.wrap::before) wystaje poza kartę - na wąskich ekranach
+      // Safari liczył ją do szerokości strony i pojawiało się poziome przewijanie.
+      overflow-x: clip;
     }
     .wrap {
       position: relative;
