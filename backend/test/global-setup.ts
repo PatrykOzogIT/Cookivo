@@ -24,4 +24,6 @@ export default async function setup() {
   await admin.end();
 
   execSync('npx prisma migrate deploy', { stdio: 'inherit', env: process.env });
+  // Słowniki i składniki startowe (idempotentnie)
+  execSync('npx tsx prisma/seed/run-seed.ts', { stdio: 'inherit', env: process.env });
 }

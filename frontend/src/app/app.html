@@ -56,6 +56,10 @@
               }
               @if (auth.isAdmin()) {
                 <mat-divider />
+                <a mat-menu-item routerLink="/ingredients" [queryParams]="{ status: 'PENDING' }">
+                  <span class="material-symbols-rounded menu-icon" aria-hidden="true">fact_check</span>
+                  <span>{{ t('nav.reviewIngredients') }}</span>
+                </a>
                 <button mat-menu-item type="button" disabled>
                   <span class="material-symbols-rounded menu-icon" aria-hidden="true"
                     >admin_panel_settings</span

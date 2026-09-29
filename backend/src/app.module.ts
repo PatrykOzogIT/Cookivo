@@ -5,6 +5,8 @@ import { JwtModule } from '@nestjs/jwt';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { AuthModule } from './auth/auth.module.js';
 import { HealthController } from './health.controller.js';
+import { IngredientsModule } from './ingredients/ingredients.module.js';
+import { VerifiedEmailGuard } from './common/verified-email.guard.js';
 import { JwtAuthGuard } from './common/jwt-auth.guard.js';
 import { RolesGuard } from './common/roles.guard.js';
 import { validateEnv, type Env } from './config/env.js';
@@ -36,13 +38,15 @@ import { PrismaModule } from './prisma/prisma.module.js';
     PrismaModule,
     MailModule,
     AuthModule,
+    IngredientsModule,
   ],
   controllers: [HealthController],
   providers: [
-    // Kolejność ma znaczenie: limit żądań → uwierzytelnienie → role
+    // Kolejność ma znaczenie: limit żądań → uwierzytelnienie → role → potwierdzony e-mail
     { provide: APP_GUARD, useClass: ThrottlerGuard },
     { provide: APP_GUARD, useClass: JwtAuthGuard },
     { provide: APP_GUARD, useClass: RolesGuard },
+    { provide: APP_GUARD, useClass: VerifiedEmailGuard },
   ],
 })
 export class AppModule {}

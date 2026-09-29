@@ -1,0 +1,153 @@
+<app-page-layout *transloco="let t" [hasFilters]="true" [activeFilters]="activeFilters()">
+  <div filters>
+    @if (dictionaries(); as dict) {
+      @if (auth.isLoggedIn()) {
+        <fieldset>
+          <legend>{{ t('ingredients.filters.show') }}</legend>
+          <mat-slide-toggle [checked]="mine() === '1'" (change)="setMine($event.checked)">
+            {{ t('ingredients.filters.mine') }}
+          </mat-slide-toggle>
+          @if (auth.isAdmin()) {
+            <mat-slide-toggle [checked]="status() === 'PENDING'" (change)="setPendingOnly($event.checked)">
+              {{ t('ingredients.filters.pending') }}
+            </mat-slide-toggle>
+          }
+        </fieldset>
+      }
+
+      <fieldset>
+        <legend>{{ t('ingredients.filters.category') }}</legend>
+        <mat-radio-group [value]="category() ?? ''" (change)="setCategory($event.value)" class="radios">
+          <mat-radio-button value="">{{ t('ingredients.filters.allCategories') }}</mat-radio-button>
+          @for (c of dict.categories; track c.code) {
+            <mat-radio-button [value]="c.code">{{ c | localized: lang() }}</mat-radio-button>
+          }
+        </mat-radio-group>
+      </fieldset>
+
+      <fieldset>
+        <legend>{{ t('ingredients.filters.without') }}</legend>
+        @for (a of dict.allergens; track a.code) {
+          <mat-checkbox [checked]="excluded().has(a.code)" (change)="toggleAllergen(a.code, $event.checked)">
+            {{ a | localized: lang() }}
+          </mat-checkbox>
+        }
+      </fieldset>
+
+      @if (activeFilters() > 0) {
+        <button mat-button type="button" (click)="clearFilters()">
+          <span class="material-symbols-rounded" aria-hidden="true">filter_alt_off</span>
+          {{ t('filters.clear') }}
+        </button>
+      }
+    }
+  </div>
+
+  <app-catalog-tabs />
+
+  <header class="head">
+    <div>
+      <h1>{{ t('nav.ingredients') }}</h1>
+      <p class="lead">{{ t('ingredients.lead') }}</p>
+    </div>
+    @if (auth.isLoggedIn()) {
+      <a mat-flat-button class="ck-cta" routerLink="/ingredients/new">
+        <span class="material-symbols-rounded" aria-hidden="true">add</span>
+        {{ t('ingredients.add') }}
+      </a>
+    }
+  </header>
+
+  <mat-form-field class="search" subscriptSizing="dynamic">
+    <mat-label>{{ t('ingredients.search') }}</mat-label>
+    <span matIconPrefix class="material-symbols-rounded prefix" aria-hidden="true">search</span>
+    <input matInput type="search" [formControl]="search" autocomplete="off" enterkeyhint="search" />
+    @if (search.value) {
+      <button
+        matIconSuffix
+        mat-icon-button
+        type="button"
+        (click)="search.setValue('')"
+        [attr.aria-label]="t('common.clear')"
+      >
+        <span class="material-symbols-rounded" aria-hidden="true">close</span>
+      </button>
+    }
+  </mat-form-field>
+
+  <p class="count" aria-live="polite">
+    @if (!loading() || items().length) {
+      {{ t('ingredients.count', { count: total() }) }}
+    }
+  </p>
+
+  @if (error(); as code) {
+    <div class="alert" role="alert">{{ t('errors.' + code) }}</div>
+  }
+
+  @if (!loading() && !error() && items().length === 0) {
+    <div class="empty ck-card">
+      <span class="material-symbols-rounded" aria-hidden="true">search_off</span>
+      <p>{{ t('ingredients.empty') }}</p>
+      @if (auth.isLoggedIn()) {
+        <a mat-stroked-button routerLink="/ingredients/new">{{ t('ingredients.addMissing') }}</a>
+      }
+    </div>
+  }
+
+  <ul class="grid">
+    @for (i of items(); track i.id) {
+      <li>
+        <a class="card ck-card" [routerLink]="['/ingredients', i.id]">
+          <div class="top">
+            <span class="cat material-symbols-rounded" aria-hidden="true">{{ i.category.icon }}</span>
+            <div class="names">
+              <h2>{{ i | localized: lang() }}</h2>
+              <span class="category">{{ i.category | localized: lang() }}</span>
+            </div>
+            @if (i.status !== 'APPROVED') {
+              <span class="status" [attr.data-status]="i.status">{{
+                t('ingredients.status.' + i.status)
+              }}</span>
+            }
+          </div>
+          <div class="kcal">
+            <strong>{{ i.nutrition.kcal | num: lang() : 0 }}</strong> kcal
+            <span class="per">/ 100 g</span>
+          </div>
+          <dl class="macros">
+            @for (m of macros(i); track m.key) {
+              <div [attr.data-macro]="m.key">
+                <dt>{{ t('nutrition.' + m.key) }}</dt>
+                <dd>{{ m.value | num: lang() }} g</dd>
+              </div>
+            }
+          </dl>
+          @if (i.allergens.length) {
+            <p class="allergens">
+              <span class="visually-hidden">{{ t('ingredients.allergens') }}:</span>
+              @for (a of i.allergens; track a.code) {
+                <span class="chip">{{ a | localized: lang() }}</span>
+              }
+            </p>
+          }
+        </a>
+      </li>
+    }
+    @if (loading()) {
+      @for (s of [1, 2, 3, 4, 5, 6]; track s) {
+        <li aria-hidden="true"><div class="card ck-card skeleton"></div></li>
+      }
+    }
+  </ul>
+
+  @if (hasMore() && !loading()) {
+    <div class="more">
+      <button mat-stroked-button type="button" (click)="loadMore()">
+        {{ t('ingredients.loadMore', { shown: items().length, total: total() }) }}
+      </button>
+    </div>
+  }
+
+  <p class="source-note">{{ t('ingredients.sourceNote') }}</p>
+</app-page-layout>

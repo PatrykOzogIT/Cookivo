@@ -32,20 +32,32 @@
     "admin": "Panel administracyjny",
     "logout": "Wyloguj",
     "login": "Zaloguj",
-    "register": "Załóż konto"
+    "register": "Załóż konto",
+    "ingredients": "Składniki",
+    "reviewIngredients": "Składniki do akceptacji"
   },
   "common": {
     "close": "Zamknij",
     "loading": "Ładowanie…",
-    "and": "oraz"
+    "and": "oraz",
+    "clear": "Wyczyść",
+    "cancel": "Anuluj",
+    "edit": "Edytuj",
+    "delete": "Usuń",
+    "save": "Zapisz zmiany",
+    "optional": "Opcjonalnie",
+    "opensInNewTab": "otwiera się w nowej karcie"
   },
   "filters": {
     "title": "Filtry",
     "active": "Aktywne filtry: {{count}}",
-    "show": "Pokaż wyniki"
+    "show": "Pokaż wyniki",
+    "clear": "Wyczyść filtry"
   },
   "validation": {
-    "required": "To pole jest wymagane"
+    "required": "To pole jest wymagane",
+    "number": "Podaj liczbę, np. 4,5",
+    "range": "Wartość od {{min}} do {{max}}"
   },
   "errors": {
     "INVALID_CREDENTIALS": "Nieprawidłowy login lub hasło. Po kilku nieudanych próbach konto jest czasowo blokowane.",
@@ -65,7 +77,18 @@
     "TOO_MANY_REQUESTS": "Zbyt wiele prób. Odczekaj chwilę i spróbuj ponownie.",
     "NETWORK": "Brak połączenia z serwerem. Sprawdź internet.",
     "SERVER": "Coś poszło nie tak po naszej stronie. Spróbuj za chwilę.",
-    "UNKNOWN": "Wystąpił nieoczekiwany błąd."
+    "UNKNOWN": "Wystąpił nieoczekiwany błąd.",
+    "EMAIL_NOT_VERIFIED": "Potwierdź adres e-mail (link w wiadomości od nas), aby dodawać treści.",
+    "NOT_FOUND": "Nie znaleziono.",
+    "INGREDIENT_EXISTS": "Taki składnik już istnieje.",
+    "NAME_OFFENSIVE": "Nazwa narusza zasady społeczności.",
+    "NUTRITION_OVER_100G": "Suma białka, tłuszczu, węglowodanów i błonnika nie może przekraczać 100 g na 100 g produktu.",
+    "NUTRITION_SATFAT_GT_FAT": "Tłuszcze nasycone nie mogą być większe niż tłuszcz ogółem.",
+    "NUTRITION_SUGARS_GT_CARBS": "Cukry nie mogą być większe niż węglowodany ogółem.",
+    "UNIT_DUPLICATE": "Każda jednostka może wystąpić tylko raz.",
+    "UNIT_UNKNOWN": "Nieznana jednostka.",
+    "ALLERGEN_UNKNOWN": "Nieznany alergen.",
+    "CATEGORY_UNKNOWN": "Nieznana kategoria."
   },
   "auth": {
     "fields": {
@@ -184,7 +207,20 @@
   "nutrition": {
     "protein": "Białko",
     "carbs": "Węglowodany",
-    "fat": "Tłuszcze"
+    "fat": "Tłuszcze",
+    "title": "Wartości odżywcze",
+    "tableCaption": "Wartości odżywcze",
+    "nutrient": "Składnik odżywczy",
+    "per100g": "100 g",
+    "perPortion": "Porcja",
+    "energy": "Wartość energetyczna",
+    "kcal": "Wartość energetyczna",
+    "saturatedFat": "w tym kwasy tłuszczowe nasycone",
+    "sugars": "w tym cukry",
+    "fiber": "Błonnik",
+    "salt": "Sól",
+    "noData": "Brak danych w źródle",
+    "noDataShort": "brak danych"
   },
   "recipes": {
     "comingSoon": "Tu pojawią się przepisy - dodamy je w etapie 3. Filtry obok pokazują docelowy układ.",
@@ -265,6 +301,77 @@
         "title": "Usunięcie konta",
         "body": "Możesz w każdej chwili usunąć konto wraz z danymi."
       }
+    }
+  },
+  "catalog": {
+    "label": "Katalog"
+  },
+  "units": {
+    "g": "gramy (g)",
+    "ml": "mililitry (ml)"
+  },
+  "ingredients": {
+    "lead": "Wartości odżywcze na 100 g, alergeny i przeliczniki kuchenne.",
+    "add": "Dodaj składnik",
+    "addMissing": "Dodaj brakujący składnik",
+    "search": "Szukaj składnika (np. pomidor, twaróg)",
+    "count": "Znaleziono: {{count}}",
+    "empty": "Nie znaleźliśmy takiego składnika.",
+    "loadMore": "Pokaż więcej ({{shown}} z {{total}})",
+    "sourceNote": "Wartości odżywcze składników podstawowych: USDA FoodData Central (domena publiczna), przeliczone na standard etykiety UE.",
+    "allergens": "Alergeny",
+    "noAllergens": "Nie zawiera żadnego z 14 alergenów wymaganych w UE.",
+    "filters": {
+      "show": "Pokaż",
+      "mine": "Tylko dodane przeze mnie",
+      "pending": "Czekające na akceptację",
+      "category": "Kategoria",
+      "allCategories": "Wszystkie",
+      "without": "Bez alergenów"
+    },
+    "status": {
+      "PENDING": "Czeka na akceptację",
+      "APPROVED": "Zatwierdzony",
+      "REJECTED": "Odrzucony"
+    },
+    "backToList": "Wszystkie składniki",
+    "backToIngredient": "Wróć do składnika",
+    "notFound": "Nie ma takiego składnika",
+    "pendingNotice": "Składnik czeka na akceptację administratora. Do tego czasu widzisz go tylko Ty.",
+    "rejectedBecause": "Odrzucony przez administratora:",
+    "amount": "Ilość",
+    "unit": "Jednostka",
+    "conversions": "Przeliczniki",
+    "conversionsNote": "Wartości orientacyjne - łyżka bez czubka, średnia sztuka.",
+    "source": "Źródło danych",
+    "sourceUsda": "USDA FoodData Central,",
+    "sourceUser": "Dodany przez użytkownika {{username}}.",
+    "approve": "Zatwierdź",
+    "reject": "Odrzuć",
+    "rejectReason": "Powód odrzucenia (zobaczy go autor)",
+    "rejectConfirm": "Odrzuć składnik",
+    "deleteConfirm": "Na pewno usunąć ten składnik? Tej operacji nie można cofnąć.",
+    "form": {
+      "addTitle": "Nowy składnik",
+      "editTitle": "Edycja składnika",
+      "lead": "Po zapisaniu składnik od razu widzisz Ty, a publicznie pojawi się po akceptacji administratora.",
+      "leadAdmin": "Jako administrator dodajesz składnik od razu jako zatwierdzony.",
+      "basics": "Nazwa i kategoria",
+      "namePl": "Nazwa po polsku",
+      "nameEn": "Nazwa po angielsku",
+      "seeExisting": "Zobacz istniejący",
+      "nutritionTitle": "Wartości odżywcze na 100 g",
+      "nutritionHint": "Przepisz je z etykiety produktu (kolumna „100 g”). Możesz używać przecinka. Pola bez gwiazdki możesz zostawić puste - oznaczą „brak danych”.",
+      "kcalMismatch": "Z podanych makroskładników wychodzi ok. {{estimated}} kcal. Sprawdź, czy wartości są poprawne.",
+      "allergensHint": "Zaznacz wszystkie alergeny, które zawiera składnik (z etykiety: „zawiera…”).",
+      "unitsHint": "Ile gramów waży jedna sztuka, łyżka itd. - ułatwi to dodawanie przepisów.",
+      "grams": "Waga",
+      "removeUnit": "Usuń jednostkę",
+      "addUnit": "Dodaj jednostkę",
+      "liquid": "To płyn (mierzony w ml)",
+      "density": "Gęstość",
+      "densityHint": "Woda = 1, mleko ≈ 1,03, olej ≈ 0,92",
+      "submit": "Zapisz składnik"
     }
   }
 }

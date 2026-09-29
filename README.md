@@ -82,6 +82,13 @@ npm run dev        # API :3000 + frontend :4200
 
 > Postgres w kontenerze działa na porcie **5433**, żeby nie kolidować z lokalną instalacją.
 
+#### Dane startowe
+
+`npm run db:seed --prefix backend` wgrywa 14 alergenów UE, kategorie, jednostki i ~350 składników.
+Wartości odżywcze pochodzą z [USDA FoodData Central](https://fdc.nal.usda.gov/) (SR Legacy, domena publiczna),
+przeliczone na standard etykiety UE (węglowodany bez błonnika, sól = sód × 2,5). Polskie nazwy, alergeny i przeliczniki
+kuchenne są w `backend/prisma/seed/ingredients.catalog.ts`; wartości odświeża `npm run db:usda --prefix backend -- <katalog-CSV>`.
+
 #### Konto super admina
 
 Nie da się go założyć przez API — tylko komendą na serwerze:
@@ -104,9 +111,10 @@ Definicja „gotowe” dla każdej funkcji: testy zielone, lint czysty, sprawdzo
 
 ```
 backend/
-  prisma/            schemat i migracje bazy
+  prisma/            schemat i migracje bazy, seed (prisma/seed)
   src/auth/          rejestracja, logowanie, sesje, reset hasła
   src/common/        guardy (JWT, role) i dekoratory (@Public, @Roles, @CurrentUser)
+  src/ingredients/   składniki: wyszukiwarka (pg_trgm), akceptacja admina, walidacja wartości
   src/moderation/    filtr wulgaryzmów
   src/mail/          maile (PL/EN)
   test/              testy integracyjne API
@@ -128,7 +136,7 @@ e2e/                 testy Playwright
 
 ### Plan
 
-0. Fundament ✅ · 1. Konta ✅ · 2. Składniki i alergeny · 3. Przepisy (+ tryb gotowania, zdjęcia z aparatu) · 4. Profil żywieniowy, kalkulator, RODO (eksport/usuwanie) · 5. Gospodarstwa · 6. Planer · 7. Lodówka, zakupy, cenniki · 8. Warianty i oceny · 9. Moderacja i panel admina · 10. PWA · 11. Wdrożenie
+0. Fundament ✅ · 1. Konta ✅ · 2. Składniki i alergeny ✅ · 3. Przepisy (+ tryb gotowania, zdjęcia z aparatu) · 4. Profil żywieniowy, kalkulator, RODO (eksport/usuwanie) · 5. Gospodarstwa · 6. Planer · 7. Lodówka, zakupy, cenniki · 8. Warianty i oceny · 9. Moderacja i panel admina · 10. PWA · 11. Wdrożenie
 
 ---
 

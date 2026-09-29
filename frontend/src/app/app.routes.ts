@@ -14,6 +14,37 @@ export const routes: Routes = [
     data: { titleKey: 'nav.recipes' },
   },
   {
+    path: 'ingredients',
+    children: [
+      {
+        path: '',
+        loadComponent: () =>
+          import('./features/ingredients/list/ingredients-page').then((m) => m.IngredientsPage),
+        data: { titleKey: 'nav.ingredients' },
+      },
+      {
+        path: 'new',
+        canMatch: [authGuard],
+        loadComponent: () =>
+          import('./features/ingredients/form/ingredient-form-page').then((m) => m.IngredientFormPage),
+        data: { titleKey: 'ingredients.form.addTitle' },
+      },
+      {
+        path: ':id/edit',
+        canMatch: [authGuard],
+        loadComponent: () =>
+          import('./features/ingredients/form/ingredient-form-page').then((m) => m.IngredientFormPage),
+        data: { titleKey: 'ingredients.form.editTitle' },
+      },
+      {
+        path: ':id',
+        loadComponent: () =>
+          import('./features/ingredients/detail/ingredient-detail-page').then((m) => m.IngredientDetailPage),
+        data: { titleKey: 'nav.ingredients' },
+      },
+    ],
+  },
+  {
     path: 'how-it-works',
     loadComponent: () => import('./features/placeholder/placeholder-page').then((m) => m.PlaceholderPage),
     data: { titleKey: 'nav.howItWorks', icon: 'lightbulb', stage: 4 },

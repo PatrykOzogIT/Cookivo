@@ -26,7 +26,9 @@
     "db:generate": "prisma generate",
     "db:studio": "prisma studio",
     "create-super-admin": "tsx scripts/create-super-admin.ts",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "db:seed": "tsx prisma/seed/run-seed.ts",
+    "db:usda": "tsx prisma/seed/tools/usda-extract.ts"
   },
   "dependencies": {
     "@nestjs/common": "^12.0.1",

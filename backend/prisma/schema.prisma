@@ -47,7 +47,135 @@ model User {
   emailTokens EmailToken[]
   consents    Consent[]
 
+  ingredientsCreated  Ingredient[] @relation("IngredientCreatedBy")
+  ingredientsReviewed Ingredient[] @relation("IngredientReviewedBy")
+
   @@map("users")
+}
+
+// =============================================================================
+// Składniki i alergeny (etap 2)
+// =============================================================================
+
+/// 14 alergenów wymaganych w UE (rozporządzenie 1169/2011)
+model Allergen {
+  id        Int    @id @default(autoincrement())
+  code      String @unique @db.VarChar(32)
+  namePl    String @map("name_pl") @db.VarChar(80)
+  nameEn    String @map("name_en") @db.VarChar(80)
+  icon      String @db.VarChar(40)
+  sortOrder Int    @default(0) @map("sort_order")
+
+  ingredients IngredientAllergen[]
+
+  @@map("allergens")
+}
+
+model IngredientCategory {
+  id        Int    @id @default(autoincrement())
+  code      String @unique @db.VarChar(32)
+  namePl    String @map("name_pl") @db.VarChar(80)
+  nameEn    String @map("name_en") @db.VarChar(80)
+  icon      String @db.VarChar(40)
+  sortOrder Int    @default(0) @map("sort_order")
+
+  ingredients Ingredient[]
+
+  @@map("ingredient_categories")
+}
+
+/// Jednostki kuchenne (łyżka, sztuka…). Gramatura jest per składnik - patrz IngredientUnit.
+model Unit {
+  code      String @id @db.VarChar(32)
+  namePl    String @map("name_pl") @db.VarChar(40)
+  nameEn    String @map("name_en") @db.VarChar(40)
+  /// Objętość w ml (łyżka = 15 ml) - pozwala wyliczyć gramy z gęstości płynu
+  ml        Float?
+  sortOrder Int    @default(0) @map("sort_order")
+
+  ingredients IngredientUnit[]
+
+  @@map("units")
+}
+
+enum IngredientStatus {
+  /// Dodany przez użytkownika, czeka na akceptację (widzi go tylko autor)
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum IngredientSource {
+  USDA
+  USER
+}
+
+/// Wartości odżywcze zawsze na 100 g, zgodnie z tabelą z etykiety UE.
+/// null = brak danych (nie 0!).
+model Ingredient {
+  id         String             @id @default(uuid(7)) @db.Uuid
+  namePl     String             @map("name_pl") @db.VarChar(120)
+  nameEn     String?            @map("name_en") @db.VarChar(120)
+  /// Znormalizowane nazwy (małe litery, bez polskich znaków) - do wyszukiwania
+  searchText String             @map("search_text")
+  categoryId Int                @map("category_id")
+  category   IngredientCategory @relation(fields: [categoryId], references: [id])
+  status     IngredientStatus   @default(PENDING)
+  source     IngredientSource   @default(USER)
+  /// Id w źródle (np. FDC ID z USDA)
+  sourceRef  String?            @map("source_ref") @db.VarChar(40)
+  /// Stały klucz składników z seeda - pozwala bezpiecznie powtarzać seed
+  seedKey    String?            @unique @map("seed_key") @db.VarChar(160)
+
+  kcal         Float
+  protein      Float
+  fat          Float
+  saturatedFat Float? @map("saturated_fat")
+  carbs        Float
+  sugars       Float?
+  fiber        Float?
+  salt         Float?
+  /// Gęstość w g/ml - tylko dla płynów
+  density      Float?
+
+  createdById     String?   @map("created_by_id") @db.Uuid
+  createdBy       User?     @relation("IngredientCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
+  reviewedById    String?   @map("reviewed_by_id") @db.Uuid
+  reviewedBy      User?     @relation("IngredientReviewedBy", fields: [reviewedById], references: [id], onDelete: SetNull)
+  reviewedAt      DateTime? @map("reviewed_at")
+  rejectionReason String?   @map("rejection_reason") @db.VarChar(500)
+  createdAt       DateTime  @default(now()) @map("created_at")
+  updatedAt       DateTime  @updatedAt @map("updated_at")
+
+  allergens IngredientAllergen[]
+  units     IngredientUnit[]
+
+  @@index([status, categoryId])
+  @@index([createdById])
+  @@map("ingredients")
+}
+
+model IngredientAllergen {
+  ingredientId String     @map("ingredient_id") @db.Uuid
+  ingredient   Ingredient @relation(fields: [ingredientId], references: [id], onDelete: Cascade)
+  allergenId   Int        @map("allergen_id")
+  allergen     Allergen   @relation(fields: [allergenId], references: [id])
+
+  @@id([ingredientId, allergenId])
+  @@index([allergenId])
+  @@map("ingredient_allergens")
+}
+
+model IngredientUnit {
+  ingredientId String     @map("ingredient_id") @db.Uuid
+  ingredient   Ingredient @relation(fields: [ingredientId], references: [id], onDelete: Cascade)
+  unitCode     String     @map("unit_code") @db.VarChar(32)
+  unit         Unit       @relation(fields: [unitCode], references: [code])
+  /// Ile gramów waży jedna jednostka tego składnika
+  grams        Float
+
+  @@id([ingredientId, unitCode])
+  @@map("ingredient_units")
 }
 
 enum ConsentType {

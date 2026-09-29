@@ -23,3 +23,8 @@ Komunikacja z właścicielem projektu po polsku. Komentarze w kodzie też po pol
 - Frontend: standalone + signals, zoneless, Reactive Forms, Angular Material 3. Kolory tylko przez tokeny `--ck-*` ze `styles.scss` (definiowane `light-dark()`); każda nowa para tekst/tło musi mieć kontrast AA.
 - Mobile-first: cele dotyku ≥ 44 px, właściwe `type`/`inputmode`/`autocomplete`, `env(safe-area-inset-*)`. Filtry stron przez `app-page-layout` (panel z lewej / bottom sheet).
 - Hasła: polityka (12+ znaków, zxcvbn ≥ 3) jest zdublowana w `backend/src/auth/password-policy.service.ts` i `frontend/src/app/features/auth/password/password-strength.service.ts` - zmieniać razem.
+- Wartości odżywcze zawsze na 100 g w standardzie etykiety UE; `null` = brak danych (nigdy nie zamieniać na 0). Reguły spójności są zdublowane w `backend/src/ingredients/nutrition.ts` i `frontend/.../ingredients/form/nutrition-validators.ts`.
+- Pola liczbowe w formularzach: `type="text" inputmode="decimal"` + `parseDecimal()` (przyjmuje polski przecinek); wyświetlanie przez pipe `num` z językiem.
+- Nazwy ze słowników (alergeny, kategorie, jednostki) przychodzą jako `namePl`/`nameEn` - wyświetlać pipe'em `localized`.
+- Dane startowe: `npm run db:seed` (idempotentny). Katalog składników w `backend/prisma/seed/ingredients.catalog.ts`; test `seed-data.spec.ts` sprawdza spójność. W testach e2e nie używać `TRUNCATE ... CASCADE` na `users` - wyczyści też składniki.
+- Przyklejony nagłówek i dolny pasek: `scroll-padding` w `styles.scss` pilnuje, by fokus nie chował się pod nimi (WCAG 2.4.11).

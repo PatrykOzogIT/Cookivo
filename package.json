@@ -6,7 +6,7 @@
     "node": ">=24.15.0"
   },
   "scripts": {
-    "setup": "npm ci && npm ci --prefix backend && npm ci --prefix frontend && docker compose up -d && npm run db:migrate --prefix backend",
+    "setup": "npm ci && npm ci --prefix backend && npm ci --prefix frontend && docker compose up -d && npm run db:migrate --prefix backend && npm run db:seed --prefix backend",
     "infra": "docker compose up -d",
     "dev": "concurrently -k -n api,web -c yellow,magenta \"npm run start:dev --prefix backend\" \"npm start --prefix frontend\"",
     "dev:api": "npm run start:dev --prefix backend",
@@ -23,9 +23,11 @@
   "devDependencies": {
     "@axe-core/playwright": "^4.13.0",
     "@playwright/test": "^1.63.0",
+    "@types/pg": "^8.23.1",
     "concurrently": "^10.0.5",
     "husky": "^9.1.7",
     "lint-staged": "^17.6.0",
+    "pg": "^8.23.0",
     "prettier": "^3.9.9"
   },
   "lint-staged": {

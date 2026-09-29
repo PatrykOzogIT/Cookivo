@@ -44,6 +44,17 @@ describe('Pliki tłumaczeń', () => {
       'SESSION_EXPIRED',
       'UNAUTHENTICATED',
       'FORBIDDEN',
+      'EMAIL_NOT_VERIFIED',
+      'NOT_FOUND',
+      'INGREDIENT_EXISTS',
+      'NAME_OFFENSIVE',
+      'NUTRITION_OVER_100G',
+      'NUTRITION_SATFAT_GT_FAT',
+      'NUTRITION_SUGARS_GT_CARBS',
+      'UNIT_DUPLICATE',
+      'UNIT_UNKNOWN',
+      'ALLERGEN_UNKNOWN',
+      'CATEGORY_UNKNOWN',
     ];
     for (const code of backendCodes) {
       expect(pl.errors, code).toHaveProperty(code);

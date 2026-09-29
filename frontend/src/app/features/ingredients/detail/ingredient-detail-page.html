@@ -1,0 +1,205 @@
+<div class="page" *transloco="let t">
+  <a class="back" routerLink="/ingredients">
+    <span class="material-symbols-rounded" aria-hidden="true">arrow_back</span>
+    {{ t('ingredients.backToList') }}
+  </a>
+
+  @if (error(); as code) {
+    <div class="state ck-card" role="alert">
+      <span class="material-symbols-rounded" aria-hidden="true">search_off</span>
+      <h1>{{ t(code === 'NOT_FOUND' ? 'ingredients.notFound' : 'errors.' + code) }}</h1>
+    </div>
+  } @else if (ingredient(); as i) {
+    <header class="head">
+      <span class="cat material-symbols-rounded" aria-hidden="true">{{ i.category.icon }}</span>
+      <div class="titles">
+        <h1>{{ i | localized: lang() }}</h1>
+        <p class="sub">
+          {{ i.category | localized: lang() }}
+          @if (lang() === 'pl' && i.nameEn) {
+            · <span lang="en">{{ i.nameEn }}</span>
+          }
+        </p>
+      </div>
+      @if (i.status !== 'APPROVED') {
+        <span class="status" [attr.data-status]="i.status">{{ t('ingredients.status.' + i.status) }}</span>
+      }
+    </header>
+
+    @if (i.status === 'PENDING' && i.isOwn) {
+      <p class="notice">
+        <span class="material-symbols-rounded" aria-hidden="true">hourglass_top</span>
+        {{ t('ingredients.pendingNotice') }}
+      </p>
+    }
+    @if (i.status === 'REJECTED' && i.rejectionReason) {
+      <p class="notice rejected">
+        <span class="material-symbols-rounded" aria-hidden="true">block</span>
+        <span>
+          <strong>{{ t('ingredients.rejectedBecause') }}</strong> {{ i.rejectionReason }}
+        </span>
+      </p>
+    }
+
+    <div class="layout">
+      <section class="ck-card box" aria-labelledby="nutrition-title">
+        <h2 id="nutrition-title">{{ t('nutrition.title') }}</h2>
+
+        <div class="calc">
+          <mat-form-field class="amount" subscriptSizing="dynamic">
+            <mat-label>{{ t('ingredients.amount') }}</mat-label>
+            <input
+              matInput
+              inputmode="decimal"
+              autocomplete="off"
+              [ngModel]="amountText()"
+              (ngModelChange)="amountText.set($event)"
+            />
+          </mat-form-field>
+          <mat-form-field class="unit" subscriptSizing="dynamic">
+            <mat-label>{{ t('ingredients.unit') }}</mat-label>
+            <mat-select [value]="unitCode()" (valueChange)="unitCode.set($event)">
+              @for (u of units(); track u.code) {
+                <mat-option [value]="u.code">
+                  {{ u.key ? t(u.key) : (u.name | localized: lang()) }}
+                  @if (u.code !== 'g') {
+                    <span class="grams">({{ u.gramsPerUnit | num: lang() }} g)</span>
+                  }
+                </mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <app-nutrition-table
+          [nutrition]="i.nutrition"
+          [portionGrams]="portion() === 100 && unitCode() === 'g' ? null : portion()"
+          [portionLabel]="portionLabel()"
+        />
+      </section>
+
+      <aside class="side">
+        <section class="ck-card box" aria-labelledby="allergens-title">
+          <h2 id="allergens-title">{{ t('ingredients.allergens') }}</h2>
+          @if (i.allergens.length) {
+            <ul class="allergens">
+              @for (a of i.allergens; track a.code) {
+                <li>
+                  <span class="material-symbols-rounded" aria-hidden="true">{{ a.icon }}</span>
+                  {{ a | localized: lang() }}
+                </li>
+              }
+            </ul>
+          } @else {
+            <p class="muted">{{ t('ingredients.noAllergens') }}</p>
+          }
+        </section>
+
+        @if (i.units.length || i.density) {
+          <section class="ck-card box" aria-labelledby="units-title">
+            <h2 id="units-title">{{ t('ingredients.conversions') }}</h2>
+            <ul class="conversions">
+              @for (u of i.units; track u.code) {
+                <li>
+                  <span>1 {{ u | localized: lang() }}</span>
+                  <strong>{{ u.grams | num: lang() }} g</strong>
+                </li>
+              }
+              @if (i.density) {
+                <li>
+                  <span>100 ml</span>
+                  <strong>{{ i.density * 100 | num: lang() : 0 }} g</strong>
+                </li>
+              }
+            </ul>
+            <p class="muted small">{{ t('ingredients.conversionsNote') }}</p>
+          </section>
+        }
+
+        <section class="ck-card box source">
+          <h2>{{ t('ingredients.source') }}</h2>
+          @if (i.source === 'USDA') {
+            <p>
+              {{ t('ingredients.sourceUsda') }}
+              <a [href]="usdaUrl(i)" target="_blank" rel="noopener noreferrer">
+                FDC #{{ i.sourceRef }}
+                <span class="visually-hidden">({{ t('common.opensInNewTab') }})</span>
+              </a>
+            </p>
+          } @else {
+            <p>{{ t('ingredients.sourceUser', { username: i.createdBy?.username ?? '—' }) }}</p>
+          }
+        </section>
+
+        @if (i.canEdit || i.canDelete || (auth.isAdmin() && i.status !== 'APPROVED')) {
+          <section class="ck-card box actions">
+            @if (actionError(); as code) {
+              <p class="error" role="alert">{{ t('errors.' + code) }}</p>
+            }
+            @if (auth.isAdmin() && i.status !== 'APPROVED') {
+              <button mat-flat-button class="ck-cta" type="button" (click)="approve()" [disabled]="busy()">
+                <span class="material-symbols-rounded" aria-hidden="true">check</span>
+                {{ t('ingredients.approve') }}
+              </button>
+              @if (!rejecting()) {
+                <button mat-stroked-button type="button" (click)="rejecting.set(true)" [disabled]="busy()">
+                  {{ t('ingredients.reject') }}
+                </button>
+              } @else {
+                <mat-form-field subscriptSizing="dynamic">
+                  <mat-label>{{ t('ingredients.rejectReason') }}</mat-label>
+                  <textarea matInput rows="3" maxlength="500" [(ngModel)]="rejectReason"></textarea>
+                </mat-form-field>
+                <div class="row">
+                  <button
+                    mat-flat-button
+                    type="button"
+                    (click)="reject()"
+                    [disabled]="busy() || rejectReason.trim().length < 3"
+                  >
+                    {{ t('ingredients.rejectConfirm') }}
+                  </button>
+                  <button mat-button type="button" (click)="rejecting.set(false)">
+                    {{ t('common.cancel') }}
+                  </button>
+                </div>
+              }
+            }
+            @if (i.canEdit) {
+              <a mat-stroked-button [routerLink]="['/ingredients', i.id, 'edit']">
+                <span class="material-symbols-rounded" aria-hidden="true">edit</span>
+                {{ t('common.edit') }}
+              </a>
+            }
+            @if (i.canDelete) {
+              @if (!confirmDelete()) {
+                <button mat-button type="button" class="danger" (click)="confirmDelete.set(true)">
+                  <span class="material-symbols-rounded" aria-hidden="true">delete</span>
+                  {{ t('common.delete') }}
+                </button>
+              } @else {
+                <p role="alert">{{ t('ingredients.deleteConfirm') }}</p>
+                <div class="row">
+                  <button
+                    mat-flat-button
+                    type="button"
+                    class="danger-fill"
+                    (click)="remove()"
+                    [disabled]="busy()"
+                  >
+                    {{ t('common.delete') }}
+                  </button>
+                  <button mat-button type="button" (click)="confirmDelete.set(false)">
+                    {{ t('common.cancel') }}
+                  </button>
+                </div>
+              }
+            }
+          </section>
+        }
+      </aside>
+    </div>
+  } @else {
+    <div class="skeleton ck-card" aria-hidden="true"></div>
+  }
+</div>

@@ -8,6 +8,7 @@ const isCI = !!process.env['CI'];
  */
 export default defineConfig({
   testDir: './e2e',
+  globalTeardown: './e2e/global-teardown.ts',
   fullyParallel: true,
   forbidOnly: isCI,
   retries: isCI ? 2 : 0,
@@ -25,7 +26,15 @@ export default defineConfig({
     { name: 'mobile', use: { ...devices['Pixel 7'] } },
     // Safari/iOS - w CI; lokalnie z PW_WEBKIT=1 (wymaga `npx playwright install webkit`)
     ...(isCI || process.env['PW_WEBKIT']
-      ? [{ name: 'mobile-safari', use: { ...devices['iPhone 15'] } }]
+      ? [
+          {
+            name: 'mobile-safari',
+            use: { ...devices['iPhone 15'] },
+            // WebKit w wersji na Windowsa losowo crashuje przy View Transitions (błąd przeglądarki
+            // testowej, nie aplikacji) - lokalnie dajemy ponowienie. W CI (Linux) bez zmian.
+            ...(process.platform === 'win32' ? { retries: 2 } : {}),
+          },
+        ]
       : []),
   ],
   webServer: [

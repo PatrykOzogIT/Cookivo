@@ -3,6 +3,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { PageLayoutComponent } from '../../layout/page-layout/page-layout';
+import { CatalogTabsComponent } from '../../shared/catalog-tabs';
 
 export const MEAL_TYPES = [
   'breakfast',
@@ -20,7 +21,13 @@ export const MEAL_TYPES = [
  */
 @Component({
   selector: 'app-recipes-page',
-  imports: [PageLayoutComponent, MatCheckboxModule, MatSlideToggleModule, TranslocoDirective],
+  imports: [
+    PageLayoutComponent,
+    CatalogTabsComponent,
+    MatCheckboxModule,
+    MatSlideToggleModule,
+    TranslocoDirective,
+  ],
   templateUrl: './recipes-page.html',
   styleUrl: './recipes-page.scss',
 })

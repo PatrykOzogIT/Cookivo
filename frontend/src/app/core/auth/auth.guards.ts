@@ -7,8 +7,11 @@ import { AuthService } from './auth.service';
 export const authGuard: CanMatchFn = (_route, segments) => {
   const auth = inject(AuthService);
   if (auth.isLoggedIn()) return true;
-  const returnUrl = '/' + segments.map((s) => s.path).join('/');
-  return inject(Router).createUrlTree(['/auth/login'], { queryParams: { returnUrl } });
+  const router = inject(Router);
+  // Pełny docelowy adres - `segments` przy trasach zagnieżdżonych to tylko ostatni fragment
+  const returnUrl =
+    router.getCurrentNavigation()?.extractedUrl.toString() ?? '/' + segments.map((s) => s.path).join('/');
+  return router.createUrlTree(['/auth/login'], { queryParams: { returnUrl } });
 };
 
 /** Strony logowania/rejestracji - zalogowany user nie ma tam czego szukać. */

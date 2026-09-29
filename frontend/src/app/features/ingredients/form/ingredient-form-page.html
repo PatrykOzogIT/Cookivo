@@ -1,0 +1,195 @@
+<div class="page" *transloco="let t">
+  <a class="back" [routerLink]="id() ? ['/ingredients', id()] : ['/ingredients']">
+    <span class="material-symbols-rounded" aria-hidden="true">arrow_back</span>
+    {{ t(id() ? 'ingredients.backToIngredient' : 'ingredients.backToList') }}
+  </a>
+
+  <h1>{{ t(id() ? 'ingredients.form.editTitle' : 'ingredients.form.addTitle') }}</h1>
+
+  @if (!auth.user()?.emailVerified) {
+    <div class="notice" role="alert">
+      <span class="material-symbols-rounded" aria-hidden="true">mark_email_unread</span>
+      <span>{{ t('errors.EMAIL_NOT_VERIFIED') }}</span>
+    </div>
+  } @else if (loading()) {
+    <div class="skeleton ck-card" aria-hidden="true"></div>
+  } @else {
+    @if (!id()) {
+      <p class="lead">{{ t(auth.isAdmin() ? 'ingredients.form.leadAdmin' : 'ingredients.form.lead') }}</p>
+    }
+
+    @if (error(); as code) {
+      <div class="alert" role="alert">
+        <span class="material-symbols-rounded" aria-hidden="true">error</span>
+        {{ t('errors.' + code) }}
+      </div>
+    }
+
+    <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+      <!-- Nazwa i kategoria -->
+      <section class="ck-card box">
+        <h2>{{ t('ingredients.form.basics') }}</h2>
+        <div class="grid-2">
+          <mat-form-field>
+            <mat-label>{{ t('ingredients.form.namePl') }}</mat-label>
+            <input matInput formControlName="namePl" maxlength="120" autocomplete="off" required />
+            @let name = form.controls.namePl;
+            @if (name.hasError('required') || name.hasError('minlength')) {
+              <mat-error>{{ t('validation.required') }}</mat-error>
+            } @else if (name.hasError('server')) {
+              <mat-error>
+                {{ t('errors.' + name.getError('server')) }}
+                @if (duplicateId(); as dup) {
+                  <a [routerLink]="['/ingredients', dup]">{{ t('ingredients.form.seeExisting') }}</a>
+                }
+              </mat-error>
+            }
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>{{ t('ingredients.form.nameEn') }}</mat-label>
+            <input matInput formControlName="nameEn" maxlength="120" autocomplete="off" lang="en" />
+            <mat-hint>{{ t('common.optional') }}</mat-hint>
+          </mat-form-field>
+        </div>
+        <mat-form-field class="category">
+          <mat-label>{{ t('ingredients.filters.category') }}</mat-label>
+          <mat-select formControlName="categoryCode" required>
+            @for (c of dictionaries()?.categories ?? []; track c.code) {
+              <mat-option [value]="c.code">{{ c | localized: lang() }}</mat-option>
+            }
+          </mat-select>
+          @if (form.controls.categoryCode.hasError('required')) {
+            <mat-error>{{ t('validation.required') }}</mat-error>
+          }
+        </mat-form-field>
+      </section>
+
+      <!-- Wartości odżywcze -->
+      <section class="ck-card box" formGroupName="nutrition">
+        <h2>{{ t('ingredients.form.nutritionTitle') }}</h2>
+        <p class="muted">{{ t('ingredients.form.nutritionHint') }}</p>
+        <div class="nutrients">
+          @for (f of fields; track f.name) {
+            <mat-form-field [class.row-start]="f.rowStart">
+              <mat-label>{{ t('nutrition.' + f.name) }}</mat-label>
+              <input
+                matInput
+                [formControlName]="f.name"
+                inputmode="decimal"
+                autocomplete="off"
+                [required]="f.required"
+              />
+              <span matTextSuffix>{{ f.unit }}</span>
+              @let c = form.controls.nutrition.controls[f.name];
+              @if (c.hasError('required')) {
+                <mat-error>{{ t('validation.required') }}</mat-error>
+              } @else if (c.hasError('decimal')) {
+                <mat-error>{{ t('validation.number') }}</mat-error>
+              } @else if (c.hasError('range')) {
+                <mat-error>{{ t('validation.range', c.getError('range')) }}</mat-error>
+              }
+            </mat-form-field>
+          }
+        </div>
+        @let groupErrors = form.controls.nutrition.errors;
+        @if (groupErrors && (form.controls.nutrition.touched || form.controls.nutrition.dirty)) {
+          @for (
+            code of ['NUTRITION_OVER_100G', 'NUTRITION_SATFAT_GT_FAT', 'NUTRITION_SUGARS_GT_CARBS'];
+            track code
+          ) {
+            @if (groupErrors[code]) {
+              <p class="alert" role="alert">{{ t('errors.' + code) }}</p>
+            }
+          }
+        }
+        @if (energyHint(); as estimated) {
+          <p class="warning" role="status">
+            <span class="material-symbols-rounded" aria-hidden="true">info</span>
+            {{ t('ingredients.form.kcalMismatch', { estimated }) }}
+          </p>
+        }
+      </section>
+
+      <!-- Alergeny -->
+      <section class="ck-card box">
+        <h2 id="allergens-legend">{{ t('ingredients.allergens') }}</h2>
+        <p class="muted">{{ t('ingredients.form.allergensHint') }}</p>
+        <div class="allergens" role="group" aria-labelledby="allergens-legend">
+          @for (a of dictionaries()?.allergens ?? []; track a.code) {
+            <mat-checkbox
+              [checked]="form.controls.allergens.value.includes(a.code)"
+              (change)="toggleAllergen(a.code, $event.checked)"
+            >
+              {{ a | localized: lang() }}
+            </mat-checkbox>
+          }
+        </div>
+      </section>
+
+      <!-- Jednostki i gęstość -->
+      <section class="ck-card box">
+        <h2>{{ t('ingredients.conversions') }}</h2>
+        <p class="muted">{{ t('ingredients.form.unitsHint') }}</p>
+
+        <div formArrayName="units" class="units">
+          @for (row of unitRows.controls; track row; let i = $index) {
+            <div class="unit-row" [formGroupName]="i">
+              <mat-form-field subscriptSizing="dynamic">
+                <mat-label>{{ t('ingredients.unit') }}</mat-label>
+                <mat-select formControlName="code" required>
+                  @for (u of availableUnits(i); track u.code) {
+                    <mat-option [value]="u.code">1 {{ u | localized: lang() }}</mat-option>
+                  }
+                </mat-select>
+              </mat-form-field>
+              <span class="eq" aria-hidden="true">=</span>
+              <mat-form-field subscriptSizing="dynamic">
+                <mat-label>{{ t('ingredients.form.grams') }}</mat-label>
+                <input matInput formControlName="grams" inputmode="decimal" autocomplete="off" required />
+                <span matTextSuffix>g</span>
+              </mat-form-field>
+              <button
+                mat-icon-button
+                type="button"
+                (click)="removeUnit(i)"
+                [attr.aria-label]="t('ingredients.form.removeUnit')"
+              >
+                <span class="material-symbols-rounded" aria-hidden="true">delete</span>
+              </button>
+            </div>
+          }
+        </div>
+        @if (unitRows.length < (dictionaries()?.units?.length ?? 0)) {
+          <button mat-stroked-button type="button" (click)="addUnit()">
+            <span class="material-symbols-rounded" aria-hidden="true">add</span>
+            {{ t('ingredients.form.addUnit') }}
+          </button>
+        }
+
+        <mat-slide-toggle formControlName="liquid" class="liquid">{{
+          t('ingredients.form.liquid')
+        }}</mat-slide-toggle>
+        @if (form.controls.liquid.value) {
+          <mat-form-field class="density">
+            <mat-label>{{ t('ingredients.form.density') }}</mat-label>
+            <input matInput formControlName="density" inputmode="decimal" autocomplete="off" />
+            <span matTextSuffix>g/ml</span>
+            <mat-hint>{{ t('ingredients.form.densityHint') }}</mat-hint>
+            @if (form.controls.density.invalid) {
+              <mat-error>{{ t('validation.range', { min: '0,2', max: '3' }) }}</mat-error>
+            }
+          </mat-form-field>
+        }
+      </section>
+
+      <div class="submit-row">
+        <button mat-flat-button class="ck-cta" type="submit" [disabled]="saving()">
+          {{ t(id() ? 'common.save' : 'ingredients.form.submit') }}
+        </button>
+        <a mat-button [routerLink]="id() ? ['/ingredients', id()] : ['/ingredients']">{{
+          t('common.cancel')
+        }}</a>
+      </div>
+    </form>
+  }
+</div>

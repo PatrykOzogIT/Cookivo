@@ -1,0 +1,168 @@
+.page {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 16px max(var(--ck-gutter), env(safe-area-inset-right)) 0
+    max(var(--ck-gutter), env(safe-area-inset-left));
+}
+
+.back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  margin-bottom: 8px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+h1 {
+  font-size: clamp(1.5rem, 1.2rem + 1.5vw, 2rem);
+}
+
+.lead,
+.muted {
+  color: var(--ck-text-muted);
+}
+
+.muted {
+  margin: -4px 0 14px;
+  font-size: 0.9rem;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.box {
+  padding: 20px;
+  h2 {
+    font-size: 1.1rem;
+    margin-bottom: 12px;
+  }
+  mat-form-field {
+    width: 100%;
+  }
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: start;
+  gap: 0 16px;
+}
+
+.category {
+  max-width: 360px;
+}
+
+.nutrients {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  gap: 4px 16px;
+  .row-start {
+    grid-column-start: 1;
+  }
+}
+
+.allergens {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 0 12px;
+}
+
+.units {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.unit-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+  .eq {
+    color: var(--ck-text-muted);
+    font-weight: 700;
+  }
+}
+
+.liquid {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  margin-top: 16px;
+}
+
+.density {
+  max-width: 280px;
+  margin-top: 8px;
+}
+
+.alert,
+.notice,
+.warning {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  margin: 12px 0 0;
+  padding: 12px 14px;
+  border-radius: var(--ck-radius-sm);
+}
+
+.alert {
+  background: color-mix(in srgb, var(--ck-danger) 12%, transparent);
+  color: var(--ck-danger);
+}
+
+.notice {
+  background: var(--ck-surface-2);
+  border: 1px solid var(--ck-border);
+}
+
+.warning {
+  background: var(--ck-surface-2);
+  color: var(--ck-text);
+  .material-symbols-rounded {
+    color: var(--ck-link);
+  }
+}
+
+.submit-row {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  button {
+    min-height: 52px;
+    padding: 0 32px;
+  }
+}
+
+.skeleton {
+  height: 400px;
+  background: var(--ck-surface-2);
+}
+
+button .material-symbols-rounded {
+  margin-right: 4px;
+}
+
+@media (max-width: 599.98px) {
+  .grid-2,
+  .nutrients {
+    grid-template-columns: 1fr;
+  }
+  .unit-row {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.8fr) auto;
+    .eq {
+      display: none;
+    }
+  }
+  .submit-row button {
+    flex: 1;
+  }
+}

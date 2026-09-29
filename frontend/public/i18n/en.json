@@ -32,20 +32,32 @@
     "admin": "Admin panel",
     "logout": "Log out",
     "login": "Log in",
-    "register": "Sign up"
+    "register": "Sign up",
+    "ingredients": "Ingredients",
+    "reviewIngredients": "Ingredients to review"
   },
   "common": {
     "close": "Close",
     "loading": "Loading…",
-    "and": "and"
+    "and": "and",
+    "clear": "Clear",
+    "cancel": "Cancel",
+    "edit": "Edit",
+    "delete": "Delete",
+    "save": "Save changes",
+    "optional": "Optional",
+    "opensInNewTab": "opens in a new tab"
   },
   "filters": {
     "title": "Filters",
     "active": "Active filters: {{count}}",
-    "show": "Show results"
+    "show": "Show results",
+    "clear": "Clear filters"
   },
   "validation": {
-    "required": "This field is required"
+    "required": "This field is required",
+    "number": "Enter a number, e.g. 4.5",
+    "range": "Value from {{min}} to {{max}}"
   },
   "errors": {
     "INVALID_CREDENTIALS": "Invalid login or password. After several failed attempts the account is temporarily locked.",
@@ -65,7 +77,18 @@
     "TOO_MANY_REQUESTS": "Too many attempts. Wait a moment and try again.",
     "NETWORK": "Can't reach the server. Check your connection.",
     "SERVER": "Something went wrong on our side. Please try again shortly.",
-    "UNKNOWN": "An unexpected error occurred."
+    "UNKNOWN": "An unexpected error occurred.",
+    "EMAIL_NOT_VERIFIED": "Confirm your email address (link in our message) to add content.",
+    "NOT_FOUND": "Not found.",
+    "INGREDIENT_EXISTS": "This ingredient already exists.",
+    "NAME_OFFENSIVE": "The name violates community rules.",
+    "NUTRITION_OVER_100G": "Protein, fat, carbohydrates and fibre cannot add up to more than 100 g per 100 g.",
+    "NUTRITION_SATFAT_GT_FAT": "Saturated fat cannot exceed total fat.",
+    "NUTRITION_SUGARS_GT_CARBS": "Sugars cannot exceed total carbohydrates.",
+    "UNIT_DUPLICATE": "Each unit can be used only once.",
+    "UNIT_UNKNOWN": "Unknown unit.",
+    "ALLERGEN_UNKNOWN": "Unknown allergen.",
+    "CATEGORY_UNKNOWN": "Unknown category."
   },
   "auth": {
     "fields": {
@@ -184,7 +207,20 @@
   "nutrition": {
     "protein": "Protein",
     "carbs": "Carbs",
-    "fat": "Fat"
+    "fat": "Fat",
+    "title": "Nutrition facts",
+    "tableCaption": "Nutrition facts",
+    "nutrient": "Nutrient",
+    "per100g": "100 g",
+    "perPortion": "Portion",
+    "energy": "Energy",
+    "kcal": "Energy",
+    "saturatedFat": "of which saturates",
+    "sugars": "of which sugars",
+    "fiber": "Fibre",
+    "salt": "Salt",
+    "noData": "No data in source",
+    "noDataShort": "no data"
   },
   "recipes": {
     "comingSoon": "Recipes will show up here - they arrive in stage 3. The filters show the target layout.",
@@ -265,6 +301,77 @@
         "title": "Deleting your account",
         "body": "You can delete your account together with your data at any time."
       }
+    }
+  },
+  "catalog": {
+    "label": "Catalogue"
+  },
+  "units": {
+    "g": "grams (g)",
+    "ml": "millilitres (ml)"
+  },
+  "ingredients": {
+    "lead": "Nutrition per 100 g, allergens and kitchen conversions.",
+    "add": "Add ingredient",
+    "addMissing": "Add a missing ingredient",
+    "search": "Search ingredients (e.g. tomato, quark)",
+    "count": "Results: {{count}}",
+    "empty": "We couldn't find that ingredient.",
+    "loadMore": "Show more ({{shown}} of {{total}})",
+    "sourceNote": "Nutrition data for basic ingredients: USDA FoodData Central (public domain), converted to the EU label standard.",
+    "allergens": "Allergens",
+    "noAllergens": "Doesn't contain any of the 14 allergens regulated in the EU.",
+    "filters": {
+      "show": "Show",
+      "mine": "Only added by me",
+      "pending": "Waiting for review",
+      "category": "Category",
+      "allCategories": "All",
+      "without": "Free from"
+    },
+    "status": {
+      "PENDING": "Waiting for review",
+      "APPROVED": "Approved",
+      "REJECTED": "Rejected"
+    },
+    "backToList": "All ingredients",
+    "backToIngredient": "Back to ingredient",
+    "notFound": "Ingredient not found",
+    "pendingNotice": "This ingredient is waiting for admin review. Until then only you can see it.",
+    "rejectedBecause": "Rejected by admin:",
+    "amount": "Amount",
+    "unit": "Unit",
+    "conversions": "Conversions",
+    "conversionsNote": "Approximate values - level spoon, average piece.",
+    "source": "Data source",
+    "sourceUsda": "USDA FoodData Central,",
+    "sourceUser": "Added by user {{username}}.",
+    "approve": "Approve",
+    "reject": "Reject",
+    "rejectReason": "Reason (shown to the author)",
+    "rejectConfirm": "Reject ingredient",
+    "deleteConfirm": "Delete this ingredient? This cannot be undone.",
+    "form": {
+      "addTitle": "New ingredient",
+      "editTitle": "Edit ingredient",
+      "lead": "You will see the ingredient right away; it becomes public after admin approval.",
+      "leadAdmin": "As an admin, your ingredient is approved immediately.",
+      "basics": "Name and category",
+      "namePl": "Name in Polish",
+      "nameEn": "Name in English",
+      "seeExisting": "See existing",
+      "nutritionTitle": "Nutrition per 100 g",
+      "nutritionHint": "Copy them from the product label (the \"100 g\" column). Fields without an asterisk can stay empty - they mean \"no data\".",
+      "kcalMismatch": "Your macros add up to about {{estimated}} kcal. Please double-check the values.",
+      "allergensHint": "Tick every allergen the ingredient contains (label: \"contains…\").",
+      "unitsHint": "How many grams one piece, spoon etc. weighs - makes adding recipes easier.",
+      "grams": "Weight",
+      "removeUnit": "Remove unit",
+      "addUnit": "Add unit",
+      "liquid": "It is a liquid (measured in ml)",
+      "density": "Density",
+      "densityHint": "Water = 1, milk ≈ 1.03, oil ≈ 0.92",
+      "submit": "Save ingredient"
     }
   }
 }

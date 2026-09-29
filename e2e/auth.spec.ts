@@ -4,7 +4,7 @@ import { waitForMailLink } from './support/mailpit';
 /** Unikalny użytkownik na każdy test - testy nie zależą od stanu bazy. */
 function newUser(prefix: string) {
   const id = `${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`;
-  return { username: `${prefix}_${id}`.slice(0, 20), email: `${prefix}.${id}@cookivo.test` };
+  return { username: `${prefix}_${id}`.slice(0, 20), email: `${prefix}.${id}@e2e.cookivo.test` };
 }
 
 test.describe('Konto', () => {

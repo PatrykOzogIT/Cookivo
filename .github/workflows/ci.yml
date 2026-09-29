@@ -113,6 +113,7 @@ jobs:
             frontend/package-lock.json
       - run: npm ci && npm ci --prefix backend && npm ci --prefix frontend
       - run: npm run db:deploy --prefix backend
+      - run: npm run db:seed --prefix backend
       - run: npx playwright install --with-deps chromium webkit
       - run: npx playwright test
       - uses: actions/upload-artifact@v5

@@ -44,7 +44,8 @@ describe('Auth (e2e)', () => {
 
   beforeEach(async () => {
     mails.length = 0;
-    await prisma.$executeRawUnsafe('TRUNCATE TABLE users CASCADE');
+    // deleteMany zamiast TRUNCATE CASCADE - ten wyczyściłby też składniki z seeda
+    await prisma.user.deleteMany();
   });
 
   afterAll(async () => {

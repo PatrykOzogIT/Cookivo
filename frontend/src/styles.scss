@@ -102,6 +102,16 @@ body {
   height: 100%;
 }
 
+// WCAG 2.4.11: element z fokusem nie może chować się pod przyklejonym nagłówkiem
+// ani dolnym paskiem - przewijanie do elementu zostawia na nie miejsce.
+html {
+  scroll-padding-top: calc(var(--ck-header-h) + 56px);
+  @media (max-width: 767.98px) {
+    scroll-padding-top: calc(var(--ck-header-h) + 16px);
+    scroll-padding-bottom: calc(var(--ck-bottom-nav-h) + env(safe-area-inset-bottom) + 16px);
+  }
+}
+
 body {
   margin: 0;
   background: var(--ck-bg);
