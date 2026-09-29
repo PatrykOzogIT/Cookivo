@@ -1,0 +1,123 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  NODE_VERSION: 24
+
+jobs:
+  format:
+    name: Formatowanie
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+      - run: npm ci
+      - run: npm run format:check
+
+  backend:
+    name: Backend (lint, typy, testy)
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_USER: cookivo
+          POSTGRES_PASSWORD: cookivo
+          POSTGRES_DB: cookivo
+        ports: ['5433:5432']
+        options: >-
+          --health-cmd "pg_isready -U cookivo" --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      # Wymagane przez prisma.config.ts (m.in. przy `prisma generate` w postinstall)
+      DATABASE_URL: postgresql://cookivo:cookivo@localhost:5433/cookivo?schema=public
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: backend/package-lock.json
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm run test:cov
+      - run: npm run test:e2e
+        env:
+          TEST_DATABASE_URL: postgresql://cookivo:cookivo@localhost:5433/cookivo_test?schema=public
+      - run: npm run build
+
+  frontend:
+    name: Frontend (lint, testy, build)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run test:ci
+      - run: npm run build
+
+  e2e:
+    name: E2E + dostępność (Playwright)
+    runs-on: ubuntu-latest
+    needs: [backend, frontend]
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_USER: cookivo
+          POSTGRES_PASSWORD: cookivo
+          POSTGRES_DB: cookivo
+        ports: ['5433:5432']
+        options: >-
+          --health-cmd "pg_isready -U cookivo" --health-interval 5s --health-timeout 5s --health-retries 10
+      mailpit:
+        image: axllent/mailpit:latest
+        ports: ['1025:1025', '8025:8025']
+    env:
+      CI: true
+      DATABASE_URL: postgresql://cookivo:cookivo@localhost:5433/cookivo?schema=public
+      JWT_ACCESS_SECRET: ci-only-secret-ci-only-secret-ci-only-secret
+      APP_URL: http://localhost:4200
+      HIBP_ENABLED: 'false'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            backend/package-lock.json
+            frontend/package-lock.json
+      - run: npm ci && npm ci --prefix backend && npm ci --prefix frontend
+      - run: npm run db:deploy --prefix backend
+      - run: npx playwright install --with-deps chromium webkit
+      - run: npx playwright test
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 14

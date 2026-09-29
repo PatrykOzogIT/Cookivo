@@ -1,0 +1,35 @@
+{
+  "name": "cookivo",
+  "private": true,
+  "description": "Cookivo - planer posiłków (Angular + NestJS)",
+  "engines": {
+    "node": ">=24.15.0"
+  },
+  "scripts": {
+    "setup": "npm ci && npm ci --prefix backend && npm ci --prefix frontend && docker compose up -d && npm run db:migrate --prefix backend",
+    "infra": "docker compose up -d",
+    "dev": "concurrently -k -n api,web -c yellow,magenta \"npm run start:dev --prefix backend\" \"npm start --prefix frontend\"",
+    "dev:api": "npm run start:dev --prefix backend",
+    "dev:web": "npm start --prefix frontend",
+    "test": "npm test --prefix backend && npm test --prefix frontend",
+    "test:e2e": "npm run test:e2e --prefix backend",
+    "lint": "npm run lint --prefix backend && npm run lint --prefix frontend",
+    "build": "npm run build --prefix backend && npm run build --prefix frontend",
+    "prepare": "husky",
+    "test:ui": "playwright test",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
+    "@playwright/test": "^1.63.0",
+    "concurrently": "^10.0.5",
+    "husky": "^9.1.7",
+    "lint-staged": "^17.6.0",
+    "prettier": "^3.9.9"
+  },
+  "lint-staged": {
+    "*.{ts,html,scss,json,md,yml}": "prettier --write",
+    "frontend/src/**/*.{ts,html}": "node frontend/node_modules/eslint/bin/eslint.js --config frontend/eslint.config.js --max-warnings 0"
+  }
+}

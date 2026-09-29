@@ -1,0 +1,293 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+}
+
+.container {
+  width: 100%;
+  max-width: var(--ck-content-max);
+  margin: 0 auto;
+  padding-left: max(var(--ck-gutter), env(safe-area-inset-left));
+  padding-right: max(var(--ck-gutter), env(safe-area-inset-right));
+}
+
+// --- Nagłówek -----------------------------------------------------------------
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: color-mix(in srgb, var(--ck-bg) 88%, transparent);
+  backdrop-filter: saturate(1.4) blur(12px);
+  border-bottom: 1px solid var(--ck-border);
+  padding-top: env(safe-area-inset-top);
+
+  // Cienki gradient na samej górze - "ciepły" akcent
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto;
+    height: 3px;
+    background: linear-gradient(90deg, var(--ck-accent-from), var(--ck-accent-to), #f7c873);
+  }
+}
+
+.topbar-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  height: var(--ck-header-h);
+}
+
+.brand {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  text-decoration: none;
+  border-radius: 12px;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.lang-code {
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+.user-button {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 8px 0 4px;
+  border: 0;
+  border-radius: 22px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  &:hover,
+  &[aria-expanded='true'] {
+    background: var(--ck-surface-2);
+  }
+  .avatar {
+    display: inline-grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    margin-right: 8px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--ck-cta-from), var(--ck-cta-to));
+    color: var(--ck-cta-text);
+    font-size: 0.8rem;
+    font-weight: 700;
+  }
+  .username {
+    max-width: 140px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: var(--ck-text);
+  }
+  .caret {
+    margin-left: 2px;
+    color: var(--ck-text-muted);
+  }
+}
+
+.menu-header {
+  display: flex;
+  flex-direction: column;
+  padding: 12px 16px;
+  span {
+    font-size: 0.85rem;
+    color: var(--ck-text-muted);
+  }
+}
+
+.menu-icon {
+  margin-right: 12px;
+  vertical-align: middle;
+  color: var(--ck-text-muted);
+}
+
+// --- Menu poziome (tablet i desktop) ----------------------------------------
+
+.main-nav {
+  ul {
+    display: flex;
+    gap: 4px;
+    margin: 0 auto;
+    list-style: none;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  a {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 48px;
+    padding: 0 14px;
+    color: var(--ck-text-muted);
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+    border-radius: 12px 12px 0 0;
+    transition:
+      color 0.2s ease,
+      background-color 0.2s ease;
+
+    .material-symbols-rounded {
+      font-size: 20px;
+    }
+
+    // Gradientowe podkreślenie aktywnej pozycji
+    &::after {
+      content: '';
+      position: absolute;
+      left: 12px;
+      right: 12px;
+      bottom: 0;
+      height: 3px;
+      border-radius: 3px 3px 0 0;
+      background: linear-gradient(90deg, var(--ck-accent-from), var(--ck-accent-to));
+      transform: scaleX(0);
+      transition: transform 0.25s ease;
+    }
+
+    &:hover {
+      color: var(--ck-text);
+      background: var(--ck-surface-2);
+    }
+
+    &.active {
+      color: var(--ck-link);
+      &::after {
+        transform: scaleX(1);
+      }
+    }
+  }
+}
+
+main {
+  flex: 1;
+  outline: none;
+}
+
+// --- Stopka ------------------------------------------------------------------
+
+.site-footer {
+  margin-top: 48px;
+  border-top: 1px solid var(--ck-border);
+  color: var(--ck-text-muted);
+  font-size: 0.9rem;
+}
+
+.footer-inner {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+
+  nav {
+    display: flex;
+    gap: 20px;
+  }
+  a {
+    color: var(--ck-text-muted);
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+}
+
+// --- Dolny pasek (telefon) --------------------------------------------------
+
+.bottom-nav {
+  display: none;
+}
+
+@media (max-width: 767.98px) {
+  .main-nav,
+  .hide-mobile,
+  .actions > .ck-cta,
+  .user-button .username,
+  .user-button .caret {
+    display: none;
+  }
+
+  .user-button {
+    min-width: 44px;
+    padding: 0;
+    .avatar {
+      margin: 0;
+    }
+  }
+
+  .site-footer {
+    // Miejsce na dolny pasek
+    margin-bottom: calc(var(--ck-bottom-nav-h) + env(safe-area-inset-bottom));
+  }
+
+  .bottom-nav {
+    position: fixed;
+    inset: auto 0 0;
+    z-index: 100;
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 1fr;
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+    background: color-mix(in srgb, var(--ck-surface) 92%, transparent);
+    backdrop-filter: saturate(1.4) blur(12px);
+    border-top: 1px solid var(--ck-border);
+    box-shadow: 0 -4px 20px rgb(0 0 0 / 0.06);
+
+    a {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      min-height: var(--ck-bottom-nav-h);
+      color: var(--ck-text-muted);
+      text-decoration: none;
+      font-size: 0.72rem;
+      font-weight: 600;
+
+      .material-symbols-rounded {
+        display: grid;
+        place-items: center;
+        width: 56px;
+        height: 30px;
+        border-radius: 15px;
+        transition: background 0.2s ease;
+      }
+
+      &.active {
+        color: var(--ck-link);
+        .material-symbols-rounded {
+          background: linear-gradient(
+            135deg,
+            color-mix(in srgb, var(--ck-accent-from) 28%, transparent),
+            color-mix(in srgb, var(--ck-accent-to) 28%, transparent)
+          );
+          font-variation-settings:
+            'FILL' 1,
+            'wght' 500;
+        }
+      }
+    }
+  }
+}

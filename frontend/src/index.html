@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="utf-8" />
+    <title>Cookivo</title>
+    <base href="/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta
+      name="description"
+      content="Cookivo - planuj posiłki pod swoje cele, twórz przepisy i listy zakupów."
+    />
+    <meta name="theme-color" content="#fff8f1" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#17120f" media="(prefers-color-scheme: dark)" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,400..600,0..1,0&display=block"
+    />
+    <script>
+      // Ustaw motyw przed renderem, żeby nie było mignięcia jasnego ekranu.
+      try {
+        var t = localStorage.getItem('ck-theme');
+        if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
+        var l = localStorage.getItem('ck-lang');
+        if (l === 'pl' || l === 'en') document.documentElement.lang = l;
+      } catch (e) {}
+    </script>
+  </head>
+  <body>
+    <app-root></app-root>
+  </body>
+</html>

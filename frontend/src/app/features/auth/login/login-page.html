@@ -1,0 +1,75 @@
+<app-auth-shell
+  *transloco="let t"
+  icon="waving_hand"
+  [heading]="t('auth.login.title')"
+  [subheading]="t('auth.login.subtitle')"
+>
+  @if (error(); as code) {
+    <div class="alert error" role="alert">
+      <span class="material-symbols-rounded" aria-hidden="true">error</span>
+      <span>{{ t('errors.' + code) }}</span>
+    </div>
+  }
+
+  <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+    <mat-form-field>
+      <mat-label>{{ t('auth.fields.login') }}</mat-label>
+      <input
+        matInput
+        formControlName="login"
+        autocomplete="username"
+        autocapitalize="off"
+        autocorrect="off"
+        spellcheck="false"
+        required
+      />
+      <span matIconPrefix class="material-symbols-rounded prefix" aria-hidden="true">person</span>
+      @if (form.controls.login.hasError('required')) {
+        <mat-error>{{ t('validation.required') }}</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>{{ t('auth.fields.password') }}</mat-label>
+      <input
+        matInput
+        formControlName="password"
+        [type]="visible() ? 'text' : 'password'"
+        autocomplete="current-password"
+        required
+      />
+      <span matIconPrefix class="material-symbols-rounded prefix" aria-hidden="true">lock</span>
+      <button
+        matIconSuffix
+        mat-icon-button
+        type="button"
+        (click)="visible.set(!visible())"
+        [attr.aria-label]="t(visible() ? 'auth.password.hide' : 'auth.password.show')"
+        [attr.aria-pressed]="visible()"
+      >
+        <span class="material-symbols-rounded" aria-hidden="true">{{
+          visible() ? 'visibility_off' : 'visibility'
+        }}</span>
+      </button>
+      @if (form.controls.password.hasError('required')) {
+        <mat-error>{{ t('validation.required') }}</mat-error>
+      }
+    </mat-form-field>
+
+    <div class="row-between">
+      <a routerLink="/auth/forgot-password">{{ t('auth.login.forgot') }}</a>
+    </div>
+
+    <button mat-flat-button class="ck-cta submit" type="submit" [disabled]="pending()">
+      {{ t('auth.login.submit') }}
+    </button>
+    @if (pending()) {
+      <mat-progress-bar mode="indeterminate" [attr.aria-label]="t('common.loading')" />
+    }
+  </form>
+
+  <p class="alt">
+    {{ t('auth.login.noAccount') }}
+    <a routerLink="/auth/register">{{ t('auth.login.registerLink') }}</a>
+  </p>
+</app-auth-shell>

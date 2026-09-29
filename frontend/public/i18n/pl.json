@@ -1,0 +1,270 @@
+{
+  "a11y": {
+    "skipToContent": "Przejdź do treści",
+    "home": "Cookivo - strona główna",
+    "switchLanguage": "Switch to English",
+    "userMenu": "Menu konta {{name}}",
+    "mainNav": "Nawigacja główna",
+    "footerNav": "Informacje prawne"
+  },
+  "theme": {
+    "label": "Motyw: {{mode}}",
+    "system": "systemowy",
+    "light": "jasny",
+    "dark": "ciemny"
+  },
+  "nav": {
+    "home": "Start",
+    "recipes": "Przepisy",
+    "howItWorks": "Jak to działa",
+    "howItWorksShort": "Jak działa",
+    "planner": "Planer",
+    "shopping": "Lista zakupów",
+    "shoppingShort": "Zakupy",
+    "pantry": "Lodówka",
+    "prices": "Cenniki",
+    "profile": "Profil i cele",
+    "profileShort": "Profil",
+    "preferences": "Preferencje i alergie",
+    "myRecipes": "Moje przepisy",
+    "household": "Moja grupa",
+    "settings": "Ustawienia konta",
+    "admin": "Panel administracyjny",
+    "logout": "Wyloguj",
+    "login": "Zaloguj",
+    "register": "Załóż konto"
+  },
+  "common": {
+    "close": "Zamknij",
+    "loading": "Ładowanie…",
+    "and": "oraz"
+  },
+  "filters": {
+    "title": "Filtry",
+    "active": "Aktywne filtry: {{count}}",
+    "show": "Pokaż wyniki"
+  },
+  "validation": {
+    "required": "To pole jest wymagane"
+  },
+  "errors": {
+    "INVALID_CREDENTIALS": "Nieprawidłowy login lub hasło. Po kilku nieudanych próbach konto jest czasowo blokowane.",
+    "USERNAME_TAKEN": "Ta nazwa jest już zajęta",
+    "USERNAME_FORMAT": "3-20 znaków: litery, cyfry oraz . _ - (nie na początku, nie na końcu i nie dwa pod rząd)",
+    "USERNAME_RESERVED": "Ta nazwa jest zastrzeżona",
+    "USERNAME_OFFENSIVE": "Ta nazwa narusza zasady społeczności",
+    "EMAIL_INVALID": "Podaj prawidłowy adres e-mail",
+    "PASSWORD_LENGTH": "Hasło musi mieć od 12 do 128 znaków",
+    "PASSWORD_WEAK": "Hasło jest zbyt łatwe do odgadnięcia - dodaj więcej słów lub użyj generatora",
+    "PASSWORD_PWNED": "To hasło wyciekło w innym serwisie. Wybierz inne",
+    "TERMS_REQUIRED": "Zaakceptuj regulamin i politykę prywatności",
+    "TOKEN_INVALID": "Link wygasł albo został już użyty.",
+    "SESSION_EXPIRED": "Sesja wygasła. Zaloguj się ponownie.",
+    "UNAUTHENTICATED": "Zaloguj się, aby kontynuować.",
+    "FORBIDDEN": "Nie masz uprawnień do tej akcji.",
+    "TOO_MANY_REQUESTS": "Zbyt wiele prób. Odczekaj chwilę i spróbuj ponownie.",
+    "NETWORK": "Brak połączenia z serwerem. Sprawdź internet.",
+    "SERVER": "Coś poszło nie tak po naszej stronie. Spróbuj za chwilę.",
+    "UNKNOWN": "Wystąpił nieoczekiwany błąd."
+  },
+  "auth": {
+    "fields": {
+      "login": "Nazwa użytkownika lub e-mail",
+      "username": "Nazwa użytkownika",
+      "email": "E-mail",
+      "password": "Hasło",
+      "newPassword": "Nowe hasło"
+    },
+    "password": {
+      "show": "Pokaż hasło",
+      "hide": "Ukryj hasło",
+      "hint": "Min. {{min}} znaków. Najlepiej kilka słów albo hasło z generatora.",
+      "strength": "Siła hasła",
+      "levels": {
+        "veryWeak": "bardzo słabe",
+        "weak": "słabe",
+        "good": "dobre",
+        "strong": "bardzo mocne"
+      },
+      "generate": "Wygeneruj mocne hasło",
+      "copy": "Kopiuj",
+      "copied": "Skopiowano",
+      "generatedNote": "Zapisz to hasło w menedżerze haseł - nie będziemy mogli go później pokazać."
+    },
+    "login": {
+      "title": "Witaj ponownie",
+      "subtitle": "Zaloguj się, aby planować posiłki.",
+      "forgot": "Nie pamiętasz hasła?",
+      "submit": "Zaloguj się",
+      "noAccount": "Nie masz konta?",
+      "registerLink": "Dołącz do nas"
+    },
+    "register": {
+      "title": "Załóż konto",
+      "subtitle": "Kilka sekund i możesz planować posiłki pod swoje cele.",
+      "checking": "Sprawdzam dostępność…",
+      "usernameFree": "Nazwa dostępna",
+      "usernameHint": "Widoczna publicznie przy Twoich przepisach",
+      "consentPrefix": "Akceptuję",
+      "submit": "Załóż konto",
+      "haveAccount": "Masz już konto?",
+      "loginLink": "Zaloguj się"
+    },
+    "checkEmail": {
+      "title": "Sprawdź skrzynkę",
+      "body": "Jeśli adres {{email}} może zostać użyty, wysłaliśmy na niego link aktywacyjny. Kliknij go, aby potwierdzić konto.",
+      "spam": "Nie widzisz wiadomości? Zajrzyj do folderu spam.",
+      "toLogin": "Przejdź do logowania"
+    },
+    "verify": {
+      "title": "Potwierdzenie e-maila",
+      "verifying": "Potwierdzam adres e-mail…",
+      "successTitle": "E-mail potwierdzony!",
+      "successBody": "Twoje konto jest aktywne. Smacznego planowania!",
+      "toApp": "Przejdź do Cookivo",
+      "resent": "Jeśli konto wymaga potwierdzenia, wysłaliśmy nowy link.",
+      "invalidTitle": "Link nie działa",
+      "invalidBody": "Link wygasł albo został już użyty. Podaj e-mail, a wyślemy nowy.",
+      "resend": "Wyślij nowy link"
+    },
+    "forgot": {
+      "title": "Reset hasła",
+      "subtitle": "Podaj e-mail konta - wyślemy link do ustawienia nowego hasła.",
+      "sent": "Jeśli konto z adresem {{email}} istnieje, wysłaliśmy na nie link. Jest ważny przez 1 godzinę.",
+      "submit": "Wyślij link",
+      "back": "Wróć do logowania"
+    },
+    "reset": {
+      "title": "Ustaw nowe hasło",
+      "subtitle": "Po zmianie hasła wylogujemy Cię ze wszystkich urządzeń.",
+      "doneTitle": "Hasło zmienione",
+      "doneBody": "Możesz zalogować się nowym hasłem.",
+      "invalid": "W linku brakuje tokenu. Poproś o nowy link.",
+      "requestNew": "Poproś o nowy link",
+      "submit": "Zapisz nowe hasło"
+    }
+  },
+  "home": {
+    "eyebrow": "Planer posiłków",
+    "welcomeBack": "Cześć, {{name}}!",
+    "titleStart": "Jedz smacznie i",
+    "titleAccent": "zgodnie z celem",
+    "lead": "Cookivo policzy Twoje zapotrzebowanie, zaplanuje posiłki na cały tydzień, uwzględni alergie i to, co masz w lodówce, a potem ułoży listę zakupów.",
+    "ctaStart": "Zacznij z nami",
+    "ctaPlanner": "Otwórz planer",
+    "ctaRecipes": "Przeglądaj przepisy",
+    "featuresLabel": "Możliwości Cookivo",
+    "features": {
+      "goals": {
+        "title": "Kalorie pod Twój cel",
+        "body": "Redukcja, utrzymanie albo masa - kalkulator dobierze kalorie i makroskładniki."
+      },
+      "planner": {
+        "title": "Plan na cały tydzień",
+        "body": "Ugotuj raz, zjedz dwa razy - planuj porcje na kilka dni do przodu."
+      },
+      "shopping": {
+        "title": "Lista zakupów sama się pisze",
+        "body": "Z planu albo jednego przepisu, z wyceną wg Twojego cennika."
+      },
+      "allergies": {
+        "title": "Bez alergenów",
+        "body": "Oznacz uczulenia i nietolerancje - nie zaproponujemy nic, co Ci szkodzi."
+      },
+      "pantry": {
+        "title": "Najpierw to, co masz",
+        "body": "Wpisz zawartość lodówki, a wyszukiwarka podpowie przepisy z tych składników."
+      },
+      "household": {
+        "title": "Planujcie razem",
+        "body": "Wspólny plan dla domowników, porcje dopasowane do każdej osoby."
+      }
+    }
+  },
+  "nutrition": {
+    "protein": "Białko",
+    "carbs": "Węglowodany",
+    "fat": "Tłuszcze"
+  },
+  "recipes": {
+    "comingSoon": "Tu pojawią się przepisy - dodamy je w etapie 3. Filtry obok pokazują docelowy układ.",
+    "placeholderList": "Przykładowe miejsca na przepisy",
+    "filters": {
+      "mealType": "Posiłek",
+      "forMe": "Dla mnie",
+      "withoutAllergens": "Bez moich alergenów",
+      "fromPantry": "Najpierw z mojej lodówki"
+    }
+  },
+  "mealTypes": {
+    "breakfast": "Śniadanie",
+    "lunch": "Lunch",
+    "dinner": "Obiad",
+    "afternoonSnack": "Podwieczorek",
+    "supper": "Kolacja",
+    "snack": "Przekąska",
+    "party": "Na przyjęcie"
+  },
+  "placeholder": {
+    "body": "Ta sekcja powstaje - pojawi się w etapie {{stage}}."
+  },
+  "notFound": {
+    "title": "Nie ma takiej strony",
+    "body": "Może przepis zmienił adres, a może ktoś podjadł link.",
+    "home": "Wróć na start"
+  },
+  "legal": {
+    "privacy": "Polityka prywatności",
+    "terms": "Regulamin",
+    "privacyAcc": "politykę prywatności",
+    "termsAcc": "regulamin",
+    "privacyDoc": {
+      "title": "Polityka prywatności",
+      "draft": "Wersja robocza - przed publicznym uruchomieniem treść zostanie przygotowana lub zweryfikowana przez prawnika.",
+      "s1": {
+        "title": "Administrator danych",
+        "body": "Administratorem danych jest właściciel serwisu Cookivo. Dane kontaktowe zostaną uzupełnione przed publicznym uruchomieniem."
+      },
+      "s2": {
+        "title": "Jakie dane zbieramy",
+        "body": "Nazwę użytkownika, adres e-mail i skrót hasła (samego hasła nie przechowujemy). Opcjonalnie - za Twoją wyraźną zgodą - dane o zdrowiu: wagę, wzrost, alergie i nietolerancje, potrzebne do wyliczenia zapotrzebowania i filtrowania przepisów."
+      },
+      "s3": {
+        "title": "Podstawa i cel przetwarzania",
+        "body": "Konto prowadzimy na podstawie umowy (art. 6 ust. 1 lit. b RODO). Dane o zdrowiu przetwarzamy wyłącznie na podstawie wyraźnej zgody (art. 9 ust. 2 lit. a RODO), którą możesz w każdej chwili wycofać."
+      },
+      "s4": {
+        "title": "Twoje prawa",
+        "body": "Masz prawo dostępu do danych, ich sprostowania, usunięcia, ograniczenia przetwarzania, przeniesienia (eksport) oraz wniesienia skargi do Prezesa UODO."
+      },
+      "s5": {
+        "title": "Bezpieczeństwo",
+        "body": "Hasła szyfrujemy algorytmem Argon2id, połączenia są szyfrowane, a sesję przechowujemy w bezpiecznym ciasteczku niedostępnym dla skryptów. Nie sprzedajemy danych i nie używamy ciasteczek reklamowych."
+      }
+    },
+    "termsDoc": {
+      "title": "Regulamin",
+      "draft": "Wersja robocza - przed publicznym uruchomieniem treść zostanie przygotowana lub zweryfikowana przez prawnika.",
+      "s1": {
+        "title": "Postanowienia ogólne",
+        "body": "Cookivo to serwis do planowania posiłków, tworzenia przepisów i list zakupów."
+      },
+      "s2": {
+        "title": "Konto",
+        "body": "Do korzystania z pełnych funkcji potrzebne jest konto. Jesteś odpowiedzialny za bezpieczeństwo swojego hasła."
+      },
+      "s3": {
+        "title": "Treści użytkowników",
+        "body": "Publikując przepisy i zdjęcia, oświadczasz, że masz do nich prawa. Treści obraźliwe lub niezgodne z prawem mogą zostać usunięte przez moderatorów."
+      },
+      "s4": {
+        "title": "To nie jest porada medyczna",
+        "body": "Wyliczenia kalorii i makroskładników mają charakter orientacyjny i nie zastępują porady lekarza ani dietetyka."
+      },
+      "s5": {
+        "title": "Usunięcie konta",
+        "body": "Możesz w każdej chwili usunąć konto wraz z danymi."
+      }
+    }
+  }
+}

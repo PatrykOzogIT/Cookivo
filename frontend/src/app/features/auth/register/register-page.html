@@ -1,0 +1,106 @@
+<ng-container *transloco="let t">
+  @if (sentTo(); as email) {
+    <app-auth-shell icon="mark_email_unread" [heading]="t('auth.checkEmail.title')">
+      <p>{{ t('auth.checkEmail.body', { email }) }}</p>
+      <p class="alt">{{ t('auth.checkEmail.spam') }}</p>
+      <a mat-flat-button class="ck-cta submit" routerLink="/auth/login">{{ t('auth.checkEmail.toLogin') }}</a>
+    </app-auth-shell>
+  } @else {
+    <app-auth-shell
+      icon="person_add"
+      [heading]="t('auth.register.title')"
+      [subheading]="t('auth.register.subtitle')"
+    >
+      @if (error(); as code) {
+        <div class="alert error" role="alert">
+          <span class="material-symbols-rounded" aria-hidden="true">error</span>
+          <span>{{ t('errors.' + code) }}</span>
+        </div>
+      }
+
+      <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+        <mat-form-field>
+          <mat-label>{{ t('auth.fields.username') }}</mat-label>
+          <input
+            matInput
+            formControlName="username"
+            autocomplete="username"
+            autocapitalize="off"
+            autocorrect="off"
+            spellcheck="false"
+            [maxlength]="usernameMax"
+            required
+          />
+          <span matIconPrefix class="material-symbols-rounded prefix" aria-hidden="true">person</span>
+          @let username = form.controls.username;
+          @if (username.pending) {
+            <mat-hint>{{ t('auth.register.checking') }}</mat-hint>
+          } @else if (username.valid && username.value) {
+            <mat-hint>
+              <span class="field-status ok">
+                <span class="material-symbols-rounded" aria-hidden="true">check_circle</span>
+                {{ t('auth.register.usernameFree') }}
+              </span>
+            </mat-hint>
+          } @else {
+            <mat-hint>{{ t('auth.register.usernameHint') }}</mat-hint>
+          }
+          @if (username.hasError('required')) {
+            <mat-error>{{ t('validation.required') }}</mat-error>
+          } @else if (username.hasError('usernameFormat')) {
+            <mat-error>{{ t('errors.USERNAME_FORMAT') }}</mat-error>
+          } @else if (username.hasError('server')) {
+            <mat-error>{{ t('errors.' + username.getError('server')) }}</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>{{ t('auth.fields.email') }}</mat-label>
+          <input
+            matInput
+            type="email"
+            inputmode="email"
+            formControlName="email"
+            autocomplete="email"
+            autocapitalize="off"
+            spellcheck="false"
+            required
+          />
+          <span matIconPrefix class="material-symbols-rounded prefix" aria-hidden="true">mail</span>
+          @let email = form.controls.email;
+          @if (email.hasError('required')) {
+            <mat-error>{{ t('validation.required') }}</mat-error>
+          } @else if (email.hasError('email') || email.hasError('maxlength')) {
+            <mat-error>{{ t('errors.EMAIL_INVALID') }}</mat-error>
+          } @else if (email.hasError('server')) {
+            <mat-error>{{ t('errors.' + email.getError('server')) }}</mat-error>
+          }
+        </mat-form-field>
+
+        <app-password-field [control]="form.controls.password" [userInputs]="userInputs()" />
+
+        <mat-checkbox formControlName="acceptTerms" class="consent" required>
+          {{ t('auth.register.consentPrefix') }}
+          <a routerLink="/legal/terms" target="_blank">{{ t('legal.termsAcc') }}</a>
+          {{ t('common.and') }}
+          <a routerLink="/legal/privacy" target="_blank">{{ t('legal.privacyAcc') }}</a>
+        </mat-checkbox>
+        @if (form.controls.acceptTerms.invalid && form.controls.acceptTerms.touched) {
+          <p class="consent-error" role="alert">{{ t('errors.TERMS_REQUIRED') }}</p>
+        }
+
+        <button mat-flat-button class="ck-cta submit" type="submit" [disabled]="pending()">
+          {{ t('auth.register.submit') }}
+        </button>
+        @if (pending()) {
+          <mat-progress-bar mode="indeterminate" [attr.aria-label]="t('common.loading')" />
+        }
+      </form>
+
+      <p class="alt">
+        {{ t('auth.register.haveAccount') }}
+        <a routerLink="/auth/login">{{ t('auth.register.loginLink') }}</a>
+      </p>
+    </app-auth-shell>
+  }
+</ng-container>

@@ -1,0 +1,103 @@
+import type { Locale } from '../generated/prisma/enums.js';
+
+export interface MailContent {
+  subject: string;
+  text: string;
+  html: string;
+}
+
+interface Copy {
+  subject: string;
+  heading: string;
+  body: string;
+  cta?: string;
+  footer: string;
+}
+
+const COPY = {
+  verifyEmail: {
+    pl: {
+      subject: 'Potwierdź adres e-mail w Cookivo',
+      heading: 'Cześć {username}!',
+      body: 'Dziękujemy za rejestrację. Kliknij przycisk poniżej, aby potwierdzić adres e-mail. Link jest ważny 24 godziny.',
+      cta: 'Potwierdź e-mail',
+      footer: 'Jeśli to nie Ty zakładałeś konto, zignoruj tę wiadomość.',
+    },
+    en: {
+      subject: 'Confirm your email for Cookivo',
+      heading: 'Hi {username}!',
+      body: 'Thanks for signing up. Click the button below to confirm your email address. The link is valid for 24 hours.',
+      cta: 'Confirm email',
+      footer: "If you didn't create an account, just ignore this email.",
+    },
+  },
+  resetPassword: {
+    pl: {
+      subject: 'Reset hasła w Cookivo',
+      heading: 'Cześć {username}!',
+      body: 'Otrzymaliśmy prośbę o zmianę hasła. Kliknij przycisk poniżej, aby ustawić nowe hasło. Link jest ważny 1 godzinę.',
+      cta: 'Ustaw nowe hasło',
+      footer: 'Jeśli to nie Ty prosiłeś o zmianę, zignoruj tę wiadomość - Twoje hasło pozostanie bez zmian.',
+    },
+    en: {
+      subject: 'Reset your Cookivo password',
+      heading: 'Hi {username}!',
+      body: 'We received a request to reset your password. Click the button below to choose a new one. The link is valid for 1 hour.',
+      cta: 'Set new password',
+      footer: "If you didn't request this, ignore this email - your password won't change.",
+    },
+  },
+  accountExists: {
+    pl: {
+      subject: 'Próba rejestracji w Cookivo',
+      heading: 'Cześć {username}!',
+      body: 'Ktoś (być może Ty) próbował założyć konto na ten adres e-mail, ale konto już istnieje. Jeśli nie pamiętasz hasła, możesz je zresetować.',
+      cta: 'Zresetuj hasło',
+      footer: 'Jeśli to nie Ty, zignoruj tę wiadomość.',
+    },
+    en: {
+      subject: 'Sign-up attempt on Cookivo',
+      heading: 'Hi {username}!',
+      body: 'Someone (maybe you) tried to create an account with this email, but an account already exists. If you forgot your password, you can reset it.',
+      cta: 'Reset password',
+      footer: "If this wasn't you, ignore this email.",
+    },
+  },
+} satisfies Record<string, Record<Locale, Copy>>;
+
+export type MailKind = keyof typeof COPY;
+
+function escapeHtml(value: string): string {
+  return value.replace(/[&<>"']/g, (c) => `&#${c.charCodeAt(0)};`);
+}
+
+export function renderMail(
+  kind: MailKind,
+  locale: Locale,
+  vars: { username: string; url?: string },
+): MailContent {
+  const copy: Copy = COPY[kind][locale];
+  const fill = (s: string) => s.replace('{username}', vars.username);
+  const heading = fill(copy.heading);
+
+  const text = [heading, '', copy.body, '', vars.url ?? '', '', copy.footer, '', '— Cookivo'].join('\n');
+
+  const button =
+    vars.url && copy.cta
+      ? `<p style="margin:28px 0"><a href="${escapeHtml(vars.url)}" style="background:linear-gradient(135deg,#F2A65A,#E8704A);color:#fff;text-decoration:none;padding:14px 28px;border-radius:12px;font-weight:600;display:inline-block">${escapeHtml(copy.cta)}</a></p>
+         <p style="font-size:13px;color:#6b625b;word-break:break-all">${escapeHtml(vars.url)}</p>`
+      : '';
+
+  const html = `<!doctype html><html lang="${locale}"><body style="margin:0;background:#FFF8F1;font-family:Segoe UI,Arial,sans-serif;color:#2E2A26">
+  <div style="max-width:520px;margin:0 auto;padding:32px 24px">
+    <div style="font-size:24px;font-weight:700;color:#E8704A;margin-bottom:24px">Cookivo</div>
+    <div style="background:#fff;border-radius:16px;padding:28px;box-shadow:0 4px 20px rgba(46,42,38,.08)">
+      <h1 style="font-size:20px;margin:0 0 12px">${escapeHtml(heading)}</h1>
+      <p style="line-height:1.6;margin:0">${escapeHtml(copy.body)}</p>
+      ${button}
+      <p style="font-size:13px;color:#6b625b;margin:0">${escapeHtml(copy.footer)}</p>
+    </div>
+  </div></body></html>`;
+
+  return { subject: copy.subject, text, html };
+}

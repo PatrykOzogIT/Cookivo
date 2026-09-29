@@ -1,0 +1,270 @@
+{
+  "a11y": {
+    "skipToContent": "Skip to content",
+    "home": "Cookivo - home",
+    "switchLanguage": "Przełącz na polski",
+    "userMenu": "Account menu for {{name}}",
+    "mainNav": "Main navigation",
+    "footerNav": "Legal information"
+  },
+  "theme": {
+    "label": "Theme: {{mode}}",
+    "system": "system",
+    "light": "light",
+    "dark": "dark"
+  },
+  "nav": {
+    "home": "Home",
+    "recipes": "Recipes",
+    "howItWorks": "How it works",
+    "howItWorksShort": "How it works",
+    "planner": "Planner",
+    "shopping": "Shopping list",
+    "shoppingShort": "Shopping",
+    "pantry": "Pantry",
+    "prices": "Price lists",
+    "profile": "Profile & goals",
+    "profileShort": "Profile",
+    "preferences": "Preferences & allergies",
+    "myRecipes": "My recipes",
+    "household": "My household",
+    "settings": "Account settings",
+    "admin": "Admin panel",
+    "logout": "Log out",
+    "login": "Log in",
+    "register": "Sign up"
+  },
+  "common": {
+    "close": "Close",
+    "loading": "Loading…",
+    "and": "and"
+  },
+  "filters": {
+    "title": "Filters",
+    "active": "Active filters: {{count}}",
+    "show": "Show results"
+  },
+  "validation": {
+    "required": "This field is required"
+  },
+  "errors": {
+    "INVALID_CREDENTIALS": "Invalid login or password. After several failed attempts the account is temporarily locked.",
+    "USERNAME_TAKEN": "This username is already taken",
+    "USERNAME_FORMAT": "3-20 characters: letters, digits and . _ - (not at the start, not at the end, not two in a row)",
+    "USERNAME_RESERVED": "This username is reserved",
+    "USERNAME_OFFENSIVE": "This username violates community rules",
+    "EMAIL_INVALID": "Enter a valid email address",
+    "PASSWORD_LENGTH": "Password must be 12 to 128 characters long",
+    "PASSWORD_WEAK": "This password is too easy to guess - add more words or use the generator",
+    "PASSWORD_PWNED": "This password has appeared in a data breach. Choose another one",
+    "TERMS_REQUIRED": "Please accept the terms and the privacy policy",
+    "TOKEN_INVALID": "The link has expired or was already used.",
+    "SESSION_EXPIRED": "Your session has expired. Please log in again.",
+    "UNAUTHENTICATED": "Log in to continue.",
+    "FORBIDDEN": "You don't have permission to do that.",
+    "TOO_MANY_REQUESTS": "Too many attempts. Wait a moment and try again.",
+    "NETWORK": "Can't reach the server. Check your connection.",
+    "SERVER": "Something went wrong on our side. Please try again shortly.",
+    "UNKNOWN": "An unexpected error occurred."
+  },
+  "auth": {
+    "fields": {
+      "login": "Username or email",
+      "username": "Username",
+      "email": "Email",
+      "password": "Password",
+      "newPassword": "New password"
+    },
+    "password": {
+      "show": "Show password",
+      "hide": "Hide password",
+      "hint": "At least {{min}} characters. A few words or a generated password work best.",
+      "strength": "Password strength",
+      "levels": {
+        "veryWeak": "very weak",
+        "weak": "weak",
+        "good": "good",
+        "strong": "very strong"
+      },
+      "generate": "Generate strong password",
+      "copy": "Copy",
+      "copied": "Copied",
+      "generatedNote": "Save this password in your password manager - we won't be able to show it again."
+    },
+    "login": {
+      "title": "Welcome back",
+      "subtitle": "Log in to plan your meals.",
+      "forgot": "Forgot your password?",
+      "submit": "Log in",
+      "noAccount": "Don't have an account?",
+      "registerLink": "Join us"
+    },
+    "register": {
+      "title": "Create account",
+      "subtitle": "A few seconds and you can plan meals for your goals.",
+      "checking": "Checking availability…",
+      "usernameFree": "Username available",
+      "usernameHint": "Shown publicly next to your recipes",
+      "consentPrefix": "I accept the",
+      "submit": "Create account",
+      "haveAccount": "Already have an account?",
+      "loginLink": "Log in"
+    },
+    "checkEmail": {
+      "title": "Check your inbox",
+      "body": "If {{email}} can be used, we've sent an activation link to it. Click it to confirm your account.",
+      "spam": "Don't see it? Check your spam folder.",
+      "toLogin": "Go to login"
+    },
+    "verify": {
+      "title": "Email confirmation",
+      "verifying": "Confirming your email…",
+      "successTitle": "Email confirmed!",
+      "successBody": "Your account is active. Happy planning!",
+      "toApp": "Go to Cookivo",
+      "resent": "If the account needs confirmation, we've sent a new link.",
+      "invalidTitle": "This link doesn't work",
+      "invalidBody": "The link has expired or was already used. Enter your email and we'll send a new one.",
+      "resend": "Send new link"
+    },
+    "forgot": {
+      "title": "Reset password",
+      "subtitle": "Enter your account email - we'll send you a link to set a new password.",
+      "sent": "If an account with {{email}} exists, we've sent a link to it. It's valid for 1 hour.",
+      "submit": "Send link",
+      "back": "Back to login"
+    },
+    "reset": {
+      "title": "Set a new password",
+      "subtitle": "After the change you'll be logged out on all devices.",
+      "doneTitle": "Password changed",
+      "doneBody": "You can now log in with your new password.",
+      "invalid": "The link is missing a token. Request a new link.",
+      "requestNew": "Request a new link",
+      "submit": "Save new password"
+    }
+  },
+  "home": {
+    "eyebrow": "Meal planner",
+    "welcomeBack": "Hi, {{name}}!",
+    "titleStart": "Eat well and",
+    "titleAccent": "hit your goals",
+    "lead": "Cookivo calculates your needs, plans meals for the whole week, respects your allergies and what's in your fridge, then builds your shopping list.",
+    "ctaStart": "Get started",
+    "ctaPlanner": "Open planner",
+    "ctaRecipes": "Browse recipes",
+    "featuresLabel": "What Cookivo can do",
+    "features": {
+      "goals": {
+        "title": "Calories for your goal",
+        "body": "Cut, maintain or bulk - the calculator sets your calories and macros."
+      },
+      "planner": {
+        "title": "A plan for the whole week",
+        "body": "Cook once, eat twice - plan portions several days ahead."
+      },
+      "shopping": {
+        "title": "Shopping list writes itself",
+        "body": "From your plan or a single recipe, priced with your price list."
+      },
+      "allergies": {
+        "title": "Allergen-free",
+        "body": "Mark allergies and intolerances - we'll never suggest what harms you."
+      },
+      "pantry": {
+        "title": "Use what you have first",
+        "body": "Add your fridge contents and search will suggest recipes that use them."
+      },
+      "household": {
+        "title": "Plan together",
+        "body": "A shared plan for your household, portions tailored to each person."
+      }
+    }
+  },
+  "nutrition": {
+    "protein": "Protein",
+    "carbs": "Carbs",
+    "fat": "Fat"
+  },
+  "recipes": {
+    "comingSoon": "Recipes will show up here - they arrive in stage 3. The filters show the target layout.",
+    "placeholderList": "Recipe placeholders",
+    "filters": {
+      "mealType": "Meal",
+      "forMe": "For me",
+      "withoutAllergens": "Without my allergens",
+      "fromPantry": "Prefer my pantry"
+    }
+  },
+  "mealTypes": {
+    "breakfast": "Breakfast",
+    "lunch": "Lunch",
+    "dinner": "Dinner",
+    "afternoonSnack": "Afternoon snack",
+    "supper": "Supper",
+    "snack": "Snack",
+    "party": "Party"
+  },
+  "placeholder": {
+    "body": "This section is under construction - it arrives in stage {{stage}}."
+  },
+  "notFound": {
+    "title": "Page not found",
+    "body": "Maybe the recipe moved, or someone nibbled the link.",
+    "home": "Back to home"
+  },
+  "legal": {
+    "privacy": "Privacy policy",
+    "terms": "Terms of service",
+    "privacyAcc": "privacy policy",
+    "termsAcc": "terms of service",
+    "privacyDoc": {
+      "title": "Privacy policy",
+      "draft": "Draft - before public launch this text will be prepared or reviewed by a lawyer.",
+      "s1": {
+        "title": "Data controller",
+        "body": "The data controller is the owner of Cookivo. Contact details will be added before the public launch."
+      },
+      "s2": {
+        "title": "What we collect",
+        "body": "Your username, email address and a password hash (we never store the password itself). Optionally - with your explicit consent - health data: weight, height, allergies and intolerances, used to calculate your needs and filter recipes."
+      },
+      "s3": {
+        "title": "Legal basis and purpose",
+        "body": "We run your account under a contract (Art. 6(1)(b) GDPR). Health data is processed only with your explicit consent (Art. 9(2)(a) GDPR), which you can withdraw at any time."
+      },
+      "s4": {
+        "title": "Your rights",
+        "body": "You have the right to access, rectify, erase, restrict and export your data, and to lodge a complaint with a supervisory authority."
+      },
+      "s5": {
+        "title": "Security",
+        "body": "Passwords are hashed with Argon2id, connections are encrypted and your session lives in a secure cookie that scripts can't read. We don't sell data or use advertising cookies."
+      }
+    },
+    "termsDoc": {
+      "title": "Terms of service",
+      "draft": "Draft - before public launch this text will be prepared or reviewed by a lawyer.",
+      "s1": {
+        "title": "General",
+        "body": "Cookivo is a service for planning meals, creating recipes and shopping lists."
+      },
+      "s2": {
+        "title": "Account",
+        "body": "Full features require an account. You are responsible for keeping your password safe."
+      },
+      "s3": {
+        "title": "User content",
+        "body": "By publishing recipes and photos you confirm you hold the rights to them. Offensive or unlawful content may be removed by moderators."
+      },
+      "s4": {
+        "title": "Not medical advice",
+        "body": "Calorie and macro calculations are estimates and do not replace advice from a doctor or dietitian."
+      },
+      "s5": {
+        "title": "Deleting your account",
+        "body": "You can delete your account together with your data at any time."
+      }
+    }
+  }
+}

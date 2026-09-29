@@ -1,0 +1,89 @@
+// Wspólne style formularzy logowania/rejestracji
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+.submit {
+  width: 100%;
+  min-height: 52px;
+  margin-top: 16px;
+  font-size: 1rem;
+}
+
+.row-between {
+  display: flex;
+  justify-content: flex-end;
+  margin: -4px 0 4px;
+  a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    font-size: 0.9rem;
+  }
+}
+
+.alt {
+  margin: 24px 0 0;
+  text-align: center;
+  color: var(--ck-text-muted);
+}
+
+.alert {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  margin: 0 0 16px;
+  padding: 12px 14px;
+  border-radius: var(--ck-radius-sm);
+  font-size: 0.925rem;
+
+  .material-symbols-rounded {
+    font-size: 20px;
+  }
+
+  &.error {
+    background: color-mix(in srgb, var(--ck-danger) 12%, transparent);
+    color: var(--ck-danger);
+  }
+  &.success {
+    background: var(--ck-sage-bg);
+    color: var(--ck-success);
+  }
+}
+
+.consent {
+  margin-top: 12px;
+  font-size: 0.925rem;
+  a {
+    font-weight: 600;
+  }
+}
+
+.consent-error {
+  margin: 0 0 0 40px;
+  color: var(--ck-danger);
+  font-size: 0.8rem;
+}
+
+.field-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  &.ok {
+    color: var(--ck-success);
+  }
+  .material-symbols-rounded {
+    font-size: 16px;
+  }
+}
+
+.prefix {
+  margin: 0 4px 0 12px;
+  color: var(--ck-text-muted);
+}

@@ -1,0 +1,58 @@
+<div class="page" *transloco="let t">
+  @if (hasFilters()) {
+    <button
+      #toggle
+      mat-stroked-button
+      type="button"
+      class="filters-toggle"
+      aria-controls="page-filters"
+      [attr.aria-expanded]="filtersOpen()"
+      (click)="openFilters()"
+    >
+      <span class="material-symbols-rounded" aria-hidden="true">tune</span>
+      {{ t('filters.title') }}
+      @if (activeFilters() > 0) {
+        <span class="badge" [attr.aria-label]="t('filters.active', { count: activeFilters() })">
+          {{ activeFilters() }}
+        </span>
+      }
+    </button>
+
+    <div class="backdrop" [class.open]="filtersOpen()" (click)="closeFilters()" aria-hidden="true"></div>
+
+    <aside
+      id="page-filters"
+      class="filters"
+      [class.open]="filtersOpen()"
+      [attr.aria-label]="t('filters.title')"
+      [cdkTrapFocus]="filtersOpen()"
+    >
+      <div class="sheet-handle" aria-hidden="true"></div>
+      <div class="filters-header">
+        <h2>{{ t('filters.title') }}</h2>
+        <button
+          #close
+          mat-icon-button
+          type="button"
+          class="close"
+          (click)="closeFilters()"
+          [attr.aria-label]="t('common.close')"
+        >
+          <span class="material-symbols-rounded" aria-hidden="true">close</span>
+        </button>
+      </div>
+      <div class="filters-body">
+        <ng-content select="[filters]" />
+      </div>
+      <div class="filters-footer">
+        <button mat-flat-button type="button" class="ck-cta" (click)="closeFilters()">
+          {{ t('filters.show') }}
+        </button>
+      </div>
+    </aside>
+  }
+
+  <section class="content">
+    <ng-content />
+  </section>
+</div>

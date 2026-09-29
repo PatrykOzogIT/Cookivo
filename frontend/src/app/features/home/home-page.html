@@ -1,0 +1,52 @@
+<ng-container *transloco="let t">
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="copy">
+        @if (auth.user(); as user) {
+          <p class="eyebrow">{{ t('home.welcomeBack', { name: user.username }) }}</p>
+        } @else {
+          <p class="eyebrow">{{ t('home.eyebrow') }}</p>
+        }
+        <h1>
+          {{ t('home.titleStart') }}
+          <span class="gradient-text">{{ t('home.titleAccent') }}</span>
+        </h1>
+        <p class="lead">{{ t('home.lead') }}</p>
+        <div class="cta-row">
+          @if (auth.isLoggedIn()) {
+            <a mat-flat-button class="ck-cta big" routerLink="/planner">{{ t('home.ctaPlanner') }}</a>
+          } @else {
+            <a mat-flat-button class="ck-cta big" routerLink="/auth/register">{{ t('home.ctaStart') }}</a>
+          }
+          <a mat-stroked-button class="big" routerLink="/recipes">{{ t('home.ctaRecipes') }}</a>
+        </div>
+      </div>
+
+      <div class="plate" aria-hidden="true">
+        <div class="ring"></div>
+        <div class="macro protein">
+          <strong>32%</strong><span>{{ t('nutrition.protein') }}</span>
+        </div>
+        <div class="macro carbs">
+          <strong>43%</strong><span>{{ t('nutrition.carbs') }}</span>
+        </div>
+        <div class="macro fat">
+          <strong>25%</strong><span>{{ t('nutrition.fat') }}</span>
+        </div>
+        <div class="kcal"><strong>2 150</strong><span>kcal</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="features" [attr.aria-label]="t('home.featuresLabel')">
+    <ul>
+      @for (f of features; track f.key) {
+        <li class="ck-card">
+          <span class="icon material-symbols-rounded" aria-hidden="true">{{ f.icon }}</span>
+          <h2>{{ t('home.features.' + f.key + '.title') }}</h2>
+          <p>{{ t('home.features.' + f.key + '.body') }}</p>
+        </li>
+      }
+    </ul>
+  </section>
+</ng-container>

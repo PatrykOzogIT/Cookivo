@@ -1,0 +1,36 @@
+<app-page-layout *transloco="let t" [hasFilters]="true" [activeFilters]="activeCount()">
+  <div filters>
+    <fieldset>
+      <legend>{{ t('recipes.filters.mealType') }}</legend>
+      @for (type of mealTypes; track type) {
+        <mat-checkbox [checked]="selected().has(type)" (change)="toggleMealType(type, $event.checked)">
+          {{ t('mealTypes.' + type) }}
+        </mat-checkbox>
+      }
+    </fieldset>
+    <fieldset>
+      <legend>{{ t('recipes.filters.forMe') }}</legend>
+      <mat-slide-toggle [checked]="withoutAllergens()" (change)="withoutAllergens.set($event.checked)">
+        {{ t('recipes.filters.withoutAllergens') }}
+      </mat-slide-toggle>
+      <mat-slide-toggle [checked]="fromPantry()" (change)="fromPantry.set($event.checked)">
+        {{ t('recipes.filters.fromPantry') }}
+      </mat-slide-toggle>
+    </fieldset>
+  </div>
+
+  <header class="head">
+    <h1>{{ t('nav.recipes') }}</h1>
+    <p>{{ t('recipes.comingSoon') }}</p>
+  </header>
+
+  <ul class="grid" [attr.aria-label]="t('recipes.placeholderList')">
+    @for (i of skeletons; track i) {
+      <li class="ck-card skeleton" aria-hidden="true">
+        <div class="img"></div>
+        <div class="line w70"></div>
+        <div class="line w40"></div>
+      </li>
+    }
+  </ul>
+</app-page-layout>

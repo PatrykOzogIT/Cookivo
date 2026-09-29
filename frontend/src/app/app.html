@@ -1,0 +1,126 @@
+<ng-container *transloco="let t">
+  <a class="skip-link" href="#main" (click)="skipToContent($event)">{{ t('a11y.skipToContent') }}</a>
+
+  <header class="site-header">
+    <!-- Tu później wejdzie baner; na razie pasek z logo i akcjami -->
+    <div class="topbar">
+      <div class="container topbar-inner">
+        <a routerLink="/" class="brand" [attr.aria-label]="t('a11y.home')">
+          <app-logo />
+        </a>
+
+        <div class="actions">
+          <button
+            mat-icon-button
+            type="button"
+            (click)="language.toggle()"
+            [attr.aria-label]="t('a11y.switchLanguage')"
+            [matTooltip]="t('a11y.switchLanguage')"
+          >
+            <span class="lang-code" aria-hidden="true">{{ language.current() === 'pl' ? 'EN' : 'PL' }}</span>
+          </button>
+
+          <button
+            mat-icon-button
+            type="button"
+            (click)="theme.cycle()"
+            [attr.aria-label]="t('theme.label', { mode: t('theme.' + theme.preference()) })"
+            [matTooltip]="t('theme.label', { mode: t('theme.' + theme.preference()) })"
+          >
+            <span class="material-symbols-rounded" aria-hidden="true">{{ themeIcon() }}</span>
+          </button>
+
+          @if (auth.user(); as user) {
+            <button
+              type="button"
+              class="user-button"
+              [matMenuTriggerFor]="userMenuRef"
+              [attr.aria-label]="t('a11y.userMenu', { name: user.username })"
+            >
+              <span class="avatar" aria-hidden="true">{{ initials() }}</span>
+              <span class="username">{{ user.username }}</span>
+              <span class="material-symbols-rounded caret" aria-hidden="true">expand_more</span>
+            </button>
+
+            <mat-menu #userMenuRef="matMenu" xPosition="before">
+              <div class="menu-header" role="presentation">
+                <strong>{{ user.username }}</strong>
+                <span>{{ user.email }}</span>
+              </div>
+              <mat-divider />
+              @for (item of userMenu; track item.path) {
+                <a mat-menu-item [routerLink]="item.path">
+                  <span class="material-symbols-rounded menu-icon" aria-hidden="true">{{ item.icon }}</span>
+                  <span>{{ t(item.label) }}</span>
+                </a>
+              }
+              @if (auth.isAdmin()) {
+                <mat-divider />
+                <button mat-menu-item type="button" disabled>
+                  <span class="material-symbols-rounded menu-icon" aria-hidden="true"
+                    >admin_panel_settings</span
+                  >
+                  <span>{{ t('nav.admin') }}</span>
+                </button>
+              }
+              <mat-divider />
+              <button mat-menu-item type="button" (click)="auth.logout()">
+                <span class="material-symbols-rounded menu-icon" aria-hidden="true">logout</span>
+                <span>{{ t('nav.logout') }}</span>
+              </button>
+            </mat-menu>
+          } @else {
+            <a mat-button routerLink="/auth/login" class="hide-mobile">{{ t('nav.login') }}</a>
+            <a mat-flat-button routerLink="/auth/register" class="ck-cta">{{ t('nav.register') }}</a>
+          }
+        </div>
+      </div>
+    </div>
+
+    <nav class="main-nav" [attr.aria-label]="t('a11y.mainNav')">
+      <ul class="container">
+        @for (item of nav(); track item.path) {
+          <li>
+            <a
+              [routerLink]="item.path"
+              routerLinkActive="active"
+              ariaCurrentWhenActive="page"
+              [routerLinkActiveOptions]="{ exact: !!item.exact }"
+            >
+              <span class="material-symbols-rounded" aria-hidden="true">{{ item.icon }}</span>
+              {{ t(item.label) }}
+            </a>
+          </li>
+        }
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <router-outlet />
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <span>© {{ year }} Cookivo</span>
+      <nav [attr.aria-label]="t('a11y.footerNav')">
+        <a routerLink="/legal/privacy">{{ t('legal.privacy') }}</a>
+        <a routerLink="/legal/terms">{{ t('legal.terms') }}</a>
+      </nav>
+    </div>
+  </footer>
+
+  <nav class="bottom-nav" [attr.aria-label]="t('a11y.mainNav')">
+    @for (item of bottomNav(); track item.path) {
+      <a
+        [routerLink]="item.path"
+        routerLinkActive="active"
+        ariaCurrentWhenActive="page"
+        [routerLinkActiveOptions]="{ exact: !!item.exact }"
+      >
+        <span class="material-symbols-rounded" aria-hidden="true">{{ item.icon }}</span>
+        <span class="label">{{ t(item.shortLabel ?? item.label) }}</span>
+      </a>
+    }
+  </nav>
+</ng-container>

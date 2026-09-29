@@ -1,0 +1,62 @@
+<ng-container *transloco="let t">
+  @switch (state()) {
+    @case ('verifying') {
+      <app-auth-shell icon="hourglass_top" [heading]="t('auth.verify.verifying')">
+        <mat-spinner diameter="40" [attr.aria-label]="t('common.loading')" />
+      </app-auth-shell>
+    }
+    @case ('success') {
+      <app-auth-shell
+        icon="verified"
+        [heading]="t('auth.verify.successTitle')"
+        [subheading]="t('auth.verify.successBody')"
+      >
+        @if (auth.isLoggedIn()) {
+          <a mat-flat-button class="ck-cta submit" routerLink="/">{{ t('auth.verify.toApp') }}</a>
+        } @else {
+          <a mat-flat-button class="ck-cta submit" routerLink="/auth/login">{{
+            t('auth.checkEmail.toLogin')
+          }}</a>
+        }
+      </app-auth-shell>
+    }
+    @case ('resent') {
+      <app-auth-shell
+        icon="mark_email_unread"
+        [heading]="t('auth.checkEmail.title')"
+        [subheading]="t('auth.verify.resent')"
+      />
+    }
+    @case ('invalid') {
+      <app-auth-shell
+        icon="link_off"
+        [heading]="t('auth.verify.invalidTitle')"
+        [subheading]="t('auth.verify.invalidBody')"
+      >
+        <form [formGroup]="resendForm" (ngSubmit)="resend()" novalidate>
+          @if (resendError(); as code) {
+            <div class="alert error" role="alert">
+              <span class="material-symbols-rounded" aria-hidden="true">error</span>
+              <span>{{ t('errors.' + code) }}</span>
+            </div>
+          }
+          <mat-form-field>
+            <mat-label>{{ t('auth.fields.email') }}</mat-label>
+            <input
+              matInput
+              type="email"
+              inputmode="email"
+              formControlName="email"
+              autocomplete="email"
+              required
+            />
+            @if (resendForm.controls.email.invalid) {
+              <mat-error>{{ t('errors.EMAIL_INVALID') }}</mat-error>
+            }
+          </mat-form-field>
+          <button mat-flat-button class="ck-cta submit" type="submit">{{ t('auth.verify.resend') }}</button>
+        </form>
+      </app-auth-shell>
+    }
+  }
+</ng-container>
