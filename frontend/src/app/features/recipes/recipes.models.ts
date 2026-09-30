@@ -15,7 +15,7 @@ export interface Photo {
 }
 
 export type Difficulty = 'EASY' | 'MEDIUM' | 'HARD';
-export type Visibility = 'PRIVATE' | 'PUBLIC';
+export type Visibility = 'PRIVATE' | 'HOUSEHOLD' | 'PUBLIC';
 
 export interface RecipeSummary {
   id: string;
@@ -85,6 +85,8 @@ export interface RecipeQuery {
   canBeIngredient?: boolean;
   mine?: boolean;
   forMe?: boolean;
+  forUs?: boolean;
+  household?: boolean;
   sort?: 'newest' | 'kcal' | 'time' | 'name' | 'forYou';
   lang?: string;
   page?: number;

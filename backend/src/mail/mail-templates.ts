@@ -121,24 +121,50 @@ const COPY = {
       footer: 'This is the last email from us.',
     },
   },
+  householdInvite: {
+    pl: {
+      subject: 'Zaproszenie do wspólnego gotowania w Cookivo',
+      heading: 'Cześć!',
+      body: '{inviter} zaprasza Cię do gospodarstwa „{household}” w Cookivo - będziecie razem planować posiłki i zakupy. Link jest ważny 7 dni.',
+      cta: 'Dołącz do gospodarstwa',
+      footer: 'Jeśli nie znasz tej osoby, zignoruj tę wiadomość.',
+    },
+    en: {
+      subject: 'Invitation to cook together on Cookivo',
+      heading: 'Hi!',
+      body: '{inviter} invites you to the household “{household}” on Cookivo - you will plan meals and shopping together. The link is valid for 7 days.',
+      cta: 'Join the household',
+      footer: "If you don't know this person, ignore this email.",
+    },
+  },
 } satisfies Record<string, Record<Locale, Copy>>;
 
 export type MailKind = keyof typeof COPY;
+
+export interface MailVars {
+  username: string;
+  url?: string;
+  /** Zaproszenie do gospodarstwa: kto zaprasza i dokąd */
+  inviter?: string;
+  household?: string;
+}
 
 function escapeHtml(value: string): string {
   return value.replace(/[&<>"']/g, (c) => `&#${c.charCodeAt(0)};`);
 }
 
-export function renderMail(
-  kind: MailKind,
-  locale: Locale,
-  vars: { username: string; url?: string },
-): MailContent {
+export function renderMail(kind: MailKind, locale: Locale, vars: MailVars): MailContent {
   const copy: Copy = COPY[kind][locale];
-  const fill = (s: string) => s.replace('{username}', vars.username);
+  const fill = (s: string) =>
+    s
+      .replaceAll('{username}', vars.username)
+      .replaceAll('{inviter}', vars.inviter ?? '')
+      .replaceAll('{household}', vars.household ?? '');
   const heading = fill(copy.heading);
 
-  const text = [heading, '', copy.body, '', vars.url ?? '', '', copy.footer, '', '— Cookivo'].join('\n');
+  const text = [heading, '', fill(copy.body), '', vars.url ?? '', '', copy.footer, '', '— Cookivo'].join(
+    '\n',
+  );
 
   const button =
     vars.url && copy.cta
@@ -151,7 +177,7 @@ export function renderMail(
     <div style="font-size:24px;font-weight:700;color:#E8704A;margin-bottom:24px">Cookivo</div>
     <div style="background:#fff;border-radius:16px;padding:28px;box-shadow:0 4px 20px rgba(46,42,38,.08)">
       <h1 style="font-size:20px;margin:0 0 12px">${escapeHtml(heading)}</h1>
-      <p style="line-height:1.6;margin:0">${escapeHtml(copy.body)}</p>
+      <p style="line-height:1.6;margin:0">${escapeHtml(fill(copy.body))}</p>
       ${button}
       <p style="font-size:13px;color:#6b625b;margin:0">${escapeHtml(copy.footer)}</p>
     </div>

@@ -37,3 +37,4 @@ Komunikacja z właścicielem projektu po polsku. Komentarze w kodzie też po pol
 - Dane o zdrowiu (profil, alergie) wymagają zgody `HEALTH_DATA` (`403 HEALTH_CONSENT_REQUIRED`); wycofanie zgody je usuwa.
 - Personalizacja list: `forMe` (domyślnie włączone dla zalogowanych, `?forMe=0` wyłącza) i sortowanie `forYou` - SQL w `backend/src/profile/personalization.ts`. Uwaga na NULL przy braku preferencji (`coalesce(..., false)`).
 - Ciasteczko refresh ma ścieżkę `/api/auth` - poza nią bieżącą sesję rozpoznaje się po `sid` w access tokenie (`AuthUser.sessionId`).
+- Gospodarstwa: jedno na osobę (`household_members.user_id` = PK), jeden właściciel (indeks częściowy). Przepisy `HOUSEHOLD` widzą domownicy (`householdMatesSql`, `canView(..., mates)`); przepis widoczny dla innych nie może używać prywatnych podprzepisów ani niezatwierdzonych składników. Alergie domownika tylko za jego zgodą `HOUSEHOLD_ALLERGIES` (`shareAllergies`); wycofanie zgody zdrowotnej ją wyłącza.

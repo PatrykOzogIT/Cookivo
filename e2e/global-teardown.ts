@@ -15,6 +15,9 @@ export default async function teardown() {
     await client.query(`DELETE FROM recipes WHERE author_id IN (${testUsers})`);
     await client.query(`DELETE FROM ingredients WHERE created_by_id IN (${testUsers})`);
     await client.query(`DELETE FROM users WHERE email LIKE '%@e2e.cookivo.test'`);
+    // Gospodarstwa, w których nie został nikt
+    await client.query(`DELETE FROM households h WHERE NOT EXISTS
+      (SELECT 1 FROM household_members m WHERE m.household_id = h.id)`);
   } finally {
     await client.end();
   }

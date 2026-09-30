@@ -27,7 +27,7 @@
     "profileShort": "Profile",
     "preferences": "Preferences & allergies",
     "myRecipes": "My recipes",
-    "household": "My household",
+    "household": "Household",
     "settings": "Account settings",
     "admin": "Admin panel",
     "logout": "Log out",
@@ -107,7 +107,12 @@
     "HEALTH_CONSENT_REQUIRED": "Please consent to the processing of health data first.",
     "AGE_OUT_OF_RANGE": "The calculator is intended for people aged 18–100.",
     "PASSWORD_INCORRECT": "The password is incorrect.",
-    "EMAIL_SAME": "This is already your email address."
+    "EMAIL_SAME": "This is already your email address.",
+    "ALREADY_IN_HOUSEHOLD": "You already belong to a household. To join another one, leave your current one first.",
+    "NOT_IN_HOUSEHOLD": "You don't belong to a household.",
+    "INVITE_INVALID": "This invitation has expired, was already used or was revoked. Ask for a new one.",
+    "HOUSEHOLD_FULL": "The household has reached its member limit.",
+    "TOO_MANY_INVITES": "You have too many active invitations. Revoke one or wait for it to expire."
   },
   "auth": {
     "fields": {
@@ -304,7 +309,8 @@
       "upToKcal": "up to {{kcal}} kcal",
       "upToMinutes": "up to {{minutes}} min",
       "other": "Other",
-      "canBeIngredient": "Can be an ingredient"
+      "canBeIngredient": "Can be an ingredient",
+      "household": "Our household recipes"
     },
     "units": {
       "serving": "serving"
@@ -372,7 +378,8 @@
       "canBeIngredientHint": "E.g. a stock, sauce or dough you will use in other recipes.",
       "cookedGrams": "Cooked weight (optional)",
       "cookedGramsHint": "Weigh the finished dish - values per 100 g will be more accurate.",
-      "submit": "Save recipe"
+      "submit": "Save recipe",
+      "household": "My household"
     },
     "cook": {
       "title": "Cooking mode",
@@ -395,7 +402,8 @@
       "timerDoneShort": "Done!",
       "screenOn": "The screen will stay on while cooking",
       "screenMayDim": "Your browser does not allow keeping the screen on"
-    }
+    },
+    "householdBadge": "Household"
   },
   "placeholder": {
     "body": "This section is under construction - it arrives in stage {{stage}}."
@@ -722,6 +730,67 @@
     "containsAllergens": "Contains your allergens: {{list}}",
     "allergenWarning": "Warning! This recipe contains allergens from your list: {{list}}.",
     "ingredientAllergenWarning": "This ingredient contains allergens from your list: {{list}}.",
-    "yourPreference": "Your preference"
+    "yourPreference": "Your preference",
+    "forUs": "For us",
+    "forUsHint": "Takes into account household members' shared allergies and ingredients someone doesn't eat"
+  },
+  "household": {
+    "lead": "Plan together: shared recipes and, in “For us” mode, suggestions that are safe for everyone at home.",
+    "name": "Household name",
+    "namePlaceholder": "e.g. Home, Flat on Main Street",
+    "rename": "Rename",
+    "membersCount": "Members: {{count}} of {{max}}",
+    "you": "you",
+    "owner": "Owner",
+    "allergiesHidden": "Doesn't share allergies",
+    "noAllergies": "No allergies",
+    "makeOwner": "Make owner",
+    "remove": "Remove",
+    "confirm": "Confirm",
+    "leaveConfirm": "Are you sure you want to leave the household?",
+    "leaveOwnerConfirm": "Are you sure you want to leave the household? The longest-standing member will become the owner.",
+    "removeConfirm": "Remove {{username}} from the household?",
+    "makeOwnerConfirm": "Make {{username}} the owner? You will become a regular member.",
+    "shareTitle": "My allergies in the household",
+    "shareLead": "If you agree, household members will see your allergies and intolerances, and “For us” mode will take them into account. You can withdraw consent at any time.",
+    "shareToggle": "Share my allergies with household members",
+    "shareNeedsConsent": "Save your allergies first - they are health data and require your consent.",
+    "inviteTitle": "Invite household members",
+    "inviteEmail": "Email address",
+    "sendInvite": "Send invitation",
+    "inviteSent": "We sent an invitation to {{email}}.",
+    "orLink": "or send a link, e.g. in a messenger:",
+    "createLink": "Create an invitation link",
+    "linkLabel": "Invitation link",
+    "copy": "Copy",
+    "share": "Share",
+    "copied": "Copied",
+    "linkHint": "The link works for 7 days and for one person only. We won't show it again - create a new one if needed.",
+    "activeInvites": "Active invitations",
+    "linkInvite": "Invitation link",
+    "expires": "Valid until {{date}}",
+    "revoke": "Revoke",
+    "leaveTitle": "Leave the household",
+    "leaveLead": "Your “household” recipes will no longer be visible to the other members.",
+    "leave": "Leave household",
+    "createTitle": "Create a household",
+    "benefits": {
+      "plan": "A shared meal plan and shopping list (coming in later versions).",
+      "allergies": "“For us” mode - recipes free of every member’s allergens (with their consent).",
+      "recipes": "Family recipes visible only to household members."
+    },
+    "create": "Create",
+    "haveInvite": "Got an invitation? Open the link someone sent you - you can join with one click.",
+    "join": {
+      "pageTitle": "Household invitation",
+      "checking": "Checking the invitation…",
+      "title": "Invitation to “{{name}}”",
+      "invitedBy": "{{username}} invites you to plan meals together. Members: {{count}}.",
+      "members": "Members: {{count}}.",
+      "accept": "Join",
+      "toMine": "Go to my household",
+      "loginFirst": "Sign in to join. Don't have an account? Create one, then open this link again.",
+      "invalidTitle": "This invitation is invalid"
+    }
   }
 }

@@ -1,0 +1,157 @@
+.title-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  h2 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+  }
+}
+
+.rename,
+.invite {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin: 8px 0;
+  mat-form-field {
+    flex: 1 1 260px;
+    max-width: 420px;
+  }
+}
+
+.members,
+.invites {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.members li {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--ck-border);
+}
+
+.avatar {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--ck-accent-from), var(--ck-accent-to));
+  color: var(--ck-cta-text);
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+.role {
+  margin-left: 8px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--ck-sage-bg);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.allergies {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+.chip {
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid var(--ck-border);
+  font-size: 0.75rem;
+  font-weight: 600;
+  &.allergy {
+    border-color: color-mix(in srgb, var(--ck-danger) 45%, var(--ck-border));
+    color: var(--ck-danger);
+  }
+}
+
+.small {
+  font-size: 0.8rem;
+}
+
+.member-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 4px;
+}
+
+.confirm {
+  margin-top: 16px;
+  padding: 12px 14px;
+  border-radius: var(--ck-radius-sm);
+  background: var(--ck-surface-2);
+  p {
+    margin: 0;
+  }
+}
+
+.or {
+  margin: 16px 0 8px;
+  color: var(--ck-text-muted);
+}
+
+.link-box mat-form-field {
+  width: 100%;
+  max-width: 560px;
+}
+
+h3 {
+  margin: 20px 0 8px;
+  font-size: 1rem;
+}
+
+.invites li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--ck-border);
+  small {
+    display: block;
+  }
+}
+
+.start {
+  max-width: 720px;
+  .icon {
+    font-size: 40px;
+    width: auto;
+    height: auto;
+    color: var(--ck-link);
+  }
+  .benefits {
+    padding-left: 20px;
+    li {
+      margin: 6px 0;
+    }
+  }
+}
+
+@media (max-width: 599.98px) {
+  .members li {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+  .member-actions {
+    grid-column: 1 / -1;
+    justify-content: flex-start;
+  }
+}

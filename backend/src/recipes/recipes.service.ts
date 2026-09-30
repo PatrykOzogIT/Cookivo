@@ -10,7 +10,8 @@ import { normalizeSearch } from '../common/text.js';
 import { Prisma } from '../generated/prisma/client.js';
 import { containsProfanity } from '../moderation/profanity.js';
 import { PhotosService, toPhotoDto } from '../photos/photos.service.js';
-import { recipeForMe, recipeScore } from '../profile/personalization.js';
+import { HouseholdService } from '../household/household.service.js';
+import { householdMatesSql, recipeForMe, recipeForUsers, recipeScore } from '../profile/personalization.js';
 import { PrismaService } from '../prisma/prisma.service.js';
 import { ingredientForMath, RecipeCalculatorService, subRecipeForMath } from './recipe-calculator.service.js';
 import { derivedNutrition, gramsFor, type NutritionValues } from './recipe-math.js';
@@ -58,6 +59,7 @@ export class RecipesService {
     private readonly prisma: PrismaService,
     private readonly calculator: RecipeCalculatorService,
     private readonly photos: PhotosService,
+    private readonly household: HouseholdService,
   ) {}
 
   async list(query: ListRecipesQuery, user?: AuthUser) {
@@ -66,9 +68,14 @@ export class RecipesService {
     else if (!isAdmin(user)) {
       c.push(
         user
-          ? Prisma.sql`((r.visibility = 'PUBLIC' AND r.hidden_at IS NULL) OR r.author_id = ${user.id}::uuid)`
+          ? Prisma.sql`((r.visibility = 'PUBLIC' AND r.hidden_at IS NULL) OR r.author_id = ${user.id}::uuid
+              OR (r.visibility = 'HOUSEHOLD' AND r.hidden_at IS NULL AND r.author_id IN ${householdMatesSql(user.id)}))`
           : Prisma.sql`(r.visibility = 'PUBLIC' AND r.hidden_at IS NULL)`,
       );
+    }
+    if (query.household && user) {
+      c.push(Prisma.sql`r.visibility = 'HOUSEHOLD'
+        AND (r.author_id = ${user.id}::uuid OR r.author_id IN ${householdMatesSql(user.id)})`);
     }
     if (query.mealTypes?.length) {
       c.push(Prisma.sql`EXISTS (SELECT 1 FROM recipe_meal_types m
@@ -83,7 +90,10 @@ export class RecipesService {
       c.push(Prisma.sql`coalesce(r.prep_minutes, 0) + coalesce(r.cook_minutes, 0) <= ${query.maxMinutes}`);
     }
     if (query.canBeIngredient) c.push(Prisma.sql`r.can_be_ingredient = true`);
-    if (query.forMe && user) c.push(recipeForMe(user.id));
+    // "Dla nas" ma pierwszeństwo przed "Dla mnie" (obejmuje też mnie)
+    const us = query.forUs && user ? await this.household.forUsContext(user.id) : null;
+    if (us) c.push(recipeForUsers(us.allergenUserIds, us.memberIds));
+    else if (query.forMe && user) c.push(recipeForMe(user.id));
 
     const collate = query.lang === 'en' ? Prisma.sql`"en-x-icu"` : Prisma.sql`"pl-x-icu"`;
     const orders: Record<ListRecipesQuery['sort'], Prisma.Sql> = {
@@ -92,7 +102,7 @@ export class RecipesService {
       time: Prisma.sql`coalesce(r.prep_minutes, 0) + coalesce(r.cook_minutes, 0) ASC`,
       name: Prisma.sql`r.title COLLATE ${collate}`,
       forYou: user
-        ? Prisma.sql`${recipeScore(user.id)} DESC, r.created_at DESC`
+        ? Prisma.sql`(${Prisma.join((us?.memberIds ?? [user.id]).map(recipeScore), ' + ')}) DESC, r.created_at DESC`
         : Prisma.sql`r.created_at DESC`,
     };
     let order = orders[query.sort];
@@ -124,9 +134,12 @@ export class RecipesService {
   }
 
   async get(id: string, user?: AuthUser) {
-    const recipe = await this.prisma.recipe.findUnique({ where: { id }, include: DETAIL_INCLUDE });
-    if (!recipe || !canView(recipe, user)) throw new NotFoundException({ code: 'NOT_FOUND' });
-    return toDetailDto(recipe, user, await this.myAllergens(user));
+    const [recipe, mates] = await Promise.all([
+      this.prisma.recipe.findUnique({ where: { id }, include: DETAIL_INCLUDE }),
+      this.mates(user),
+    ]);
+    if (!recipe || !canView(recipe, user, mates)) throw new NotFoundException({ code: 'NOT_FOUND' });
+    return toDetailDto(recipe, user, await this.myAllergens(user), mates);
   }
 
   async create(dto: SaveRecipeDto, user: AuthUser) {
@@ -146,7 +159,9 @@ export class RecipesService {
 
   async update(id: string, dto: SaveRecipeDto, user: AuthUser) {
     const existing = await this.prisma.recipe.findUnique({ where: { id } });
-    if (!existing || !canView(existing, user)) throw new NotFoundException({ code: 'NOT_FOUND' });
+    if (!existing || !canView(existing, user, await this.mates(user))) {
+      throw new NotFoundException({ code: 'NOT_FOUND' });
+    }
     if (!canEdit(existing, user)) throw new ForbiddenException({ code: 'FORBIDDEN' });
     await this.assertNotBreakingOthers(existing, dto);
 
@@ -166,7 +181,9 @@ export class RecipesService {
       where: { id },
       include: { photos: { select: { id: true } }, _count: { select: { usedIn: true } } },
     });
-    if (!existing || !canView(existing, user)) throw new NotFoundException({ code: 'NOT_FOUND' });
+    if (!existing || !canView(existing, user, await this.mates(user))) {
+      throw new NotFoundException({ code: 'NOT_FOUND' });
+    }
     if (!canEdit(existing, user)) throw new ForbiddenException({ code: 'FORBIDDEN' });
     if (existing._count.usedIn > 0) throw new ConflictException({ code: 'RECIPE_IN_USE' });
     await this.prisma.recipe.delete({ where: { id } });
@@ -183,6 +200,11 @@ export class RecipesService {
         : { hiddenAt: null, hiddenById: null, hiddenReason: null },
     });
     return this.get(id, admin);
+  }
+
+  /** Domownicy zalogowanego - widzą nawzajem swoje przepisy "dla gospodarstwa" */
+  private async mates(user?: AuthUser): Promise<Set<string>> {
+    return new Set(user ? await this.household.mateIds(user.id) : []);
   }
 
   /** Kody alergenów zalogowanego - do ostrzeżeń "zawiera Twój alergen" */
@@ -264,14 +286,18 @@ export class RecipesService {
   ) {
     const ingredientIds = dto.ingredients.flatMap((l) => (l.ingredientId ? [l.ingredientId] : []));
     const subIds = dto.ingredients.flatMap((l) => (l.subRecipeId ? [l.subRecipeId] : []));
-    const [ingredients, subs, unitMl] = await Promise.all([
+    const [ingredients, subs, unitMl, mates] = await Promise.all([
       tx.ingredient.findMany({ where: { id: { in: ingredientIds } }, include: { units: true } }),
       tx.recipe.findMany({ where: { id: { in: subIds } } }),
       this.calculator.unitMl(tx),
+      this.mates(user),
     ]);
     const ingredientById = new Map(ingredients.map((i) => [i.id, i]));
     const subById = new Map(subs.map((s) => [s.id, s]));
     const isPublic = dto.visibility === 'PUBLIC';
+    // Przepis widoczny dla innych (publiczny lub dla gospodarstwa) nie może opierać się na rzeczach,
+    // których ci inni nie zobaczą
+    const isShared = dto.visibility !== 'PRIVATE';
 
     if (!isNew && subIds.length) await this.assertNoCycle(tx, recipeId, subIds);
 
@@ -286,14 +312,15 @@ export class RecipesService {
         const ing = ingredientById.get(line.ingredientId);
         const visible = ing && (ing.status === 'APPROVED' || isAdmin(user) || ing.createdById === user.id);
         if (!ing || !visible) return fail('INGREDIENT_UNKNOWN');
-        // W przepisie publicznym tylko zatwierdzone składniki - inni nie widzą oczekujących
-        if (isPublic && ing.status !== 'APPROVED') fail('INGREDIENT_NOT_APPROVED');
+        // W przepisie widocznym dla innych tylko zatwierdzone składniki - inni nie widzą oczekujących
+        if (isShared && ing.status !== 'APPROVED') fail('INGREDIENT_NOT_APPROVED');
         grams = gramsFor(line.amount, line.unitCode, { ingredient: ingredientForMath(ing) }, unitMl);
       } else {
         const sub = subById.get(line.subRecipeId!);
-        if (!sub || sub.id === recipeId || !canView(sub, user)) return fail('SUBRECIPE_UNKNOWN');
+        if (!sub || sub.id === recipeId || !canView(sub, user, mates)) return fail('SUBRECIPE_UNKNOWN');
         if (!sub.canBeIngredient) fail('SUBRECIPE_NOT_ALLOWED');
         if (isPublic && (sub.visibility !== 'PUBLIC' || sub.hiddenAt)) fail('SUBRECIPE_PRIVATE');
+        if (isShared && (sub.visibility === 'PRIVATE' || sub.hiddenAt)) fail('SUBRECIPE_PRIVATE');
         grams = gramsFor(line.amount, line.unitCode, { subRecipe: subRecipeForMath(sub) }, unitMl);
       }
       if (grams === 'UNIT_NOT_ALLOWED') return fail('UNIT_NOT_ALLOWED');
@@ -362,7 +389,10 @@ export class RecipesService {
       const used = await this.prisma.recipeIngredient.count({ where: { subRecipeId: existing.id } });
       if (used) throw new ConflictException({ code: 'RECIPE_IN_USE' });
     }
-    if (existing.visibility === 'PUBLIC' && dto.visibility === 'PRIVATE') {
+    // Zawężenie widoczności (publiczny, grupa, prywatny) - nie, jeśli używają go przepisy innych autorów
+    if (
+      VISIBILITY_RANK[dto.visibility] < VISIBILITY_RANK[existing.visibility as SaveRecipeDto['visibility']]
+    ) {
       const usedByOthers = await this.prisma.recipeIngredient.count({
         where: {
           subRecipeId: existing.id,
@@ -376,10 +406,18 @@ export class RecipesService {
 
 // --- Uprawnienia --------------------------------------------------------------
 
-function canView(r: { visibility: string; hiddenAt: Date | null; authorId: string | null }, user?: AuthUser) {
+const VISIBILITY_RANK: Record<SaveRecipeDto['visibility'], number> = { PRIVATE: 0, HOUSEHOLD: 1, PUBLIC: 2 };
+
+function canView(
+  r: { visibility: string; hiddenAt: Date | null; authorId: string | null },
+  user?: AuthUser,
+  mates: Set<string> = new Set(),
+) {
   if (isAdmin(user)) return true;
   if (user && r.authorId === user.id) return true;
-  return r.visibility === 'PUBLIC' && !r.hiddenAt;
+  if (r.hiddenAt) return false;
+  if (r.visibility === 'HOUSEHOLD') return !!r.authorId && mates.has(r.authorId);
+  return r.visibility === 'PUBLIC';
 }
 
 function canEdit(r: { authorId: string | null }, user?: AuthUser) {
@@ -446,7 +484,12 @@ function toListDto(r: ListRow, user?: AuthUser, myAllergens = new Set<string>())
   };
 }
 
-function toDetailDto(r: DetailRow, user?: AuthUser, myAllergens = new Set<string>()) {
+function toDetailDto(
+  r: DetailRow,
+  user?: AuthUser,
+  myAllergens = new Set<string>(),
+  mates: Set<string> = new Set(),
+) {
   const own = !!user && r.authorId === user.id;
   const derived = derivedNutrition({
     totals: totals(r),
@@ -484,7 +527,7 @@ function toDetailDto(r: DetailRow, user?: AuthUser, myAllergens = new Set<string
             title: l.subRecipe.title,
             servings: l.subRecipe.servings,
             // Link tylko, jeśli czytający może zobaczyć podprzepis
-            viewable: canView(l.subRecipe, user),
+            viewable: canView(l.subRecipe, user, mates),
           }
         : null,
     })),

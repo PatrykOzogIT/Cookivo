@@ -1,0 +1,270 @@
+<div class="page" *transloco="let t">
+  <h1>{{ t('nav.household') }}</h1>
+  <p class="lead">{{ t('household.lead') }}</p>
+
+  <ng-template #confirmBox let-c>
+    <div class="confirm" role="alert">
+      <p>
+        @switch (c.kind) {
+          @case ('leave') {
+            {{
+              t(
+                isOwner() && (household()?.members?.length ?? 0) > 1
+                  ? 'household.leaveOwnerConfirm'
+                  : 'household.leaveConfirm'
+              )
+            }}
+          }
+          @case ('remove') {
+            {{ t('household.removeConfirm', { username: c.member.username }) }}
+          }
+          @case ('owner') {
+            {{ t('household.makeOwnerConfirm', { username: c.member.username }) }}
+          }
+        }
+      </p>
+      <div class="row">
+        <button
+          mat-flat-button
+          type="button"
+          [class.danger-fill]="c.kind !== 'owner'"
+          [class.ck-cta]="c.kind === 'owner'"
+          (click)="confirmAction()"
+          [disabled]="busy()"
+        >
+          {{ t('household.confirm') }}
+        </button>
+        <button mat-button type="button" (click)="confirm.set(null)">{{ t('common.cancel') }}</button>
+      </div>
+    </div>
+  </ng-template>
+
+  @if (error(); as code) {
+    <div class="alert" role="alert">{{ t('errors.' + code) }}</div>
+  }
+
+  @if (loading()) {
+    <mat-progress-bar mode="indeterminate" [attr.aria-label]="t('common.loading')" />
+  } @else if (household(); as h) {
+    <!-- Nazwa i członkowie -->
+    <section class="ck-card box" aria-labelledby="members-title">
+      <div class="title-row">
+        @if (renaming()) {
+          <form class="rename" [formGroup]="renameForm" (ngSubmit)="rename()" novalidate>
+            <mat-form-field subscriptSizing="dynamic">
+              <mat-label>{{ t('household.name') }}</mat-label>
+              <input matInput formControlName="name" maxlength="60" autocomplete="off" required />
+            </mat-form-field>
+            <button mat-flat-button class="ck-cta" type="submit" [disabled]="busy()">
+              {{ t('common.save') }}
+            </button>
+            <button mat-button type="button" (click)="renaming.set(false)">{{ t('common.cancel') }}</button>
+          </form>
+        } @else {
+          <h2 id="members-title">
+            <span class="material-symbols-rounded" aria-hidden="true">cottage</span>{{ h.name }}
+          </h2>
+          @if (isOwner()) {
+            <button mat-button type="button" (click)="startRename()">
+              <span class="material-symbols-rounded" aria-hidden="true">edit</span>{{ t('household.rename') }}
+            </button>
+          }
+        }
+      </div>
+      <p class="muted">{{ t('household.membersCount', { count: h.members.length, max: h.maxMembers }) }}</p>
+
+      <ul class="members">
+        @for (m of h.members; track m.userId) {
+          <li>
+            <span class="avatar" aria-hidden="true">{{ m.username.slice(0, 2).toUpperCase() }}</span>
+            <div class="who">
+              <strong>{{ m.username }}</strong>
+              @if (m.isMe) {
+                <span class="muted"> ({{ t('household.you') }})</span>
+              }
+              @if (m.role === 'OWNER') {
+                <span class="role">{{ t('household.owner') }}</span>
+              }
+              <div class="allergies">
+                @if (m.allergens === null) {
+                  <span class="muted small">{{ t('household.allergiesHidden') }}</span>
+                } @else if (m.allergens.length === 0) {
+                  <span class="muted small">{{ t('household.noAllergies') }}</span>
+                } @else {
+                  @for (a of m.allergens; track a.code) {
+                    <span class="chip" [class.allergy]="a.severity === 'ALLERGY'">
+                      {{ a | localized: lang() }} · {{ t('profile.allergies.' + a.severity) }}
+                    </span>
+                  }
+                }
+              </div>
+            </div>
+            @if (isOwner() && !m.isMe) {
+              <div class="member-actions">
+                <button mat-button type="button" (click)="confirm.set({ kind: 'owner', member: m })">
+                  {{ t('household.makeOwner') }}
+                </button>
+                <button
+                  mat-button
+                  type="button"
+                  class="danger"
+                  (click)="confirm.set({ kind: 'remove', member: m })"
+                >
+                  {{ t('household.remove') }}
+                </button>
+              </div>
+            }
+          </li>
+        }
+      </ul>
+
+      @if (confirm(); as c) {
+        @if (c.kind !== 'leave') {
+          <ng-container *ngTemplateOutlet="confirmBox; context: { $implicit: c }" />
+        }
+      }
+    </section>
+
+    <!-- Moje alergie w grupie -->
+    <section class="ck-card box" aria-labelledby="share-title">
+      <h2 id="share-title">{{ t('household.shareTitle') }}</h2>
+      <p class="muted">{{ t('household.shareLead') }}</p>
+      @if (healthConsent()) {
+        <mat-slide-toggle
+          [checked]="me()?.shareAllergies ?? false"
+          (change)="setShare($event.checked)"
+          [disabled]="busy()"
+        >
+          {{ t('household.shareToggle') }}
+        </mat-slide-toggle>
+      } @else {
+        <p>{{ t('household.shareNeedsConsent') }}</p>
+        <a mat-stroked-button routerLink="/preferences">{{ t('nav.preferences') }}</a>
+      }
+    </section>
+
+    <!-- Zaproszenia (właściciel) -->
+    @if (isOwner()) {
+      <section class="ck-card box" aria-labelledby="invite-title">
+        <h2 id="invite-title">{{ t('household.inviteTitle') }}</h2>
+        @if (full()) {
+          <p class="muted">{{ t('errors.HOUSEHOLD_FULL') }}</p>
+        } @else {
+          <form class="invite" [formGroup]="inviteForm" (ngSubmit)="sendInvite()" novalidate>
+            <mat-form-field subscriptSizing="dynamic">
+              <mat-label>{{ t('household.inviteEmail') }}</mat-label>
+              <input
+                matInput
+                type="email"
+                inputmode="email"
+                formControlName="email"
+                autocomplete="off"
+                required
+              />
+            </mat-form-field>
+            <button mat-flat-button class="ck-cta" type="submit" [disabled]="busy()">
+              <span class="material-symbols-rounded" aria-hidden="true">send</span
+              >{{ t('household.sendInvite') }}
+            </button>
+          </form>
+          @if (emailSent(); as email) {
+            <p class="ok" role="status">
+              <span class="material-symbols-rounded" aria-hidden="true">check_circle</span
+              >{{ t('household.inviteSent', { email }) }}
+            </p>
+          }
+
+          <p class="or">{{ t('household.orLink') }}</p>
+          @if (createdLink(); as link) {
+            <div class="link-box">
+              <mat-form-field subscriptSizing="dynamic">
+                <mat-label>{{ t('household.linkLabel') }}</mat-label>
+                <input matInput [value]="link.url" readonly (focus)="$any($event.target).select()" />
+              </mat-form-field>
+              <div class="row">
+                <button mat-flat-button class="ck-cta" type="button" (click)="copyLink(link.url)">
+                  <span class="material-symbols-rounded" aria-hidden="true">content_copy</span
+                  >{{ t('household.copy') }}
+                </button>
+                @if (canShare()) {
+                  <button mat-stroked-button type="button" (click)="shareLink(link.url, h.name)">
+                    <span class="material-symbols-rounded" aria-hidden="true">share</span
+                    >{{ t('household.share') }}
+                  </button>
+                }
+                @if (copied()) {
+                  <span class="ok" role="status">{{ t('household.copied') }}</span>
+                }
+              </div>
+              <p class="muted small">{{ t('household.linkHint') }}</p>
+            </div>
+          } @else {
+            <button mat-stroked-button type="button" (click)="createLink()" [disabled]="busy()">
+              <span class="material-symbols-rounded" aria-hidden="true">link</span
+              >{{ t('household.createLink') }}
+            </button>
+          }
+        }
+
+        @if (h.invites.length) {
+          <h3>{{ t('household.activeInvites') }}</h3>
+          <ul class="invites">
+            @for (i of h.invites; track i.id) {
+              <li>
+                <div>
+                  <strong>{{ i.email ?? t('household.linkInvite') }}</strong>
+                  <small class="muted">{{
+                    t('household.expires', { date: i.expiresAt.slice(0, 10) })
+                  }}</small>
+                </div>
+                <button mat-button type="button" (click)="revokeInvite(i.id)" [disabled]="busy()">
+                  {{ t('household.revoke') }}
+                </button>
+              </li>
+            }
+          </ul>
+        }
+      </section>
+    }
+
+    <section class="ck-card box" aria-labelledby="leave-title">
+      <h2 id="leave-title">{{ t('household.leaveTitle') }}</h2>
+      <p class="muted">{{ t('household.leaveLead') }}</p>
+      @if (confirm()?.kind === 'leave') {
+        <ng-container *ngTemplateOutlet="confirmBox; context: { $implicit: confirm() }" />
+      } @else {
+        <button mat-stroked-button type="button" class="danger" (click)="confirm.set({ kind: 'leave' })">
+          {{ t('household.leave') }}
+        </button>
+      }
+    </section>
+  } @else {
+    <!-- Brak gospodarstwa -->
+    <section class="ck-card box start" aria-labelledby="create-title">
+      <span class="material-symbols-rounded icon" aria-hidden="true">diversity_3</span>
+      <h2 id="create-title">{{ t('household.createTitle') }}</h2>
+      <ul class="benefits">
+        <li>{{ t('household.benefits.plan') }}</li>
+        <li>{{ t('household.benefits.allergies') }}</li>
+        <li>{{ t('household.benefits.recipes') }}</li>
+      </ul>
+      <form class="invite" [formGroup]="createForm" (ngSubmit)="create()" novalidate>
+        <mat-form-field subscriptSizing="dynamic">
+          <mat-label>{{ t('household.name') }}</mat-label>
+          <input
+            matInput
+            formControlName="name"
+            maxlength="60"
+            autocomplete="off"
+            [placeholder]="t('household.namePlaceholder')"
+            required
+          />
+        </mat-form-field>
+        <button mat-flat-button class="ck-cta" type="submit" [disabled]="busy()">
+          {{ t('household.create') }}
+        </button>
+      </form>
+      <p class="muted">{{ t('household.haveInvite') }}</p>
+    </section>
+  }
+</div>

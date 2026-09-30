@@ -30,6 +30,11 @@ describe('Pliki tłumaczeń', () => {
 
   it('każdy kod błędu z backendu ma tłumaczenie', () => {
     const backendCodes = [
+      'ALREADY_IN_HOUSEHOLD',
+      'NOT_IN_HOUSEHOLD',
+      'INVITE_INVALID',
+      'HOUSEHOLD_FULL',
+      'TOO_MANY_INVITES',
       'HEALTH_CONSENT_REQUIRED',
       'AGE_OUT_OF_RANGE',
       'PASSWORD_INCORRECT',

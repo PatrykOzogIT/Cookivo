@@ -27,7 +27,7 @@
     "profileShort": "Profil",
     "preferences": "Preferencje i alergie",
     "myRecipes": "Moje przepisy",
-    "household": "Moja grupa",
+    "household": "Gospodarstwo domowe",
     "settings": "Ustawienia konta",
     "admin": "Panel administracyjny",
     "logout": "Wyloguj",
@@ -107,7 +107,12 @@
     "HEALTH_CONSENT_REQUIRED": "Najpierw wyraź zgodę na przetwarzanie danych o zdrowiu.",
     "AGE_OUT_OF_RANGE": "Kalkulator jest przeznaczony dla osób w wieku 18–100 lat.",
     "PASSWORD_INCORRECT": "Hasło jest nieprawidłowe.",
-    "EMAIL_SAME": "To jest Twój obecny adres e-mail."
+    "EMAIL_SAME": "To jest Twój obecny adres e-mail.",
+    "ALREADY_IN_HOUSEHOLD": "Należysz już do gospodarstwa. Aby dołączyć do innego, najpierw opuść obecne.",
+    "NOT_IN_HOUSEHOLD": "Nie należysz do żadnego gospodarstwa.",
+    "INVITE_INVALID": "Zaproszenie wygasło, zostało już użyte albo odwołane. Poproś o nowe.",
+    "HOUSEHOLD_FULL": "Gospodarstwo osiągnęło limit osób.",
+    "TOO_MANY_INVITES": "Masz zbyt wiele aktywnych zaproszeń. Odwołaj któreś albo poczekaj, aż wygaśnie."
   },
   "auth": {
     "fields": {
@@ -304,7 +309,8 @@
       "upToKcal": "do {{kcal}} kcal",
       "upToMinutes": "do {{minutes}} min",
       "other": "Inne",
-      "canBeIngredient": "Może być składnikiem"
+      "canBeIngredient": "Może być składnikiem",
+      "household": "Przepisy naszego gospodarstwa"
     },
     "units": {
       "serving": "porcja"
@@ -372,7 +378,8 @@
       "canBeIngredientHint": "Np. rosół, sos albo ciasto, których użyjesz w innych przepisach.",
       "cookedGrams": "Waga po ugotowaniu (opcjonalnie)",
       "cookedGramsHint": "Zważ gotową potrawę - wartości na 100 g będą dokładniejsze.",
-      "submit": "Zapisz przepis"
+      "submit": "Zapisz przepis",
+      "household": "Moje gospodarstwo"
     },
     "cook": {
       "title": "Tryb gotowania",
@@ -395,7 +402,8 @@
       "timerDoneShort": "Gotowe!",
       "screenOn": "Ekran nie zgaśnie podczas gotowania",
       "screenMayDim": "Przeglądarka nie pozwala utrzymać włączonego ekranu"
-    }
+    },
+    "householdBadge": "Dla gospodarstwa"
   },
   "placeholder": {
     "body": "Ta sekcja powstaje - pojawi się w etapie {{stage}}."
@@ -722,6 +730,67 @@
     "containsAllergens": "Zawiera Twoje alergeny: {{list}}",
     "allergenWarning": "Uwaga! Ten przepis zawiera alergeny z Twojej listy: {{list}}.",
     "ingredientAllergenWarning": "Ten składnik zawiera alergeny z Twojej listy: {{list}}.",
-    "yourPreference": "Twoja preferencja"
+    "yourPreference": "Twoja preferencja",
+    "forUs": "Dla nas",
+    "forUsHint": "Uwzględnia udostępnione alergie domowników i składniki, których ktoś nie je"
+  },
+  "household": {
+    "lead": "Planujcie razem: wspólne przepisy, a w trybie „Dla nas” - propozycje bezpieczne dla każdego domownika.",
+    "name": "Nazwa gospodarstwa",
+    "namePlaceholder": "np. Dom, Mieszkanie na Mokotowie",
+    "rename": "Zmień nazwę",
+    "membersCount": "Osoby: {{count}} z {{max}}",
+    "you": "ty",
+    "owner": "Właściciel",
+    "allergiesHidden": "Nie udostępnia alergii",
+    "noAllergies": "Brak alergii",
+    "makeOwner": "Przekaż rolę właściciela",
+    "remove": "Usuń",
+    "confirm": "Potwierdź",
+    "leaveConfirm": "Na pewno chcesz opuścić gospodarstwo?",
+    "leaveOwnerConfirm": "Na pewno chcesz opuścić gospodarstwo? Rolę właściciela przejmie osoba, która jest w nim najdłużej.",
+    "removeConfirm": "Usunąć {{username}} z gospodarstwa?",
+    "makeOwnerConfirm": "Przekazać rolę właściciela użytkownikowi {{username}}? Ty zostaniesz zwykłym członkiem.",
+    "shareTitle": "Moje alergie w gospodarstwie",
+    "shareLead": "Jeśli się zgodzisz, domownicy zobaczą Twoje alergie i nietolerancje, a tryb „Dla nas” będzie je uwzględniał. Zgodę możesz wycofać w każdej chwili.",
+    "shareToggle": "Udostępniaj moje alergie domownikom",
+    "shareNeedsConsent": "Najpierw zapisz swoje alergie - to dane o zdrowiu i wymagają Twojej zgody.",
+    "inviteTitle": "Zaproś domowników",
+    "inviteEmail": "Adres e-mail",
+    "sendInvite": "Wyślij zaproszenie",
+    "inviteSent": "Wysłaliśmy zaproszenie na {{email}}.",
+    "orLink": "albo wyślij link, np. w komunikatorze:",
+    "createLink": "Utwórz link z zaproszeniem",
+    "linkLabel": "Link z zaproszeniem",
+    "copy": "Kopiuj",
+    "share": "Udostępnij",
+    "copied": "Skopiowano",
+    "linkHint": "Link działa 7 dni i tylko dla jednej osoby. Nie pokażemy go ponownie - w razie potrzeby utwórz nowy.",
+    "activeInvites": "Aktywne zaproszenia",
+    "linkInvite": "Link z zaproszeniem",
+    "expires": "Ważne do {{date}}",
+    "revoke": "Odwołaj",
+    "leaveTitle": "Opuść gospodarstwo",
+    "leaveLead": "Twoje przepisy „dla gospodarstwa” przestaną być widoczne dla pozostałych osób.",
+    "leave": "Opuść gospodarstwo",
+    "createTitle": "Załóż gospodarstwo domowe",
+    "benefits": {
+      "plan": "Wspólny plan posiłków i lista zakupów (w kolejnych wersjach).",
+      "allergies": "Tryb „Dla nas” - przepisy bez alergenów każdego domownika (za jego zgodą).",
+      "recipes": "Rodzinne przepisy widoczne tylko dla domowników."
+    },
+    "create": "Załóż",
+    "haveInvite": "Masz zaproszenie? Otwórz otrzymany link - dołączysz jednym kliknięciem.",
+    "join": {
+      "pageTitle": "Zaproszenie do gospodarstwa",
+      "checking": "Sprawdzamy zaproszenie…",
+      "title": "Zaproszenie do „{{name}}”",
+      "invitedBy": "{{username}} zaprasza Cię do wspólnego planowania posiłków. Osoby w gospodarstwie: {{count}}.",
+      "members": "Osoby w gospodarstwie: {{count}}.",
+      "accept": "Dołącz",
+      "toMine": "Przejdź do mojego gospodarstwa",
+      "loginFirst": "Zaloguj się, aby dołączyć. Nie masz konta? Załóż je, a potem otwórz ten link ponownie.",
+      "invalidTitle": "Zaproszenie jest nieważne"
+    }
   }
 }

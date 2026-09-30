@@ -91,6 +91,23 @@ export const routes: Routes = [
     data: { titleKey: 'nav.preferences' },
   },
   {
+    path: 'household',
+    children: [
+      {
+        path: 'join',
+        data: { titleKey: 'household.join.pageTitle' },
+        loadComponent: () => import('./features/household/join-page').then((m) => m.HouseholdJoinPage),
+      },
+      {
+        path: '',
+        canMatch: [authGuard],
+        data: { titleKey: 'nav.household' },
+        loadComponent: () => import('./features/household/household-page').then((m) => m.HouseholdPage),
+      },
+    ],
+  },
+  { path: 'my-recipes', redirectTo: '/recipes?mine=1' },
+  {
     path: 'settings',
     canMatch: [authGuard],
     loadComponent: () => import('./features/profile/settings-page').then((m) => m.SettingsPage),
@@ -148,8 +165,6 @@ export const routes: Routes = [
       ['shopping', 'nav.shopping', 'shopping_cart', 7],
       ['pantry', 'nav.pantry', 'kitchen', 7],
       ['prices', 'nav.prices', 'sell', 7],
-      ['my-recipes', 'nav.myRecipes', 'menu_book', 3],
-      ['household', 'nav.household', 'group', 5],
     ] as const
   ).map(([path, titleKey, icon, stage]) => ({
     path,

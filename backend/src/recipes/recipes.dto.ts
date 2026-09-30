@@ -84,6 +84,18 @@ export class ListRecipesQuery {
   @IsBoolean()
   forMe?: boolean;
 
+  /** Dopasuj do całego gospodarstwa (alergie udostępnione przez domowników, ich "nie proponuj") */
+  @IsOptional()
+  @Transform(toBool)
+  @IsBoolean()
+  forUs?: boolean;
+
+  /** Tylko przepisy "dla gospodarstwa" (moje i domowników) */
+  @IsOptional()
+  @Transform(toBool)
+  @IsBoolean()
+  household?: boolean;
+
   @IsOptional()
   @IsIn(['newest', 'kcal', 'time', 'name', 'forYou'])
   sort: 'newest' | 'kcal' | 'time' | 'name' | 'forYou' = 'newest';
@@ -191,8 +203,8 @@ export class SaveRecipeDto {
   @IsIn(DIFFICULTIES)
   difficulty?: (typeof DIFFICULTIES)[number] | null;
 
-  @IsIn(['PRIVATE', 'PUBLIC'])
-  visibility!: 'PRIVATE' | 'PUBLIC';
+  @IsIn(['PRIVATE', 'HOUSEHOLD', 'PUBLIC'])
+  visibility!: 'PRIVATE' | 'HOUSEHOLD' | 'PUBLIC';
 
   @IsBoolean()
   canBeIngredient = false;

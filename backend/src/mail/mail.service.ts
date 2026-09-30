@@ -3,7 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { createTransport, type Transporter } from 'nodemailer';
 import type { Env } from '../config/env.js';
 import type { Locale } from '../generated/prisma/enums.js';
-import { renderMail, type MailKind } from './mail-templates.js';
+import { renderMail, type MailKind, type MailVars } from './mail-templates.js';
 
 @Injectable()
 export class MailService {
@@ -22,12 +22,7 @@ export class MailService {
     this.from = config.get('MAIL_FROM', { infer: true });
   }
 
-  async send(
-    to: string,
-    kind: MailKind,
-    locale: Locale,
-    vars: { username: string; url?: string },
-  ): Promise<void> {
+  async send(to: string, kind: MailKind, locale: Locale, vars: MailVars): Promise<void> {
     const mail = renderMail(kind, locale, vars);
     try {
       await this.transporter.sendMail({ from: this.from, to, ...mail });

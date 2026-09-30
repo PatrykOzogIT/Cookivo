@@ -60,6 +60,9 @@ model User {
   recipesHidden       Recipe[]     @relation("RecipeHiddenBy")
   photos              Photo[]
 
+  householdMember  HouseholdMember?
+  householdInvites HouseholdInvite[]
+
   @@map("users")
 }
 
@@ -201,6 +204,8 @@ enum ConsentType {
   /// Wyraźna zgoda na przetwarzanie danych o zdrowiu (art. 9 RODO):
   /// waga, alergie, nietolerancje. Zbierana przy uzupełnianiu profilu.
   HEALTH_DATA
+  /// Udostępnienie własnych alergii członkom gospodarstwa
+  HOUSEHOLD_ALLERGIES
 }
 
 /// Historia zgód. Wycofanie zgody = nowy wpis z revokedAt, starych nie nadpisujemy.
@@ -275,6 +280,8 @@ model MealType {
 
 enum RecipeVisibility {
   PRIVATE
+  /// Widoczny dla członków gospodarstwa autora
+  HOUSEHOLD
   PUBLIC
 }
 
@@ -526,4 +533,55 @@ model CategoryPreference {
 
   @@id([userId, categoryId])
   @@map("category_preferences")
+}
+
+// --- Gospodarstwa domowe --------------------------------------------------------------
+
+enum HouseholdRole {
+  OWNER
+  MEMBER
+}
+
+/// Gospodarstwo (grupa osób planujących razem). Użytkownik należy do najwyżej jednego.
+model Household {
+  id        String            @id @default(uuid(7)) @db.Uuid
+  name      String            @db.VarChar(60)
+  createdAt DateTime          @default(now()) @map("created_at")
+  members   HouseholdMember[]
+  invites   HouseholdInvite[]
+
+  @@map("households")
+}
+
+model HouseholdMember {
+  /// Klucz = użytkownik: jedno gospodarstwo na osobę
+  userId         String        @id @map("user_id") @db.Uuid
+  user           User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  householdId    String        @map("household_id") @db.Uuid
+  household      Household     @relation(fields: [householdId], references: [id], onDelete: Cascade)
+  role           HouseholdRole @default(MEMBER)
+  /// Zgoda na pokazanie własnych alergii domownikom i uwzględnianie ich w trybie "Dla nas"
+  shareAllergies Boolean       @default(false) @map("share_allergies")
+  joinedAt       DateTime      @default(now()) @map("joined_at")
+
+  @@index([householdId])
+  @@map("household_members")
+}
+
+/// Zaproszenie: jednorazowy link (hash tokenu), opcjonalnie wysłany mailem
+model HouseholdInvite {
+  id          String    @id @default(uuid(7)) @db.Uuid
+  householdId String    @map("household_id") @db.Uuid
+  household   Household @relation(fields: [householdId], references: [id], onDelete: Cascade)
+  tokenHash   String    @unique @map("token_hash")
+  email       String?   @db.VarChar(254)
+  createdById String?   @map("created_by_id") @db.Uuid
+  createdBy   User?     @relation(fields: [createdById], references: [id], onDelete: SetNull)
+  expiresAt   DateTime  @map("expires_at")
+  usedAt      DateTime? @map("used_at")
+  revokedAt   DateTime? @map("revoked_at")
+  createdAt   DateTime  @default(now()) @map("created_at")
+
+  @@index([householdId])
+  @@map("household_invites")
 }

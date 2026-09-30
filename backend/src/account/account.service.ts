@@ -8,6 +8,7 @@ import type { Env } from '../config/env.js';
 import type { User } from '../generated/prisma/client.js';
 import { MailService } from '../mail/mail.service.js';
 import { photoUrls, PhotosService } from '../photos/photos.service.js';
+import { HouseholdService } from '../household/household.service.js';
 import { PrismaService } from '../prisma/prisma.service.js';
 import { ProfileService } from '../profile/profile.service.js';
 
@@ -22,6 +23,7 @@ export class AccountService {
     private readonly mail: MailService,
     private readonly photos: PhotosService,
     private readonly profile: ProfileService,
+    private readonly household: HouseholdService,
     private readonly config: ConfigService<Env, true>,
   ) {}
 
@@ -120,6 +122,7 @@ export class AccountService {
       where: { id: userId },
       include: {
         consents: { orderBy: { grantedAt: 'asc' } },
+        householdMember: { include: { household: { select: { name: true } } } },
         sessions: { orderBy: { createdAt: 'asc' } },
         ingredientsCreated: { include: { category: true } },
         recipes: {
@@ -161,6 +164,14 @@ export class AccountService {
       targets: profile.targets,
       allergens: profile.allergens,
       preferences,
+      household: user.householdMember
+        ? {
+            name: user.householdMember.household.name,
+            role: user.householdMember.role,
+            joinedAt: user.householdMember.joinedAt,
+            shareAllergies: user.householdMember.shareAllergies,
+          }
+        : null,
       sessions: user.sessions.map((s) => ({
         createdAt: s.createdAt,
         lastUsedAt: s.lastUsedAt,
@@ -205,14 +216,28 @@ export class AccountService {
   async deleteAccount(userId: string, password: string): Promise<void> {
     const user = await this.verifyPassword(userId, password);
 
+    // Usuwamy prywatne i "dla gospodarstwa" - te drugie zostają (bez autora) tylko,
+    // gdy są podprzepisem w przepisach innych osób, żeby nie zepsuć im wyliczeń
     const privateRecipes = await this.prisma.recipe.findMany({
-      where: { authorId: userId, visibility: 'PRIVATE' },
+      where: {
+        authorId: userId,
+        OR: [
+          { visibility: 'PRIVATE' },
+          {
+            visibility: 'HOUSEHOLD',
+            usedIn: { none: { recipe: { OR: [{ authorId: null }, { authorId: { not: userId } }] } } },
+          },
+        ],
+      },
       select: { id: true, photos: { select: { id: true } } },
     });
     const privateIds = privateRecipes.map((r) => r.id);
     const photoIds = privateRecipes.flatMap((r) => r.photos.map((p) => p.id));
 
+    const inHousehold = await this.prisma.householdMember.findUnique({ where: { userId } });
     await this.prisma.$transaction(async (tx) => {
+      // Gospodarstwo: przekazanie roli właściciela albo zamknięcie, gdy byłem sam
+      if (inHousehold) await this.household.leave(userId, tx);
       // Prywatne przepisy mogą używać się nawzajem jako składników - najpierw pozycje, potem przepisy
       await tx.recipeIngredient.deleteMany({ where: { recipeId: { in: privateIds } } });
       await tx.recipe.deleteMany({ where: { id: { in: privateIds } } });

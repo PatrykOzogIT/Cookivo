@@ -10,14 +10,33 @@
           >
             {{ t('recipes.filters.mine') }}
           </mat-slide-toggle>
+          @if (household()) {
+            <mat-slide-toggle
+              [checked]="shared() === '1'"
+              (change)="setParams({ shared: $event.checked ? '1' : null })"
+            >
+              {{ t('recipes.filters.household') }}
+            </mat-slide-toggle>
+          }
           <mat-slide-toggle
-            [checked]="personalOn()"
+            [checked]="personalOn() || usOn()"
+            [disabled]="usOn()"
             (change)="setParams({ forMe: $event.checked ? null : '0' })"
             aria-describedby="for-me-hint"
           >
             {{ t('personal.forMe') }}
           </mat-slide-toggle>
           <p class="hint" id="for-me-hint">{{ t('personal.forMeHint') }}</p>
+          @if (household()) {
+            <mat-slide-toggle
+              [checked]="usOn()"
+              (change)="setParams({ forUs: $event.checked ? '1' : null })"
+              aria-describedby="for-us-hint"
+            >
+              {{ t('personal.forUs') }}
+            </mat-slide-toggle>
+            <p class="hint" id="for-us-hint">{{ t('personal.forUsHint') }}</p>
+          }
         </fieldset>
       }
 
@@ -185,6 +204,11 @@
                 <span class="badge">
                   <span class="material-symbols-rounded" aria-hidden="true">lock</span
                   >{{ t('recipes.private') }}
+                </span>
+              } @else if (r.visibility === 'HOUSEHOLD') {
+                <span class="badge">
+                  <span class="material-symbols-rounded" aria-hidden="true">cottage</span
+                  >{{ t('recipes.householdBadge') }}
                 </span>
               }
               @if (r.hidden) {

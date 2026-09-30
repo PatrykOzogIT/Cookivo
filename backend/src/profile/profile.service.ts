@@ -115,6 +115,12 @@ export class ProfileService {
         }),
         this.prisma.nutritionProfile.deleteMany({ where: { userId } }),
         this.prisma.userAllergen.deleteMany({ where: { userId } }),
+        // Bez zgody na dane o zdrowiu nie ma też czego udostępniać domownikom
+        this.prisma.householdMember.updateMany({ where: { userId }, data: { shareAllergies: false } }),
+        this.prisma.consent.updateMany({
+          where: { userId, type: 'HOUSEHOLD_ALLERGIES', revokedAt: null },
+          data: { revokedAt: new Date() },
+        }),
       ]);
     }
     return this.get(userId);

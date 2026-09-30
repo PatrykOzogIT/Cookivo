@@ -22,6 +22,7 @@ import { apiErrorCode } from '../../../core/api-error';
 import { AuthService } from '../../../core/auth/auth.service';
 import { LocalizedPipe, NumberPipe, formatNumber, parseDecimal } from '../../../core/i18n/format.pipes';
 import { LanguageService } from '../../../core/i18n/language.service';
+import { HouseholdApi } from '../../household/household.api';
 import { IngredientsApi } from '../../ingredients/ingredients.api';
 import { decimalValidator } from '../../ingredients/form/nutrition-validators';
 import { defaultUnit, unitOptions, type LineItem, type LineUnitOption } from '../recipe-units';
@@ -72,6 +73,7 @@ export class RecipeFormPage implements OnInit {
   private readonly router = inject(Router);
   private readonly fb = inject(NonNullableFormBuilder);
   protected readonly auth = inject(AuthService);
+  protected readonly household = inject(HouseholdApi);
   protected readonly lang = inject(LanguageService).current;
   protected readonly dictionaries = toSignal(inject(IngredientsApi).dictionaries$);
 

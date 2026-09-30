@@ -17,6 +17,7 @@ import { LocalizedPipe, NumberPipe } from '../../core/i18n/format.pipes';
 import { LanguageService } from '../../core/i18n/language.service';
 import { PageLayoutComponent } from '../../layout/page-layout/page-layout';
 import { CatalogTabsComponent } from '../../shared/catalog-tabs';
+import { HouseholdApi } from '../household/household.api';
 import { IngredientsApi } from '../ingredients/ingredients.api';
 import { RecipesApi } from './recipes.api';
 import type { RecipeQuery, RecipeSummary } from './recipes.models';
@@ -65,6 +66,13 @@ export class RecipesPage {
   readonly sort = input<Sort>();
   /** "Dla mnie" jest domyślnie włączone dla zalogowanych; forMe=0 wyłącza */
   readonly forMe = input<string>();
+  /** "Dla nas" (całe gospodarstwo) i "Przepisy naszej grupy" */
+  readonly forUs = input<string>();
+  readonly shared = input<string>();
+  protected readonly household = inject(HouseholdApi).current;
+  protected readonly usOn = computed(
+    () => this.auth.isLoggedIn() && !!this.household() && this.forUs() === '1',
+  );
 
   protected readonly kcalLimits = KCAL_LIMITS;
   protected readonly timeLimits = TIME_LIMITS;
@@ -91,7 +99,8 @@ export class RecipesPage {
       (this.kcal() ? 1 : 0) +
       (this.time() ? 1 : 0) +
       (this.asIngredient() ? 1 : 0) +
-      (this.mine() ? 1 : 0),
+      (this.mine() ? 1 : 0) +
+      (this.shared() ? 1 : 0),
   );
   protected readonly hasMore = computed(() => this.items().length < this.total());
 
@@ -104,6 +113,8 @@ export class RecipesPage {
     canBeIngredient: this.asIngredient() === '1',
     mine: this.mine() === '1',
     forMe: this.personalOn(),
+    forUs: this.usOn(),
+    household: this.shared() === '1' && !!this.household(),
     sort: this.sort() ?? 'newest',
     lang: this.lang(),
     pageSize: PAGE_SIZE,
@@ -134,7 +145,15 @@ export class RecipesPage {
   }
 
   protected clearFilters(): void {
-    this.setParams({ meal: null, allergens: null, kcal: null, time: null, asIngredient: null, mine: null });
+    this.setParams({
+      meal: null,
+      allergens: null,
+      kcal: null,
+      time: null,
+      asIngredient: null,
+      mine: null,
+      shared: null,
+    });
   }
 
   protected loadMore(): void {

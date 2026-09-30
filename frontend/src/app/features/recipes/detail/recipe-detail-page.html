@@ -23,6 +23,11 @@
                 ><span class="material-symbols-rounded" aria-hidden="true">lock</span
                 >{{ t('recipes.private') }}</span
               >
+            } @else if (r.visibility === 'HOUSEHOLD') {
+              <span class="badge"
+                ><span class="material-symbols-rounded" aria-hidden="true">cottage</span
+                >{{ t('recipes.householdBadge') }}</span
+              >
             }
           </p>
         </div>

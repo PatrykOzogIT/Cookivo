@@ -289,6 +289,9 @@
           <legend>{{ t('recipes.form.visibility') }}</legend>
           <mat-radio-group formControlName="visibility" class="radios">
             <mat-radio-button value="PRIVATE">{{ t('recipes.form.private') }}</mat-radio-button>
+            @if (household.current() || form.controls.visibility.value === 'HOUSEHOLD') {
+              <mat-radio-button value="HOUSEHOLD">{{ t('recipes.form.household') }}</mat-radio-button>
+            }
             <mat-radio-button value="PUBLIC">{{ t('recipes.form.public') }}</mat-radio-button>
           </mat-radio-group>
         </fieldset>

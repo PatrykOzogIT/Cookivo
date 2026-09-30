@@ -118,6 +118,7 @@ backend/
   src/recipes/       przepisy: podprzepisy, wyliczanie wartości i alergenów (recipe-math.ts)
   src/photos/        zdjęcia: WebP w 3 rozmiarach (sharp), bez metadanych GPS
   src/profile/       profil żywieniowy, kalkulator kcal/makro, alergie, preferencje, dopasowanie list
+  src/household/     gospodarstwa domowe: zaproszenia, członkowie, udostępnianie alergii
   src/account/       ustawienia konta, urządzenia, eksport danych i usunięcie konta (RODO)
   src/moderation/    filtr wulgaryzmów
   src/mail/          maile (PL/EN)
@@ -141,7 +142,7 @@ e2e/                 testy Playwright
 
 ### Plan
 
-0. Fundament ✅ · 1. Konta ✅ · 2. Składniki i alergeny ✅ · 3. Przepisy, tryb gotowania, zdjęcia ✅ · 4. Profil żywieniowy, kalkulator, preferencje, RODO (eksport/usuwanie) ✅ · 5. Gospodarstwa · 6. Planer · 7. Lodówka, zakupy, cenniki · 8. Warianty i oceny · 9. Moderacja i panel admina · 10. PWA · 11. Wdrożenie
+0. Fundament ✅ · 1. Konta ✅ · 2. Składniki i alergeny ✅ · 3. Przepisy, tryb gotowania, zdjęcia ✅ · 4. Profil żywieniowy, kalkulator, preferencje, RODO (eksport/usuwanie) ✅ · 5. Gospodarstwa domowe ✅ · 6. Planer · 7. Lodówka, zakupy, cenniki · 8. Warianty i oceny · 9. Moderacja i panel admina · 10. PWA · 11. Wdrożenie
 
 ---
 
