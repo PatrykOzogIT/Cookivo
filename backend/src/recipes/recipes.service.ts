@@ -10,6 +10,7 @@ import { normalizeSearch } from '../common/text.js';
 import { Prisma } from '../generated/prisma/client.js';
 import { containsProfanity } from '../moderation/profanity.js';
 import { PhotosService, toPhotoDto } from '../photos/photos.service.js';
+import { recipeForMe, recipeScore } from '../profile/personalization.js';
 import { PrismaService } from '../prisma/prisma.service.js';
 import { ingredientForMath, RecipeCalculatorService, subRecipeForMath } from './recipe-calculator.service.js';
 import { derivedNutrition, gramsFor, type NutritionValues } from './recipe-math.js';
@@ -82,6 +83,7 @@ export class RecipesService {
       c.push(Prisma.sql`coalesce(r.prep_minutes, 0) + coalesce(r.cook_minutes, 0) <= ${query.maxMinutes}`);
     }
     if (query.canBeIngredient) c.push(Prisma.sql`r.can_be_ingredient = true`);
+    if (query.forMe && user) c.push(recipeForMe(user.id));
 
     const collate = query.lang === 'en' ? Prisma.sql`"en-x-icu"` : Prisma.sql`"pl-x-icu"`;
     const orders: Record<ListRecipesQuery['sort'], Prisma.Sql> = {
@@ -89,6 +91,9 @@ export class RecipesService {
       kcal: Prisma.sql`r.kcal_per_serving ASC`,
       time: Prisma.sql`coalesce(r.prep_minutes, 0) + coalesce(r.cook_minutes, 0) ASC`,
       name: Prisma.sql`r.title COLLATE ${collate}`,
+      forYou: user
+        ? Prisma.sql`${recipeScore(user.id)} DESC, r.created_at DESC`
+        : Prisma.sql`r.created_at DESC`,
     };
     let order = orders[query.sort];
     const q = query.q ? normalizeSearch(query.q) : '';
@@ -105,10 +110,13 @@ export class RecipesService {
       this.prisma.$queryRaw<{ count: bigint }[]>`SELECT count(*) FROM recipes r WHERE ${where}`,
     ]);
     const ids = rows.map((r) => r.id);
-    const found = await this.prisma.recipe.findMany({ where: { id: { in: ids } }, include: LIST_INCLUDE });
+    const [found, mine] = await Promise.all([
+      this.prisma.recipe.findMany({ where: { id: { in: ids } }, include: LIST_INCLUDE }),
+      this.myAllergens(user),
+    ]);
     const byId = new Map(found.map((f) => [f.id, f]));
     return {
-      items: ids.map((id) => toListDto(byId.get(id)!, user)),
+      items: ids.map((id) => toListDto(byId.get(id)!, user, mine)),
       total: Number(count),
       page: query.page,
       pageSize: query.pageSize,
@@ -118,7 +126,7 @@ export class RecipesService {
   async get(id: string, user?: AuthUser) {
     const recipe = await this.prisma.recipe.findUnique({ where: { id }, include: DETAIL_INCLUDE });
     if (!recipe || !canView(recipe, user)) throw new NotFoundException({ code: 'NOT_FOUND' });
-    return toDetailDto(recipe, user);
+    return toDetailDto(recipe, user, await this.myAllergens(user));
   }
 
   async create(dto: SaveRecipeDto, user: AuthUser) {
@@ -175,6 +183,16 @@ export class RecipesService {
         : { hiddenAt: null, hiddenById: null, hiddenReason: null },
     });
     return this.get(id, admin);
+  }
+
+  /** Kody alergenów zalogowanego - do ostrzeżeń "zawiera Twój alergen" */
+  private async myAllergens(user?: AuthUser): Promise<Set<string>> {
+    if (!user) return new Set();
+    const rows = await this.prisma.userAllergen.findMany({
+      where: { userId: user.id },
+      include: { allergen: true },
+    });
+    return new Set(rows.map((r) => r.allergen.code));
   }
 
   // ---------------------------------------------------------------------------
@@ -405,7 +423,7 @@ function totals(r: DetailRow | ListRow): NutritionValues {
   };
 }
 
-function toListDto(r: ListRow, user?: AuthUser) {
+function toListDto(r: ListRow, user?: AuthUser, myAllergens = new Set<string>()) {
   const own = !!user && r.authorId === user.id;
   return {
     id: r.id,
@@ -423,10 +441,12 @@ function toListDto(r: ListRow, user?: AuthUser) {
     cover: r.photos[0] ? toPhotoDto(r.photos[0]) : null,
     author: r.author ? { username: r.author.username } : null,
     isOwn: own,
+    /** Alergeny przepisu, na które uważa zalogowany użytkownik */
+    myAllergens: r.allergens.map((a) => a.allergen.code).filter((code) => myAllergens.has(code)),
   };
 }
 
-function toDetailDto(r: DetailRow, user?: AuthUser) {
+function toDetailDto(r: DetailRow, user?: AuthUser, myAllergens = new Set<string>()) {
   const own = !!user && r.authorId === user.id;
   const derived = derivedNutrition({
     totals: totals(r),
@@ -435,7 +455,7 @@ function toDetailDto(r: DetailRow, user?: AuthUser) {
     servings: r.servings,
   });
   return {
-    ...toListDto(r, user),
+    ...toListDto(r, user, myAllergens),
     description: r.description,
     cookedGrams: r.cookedGrams,
     totalGrams: r.totalGrams,

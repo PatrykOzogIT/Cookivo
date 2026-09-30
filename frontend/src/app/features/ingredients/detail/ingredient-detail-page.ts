@@ -13,6 +13,8 @@ import { AuthService } from '../../../core/auth/auth.service';
 import { LocalizedPipe, NumberPipe, formatNumber, parseDecimal } from '../../../core/i18n/format.pipes';
 import { LanguageService } from '../../../core/i18n/language.service';
 import { NutritionTableComponent } from '../../../shared/nutrition-table/nutrition-table';
+import { PreferenceToggleComponent } from '../../profile/preference-toggle';
+import { ProfileApi, type PreferenceLevel } from '../../profile/profile.api';
 import { IngredientsApi } from '../ingredients.api';
 import type { Ingredient } from '../ingredients.models';
 import { portionGrams, portionUnits } from '../portion';
@@ -28,6 +30,7 @@ import { portionGrams, portionUnits } from '../portion';
     MatSelectModule,
     TranslocoDirective,
     NutritionTableComponent,
+    PreferenceToggleComponent,
     LocalizedPipe,
     NumberPipe,
   ],
@@ -36,6 +39,7 @@ import { portionGrams, portionUnits } from '../portion';
 })
 export class IngredientDetailPage implements OnInit {
   private readonly api = inject(IngredientsApi);
+  private readonly profileApi = inject(ProfileApi);
   private readonly router = inject(Router);
   private readonly title = inject(Title);
   protected readonly auth = inject(AuthService);
@@ -97,6 +101,28 @@ export class IngredientDetailPage implements OnInit {
 
   protected usdaUrl(i: Ingredient): string {
     return `https://fdc.nal.usda.gov/food-details/${i.sourceRef}/nutrients`;
+  }
+
+  /** Alergeny z listy użytkownika obecne w składniku (nazwy po przecinku) */
+  protected readonly myAllergenNames = computed(() => {
+    const i = this.ingredient();
+    const mine = new Set(i?.personal?.myAllergens ?? []);
+    const lang = this.lang();
+    return (i?.allergens ?? [])
+      .filter((a) => mine.has(a.code))
+      .map((a) => (lang === 'en' && a.nameEn ? a.nameEn : a.namePl))
+      .join(', ');
+  });
+
+  protected async setPreference(level: PreferenceLevel | null): Promise<void> {
+    try {
+      await this.profileApi.setIngredientPreference(this.id(), level);
+      this.ingredient.update((i) =>
+        i?.personal ? { ...i, personal: { ...i.personal, preference: level } } : i,
+      );
+    } catch (err) {
+      this.actionError.set(apiErrorCode(err));
+    }
   }
 
   protected async approve(): Promise<void> {

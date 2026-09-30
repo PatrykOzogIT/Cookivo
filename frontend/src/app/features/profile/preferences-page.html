@@ -1,0 +1,117 @@
+<div class="page" *transloco="let t">
+  <h1>{{ t('nav.preferences') }}</h1>
+  <p class="lead">{{ t('profile.preferences.lead') }}</p>
+
+  @if (error(); as code) {
+    <div class="alert" role="alert">{{ t('errors.' + code) }}</div>
+  }
+
+  @if (loading()) {
+    <mat-progress-bar mode="indeterminate" [attr.aria-label]="t('common.loading')" />
+  } @else {
+    <!-- Alergie (dane o zdrowiu - wymagają zgody) -->
+    <section class="ck-card box" aria-labelledby="allergies-title">
+      <h2 id="allergies-title">{{ t('profile.allergies.title') }}</h2>
+      <p class="muted">{{ t('profile.allergies.lead') }}</p>
+      @if (!profile()?.healthConsent) {
+        <p>{{ t('profile.allergies.needConsent') }}</p>
+        <div class="row">
+          <button mat-flat-button class="ck-cta" type="button" (click)="giveConsent()" [disabled]="busy()">
+            {{ t('profile.consent.agree') }}
+          </button>
+          <a mat-button routerLink="/legal/privacy">{{ t('legal.privacy') }}</a>
+        </div>
+      } @else {
+        <ul class="allergens">
+          @for (a of dictionaries()?.allergens ?? []; track a.code) {
+            <li>
+              <span class="name" [id]="'allergen-' + a.code">{{ a | localized: lang() }}</span>
+              <mat-button-toggle-group
+                [value]="severity(a.code)"
+                (change)="setSeverity(a.code, $event.value)"
+                [attr.aria-labelledby]="'allergen-' + a.code"
+                hideSingleSelectionIndicator
+              >
+                <mat-button-toggle value="NONE">{{ t('profile.allergies.none') }}</mat-button-toggle>
+                <mat-button-toggle value="INTOLERANCE">{{
+                  t('profile.allergies.INTOLERANCE')
+                }}</mat-button-toggle>
+                <mat-button-toggle value="ALLERGY">{{ t('profile.allergies.ALLERGY') }}</mat-button-toggle>
+              </mat-button-toggle-group>
+            </li>
+          }
+        </ul>
+        <div class="row">
+          <button mat-flat-button class="ck-cta" type="button" (click)="saveAllergens()" [disabled]="busy()">
+            {{ t('common.save') }}
+          </button>
+          @if (savedAllergens()) {
+            <span class="ok" role="status"
+              ><span class="material-symbols-rounded" aria-hidden="true">check_circle</span
+              >{{ t('profile.saved') }}</span
+            >
+          }
+        </div>
+      }
+    </section>
+
+    <!-- Kategorie -->
+    <section class="ck-card box" aria-labelledby="categories-title">
+      <h2 id="categories-title">{{ t('profile.preferences.categoriesTitle') }}</h2>
+      <p class="muted">{{ t('profile.preferences.categoriesLead') }}</p>
+      <ul class="prefs">
+        @for (c of dictionaries()?.categories ?? []; track c.code) {
+          <li>
+            <span class="name">
+              <span class="material-symbols-rounded" aria-hidden="true">{{ c.icon }}</span>
+              {{ c | localized: lang() }}
+            </span>
+            <app-preference-toggle
+              [value]="categoryLevel().get(c.code) ?? null"
+              [label]="levelLabel(c | localized: lang())"
+              (changed)="setCategory(c.code, $event)"
+            />
+          </li>
+        }
+      </ul>
+    </section>
+
+    <!-- Pojedyncze składniki -->
+    <section class="ck-card box" aria-labelledby="ingredients-title">
+      <h2 id="ingredients-title">{{ t('profile.preferences.ingredientsTitle') }}</h2>
+      <p class="muted">{{ t('profile.preferences.ingredientsLead') }}</p>
+      @if (prefs().ingredients.length) {
+        <ul class="prefs">
+          @for (i of prefs().ingredients; track i.id) {
+            <li>
+              <span class="name">
+                <span class="material-symbols-rounded" aria-hidden="true">{{ i.icon }}</span>
+                <a [routerLink]="['/ingredients', i.id]">{{ i | localized: lang() }}</a>
+              </span>
+              <app-preference-toggle
+                [value]="i.level"
+                [label]="levelLabel(i | localized: lang())"
+                (changed)="setIngredient(i.id, $event)"
+              />
+            </li>
+          }
+        </ul>
+      } @else {
+        <p class="muted">{{ t('profile.preferences.noIngredients') }}</p>
+      }
+      <mat-form-field class="search" subscriptSizing="dynamic">
+        <mat-label>{{ t('profile.preferences.addIngredient') }}</mat-label>
+        <input matInput [formControl]="search" [matAutocomplete]="auto" autocomplete="off" />
+        <mat-autocomplete
+          #auto="matAutocomplete"
+          [displayWith]="displayName"
+          (optionSelected)="addIngredient($event)"
+        >
+          @for (r of results(); track r.id) {
+            <mat-option [value]="r">{{ r | localized: lang() }}</mat-option>
+          }
+        </mat-autocomplete>
+      </mat-form-field>
+    </section>
+  }
+</div>

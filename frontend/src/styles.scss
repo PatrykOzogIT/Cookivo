@@ -255,3 +255,17 @@ a {
     animation: none !important;
   }
 }
+
+// Ostrzeżenie o alergenach z listy użytkownika (szczegóły przepisu i składnika)
+.ck-allergy-warning {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  margin: 0 0 16px;
+  padding: 12px 14px;
+  border-radius: var(--ck-radius-sm);
+  border: 1px solid color-mix(in srgb, var(--ck-danger) 45%, var(--ck-border));
+  background: color-mix(in srgb, var(--ck-danger) 10%, var(--ck-surface));
+  color: var(--ck-danger);
+  font-weight: 600;
+}

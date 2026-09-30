@@ -1,0 +1,89 @@
+<div class="page" *transloco="let t">
+  <h1>{{ t('nav.profile') }}</h1>
+  <p class="lead">{{ t('profile.lead') }}</p>
+
+  @if (error(); as code) {
+    <div class="alert" role="alert">{{ t('errors.' + code) }}</div>
+  }
+
+  @if (loading()) {
+    <mat-progress-bar mode="indeterminate" [attr.aria-label]="t('common.loading')" />
+  } @else if (!state()?.healthConsent) {
+    <section class="ck-card box consent" aria-labelledby="consent-title">
+      <span class="material-symbols-rounded icon" aria-hidden="true">health_and_safety</span>
+      <h2 id="consent-title">{{ t('profile.consent.title') }}</h2>
+      <p>{{ t('profile.consent.body') }}</p>
+      <ul>
+        <li>{{ t('profile.consent.what') }}</li>
+        <li>{{ t('profile.consent.why') }}</li>
+        <li>{{ t('profile.consent.withdraw') }}</li>
+      </ul>
+      <p class="muted">
+        {{ t('profile.consent.more') }} <a routerLink="/legal/privacy">{{ t('legal.privacy') }}</a
+        >.
+      </p>
+      <div class="row">
+        <button mat-flat-button class="ck-cta" type="button" (click)="giveConsent()" [disabled]="saving()">
+          {{ t('profile.consent.agree') }}
+        </button>
+        <a mat-button routerLink="/how-it-works">{{ t('profile.consent.tryWithout') }}</a>
+      </div>
+    </section>
+  } @else {
+    <div class="layout">
+      <form class="ck-card box" [formGroup]="form" (ngSubmit)="save()" novalidate>
+        <h2>{{ t('profile.formTitle') }}</h2>
+        <app-calculator-form [form]="form" [withCustom]="true" />
+        <div class="row">
+          <button mat-flat-button class="ck-cta" type="submit" [disabled]="saving()">
+            {{ t('common.save') }}
+          </button>
+          @if (saved()) {
+            <span class="ok" role="status">
+              <span class="material-symbols-rounded" aria-hidden="true">check_circle</span
+              >{{ t('profile.saved') }}
+            </span>
+          }
+        </div>
+      </form>
+
+      <aside class="side">
+        @if (targets(); as tg) {
+          <app-targets-card [targets]="tg" />
+        } @else {
+          <div class="ck-card box muted">{{ t('profile.fillToSee') }}</div>
+        }
+        <a mat-stroked-button routerLink="/preferences">
+          <span class="material-symbols-rounded" aria-hidden="true">tune</span>
+          {{ t('nav.preferences') }}
+        </a>
+      </aside>
+    </div>
+
+    <section class="ck-card box withdraw">
+      <h2>{{ t('profile.consent.manageTitle') }}</h2>
+      <p class="muted">{{ t('profile.consent.manageBody') }}</p>
+      @if (!confirmWithdraw()) {
+        <button mat-button type="button" class="danger" (click)="confirmWithdraw.set(true)">
+          {{ t('profile.consent.withdrawButton') }}
+        </button>
+      } @else {
+        <p role="alert">{{ t('profile.consent.withdrawConfirm') }}</p>
+        <div class="row">
+          <button
+            mat-flat-button
+            type="button"
+            class="danger-fill"
+            (click)="withdrawConsent()"
+            [disabled]="saving()"
+          >
+            {{ t('profile.consent.withdrawButton') }}
+          </button>
+          <button mat-button type="button" (click)="confirmWithdraw.set(false)">
+            {{ t('common.cancel') }}
+          </button>
+        </div>
+      }
+    </section>
+  }
+</div>

@@ -117,6 +117,8 @@ backend/
   src/ingredients/   składniki: wyszukiwarka (pg_trgm), akceptacja admina, walidacja wartości
   src/recipes/       przepisy: podprzepisy, wyliczanie wartości i alergenów (recipe-math.ts)
   src/photos/        zdjęcia: WebP w 3 rozmiarach (sharp), bez metadanych GPS
+  src/profile/       profil żywieniowy, kalkulator kcal/makro, alergie, preferencje, dopasowanie list
+  src/account/       ustawienia konta, urządzenia, eksport danych i usunięcie konta (RODO)
   src/moderation/    filtr wulgaryzmów
   src/mail/          maile (PL/EN)
   test/              testy integracyjne API
@@ -134,11 +136,12 @@ e2e/                 testy Playwright
 - Sesja: access token JWT (15 min) w pamięci + refresh token w ciasteczku `httpOnly; SameSite=Strict`, rotowany, z wykrywaniem ponownego użycia.
 - Blokada konta po 5 nieudanych logowaniach, limity żądań na IP, `helmet`, walidacja DTO (odrzucanie nieznanych pól).
 - Odpowiedzi nie zdradzają, czy konto o danym mailu istnieje.
+- Dane o zdrowiu (waga, cel, alergie) tylko po wyraźnej zgodzie; jej wycofanie usuwa te dane. Eksport wszystkich danych (JSON) i usunięcie konta w ustawieniach - publiczne przepisy zostają jako anonimowe.
 - Role: gość → `USER` → `ADMIN` → `SUPER_ADMIN` (globalny guard, endpointy publiczne oznaczone `@Public()`).
 
 ### Plan
 
-0. Fundament ✅ · 1. Konta ✅ · 2. Składniki i alergeny ✅ · 3. Przepisy, tryb gotowania, zdjęcia ✅ · 4. Profil żywieniowy, kalkulator, RODO (eksport/usuwanie) · 5. Gospodarstwa · 6. Planer · 7. Lodówka, zakupy, cenniki · 8. Warianty i oceny · 9. Moderacja i panel admina · 10. PWA · 11. Wdrożenie
+0. Fundament ✅ · 1. Konta ✅ · 2. Składniki i alergeny ✅ · 3. Przepisy, tryb gotowania, zdjęcia ✅ · 4. Profil żywieniowy, kalkulator, preferencje, RODO (eksport/usuwanie) ✅ · 5. Gospodarstwa · 6. Planer · 7. Lodówka, zakupy, cenniki · 8. Warianty i oceny · 9. Moderacja i panel admina · 10. PWA · 11. Wdrożenie
 
 ---
 

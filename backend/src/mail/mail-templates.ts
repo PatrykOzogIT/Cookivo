@@ -63,6 +63,64 @@ const COPY = {
       footer: "If this wasn't you, ignore this email.",
     },
   },
+  changeEmail: {
+    pl: {
+      subject: 'Potwierdź nowy adres e-mail w Cookivo',
+      heading: 'Cześć {username}!',
+      body: 'Poproszono o zmianę adresu e-mail konta na ten adres. Kliknij przycisk, aby potwierdzić. Link jest ważny 24 godziny.',
+      cta: 'Potwierdź nowy adres',
+      footer: 'Jeśli to nie Ty, zignoruj tę wiadomość - adres nie zostanie zmieniony.',
+    },
+    en: {
+      subject: 'Confirm your new Cookivo email',
+      heading: 'Hi {username}!',
+      body: 'A request was made to change your account email to this address. Click the button to confirm. The link is valid for 24 hours.',
+      cta: 'Confirm new email',
+      footer: "If this wasn't you, ignore this email - nothing will change.",
+    },
+  },
+  emailChangeRequested: {
+    pl: {
+      subject: 'Zmiana adresu e-mail w Cookivo',
+      heading: 'Cześć {username}!',
+      body: 'Ktoś zalogowany na Twoje konto poprosił o zmianę adresu e-mail. Zmiana nastąpi dopiero po potwierdzeniu z nowego adresu.',
+      footer: 'Jeśli to nie Ty, natychmiast zmień hasło.',
+    },
+    en: {
+      subject: 'Email change on Cookivo',
+      heading: 'Hi {username}!',
+      body: 'Someone signed in to your account requested an email change. It only takes effect after confirmation from the new address.',
+      footer: "If this wasn't you, change your password right away.",
+    },
+  },
+  passwordChanged: {
+    pl: {
+      subject: 'Hasło do Cookivo zostało zmienione',
+      heading: 'Cześć {username}!',
+      body: 'Hasło do Twojego konta zostało właśnie zmienione. Wylogowaliśmy inne urządzenia.',
+      footer: 'Jeśli to nie Ty, zresetuj hasło i skontaktuj się z nami.',
+    },
+    en: {
+      subject: 'Your Cookivo password was changed',
+      heading: 'Hi {username}!',
+      body: 'The password for your account was just changed. We signed out your other devices.',
+      footer: "If this wasn't you, reset your password and contact us.",
+    },
+  },
+  accountDeleted: {
+    pl: {
+      subject: 'Konto w Cookivo zostało usunięte',
+      heading: 'Cześć {username}!',
+      body: 'Twoje konto i dane osobowe zostały usunięte. Przepisy publiczne zostały zanonimizowane. Dziękujemy za wspólne gotowanie!',
+      footer: 'To ostatnia wiadomość od nas.',
+    },
+    en: {
+      subject: 'Your Cookivo account was deleted',
+      heading: 'Hi {username}!',
+      body: 'Your account and personal data have been deleted. Public recipes were anonymised. Thanks for cooking with us!',
+      footer: 'This is the last email from us.',
+    },
+  },
 } satisfies Record<string, Record<Locale, Copy>>;
 
 export type MailKind = keyof typeof COPY;

@@ -39,6 +39,13 @@
         }
       </header>
 
+      @if (myAllergenNames(); as list) {
+        <p class="ck-allergy-warning" role="note">
+          <span class="material-symbols-rounded" aria-hidden="true">warning</span>
+          {{ t('personal.allergenWarning', { list }) }}
+        </p>
+      }
+
       @if (r.hidden) {
         <p class="notice danger" role="status">
           <span class="material-symbols-rounded" aria-hidden="true">visibility_off</span>

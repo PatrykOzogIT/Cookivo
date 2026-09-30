@@ -103,7 +103,11 @@
     "MEAL_TYPE_UNKNOWN": "Nieznany typ posiłku.",
     "CONTENT_OFFENSIVE": "Treść narusza zasady społeczności.",
     "PHOTO_INVALID": "Nie udało się wczytać zdjęcia. Wybierz plik JPG, PNG lub WebP.",
-    "PHOTO_TOO_LARGE": "Zdjęcie jest za duże (maksymalnie 5 MB)."
+    "PHOTO_TOO_LARGE": "Zdjęcie jest za duże (maksymalnie 5 MB).",
+    "HEALTH_CONSENT_REQUIRED": "Najpierw wyraź zgodę na przetwarzanie danych o zdrowiu.",
+    "AGE_OUT_OF_RANGE": "Kalkulator jest przeznaczony dla osób w wieku 18–100 lat.",
+    "PASSWORD_INCORRECT": "Hasło jest nieprawidłowe.",
+    "EMAIL_SAME": "To jest Twój obecny adres e-mail."
   },
   "auth": {
     "fields": {
@@ -288,7 +292,8 @@
       "newest": "Najnowsze",
       "name": "Nazwa",
       "kcal": "Najmniej kalorii",
-      "time": "Najszybsze"
+      "time": "Najszybsze",
+      "forYou": "Dopasowane do Ciebie"
     },
     "filters": {
       "mine": "Tylko moje przepisy",
@@ -526,5 +531,197 @@
       "densityHint": "Woda = 1, mleko ≈ 1,03, olej ≈ 0,92",
       "submit": "Zapisz składnik"
     }
+  },
+  "profile": {
+    "lead": "Na podstawie tych danych wyliczymy Twoje dzienne zapotrzebowanie na kalorie i makroskładniki.",
+    "formTitle": "Twoje dane",
+    "saved": "Zapisano",
+    "fillToSee": "Uzupełnij dane, a zobaczysz tu swoje cele.",
+    "consent": {
+      "title": "Zgoda na przetwarzanie danych o zdrowiu",
+      "body": "Waga, wzrost, cel żywieniowy, alergie i nietolerancje to według RODO dane o zdrowiu. Potrzebujemy Twojej wyraźnej zgody, zanim je zapiszemy.",
+      "what": "Zapisujemy: płeć, datę urodzenia, wzrost, wagę, poziom aktywności, cel oraz alergie i nietolerancje.",
+      "why": "Używamy ich wyłącznie do wyliczenia Twoich celów i dopasowania przepisów - nikomu ich nie udostępniamy.",
+      "withdraw": "Zgodę możesz w każdej chwili wycofać - wtedy od razu usuniemy te dane.",
+      "more": "Szczegóły:",
+      "agree": "Wyrażam zgodę",
+      "tryWithout": "Wypróbuj kalkulator bez zapisywania",
+      "manageTitle": "Twoja zgoda",
+      "manageBody": "Wycofanie zgody usunie Twój profil żywieniowy oraz zapisane alergie i nietolerancje.",
+      "withdrawButton": "Wycofaj zgodę i usuń dane",
+      "withdrawConfirm": "Na pewno? Tej operacji nie da się cofnąć."
+    },
+    "form": {
+      "sex": "Płeć",
+      "female": "Kobieta",
+      "male": "Mężczyzna",
+      "sexHint": "Potrzebna do wzoru Mifflina-St Jeora - wpływa na podstawową przemianę materii.",
+      "birthDate": "Data urodzenia",
+      "ageError": "Wiek musi mieścić się w przedziale 18–100 lat.",
+      "required": "To pole jest wymagane.",
+      "height": "Wzrost (cm)",
+      "weight": "Waga (kg)",
+      "range": "Podaj wartość od {{min}} do {{max}}.",
+      "activity": "Aktywność",
+      "activities": {
+        "SEDENTARY": {
+          "title": "Siedząca",
+          "desc": "Praca przy biurku, mało ruchu"
+        },
+        "LIGHT": {
+          "title": "Lekka",
+          "desc": "Spacery, trening 1–3 razy w tygodniu"
+        },
+        "MODERATE": {
+          "title": "Umiarkowana",
+          "desc": "Trening 3–5 razy w tygodniu"
+        },
+        "ACTIVE": {
+          "title": "Wysoka",
+          "desc": "Intensywny trening 6–7 razy w tygodniu"
+        },
+        "VERY_ACTIVE": {
+          "title": "Bardzo wysoka",
+          "desc": "Praca fizyczna lub dwa treningi dziennie"
+        }
+      },
+      "goal": "Cel",
+      "goals": {
+        "CUT": {
+          "title": "Redukcja",
+          "desc": "−20% kalorii"
+        },
+        "CUT_MILD": {
+          "title": "Łagodna redukcja",
+          "desc": "−10% kalorii"
+        },
+        "MAINTAIN": {
+          "title": "Utrzymanie",
+          "desc": "Bez zmian"
+        },
+        "BULK": {
+          "title": "Masa",
+          "desc": "+10% kalorii"
+        }
+      },
+      "customTitle": "Własne cele (opcjonalnie)",
+      "customHint": "Jeśli dietetyk ustalił Ci inne wartości, wpisz je - zastąpią wyliczenia. Puste pole = wartość automatyczna.",
+      "customKcal": "Kalorie (kcal)",
+      "customProtein": "Białko (g)",
+      "customFat": "Tłuszcz (g)",
+      "customCarbs": "Węglowodany (g)"
+    },
+    "targets": {
+      "title": "Twój dzienny cel",
+      "kcalPerDay": "kcal dziennie",
+      "protein": "Białko",
+      "fat": "Tłuszcz",
+      "carbs": "Węglowodany",
+      "bmr": "Podstawowa przemiana materii: {{bmr}} kcal · z aktywnością: {{tdee}} kcal",
+      "clamped": "Podnieśliśmy wynik do bezpiecznego minimum - zbyt mała podaż energii szkodzi zdrowiu.",
+      "custom": "Uwzględniono Twoje własne wartości.",
+      "disclaimer": "To orientacyjne wyliczenia, a nie porada medyczna. Przy chorobach, w ciąży lub przy dużych zmianach wagi skonsultuj się z lekarzem lub dietetykiem."
+    },
+    "levels": {
+      "NEVER": "Nigdy",
+      "SOMETIMES": "Czasem",
+      "NEUTRAL": "Obojętnie",
+      "LIKE": "Lubię",
+      "LOVE": "Uwielbiam"
+    },
+    "allergies": {
+      "title": "Alergie i nietolerancje",
+      "lead": "Przepisy i składniki z tymi alergenami będą wyraźnie oznaczone, a w trybie „Dla mnie” - ukryte.",
+      "needConsent": "Alergie to dane o zdrowiu - aby je zapisać, potrzebujemy Twojej zgody.",
+      "none": "Brak",
+      "INTOLERANCE": "Nietolerancja",
+      "ALLERGY": "Alergia"
+    },
+    "preferences": {
+      "lead": "Powiedz nam, co lubisz, a czego unikasz - dopasujemy do tego przepisy.",
+      "categoriesTitle": "Kategorie produktów",
+      "categoriesLead": "Ustawienie dla całej kategorii. Preferencja pojedynczego składnika ma pierwszeństwo.",
+      "ingredientsTitle": "Pojedyncze składniki",
+      "ingredientsLead": "„Nigdy” ukrywa przepisy z tym składnikiem w trybie „Dla mnie”. „Lubię” i „Uwielbiam” podbijają je w sortowaniu.",
+      "noIngredients": "Nie masz jeszcze preferencji dla pojedynczych składników.",
+      "addIngredient": "Dodaj składnik…",
+      "levelFor": "Preferencja: {{name}}"
+    }
+  },
+  "settings": {
+    "saved": "Zapisano",
+    "languageTitle": "Język",
+    "language": "Język aplikacji i e-maili",
+    "passwordTitle": "Hasło",
+    "currentPassword": "Obecne hasło",
+    "changePassword": "Zmień hasło",
+    "passwordNote": "Po zmianie hasła wylogujemy Cię na pozostałych urządzeniach.",
+    "passwordChanged": "Hasło zostało zmienione.",
+    "emailTitle": "Adres e-mail",
+    "currentEmail": "Obecny adres: {{email}}",
+    "newEmail": "Nowy adres e-mail",
+    "confirmWithPassword": "Potwierdź hasłem",
+    "changeEmail": "Zmień e-mail",
+    "emailSent": "Jeśli adres jest dostępny, wysłaliśmy na niego link potwierdzający. Zmiana nastąpi po kliknięciu linku.",
+    "sessionsTitle": "Zalogowane urządzenia",
+    "thisDevice": "to urządzenie",
+    "lastUsed": "Ostatnio aktywne: {{date}}",
+    "signOut": "Wyloguj",
+    "signOutOthers": "Wyloguj wszystkie inne",
+    "sessionRevoked": "Wylogowano.",
+    "dataTitle": "Twoje dane",
+    "dataLead": "Pobierz kopię wszystkich danych, które o Tobie przechowujemy (plik JSON).",
+    "export": "Pobierz moje dane",
+    "exported": "Plik został pobrany.",
+    "deleteTitle": "Usuń konto",
+    "deleteLead": "Usuniemy Twoje konto, profil, preferencje i prywatne przepisy. Publiczne przepisy zostaną w serwisie jako anonimowe. Tej operacji nie da się cofnąć.",
+    "typePhrase": "Wpisz {{phrase}}, aby potwierdzić",
+    "deletePhraseMismatch": "Uzupełnij hasło i wpisz dokładnie wymagane słowo.",
+    "deleteButton": "Usuń konto na zawsze",
+    "deleted": "Konto zostało usunięte.",
+    "confirmEmail": {
+      "title": "Potwierdzenie adresu e-mail",
+      "pending": "Potwierdzamy nowy adres…",
+      "successTitle": "Adres e-mail zmieniony",
+      "successBody": "Od teraz logujesz się i otrzymujesz wiadomości na nowy adres.",
+      "continue": "Dalej",
+      "invalidTitle": "Link jest nieważny",
+      "invalidBody": "Link wygasł albo został już użyty. Zmień adres ponownie w ustawieniach konta."
+    },
+    "unknownDevice": "Nieznane urządzenie"
+  },
+  "howItWorks": {
+    "lead": "Cookivo liczy Twoje zapotrzebowanie na podstawie sprawdzonych wzorów, a potem dobiera przepisy do celu, gustu i alergii.",
+    "steps": {
+      "bmr": {
+        "title": "Przemiana materii",
+        "body": "Wzór Mifflina-St Jeora szacuje, ile energii zużywasz w spoczynku."
+      },
+      "activity": {
+        "title": "Aktywność",
+        "body": "Mnożymy wynik przez współczynnik aktywności - od 1,2 do 1,9."
+      },
+      "goal": {
+        "title": "Cel",
+        "body": "Redukcja odejmuje 10–20% kalorii, masa dodaje 10%. Nie schodzimy poniżej bezpiecznego minimum."
+      },
+      "macros": {
+        "title": "Makroskładniki",
+        "body": "Białko zależy od wagi i celu, tłuszcz to 30% energii, resztę uzupełniają węglowodany."
+      }
+    },
+    "calculatorTitle": "Sprawdź swój wynik",
+    "calculatorLead": "Liczymy w przeglądarce - nic nie zapisujemy ani nie wysyłamy.",
+    "ctaGuest": "Załóż konto, aby zapisać cele i dopasować do nich przepisy.",
+    "ctaUser": "Zapisz swoje dane w profilu, a przepisy dopasujemy do Twoich celów."
+  },
+  "personal": {
+    "forMe": "Dla mnie",
+    "forMeHint": "Ukrywa przepisy z Twoimi alergenami i składnikami oznaczonymi „Nigdy”",
+    "sortForYou": "Dopasowane do Ciebie",
+    "containsAllergens": "Zawiera Twoje alergeny: {{list}}",
+    "allergenWarning": "Uwaga! Ten przepis zawiera alergeny z Twojej listy: {{list}}.",
+    "ingredientAllergenWarning": "Ten składnik zawiera alergeny z Twojej listy: {{list}}.",
+    "yourPreference": "Twoja preferencja"
   }
 }

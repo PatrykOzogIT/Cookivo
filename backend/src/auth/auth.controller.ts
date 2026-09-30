@@ -98,6 +98,14 @@ export class AuthController {
     return this.auth.resetPassword(dto.token, dto.password);
   }
 
+  @Public()
+  @Throttle(STRICT)
+  @Post('confirm-email-change')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  confirmEmailChange(@Body() dto: TokenDto) {
+    return this.auth.confirmEmailChange(dto.token);
+  }
+
   @Get('me')
   me(@CurrentUser() user: AuthUser) {
     return this.auth.me(user.id);

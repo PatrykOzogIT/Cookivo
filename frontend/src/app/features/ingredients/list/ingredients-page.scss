@@ -238,3 +238,40 @@ mat-slide-toggle {
   font-size: 0.8rem;
   color: var(--ck-text-muted);
 }
+
+.hint {
+  margin: 4px 0 0;
+  font-size: 0.8rem;
+  color: var(--ck-text-muted);
+}
+
+// Alergen z listy użytkownika - wypełniony, żeby był widoczny od razu
+.chip.mine {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  background: color-mix(in srgb, var(--ck-danger) 14%, transparent);
+  .material-symbols-rounded {
+    font-size: 1.1em;
+  }
+}
+
+.pref {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin: 0;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--ck-text-muted);
+  .material-symbols-rounded {
+    font-size: 1.1em;
+  }
+  &[data-level='NEVER'] {
+    color: var(--ck-danger);
+  }
+  &[data-level='LIKE'],
+  &[data-level='LOVE'] {
+    color: var(--ck-success);
+  }
+}

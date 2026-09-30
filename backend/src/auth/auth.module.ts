@@ -6,5 +6,6 @@ import { PasswordPolicyService } from './password-policy.service.js';
 @Module({
   controllers: [AuthController],
   providers: [AuthService, PasswordPolicyService],
+  exports: [AuthService, PasswordPolicyService],
 })
 export class AuthModule {}

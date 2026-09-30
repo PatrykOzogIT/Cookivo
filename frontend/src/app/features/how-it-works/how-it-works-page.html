@@ -1,0 +1,38 @@
+<div class="page" *transloco="let t">
+  <h1>{{ t('nav.howItWorks') }}</h1>
+  <p class="lead">{{ t('howItWorks.lead') }}</p>
+
+  <ul class="steps">
+    @for (s of steps; track s.key) {
+      <li class="ck-card">
+        <span class="material-symbols-rounded" aria-hidden="true">{{ s.icon }}</span>
+        <h3>{{ t('howItWorks.steps.' + s.key + '.title') }}</h3>
+        <p>{{ t('howItWorks.steps.' + s.key + '.body') }}</p>
+      </li>
+    }
+  </ul>
+
+  <h2>{{ t('howItWorks.calculatorTitle') }}</h2>
+  <p class="lead">{{ t('howItWorks.calculatorLead') }}</p>
+  <div class="layout">
+    <form class="ck-card box" [formGroup]="form" novalidate>
+      <app-calculator-form [form]="form" [withCustom]="false" />
+    </form>
+    <aside class="side">
+      @if (targets(); as tg) {
+        <app-targets-card [targets]="tg" />
+      } @else {
+        <div class="ck-card box muted">{{ t('profile.fillToSee') }}</div>
+      }
+      <div class="ck-card box">
+        @if (auth.isLoggedIn()) {
+          <p>{{ t('howItWorks.ctaUser') }}</p>
+          <a mat-flat-button class="ck-cta" routerLink="/profile">{{ t('nav.profile') }}</a>
+        } @else {
+          <p>{{ t('howItWorks.ctaGuest') }}</p>
+          <a mat-flat-button class="ck-cta" routerLink="/auth/register">{{ t('home.ctaStart') }}</a>
+        }
+      </div>
+    </aside>
+  </div>
+</div>

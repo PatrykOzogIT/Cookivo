@@ -55,8 +55,18 @@ export interface Ingredient extends Localized {
   canEdit: boolean;
   canDelete: boolean;
   rejectionReason: string | null;
+  /** Dopasowanie do zalogowanego użytkownika; brak dla gości */
+  personal?: PersonalInfo;
   createdAt: string;
   updatedAt: string;
+}
+
+export type PreferenceLevel = 'NEVER' | 'SOMETIMES' | 'LIKE' | 'LOVE';
+
+export interface PersonalInfo {
+  preference: PreferenceLevel | null;
+  categoryPreference: PreferenceLevel | null;
+  myAllergens: string[];
 }
 
 export interface Page<T> {
@@ -71,6 +81,7 @@ export interface IngredientQuery {
   category?: string;
   excludeAllergens?: string[];
   mine?: boolean;
+  forMe?: boolean;
   status?: IngredientStatus;
   lang?: string;
   page?: number;

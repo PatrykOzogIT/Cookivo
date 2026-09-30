@@ -10,6 +10,14 @@
           >
             {{ t('recipes.filters.mine') }}
           </mat-slide-toggle>
+          <mat-slide-toggle
+            [checked]="personalOn()"
+            (change)="setParams({ forMe: $event.checked ? null : '0' })"
+            aria-describedby="for-me-hint"
+          >
+            {{ t('personal.forMe') }}
+          </mat-slide-toggle>
+          <p class="hint" id="for-me-hint">{{ t('personal.forMeHint') }}</p>
         </fieldset>
       }
 
@@ -126,7 +134,7 @@
         [value]="sort() ?? 'newest'"
         (valueChange)="setParams({ sort: $event === 'newest' ? null : $event })"
       >
-        @for (s of sorts; track s) {
+        @for (s of sorts(); track s) {
           <mat-option [value]="s">{{ t('recipes.sort.' + s) }}</mat-option>
         }
       </mat-select>
@@ -202,6 +210,12 @@
                 @for (m of r.mealTypes; track m.code) {
                   <span class="chip">{{ m | localized: lang() }}</span>
                 }
+              </p>
+            }
+            @if (warnings(r); as list) {
+              <p class="warn">
+                <span class="material-symbols-rounded" aria-hidden="true">warning</span>
+                {{ t('personal.containsAllergens', { list }) }}
               </p>
             }
             @if (r.author && !r.isOwn) {

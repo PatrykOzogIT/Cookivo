@@ -19,7 +19,7 @@ const VERIFY_TTL_MS = 24 * 60 * 60 * 1000;
 const RESET_TTL_MS = 60 * 60 * 1000;
 
 /** Parametry argon2id wg rekomendacji OWASP. */
-const ARGON_OPTIONS = {
+export const ARGON_OPTIONS = {
   type: argon2.argon2id as 2,
   memoryCost: 19456,
   timeCost: 2,
@@ -215,7 +215,7 @@ export class AuthService {
       },
     });
 
-    return this.buildResult(session.user, newToken, session.expiresAt);
+    return this.buildResult(session.user, session.id, newToken, session.expiresAt);
   }
 
   async logout(refreshToken: string | undefined): Promise<void> {
@@ -294,7 +294,7 @@ export class AuthService {
     const refreshToken = generateToken();
     const days = this.config.get('REFRESH_TTL_DAYS', { infer: true });
     const expiresAt = new Date(Date.now() + days * 24 * 60 * 60 * 1000);
-    await this.prisma.session.create({
+    const session = await this.prisma.session.create({
       data: {
         userId: user.id,
         tokenHash: hashToken(refreshToken),
@@ -303,13 +303,19 @@ export class AuthService {
         userAgent: meta.userAgent?.slice(0, 512),
       },
     });
-    return this.buildResult(user, refreshToken, expiresAt);
+    return this.buildResult(user, session.id, refreshToken, expiresAt);
   }
 
-  private async buildResult(user: User, refreshToken: string, refreshExpiresAt: Date): Promise<AuthResult> {
+  private async buildResult(
+    user: User,
+    sessionId: string,
+    refreshToken: string,
+    refreshExpiresAt: Date,
+  ): Promise<AuthResult> {
     const expiresIn = this.config.get('JWT_ACCESS_TTL_SECONDS', { infer: true });
+    // sid: ciasteczko refresh ma ścieżkę /api/auth, więc /api/me rozpoznaje bieżącą sesję po tokenie
     const accessToken = await this.jwt.signAsync(
-      { sub: user.id, role: user.role, ev: user.emailVerifiedAt !== null },
+      { sub: user.id, role: user.role, ev: user.emailVerifiedAt !== null, sid: sessionId },
       { expiresIn },
     );
     return { accessToken, expiresIn, user: toPublicUser(user), refreshToken, refreshExpiresAt };
@@ -324,7 +330,12 @@ export class AuthService {
   }
 
   /** Nowy token unieważnia poprzednie tego samego typu. */
-  private async createEmailToken(userId: string, type: EmailTokenType, ttlMs: number): Promise<string> {
+  async createEmailToken(
+    userId: string,
+    type: EmailTokenType,
+    ttlMs: number,
+    payload?: string,
+  ): Promise<string> {
     const token = generateToken();
     const now = new Date();
     await this.prisma.$transaction([
@@ -333,7 +344,13 @@ export class AuthService {
         data: { usedAt: now },
       }),
       this.prisma.emailToken.create({
-        data: { userId, type, tokenHash: hashToken(token), expiresAt: new Date(now.getTime() + ttlMs) },
+        data: {
+          userId,
+          type,
+          tokenHash: hashToken(token),
+          expiresAt: new Date(now.getTime() + ttlMs),
+          payload: payload ?? null,
+        },
       }),
     ]);
     return token;
@@ -351,6 +368,21 @@ export class AuthService {
     const record = await this.findValidEmailToken(token, type);
     await this.prisma.emailToken.update({ where: { id: record.id }, data: { usedAt: new Date() } });
     return record;
+  }
+
+  /** Potwierdzenie nowego adresu e-mail (link z maila wysłanego na nowy adres). */
+  async confirmEmailChange(token: string): Promise<void> {
+    const record = await this.findValidEmailToken(token, 'CHANGE_EMAIL');
+    const newEmail = record.payload!;
+    const taken = await this.prisma.user.findUnique({ where: { email: newEmail }, select: { id: true } });
+    if (taken && taken.id !== record.userId) throw new BadRequestException({ code: 'TOKEN_INVALID' });
+    await this.prisma.$transaction([
+      this.prisma.emailToken.update({ where: { id: record.id }, data: { usedAt: new Date() } }),
+      this.prisma.user.update({
+        where: { id: record.userId },
+        data: { email: newEmail, emailVerifiedAt: new Date() },
+      }),
+    ]);
   }
 
   private getDummyHash(): Promise<string> {

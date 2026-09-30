@@ -26,6 +26,13 @@
       }
     </header>
 
+    @if (myAllergenNames(); as list) {
+      <p class="ck-allergy-warning" role="note">
+        <span class="material-symbols-rounded" aria-hidden="true">warning</span>
+        {{ t('personal.ingredientAllergenWarning', { list }) }}
+      </p>
+    }
+
     @if (i.status === 'PENDING' && i.isOwn) {
       <p class="notice">
         <span class="material-symbols-rounded" aria-hidden="true">hourglass_top</span>
@@ -79,6 +86,16 @@
       </section>
 
       <aside class="side">
+        @if (i.personal && i.status === 'APPROVED') {
+          <section class="ck-card box" aria-labelledby="pref-title">
+            <h2 id="pref-title">{{ t('personal.yourPreference') }}</h2>
+            <app-preference-toggle
+              [value]="i.personal.preference"
+              [label]="t('personal.yourPreference')"
+              (changed)="setPreference($event)"
+            />
+          </section>
+        }
         <section class="ck-card box" aria-labelledby="allergens-title">
           <h2 id="allergens-title">{{ t('ingredients.allergens') }}</h2>
           @if (i.allergens.length) {

@@ -50,6 +50,12 @@ export class ListIngredientsQuery {
   @IsBoolean()
   mine?: boolean;
 
+  /** Dopasuj do zalogowanego: bez jego alergenów i składników "nie proponuj" */
+  @IsOptional()
+  @Transform(toBool)
+  @IsBoolean()
+  forMe?: boolean;
+
   /** Tylko dla admina: np. PENDING - kolejka do akceptacji */
   @IsOptional()
   @IsIn(['PENDING', 'APPROVED', 'REJECTED'])

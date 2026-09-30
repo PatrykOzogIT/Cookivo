@@ -23,6 +23,8 @@ enum Locale {
 enum EmailTokenType {
   VERIFY_EMAIL
   RESET_PASSWORD
+  /// Potwierdzenie nowego adresu (nowy adres w `payload`)
+  CHANGE_EMAIL
 }
 
 model User {
@@ -46,6 +48,11 @@ model User {
   sessions    Session[]
   emailTokens EmailToken[]
   consents    Consent[]
+
+  nutritionProfile      NutritionProfile?
+  allergens             UserAllergen[]
+  ingredientPreferences IngredientPreference[]
+  categoryPreferences   CategoryPreference[]
 
   ingredientsCreated  Ingredient[] @relation("IngredientCreatedBy")
   ingredientsReviewed Ingredient[] @relation("IngredientReviewedBy")
@@ -71,6 +78,7 @@ model Allergen {
 
   ingredients IngredientAllergen[]
   recipes     RecipeAllergen[]
+  users       UserAllergen[]
 
   @@map("allergens")
 }
@@ -84,6 +92,7 @@ model IngredientCategory {
   sortOrder Int    @default(0) @map("sort_order")
 
   ingredients Ingredient[]
+  preferences CategoryPreference[]
 
   @@map("ingredient_categories")
 }
@@ -151,9 +160,10 @@ model Ingredient {
   createdAt       DateTime  @default(now()) @map("created_at")
   updatedAt       DateTime  @updatedAt @map("updated_at")
 
-  allergens IngredientAllergen[]
-  units     IngredientUnit[]
-  usedIn    RecipeIngredient[]
+  allergens   IngredientAllergen[]
+  units       IngredientUnit[]
+  usedIn      RecipeIngredient[]
+  preferences IngredientPreference[]
 
   @@index([status, categoryId])
   @@index([createdById])
@@ -238,6 +248,8 @@ model EmailToken {
   tokenHash String         @unique @map("token_hash")
   expiresAt DateTime       @map("expires_at")
   usedAt    DateTime?      @map("used_at")
+  /// Dodatkowe dane tokenu, np. nowy e-mail przy zmianie adresu
+  payload   String?        @db.VarChar(254)
   createdAt DateTime       @default(now()) @map("created_at")
 
   @@index([userId, type])
@@ -396,8 +408,9 @@ model RecipeAllergen {
 /// przypinamy je przy zapisie przepisu; nieprzypięte starsze niż doba są sprzątane.
 model Photo {
   id        String      @id @default(uuid(7)) @db.Uuid
-  ownerId   String      @map("owner_id") @db.Uuid
-  owner     User        @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  /// null = autor usunął konto (zdjęcie zostaje przy zanonimizowanym przepisie publicznym)
+  ownerId   String?     @map("owner_id") @db.Uuid
+  owner     User?       @relation(fields: [ownerId], references: [id], onDelete: SetNull)
   recipeId  String?     @map("recipe_id") @db.Uuid
   recipe    Recipe?     @relation(fields: [recipeId], references: [id], onDelete: Cascade)
   /// Kolejność w galerii (null = zdjęcie kroku)
@@ -411,4 +424,106 @@ model Photo {
   @@index([recipeId])
   @@index([ownerId, recipeId])
   @@map("photos")
+}
+
+// =============================================================================
+// Profil żywieniowy i preferencje (etap 4)
+// =============================================================================
+
+enum Sex {
+  FEMALE
+  MALE
+}
+
+enum ActivityLevel {
+  /// praca siedząca, brak ćwiczeń (×1,2)
+  SEDENTARY
+  /// lekka aktywność 1-3 dni w tygodniu (×1,375)
+  LIGHT
+  /// umiarkowana 3-5 dni (×1,55)
+  MODERATE
+  /// duża 6-7 dni (×1,725)
+  ACTIVE
+  /// bardzo duża / praca fizyczna (×1,9)
+  VERY_ACTIVE
+}
+
+enum NutritionGoal {
+  /// redukcja standardowa (-20%)
+  CUT
+  /// redukcja łagodna (-10%)
+  CUT_MILD
+  MAINTAIN
+  /// masa łagodna (+10%)
+  BULK
+}
+
+/// Dane o zdrowiu (art. 9 RODO) - zapis wymaga aktywnej zgody HEALTH_DATA,
+/// wycofanie zgody usuwa profil i alergie.
+model NutritionProfile {
+  userId        String        @id @map("user_id") @db.Uuid
+  user          User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sex           Sex
+  birthDate     DateTime      @map("birth_date") @db.Date
+  heightCm      Float         @map("height_cm")
+  weightKg      Float         @map("weight_kg")
+  activity      ActivityLevel
+  goal          NutritionGoal
+  /// Ręczne nadpisania (np. zalecenia dietetyka) - null = wyliczamy automatycznie
+  customKcal    Int?          @map("custom_kcal")
+  customProtein Float?        @map("custom_protein")
+  customFat     Float?        @map("custom_fat")
+  customCarbs   Float?        @map("custom_carbs")
+  updatedAt     DateTime      @updatedAt @map("updated_at")
+
+  @@map("nutrition_profiles")
+}
+
+enum AllergySeverity {
+  ALLERGY
+  INTOLERANCE
+}
+
+model UserAllergen {
+  userId     String          @map("user_id") @db.Uuid
+  user       User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  allergenId Int             @map("allergen_id")
+  allergen   Allergen        @relation(fields: [allergenId], references: [id])
+  severity   AllergySeverity @default(ALLERGY)
+
+  @@id([userId, allergenId])
+  @@map("user_allergens")
+}
+
+/// Brak wpisu = neutralnie
+enum PreferenceLevel {
+  /// nie proponuj
+  NEVER
+  /// czasami
+  SOMETIMES
+  LIKE
+  LOVE
+}
+
+model IngredientPreference {
+  userId       String          @map("user_id") @db.Uuid
+  user         User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  ingredientId String          @map("ingredient_id") @db.Uuid
+  ingredient   Ingredient      @relation(fields: [ingredientId], references: [id], onDelete: Cascade)
+  level        PreferenceLevel
+
+  @@id([userId, ingredientId])
+  @@map("ingredient_preferences")
+}
+
+/// Preferencja dla całej kategorii (np. ryby) - preferencja składnika ma pierwszeństwo
+model CategoryPreference {
+  userId     String             @map("user_id") @db.Uuid
+  user       User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  categoryId Int                @map("category_id")
+  category   IngredientCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  level      PreferenceLevel
+
+  @@id([userId, categoryId])
+  @@map("category_preferences")
 }

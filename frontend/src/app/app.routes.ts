@@ -75,8 +75,26 @@ export const routes: Routes = [
   },
   {
     path: 'how-it-works',
-    loadComponent: () => import('./features/placeholder/placeholder-page').then((m) => m.PlaceholderPage),
-    data: { titleKey: 'nav.howItWorks', icon: 'lightbulb', stage: 4 },
+    loadComponent: () => import('./features/how-it-works/how-it-works-page').then((m) => m.HowItWorksPage),
+    data: { titleKey: 'nav.howItWorks' },
+  },
+  {
+    path: 'profile',
+    canMatch: [authGuard],
+    loadComponent: () => import('./features/profile/profile-page').then((m) => m.ProfilePage),
+    data: { titleKey: 'nav.profile' },
+  },
+  {
+    path: 'preferences',
+    canMatch: [authGuard],
+    loadComponent: () => import('./features/profile/preferences-page').then((m) => m.PreferencesPage),
+    data: { titleKey: 'nav.preferences' },
+  },
+  {
+    path: 'settings',
+    canMatch: [authGuard],
+    loadComponent: () => import('./features/profile/settings-page').then((m) => m.SettingsPage),
+    data: { titleKey: 'nav.settings' },
   },
   {
     path: 'auth',
@@ -106,6 +124,11 @@ export const routes: Routes = [
           import('./features/auth/forgot-password/forgot-password-page').then((m) => m.ForgotPasswordPage),
       },
       {
+        path: 'confirm-email',
+        data: { titleKey: 'settings.confirmEmail.title' },
+        loadComponent: () => import('./features/profile/confirm-email-page').then((m) => m.ConfirmEmailPage),
+      },
+      {
         path: 'reset-password',
         data: { titleKey: 'auth.reset.title' },
         loadComponent: () =>
@@ -125,11 +148,8 @@ export const routes: Routes = [
       ['shopping', 'nav.shopping', 'shopping_cart', 7],
       ['pantry', 'nav.pantry', 'kitchen', 7],
       ['prices', 'nav.prices', 'sell', 7],
-      ['profile', 'nav.profile', 'person', 4],
-      ['preferences', 'nav.preferences', 'tune', 4],
       ['my-recipes', 'nav.myRecipes', 'menu_book', 3],
       ['household', 'nav.household', 'group', 5],
-      ['settings', 'nav.settings', 'settings', 4],
     ] as const
   ).map(([path, titleKey, icon, stage]) => ({
     path,

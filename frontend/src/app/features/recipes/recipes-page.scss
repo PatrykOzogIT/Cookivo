@@ -243,3 +243,23 @@ mat-slide-toggle {
     grid-template-columns: 1fr;
   }
 }
+
+.hint {
+  margin: 4px 0 0;
+  font-size: 0.8rem;
+  color: var(--ck-text-muted);
+}
+
+// Ostrzeżenie o alergenach użytkownika (tylko gdy "Dla mnie" jest wyłączone)
+.warn {
+  display: flex;
+  align-items: flex-start;
+  gap: 4px;
+  margin: 0;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--ck-danger);
+  .material-symbols-rounded {
+    font-size: 1.1em;
+  }
+}

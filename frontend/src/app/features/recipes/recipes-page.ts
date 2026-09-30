@@ -63,10 +63,17 @@ export class RecipesPage {
   readonly asIngredient = input<string>();
   readonly mine = input<string>();
   readonly sort = input<Sort>();
+  /** "Dla mnie" jest domyślnie włączone dla zalogowanych; forMe=0 wyłącza */
+  readonly forMe = input<string>();
 
   protected readonly kcalLimits = KCAL_LIMITS;
   protected readonly timeLimits = TIME_LIMITS;
-  protected readonly sorts: Sort[] = ['newest', 'name', 'kcal', 'time'];
+  protected readonly sorts = computed<Sort[]>(() =>
+    this.auth.isLoggedIn()
+      ? ['newest', 'forYou', 'name', 'kcal', 'time']
+      : ['newest', 'name', 'kcal', 'time'],
+  );
+  protected readonly personalOn = computed(() => this.auth.isLoggedIn() && this.forMe() !== '0');
   protected readonly search = new FormControl('', { nonNullable: true });
 
   protected readonly items = signal<RecipeSummary[]>([]);
@@ -96,6 +103,7 @@ export class RecipesPage {
     maxMinutes: toNumber(this.time()),
     canBeIngredient: this.asIngredient() === '1',
     mine: this.mine() === '1',
+    forMe: this.personalOn(),
     sort: this.sort() ?? 'newest',
     lang: this.lang(),
     pageSize: PAGE_SIZE,
@@ -131,6 +139,15 @@ export class RecipesPage {
 
   protected loadMore(): void {
     void this.load(this.query(), this.page() + 1);
+  }
+
+  /** Nazwy alergenów użytkownika obecnych w przepisie */
+  protected warnings(r: RecipeSummary): string {
+    const lang = this.lang();
+    return r.allergens
+      .filter((a) => r.myAllergens?.includes(a.code))
+      .map((a) => (lang === 'en' && a.nameEn ? a.nameEn : a.namePl))
+      .join(', ');
   }
 
   protected totalMinutes(r: RecipeSummary): number | null {

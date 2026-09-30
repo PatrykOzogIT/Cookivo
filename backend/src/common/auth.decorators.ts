@@ -15,6 +15,8 @@ export interface AuthUser {
   id: string;
   role: Role;
   emailVerified: boolean;
+  /** Id sesji (urządzenia), z której pochodzi token - do oznaczenia "to urządzenie" */
+  sessionId?: string;
 }
 
 export interface AuthenticatedRequest extends Request {

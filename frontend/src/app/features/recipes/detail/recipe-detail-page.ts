@@ -73,6 +73,16 @@ export class RecipeDetailPage implements OnInit {
     const r = this.recipe();
     return r ? this.servings() / r.servings : 1;
   });
+  /** Alergeny z listy użytkownika obecne w przepisie (nazwy po przecinku) */
+  protected readonly myAllergenNames = computed(() => {
+    const r = this.recipe();
+    const mine = new Set(r?.myAllergens ?? []);
+    const lang = this.lang();
+    return (r?.allergens ?? [])
+      .filter((a) => mine.has(a.code))
+      .map((a) => (lang === 'en' && a.nameEn ? a.nameEn : a.namePl))
+      .join(', ');
+  });
   protected readonly groups = computed(() => groupLines(this.recipe()?.ingredients ?? []));
   protected readonly photo = computed(() => this.recipe()?.photos[this.photoIndex()] ?? null);
 

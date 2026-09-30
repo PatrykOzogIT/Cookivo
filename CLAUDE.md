@@ -33,3 +33,7 @@ Komunikacja z właścicielem projektu po polsku. Komentarze w kodzie też po pol
 - Zdjęcia: `POST /api/photos` (max 5 MB, JPG/PNG/WebP) → WebP 400/900/1600 px w `UPLOADS_DIR`, serwowane z `/api/media/`. Nieprzypięte do przepisu są sprzątane po dobie. Front zmniejsza zdjęcie przed wysyłką (`image-compress.ts`).
 - Ilości w przepisach wyświetlać pipe'em `amountLabel` (polska odmiana: 1 łyżka / 2 łyżki / 5 łyżek; formy w `recipes.unitForms`).
 - Testy E2E w WebKit na Windowsie (`PW_WEBKIT=1`) potrafią losowo crashować przy nawigacji ("Page crashed") - to błąd przeglądarki testowej; wiążący jest wynik CI (Linux).
+- Kalkulator kcal/makro (Mifflin-St Jeor) jest zdublowany: `backend/src/profile/nutrition-calculator.ts` i `frontend/.../profile/nutrition-calculator.ts` - zmieniać razem (te same testy).
+- Dane o zdrowiu (profil, alergie) wymagają zgody `HEALTH_DATA` (`403 HEALTH_CONSENT_REQUIRED`); wycofanie zgody je usuwa.
+- Personalizacja list: `forMe` (domyślnie włączone dla zalogowanych, `?forMe=0` wyłącza) i sortowanie `forYou` - SQL w `backend/src/profile/personalization.ts`. Uwaga na NULL przy braku preferencji (`coalesce(..., false)`).
+- Ciasteczko refresh ma ścieżkę `/api/auth` - poza nią bieżącą sesję rozpoznaje się po `sid` w access tokenie (`AuthUser.sessionId`).

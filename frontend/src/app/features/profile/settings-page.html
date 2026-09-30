@@ -1,0 +1,140 @@
+<div class="page" *transloco="let t">
+  <h1>{{ t('nav.settings') }}</h1>
+
+  <ng-template #msg let-section>
+    @if (message(); as m) {
+      @if (m.section === section) {
+        <p [class]="m.error ? 'alert' : 'ok'" [attr.role]="m.error ? 'alert' : 'status'">
+          @if (!m.error) {
+            <span class="material-symbols-rounded" aria-hidden="true">check_circle</span>
+          }
+          {{ t(m.key) }}
+        </p>
+      }
+    }
+  </ng-template>
+
+  <!-- Język -->
+  <section class="ck-card box" aria-labelledby="lang-title">
+    <h2 id="lang-title">{{ t('settings.languageTitle') }}</h2>
+    <mat-form-field subscriptSizing="dynamic">
+      <mat-label>{{ t('settings.language') }}</mat-label>
+      <mat-select [value]="language.current()" (valueChange)="setLanguage($event)">
+        <mat-option value="pl">Polski</mat-option>
+        <mat-option value="en">English</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <ng-container *ngTemplateOutlet="msg; context: { $implicit: 'language' }" />
+  </section>
+
+  <!-- Hasło -->
+  <section class="ck-card box" aria-labelledby="password-title">
+    <h2 id="password-title">{{ t('settings.passwordTitle') }}</h2>
+    <form [formGroup]="passwordForm" (ngSubmit)="changePassword()" novalidate>
+      <mat-form-field>
+        <mat-label>{{ t('settings.currentPassword') }}</mat-label>
+        <input
+          matInput
+          type="password"
+          formControlName="currentPassword"
+          autocomplete="current-password"
+          required
+        />
+      </mat-form-field>
+      <div class="new-password">
+        <app-password-field [control]="passwordForm.controls.newPassword" label="auth.fields.newPassword" />
+      </div>
+      <p class="muted">{{ t('settings.passwordNote') }}</p>
+      <button mat-flat-button class="ck-cta" type="submit" [disabled]="busy()">
+        {{ t('settings.changePassword') }}
+      </button>
+    </form>
+    <ng-container *ngTemplateOutlet="msg; context: { $implicit: 'password' }" />
+  </section>
+
+  <!-- E-mail -->
+  <section class="ck-card box" aria-labelledby="email-title">
+    <h2 id="email-title">{{ t('settings.emailTitle') }}</h2>
+    <p class="muted">{{ t('settings.currentEmail', { email: auth.user()?.email }) }}</p>
+    <form [formGroup]="emailForm" (ngSubmit)="changeEmail()" novalidate>
+      <mat-form-field>
+        <mat-label>{{ t('settings.newEmail') }}</mat-label>
+        <input
+          matInput
+          type="email"
+          inputmode="email"
+          formControlName="newEmail"
+          autocomplete="email"
+          required
+        />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>{{ t('settings.confirmWithPassword') }}</mat-label>
+        <input matInput type="password" formControlName="password" autocomplete="current-password" required />
+      </mat-form-field>
+      <button mat-stroked-button type="submit" [disabled]="busy()">{{ t('settings.changeEmail') }}</button>
+    </form>
+    <ng-container *ngTemplateOutlet="msg; context: { $implicit: 'email' }" />
+  </section>
+
+  <!-- Urządzenia -->
+  <section class="ck-card box" aria-labelledby="sessions-title">
+    <h2 id="sessions-title">{{ t('settings.sessionsTitle') }}</h2>
+    <ul class="sessions">
+      @for (s of sessions(); track s.id) {
+        <li>
+          <div>
+            <strong>{{ describe(s.userAgent) ?? t('settings.unknownDevice') }}</strong>
+            @if (s.current) {
+              <span class="current"> · {{ t('settings.thisDevice') }}</span>
+            }
+            <small>{{ t('settings.lastUsed', { date: formatDate(s.lastUsedAt) }) }}</small>
+          </div>
+          @if (!s.current) {
+            <button mat-button type="button" (click)="revoke(s.id)" [disabled]="busy()">
+              {{ t('settings.signOut') }}
+            </button>
+          }
+        </li>
+      }
+    </ul>
+    @if (sessions().length > 1) {
+      <div class="row">
+        <button mat-stroked-button type="button" (click)="revokeOthers()" [disabled]="busy()">
+          {{ t('settings.signOutOthers') }}
+        </button>
+      </div>
+    }
+    <ng-container *ngTemplateOutlet="msg; context: { $implicit: 'sessions' }" />
+  </section>
+
+  <!-- RODO -->
+  <section class="ck-card box" aria-labelledby="data-title">
+    <h2 id="data-title">{{ t('settings.dataTitle') }}</h2>
+    <p class="muted">{{ t('settings.dataLead') }}</p>
+    <button mat-stroked-button type="button" (click)="exportData()" [disabled]="busy()">
+      <span class="material-symbols-rounded" aria-hidden="true">download</span>
+      {{ t('settings.export') }}
+    </button>
+    <ng-container *ngTemplateOutlet="msg; context: { $implicit: 'export' }" />
+  </section>
+
+  <section class="ck-card box danger-zone" aria-labelledby="delete-title">
+    <h2 id="delete-title">{{ t('settings.deleteTitle') }}</h2>
+    <p>{{ t('settings.deleteLead') }}</p>
+    <form [formGroup]="deleteForm" (ngSubmit)="deleteAccount()" novalidate>
+      <mat-form-field>
+        <mat-label>{{ t('settings.confirmWithPassword') }}</mat-label>
+        <input matInput type="password" formControlName="password" autocomplete="current-password" required />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>{{ t('settings.typePhrase', { phrase: deletePhrase() }) }}</mat-label>
+        <input matInput formControlName="phrase" autocomplete="off" autocapitalize="characters" required />
+      </mat-form-field>
+      <button mat-flat-button type="submit" class="danger-fill" [disabled]="busy()">
+        {{ t('settings.deleteButton') }}
+      </button>
+    </form>
+    <ng-container *ngTemplateOutlet="msg; context: { $implicit: 'delete' }" />
+  </section>
+</div>

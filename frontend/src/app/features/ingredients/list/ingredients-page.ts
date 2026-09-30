@@ -16,6 +16,7 @@ import { LocalizedPipe, NumberPipe } from '../../../core/i18n/format.pipes';
 import { LanguageService } from '../../../core/i18n/language.service';
 import { PageLayoutComponent } from '../../../layout/page-layout/page-layout';
 import { CatalogTabsComponent } from '../../../shared/catalog-tabs';
+import { PREFERENCE_ICONS } from '../../profile/preference-toggle';
 import { IngredientsApi } from '../ingredients.api';
 import type { Ingredient, IngredientQuery, IngredientStatus } from '../ingredients.models';
 
@@ -53,6 +54,10 @@ export class IngredientsPage {
   readonly allergens = input<string>();
   readonly mine = input<string>();
   readonly status = input<IngredientStatus>();
+  /** "Dla mnie" jest domyślnie włączone dla zalogowanych; forMe=0 wyłącza */
+  readonly forMe = input<string>();
+  protected readonly prefIcons = PREFERENCE_ICONS;
+  protected readonly personalOn = computed(() => this.auth.isLoggedIn() && this.forMe() !== '0');
 
   protected readonly dictionaries = toSignal(this.api.dictionaries$);
   protected readonly search = new FormControl('', { nonNullable: true });
@@ -74,6 +79,7 @@ export class IngredientsPage {
     category: this.category(),
     excludeAllergens: [...this.excluded()],
     mine: this.mine() === '1',
+    forMe: this.personalOn(),
     status: this.status(),
     lang: this.lang(),
     pageSize: PAGE_SIZE,
@@ -121,6 +127,15 @@ export class IngredientsPage {
     this.setParams({ category: null, allergens: null, mine: null, status: null });
   }
 
+  /** Poziom preferencji do pokazania na karcie (składnik ma pierwszeństwo przed kategorią) */
+  protected preference(i: Ingredient) {
+    return i.personal?.preference ?? i.personal?.categoryPreference ?? null;
+  }
+
+  protected isMyAllergen(i: Ingredient, code: string): boolean {
+    return i.personal?.myAllergens.includes(code) ?? false;
+  }
+
   /** Energia i makro w skrócie do karty */
   protected macros(i: Ingredient) {
     return [
@@ -130,7 +145,7 @@ export class IngredientsPage {
     ];
   }
 
-  private setParams(params: Record<string, string | null>): void {
+  protected setParams(params: Record<string, string | null>): void {
     void this.router.navigate([], { queryParams: params, queryParamsHandling: 'merge', replaceUrl: true });
   }
 

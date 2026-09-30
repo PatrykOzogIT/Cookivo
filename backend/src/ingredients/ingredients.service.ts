@@ -11,6 +11,7 @@ import { Prisma } from '../generated/prisma/client.js';
 import { containsProfanity } from '../moderation/profanity.js';
 import { PrismaService } from '../prisma/prisma.service.js';
 import { RecipeCalculatorService } from '../recipes/recipe-calculator.service.js';
+import { ingredientForMe } from '../profile/personalization.js';
 import type { ListIngredientsQuery, SaveIngredientDto } from './ingredients.dto.js';
 import { checkNutrition } from './nutrition.js';
 
@@ -79,6 +80,7 @@ export class IngredientsService {
         Prisma.sql`i.category_id = (SELECT id FROM ingredient_categories WHERE code = ${query.category})`,
       );
     }
+    if (query.forMe && user) conditions.push(ingredientForMe(user.id));
     if (query.excludeAllergens?.length) {
       conditions.push(Prisma.sql`NOT EXISTS (
         SELECT 1 FROM ingredient_allergens ia JOIN allergens a ON a.id = ia.allergen_id
@@ -110,10 +112,13 @@ export class IngredientsService {
     ]);
 
     const ids = rows.map((r) => r.id);
-    const found = await this.prisma.ingredient.findMany({ where: { id: { in: ids } }, include: INCLUDE });
+    const [found, personal] = await Promise.all([
+      this.prisma.ingredient.findMany({ where: { id: { in: ids } }, include: INCLUDE }),
+      this.personal(user),
+    ]);
     const byId = new Map(found.map((f) => [f.id, f]));
     return {
-      items: ids.map((id) => toDto(byId.get(id)!, user)),
+      items: ids.map((id) => toDto(byId.get(id)!, user, personal)),
       total: Number(count),
       page: query.page,
       pageSize: query.pageSize,
@@ -121,7 +126,7 @@ export class IngredientsService {
   }
 
   async get(id: string, user?: AuthUser) {
-    return toDto(await this.findVisible(id, user), user);
+    return toDto(await this.findVisible(id, user), user, await this.personal(user));
   }
 
   async create(dto: SaveIngredientDto, user: AuthUser) {
@@ -210,6 +215,21 @@ export class IngredientsService {
     return toDto(updated, admin);
   }
 
+  /** Alergie i preferencje zalogowanego - do oznaczeń na kartach składników */
+  private async personal(user?: AuthUser): Promise<Personal | undefined> {
+    if (!user) return undefined;
+    const [allergens, ingredientPrefs, categoryPrefs] = await Promise.all([
+      this.prisma.userAllergen.findMany({ where: { userId: user.id }, include: { allergen: true } }),
+      this.prisma.ingredientPreference.findMany({ where: { userId: user.id } }),
+      this.prisma.categoryPreference.findMany({ where: { userId: user.id }, include: { category: true } }),
+    ]);
+    return {
+      allergens: new Set(allergens.map((a) => a.allergen.code)),
+      ingredients: new Map(ingredientPrefs.map((p) => [p.ingredientId, p.level])),
+      categories: new Map(categoryPrefs.map((p) => [p.category.code, p.level])),
+    };
+  }
+
   // ---------------------------------------------------------------------------
 
   private async findVisible(id: string, user?: AuthUser): Promise<IngredientRow> {
@@ -290,7 +310,13 @@ function duplicateName(err: unknown): never {
   throw err;
 }
 
-export function toDto(row: IngredientRow, user?: AuthUser) {
+interface Personal {
+  allergens: Set<string>;
+  ingredients: Map<string, string>;
+  categories: Map<string, string>;
+}
+
+export function toDto(row: IngredientRow, user?: AuthUser, personal?: Personal) {
   const own = !!user && row.createdById === user.id;
   return {
     id: row.id,
@@ -332,6 +358,14 @@ export function toDto(row: IngredientRow, user?: AuthUser) {
     isOwn: own,
     canEdit: canEdit(row, user),
     canDelete: isAdmin(user) || (own && row.status !== 'APPROVED'),
+    /** Tylko dla zalogowanego: preferencja składnika, jego kategorii i alergeny, na które uważa */
+    personal: personal
+      ? {
+          preference: personal.ingredients.get(row.id) ?? null,
+          categoryPreference: personal.categories.get(row.category.code) ?? null,
+          myAllergens: row.allergens.map((a) => a.allergen.code).filter((c) => personal.allergens.has(c)),
+        }
+      : null,
     // Powód odrzucenia widzi tylko autor i admin
     rejectionReason: own || isAdmin(user) ? row.rejectionReason : null,
     createdAt: row.createdAt,

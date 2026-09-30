@@ -7,6 +7,14 @@
           <mat-slide-toggle [checked]="mine() === '1'" (change)="setMine($event.checked)">
             {{ t('ingredients.filters.mine') }}
           </mat-slide-toggle>
+          <mat-slide-toggle
+            [checked]="personalOn()"
+            (change)="setParams({ forMe: $event.checked ? null : '0' })"
+            aria-describedby="for-me-hint"
+          >
+            {{ t('personal.forMe') }}
+          </mat-slide-toggle>
+          <p class="hint" id="for-me-hint">{{ t('personal.forMeHint') }}</p>
           @if (auth.isAdmin()) {
             <mat-slide-toggle [checked]="status() === 'PENDING'" (change)="setPendingOnly($event.checked)">
               {{ t('ingredients.filters.pending') }}
@@ -111,6 +119,12 @@
               }}</span>
             }
           </div>
+          @if (preference(i); as level) {
+            <p class="pref" [attr.data-level]="level">
+              <span class="material-symbols-rounded" aria-hidden="true">{{ prefIcons[level] }}</span>
+              {{ t('profile.levels.' + level) }}
+            </p>
+          }
           <div class="kcal">
             <strong>{{ i.nutrition.kcal | num: lang() : 0 }}</strong> kcal
             <span class="per">/ 100 g</span>
@@ -127,7 +141,12 @@
             <p class="allergens">
               <span class="visually-hidden">{{ t('ingredients.allergens') }}:</span>
               @for (a of i.allergens; track a.code) {
-                <span class="chip">{{ a | localized: lang() }}</span>
+                <span class="chip" [class.mine]="isMyAllergen(i, a.code)">
+                  @if (isMyAllergen(i, a.code)) {
+                    <span class="material-symbols-rounded" aria-hidden="true">warning</span>
+                  }
+                  {{ a | localized: lang() }}
+                </span>
               }
             </p>
           }

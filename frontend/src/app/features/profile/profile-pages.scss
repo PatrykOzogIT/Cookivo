@@ -1,0 +1,108 @@
+// Wspólne style stron profilu, preferencji i ustawień
+.page {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 24px max(var(--ck-gutter), env(safe-area-inset-right)) 0
+    max(var(--ck-gutter), env(safe-area-inset-left));
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(1.6rem, 1.2rem + 1.5vw, 2.2rem);
+}
+
+.lead {
+  margin: -12px 0 0;
+  color: var(--ck-text-muted);
+}
+
+.box {
+  padding: 20px;
+  h2 {
+    font-size: 1.15rem;
+    margin: 0 0 12px;
+  }
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+
+.side {
+  position: sticky;
+  top: calc(var(--ck-header-h) + 64px);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.muted {
+  color: var(--ck-text-muted);
+}
+
+.ok {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--ck-success);
+  font-weight: 600;
+}
+
+.consent {
+  max-width: 720px;
+  .icon {
+    font-size: 40px;
+    width: auto;
+    height: auto;
+    color: var(--ck-link);
+  }
+  ul {
+    padding-left: 20px;
+    li {
+      margin: 6px 0;
+    }
+  }
+}
+
+.alert {
+  padding: 12px 14px;
+  border-radius: var(--ck-radius-sm);
+  background: color-mix(in srgb, var(--ck-danger) 12%, transparent);
+  color: var(--ck-danger);
+}
+
+.danger {
+  color: var(--ck-danger);
+}
+
+.danger-fill:not(:disabled) {
+  background: var(--ck-danger);
+  color: light-dark(#fff, #1a1512);
+}
+
+.material-symbols-rounded {
+  margin-right: 4px;
+}
+
+@media (max-width: 899.98px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+  .side {
+    position: static;
+  }
+}

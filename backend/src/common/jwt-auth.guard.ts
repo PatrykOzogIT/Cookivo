@@ -7,6 +7,7 @@ interface AccessTokenPayload {
   sub: string;
   role: AuthUser['role'];
   ev: boolean;
+  sid?: string;
 }
 
 /**
@@ -31,7 +32,7 @@ export class JwtAuthGuard implements CanActivate {
     if (token) {
       try {
         const payload = await this.jwt.verifyAsync<AccessTokenPayload>(token);
-        req.user = { id: payload.sub, role: payload.role, emailVerified: payload.ev };
+        req.user = { id: payload.sub, role: payload.role, emailVerified: payload.ev, sessionId: payload.sid };
       } catch {
         if (!isPublic) throw new UnauthorizedException({ code: 'TOKEN_INVALID' });
       }

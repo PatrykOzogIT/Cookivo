@@ -78,9 +78,15 @@ export class ListRecipesQuery {
   @IsBoolean()
   mine?: boolean;
 
+  /** Dopasuj do zalogowanego: bez jego alergenów i składników "nie proponuj" */
   @IsOptional()
-  @IsIn(['newest', 'kcal', 'time', 'name'])
-  sort: 'newest' | 'kcal' | 'time' | 'name' = 'newest';
+  @Transform(toBool)
+  @IsBoolean()
+  forMe?: boolean;
+
+  @IsOptional()
+  @IsIn(['newest', 'kcal', 'time', 'name', 'forYou'])
+  sort: 'newest' | 'kcal' | 'time' | 'name' | 'forYou' = 'newest';
 
   @IsOptional()
   @IsIn(['pl', 'en'])

@@ -33,6 +33,8 @@ export interface RecipeSummary {
   cover: Photo | null;
   author: { username: string } | null;
   isOwn: boolean;
+  /** Alergeny z listy zalogowanego użytkownika (kody) */
+  myAllergens: string[];
 }
 
 export interface RecipeLine {
@@ -82,7 +84,8 @@ export interface RecipeQuery {
   maxMinutes?: number;
   canBeIngredient?: boolean;
   mine?: boolean;
-  sort?: 'newest' | 'kcal' | 'time' | 'name';
+  forMe?: boolean;
+  sort?: 'newest' | 'kcal' | 'time' | 'name' | 'forYou';
   lang?: string;
   page?: number;
   pageSize?: number;
