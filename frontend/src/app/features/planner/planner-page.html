@@ -1,0 +1,232 @@
+<div class="page" *transloco="let t">
+  <header class="head">
+    <div>
+      <h1>{{ t('nav.planner') }}</h1>
+      @if (data(); as d) {
+        <p class="lead">
+          @if (d.scope === 'HOUSEHOLD') {
+            {{ t('planner.householdLead', { name: household()?.name ?? '', people: d.people }) }}
+          } @else {
+            {{ t('planner.lead') }}
+          }
+        </p>
+      }
+    </div>
+    <div class="actions">
+      <button mat-stroked-button type="button" [matMenuTriggerFor]="menu">
+        <span class="material-symbols-rounded" aria-hidden="true">more_horiz</span>{{ t('planner.more') }}
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item type="button" (click)="copyToNextWeek()">
+          <span class="material-symbols-rounded" aria-hidden="true">content_copy</span>
+          <span>{{ t('planner.copyWeek') }}</span>
+        </button>
+        <button mat-menu-item type="button" (click)="confirmClear.set(true)">
+          <span class="material-symbols-rounded" aria-hidden="true">delete_sweep</span>
+          <span>{{ t('planner.clearWeek') }}</span>
+        </button>
+        <button mat-menu-item type="button" (click)="openSettings()">
+          <span class="material-symbols-rounded" aria-hidden="true">tune</span>
+          <span>{{ t('planner.settingsTitle') }}</span>
+        </button>
+      </mat-menu>
+    </div>
+  </header>
+
+  <nav class="week-nav" [attr.aria-label]="t('planner.weekNav')">
+    <button mat-icon-button type="button" (click)="goWeek(-1)" [attr.aria-label]="t('planner.prevWeek')">
+      <span class="material-symbols-rounded" aria-hidden="true">chevron_left</span>
+    </button>
+    <h2 class="week-label" aria-live="polite">{{ weekLabel() }}</h2>
+    <button mat-icon-button type="button" (click)="goWeek(1)" [attr.aria-label]="t('planner.nextWeek')">
+      <span class="material-symbols-rounded" aria-hidden="true">chevron_right</span>
+    </button>
+    @if (!days().includes(today)) {
+      <button mat-button type="button" (click)="goToday()">{{ t('planner.today') }}</button>
+    }
+  </nav>
+
+  @if (confirmClear()) {
+    <div class="confirm" role="alert">
+      <p>{{ t('planner.clearConfirm') }}</p>
+      <button mat-flat-button type="button" class="danger-fill" (click)="clearWeek()">
+        {{ t('planner.clearWeek') }}
+      </button>
+      <button mat-button type="button" (click)="confirmClear.set(false)">{{ t('common.cancel') }}</button>
+    </div>
+  }
+  @if (notice(); as n) {
+    <p class="notice" role="status">{{ n }}</p>
+  }
+  @if (error(); as code) {
+    <div class="alert" role="alert">{{ t('errors.' + code) }}</div>
+  }
+  @if (loading() && !data()) {
+    <mat-progress-bar mode="indeterminate" [attr.aria-label]="t('common.loading')" />
+  }
+
+  @if (data(); as d) {
+    @if (!d.targets) {
+      <p class="tip">
+        <span class="material-symbols-rounded" aria-hidden="true">info</span>
+        {{ t('planner.noTargets') }} <a routerLink="/profile">{{ t('nav.profile') }}</a>
+      </p>
+    }
+
+    <!-- Wąskie ekrany: wybór dnia -->
+    @if (!wide()) {
+      <div class="day-tabs" role="group" [attr.aria-label]="t('planner.days')">
+        @for (day of days(); track day) {
+          <button
+            type="button"
+            class="day-tab"
+            [attr.aria-pressed]="day === selectedDay()"
+            [attr.aria-current]="day === today ? 'date' : null"
+            [class.today]="day === today"
+            [attr.data-status]="status(day)"
+            (click)="selectDay(day)"
+          >
+            <span class="dow">{{ dow(day) }}</span>
+            <span class="num">{{ day.slice(8) }}</span>
+          </button>
+        }
+      </div>
+    }
+
+    <div class="board" [class.wide]="wide()" [style.--slots]="slots().length">
+      @if (wide()) {
+        <div class="slot-labels" aria-hidden="true">
+          <span class="corner"></span>
+          @for (s of slots(); track s.key) {
+            <span class="slot-label">{{ slotLabel(s) }}</span>
+          }
+          <span class="slot-label">{{ t('planner.balance') }}</span>
+        </div>
+      }
+      @for (day of wide() ? days() : [selectedDay()]; track day) {
+        <section class="day" [class.today]="day === today" [attr.aria-labelledby]="'day-' + day">
+          <div class="day-head">
+            <h3 [id]="'day-' + day">{{ dayLabel(day, !wide()) }}</h3>
+            <button
+              mat-icon-button
+              type="button"
+              class="small"
+              (click)="copyDayToNext(day)"
+              [attr.aria-label]="t('planner.copyDay', { day: dayLabel(day) })"
+            >
+              <span class="material-symbols-rounded" aria-hidden="true">content_copy</span>
+            </button>
+          </div>
+
+          @for (s of slots(); track s.key) {
+            <div class="cell">
+              <h4 [class.visually-hidden]="wide()">{{ slotLabel(s) }}</h4>
+              @for (m of cell(day, s.key); track m.id) {
+                <button
+                  type="button"
+                  class="meal"
+                  (click)="editMeal(m)"
+                  [attr.data-leftover]="m.fromLeftovers"
+                >
+                  <span class="title">{{ m.recipe.title }}</span>
+                  <span class="meta">
+                    {{ portions(m.servings) }}
+                    @if (d.people > 1) {
+                      · {{ t('planner.mine', { portions: portions(m.myServings) }) }}
+                    }
+                    · {{ myKcal(m) | num: lang() : 0 }} kcal
+                  </span>
+                  @if (m.fromLeftovers) {
+                    <span class="tag">
+                      <span class="material-symbols-rounded" aria-hidden="true">kitchen</span>
+                      {{ t('planner.leftoverFrom', { day: dayLabel(m.cook.date) }) }}
+                    </span>
+                  } @else if (m.cook.remaining > 0 || m.cook.mealsCount > 1) {
+                    <span class="tag">
+                      <span class="material-symbols-rounded" aria-hidden="true">soup_kitchen</span>
+                      {{ t('planner.cookedFor', { portions: portions(m.cook.servings) }) }}
+                    </span>
+                  }
+                  @if (m.stale) {
+                    <span class="tag warn">
+                      <span class="material-symbols-rounded" aria-hidden="true">warning</span>
+                      {{ t('planner.staleTag', { days: m.daysAfterCooking }) }}
+                    </span>
+                  }
+                  @if (m.recipe.myAllergens.length) {
+                    <span class="tag warn">
+                      <span class="material-symbols-rounded" aria-hidden="true">warning</span>
+                      {{ t('planner.allergenTag') }}
+                    </span>
+                  }
+                </button>
+              }
+              <button
+                type="button"
+                class="add"
+                (click)="addMeal(day, s)"
+                [attr.aria-label]="t('planner.addAria', { meal: slotLabel(s), day: dayLabel(day, true) })"
+              >
+                <span class="material-symbols-rounded" aria-hidden="true">add</span>
+                @if (!wide()) {
+                  <span>{{ t('planner.add') }}</span>
+                }
+              </button>
+            </div>
+          }
+
+          <!-- Bilans dnia -->
+          @if (totals().get(day); as tot) {
+            <div class="balance" [attr.data-status]="status(day)">
+              <h4 class="visually-hidden">{{ t('planner.balance') }}</h4>
+              <p class="kcal">
+                <strong>{{ tot.kcal | num: lang() : 0 }}</strong>
+                @if (d.targets) {
+                  / {{ d.targets.kcal | num: lang() : 0 }}
+                }
+                kcal
+              </p>
+              @if (d.targets) {
+                <div class="bar" aria-hidden="true">
+                  <span [style.width.%]="percent(tot.kcal, d.targets.kcal)"></span>
+                </div>
+                <p class="status">{{ t('planner.status.' + status(day)) }}</p>
+              }
+              <dl class="macros">
+                @for (k of ['protein', 'fat', 'carbs']; track k) {
+                  <div [attr.data-macro]="k">
+                    <dt>{{ t('nutrition.' + k) }}</dt>
+                    <dd>
+                      {{ $any(tot)[k] | num: lang() : 0 }}
+                      @if (d.targets) {
+                        / {{ $any(d.targets)[k] | num: lang() : 0 }}
+                      }
+                      g
+                    </dd>
+                  </div>
+                }
+              </dl>
+            </div>
+          }
+        </section>
+      }
+    </div>
+
+    @if (d.leftovers.length) {
+      <section class="ck-card leftovers" aria-labelledby="leftovers-title">
+        <h2 id="leftovers-title">
+          <span class="material-symbols-rounded" aria-hidden="true">kitchen</span
+          >{{ t('planner.leftoversTitle') }}
+        </h2>
+        <ul>
+          @for (l of d.leftovers; track l.cookId) {
+            <li>
+              <strong>{{ l.recipe.title }}</strong>
+              {{ t('planner.leftoverInfo', { date: dayLabel(l.date), rest: portions(l.remaining) }) }}
+            </li>
+          }
+        </ul>
+      </section>
+    }
+  }
+</div>

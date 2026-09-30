@@ -68,8 +68,15 @@ test.describe('Składniki - dodawanie i akceptacja', () => {
 
     await page.getByLabel('Nazwa po polsku').fill(name);
     // Listy wyboru otwieramy z klawiatury - sprawdza też obsługę bez myszy
-    await page.getByRole('combobox', { name: 'Kategoria' }).focus();
-    await page.keyboard.press('Enter');
+    // Pod obciążeniem pierwszy Enter bywa przed gotowością listy - ponawiamy
+    const category = page.getByRole('combobox', { name: 'Kategoria' });
+    await expect(async () => {
+      if (!(await page.getByRole('listbox').isVisible())) {
+        await category.focus();
+        await page.keyboard.press('Enter');
+      }
+      await expect(page.getByRole('option', { name: 'Nabiał' })).toBeVisible({ timeout: 1000 });
+    }).toPass();
     await page.getByRole('option', { name: 'Nabiał' }).click();
     await page.getByLabel('Wartość energetyczna').fill('133');
     await page.getByLabel('Tłuszcze', { exact: true }).fill('4,7');

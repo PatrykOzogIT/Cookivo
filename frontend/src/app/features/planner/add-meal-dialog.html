@@ -1,0 +1,142 @@
+<ng-container *transloco="let t">
+  <h2 mat-dialog-title>{{ t('planner.addTo', { where: data.heading }) }}</h2>
+  <mat-dialog-content>
+    @if (data.leftovers.length) {
+      <mat-button-toggle-group
+        class="source"
+        [value]="source()"
+        (change)="source.set($event.value)"
+        [attr.aria-label]="t('planner.source')"
+        hideSingleSelectionIndicator
+      >
+        <mat-button-toggle value="leftover">
+          {{ t('planner.fromLeftovers', { count: data.leftovers.length }) }}
+        </mat-button-toggle>
+        <mat-button-toggle value="recipe">{{ t('planner.newDish') }}</mat-button-toggle>
+      </mat-button-toggle-group>
+    }
+
+    @if (source() === 'recipe') {
+      <mat-form-field class="full" subscriptSizing="dynamic">
+        <mat-label>{{ t('recipes.search') }}</mat-label>
+        <span matIconPrefix class="material-symbols-rounded prefix" aria-hidden="true">search</span>
+        <input matInput type="search" [formControl]="search" autocomplete="off" enterkeyhint="search" />
+      </mat-form-field>
+      @if (data.mealType) {
+        <mat-slide-toggle [checked]="matchSlot()" (change)="setMatchSlot($event.checked)">
+          {{ t('planner.matchSlot') }}
+        </mat-slide-toggle>
+      }
+      <p class="hint">{{ t(data.household ? 'planner.filteredForUs' : 'planner.filteredForMe') }}</p>
+
+      @if (searching()) {
+        <mat-progress-bar mode="indeterminate" [attr.aria-label]="t('common.loading')" />
+      }
+      <ul class="choices" role="radiogroup" [attr.aria-label]="t('planner.pickRecipe')">
+        @for (r of results(); track r.id) {
+          <li>
+            <button
+              type="button"
+              role="radio"
+              class="choice"
+              [attr.aria-checked]="selected()?.id === r.id"
+              (click)="selected.set(r)"
+            >
+              <span class="title">{{ r.title }}</span>
+              <span class="meta"
+                >{{ r.kcalPerServing | num: data.lang : 0 }} {{ t('recipes.kcalPerServing') }}</span
+              >
+              @if (selected()?.id === r.id) {
+                <span class="material-symbols-rounded check" aria-hidden="true">check_circle</span>
+              }
+            </button>
+          </li>
+        } @empty {
+          @if (!searching()) {
+            <li class="empty">{{ t('planner.noRecipes') }}</li>
+          }
+        }
+      </ul>
+
+      @if (selected()) {
+        <div class="amounts">
+          <app-servings-stepper
+            id="servings-now"
+            [label]="t('planner.servingsNow')"
+            [lang]="data.lang"
+            [(value)]="servings"
+          />
+          <mat-checkbox [checked]="cookAhead()" (change)="setCookAhead($event.checked)">
+            {{ t('planner.cookAhead') }}
+          </mat-checkbox>
+          @if (cookAhead()) {
+            <app-servings-stepper
+              id="servings-cook"
+              [label]="t('planner.cookServings')"
+              [lang]="data.lang"
+              [min]="servings()"
+              [(value)]="cookServings"
+            />
+            <p class="hint">
+              {{
+                t('planner.cookAheadHint', {
+                  rest: portions(cookServings() - servings()),
+                  days: data.freshDays,
+                })
+              }}
+            </p>
+          }
+        </div>
+      }
+    } @else {
+      <ul class="choices" role="radiogroup" [attr.aria-label]="t('planner.pickLeftover')">
+        @for (l of data.leftovers; track l.cookId) {
+          <li>
+            <button
+              type="button"
+              role="radio"
+              class="choice"
+              [attr.aria-checked]="leftover()?.cookId === l.cookId"
+              (click)="pickLeftover(l)"
+            >
+              <span class="title">{{ l.recipe.title }}</span>
+              <span class="meta">
+                {{ t('planner.leftoverInfo', { date: day(l.date), rest: portions(l.remaining) }) }}
+              </span>
+              @if (leftover()?.cookId === l.cookId) {
+                <span class="material-symbols-rounded check" aria-hidden="true">check_circle</span>
+              }
+            </button>
+          </li>
+        }
+      </ul>
+      @if (leftover(); as l) {
+        <div class="amounts">
+          <app-servings-stepper
+            id="servings-leftover"
+            [label]="t('planner.servingsNow')"
+            [lang]="data.lang"
+            [max]="maxFromLeftover()"
+            [(value)]="servings"
+          />
+          @if (leftoverStale()) {
+            <p class="warn" role="note">
+              <span class="material-symbols-rounded" aria-hidden="true">warning</span>
+              {{ t('planner.staleWarning', { days: data.freshDays }) }}
+            </p>
+          }
+        </div>
+      }
+    }
+
+    @if (error(); as code) {
+      <p class="alert" role="alert">{{ t('errors.' + code) }}</p>
+    }
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button type="button" mat-dialog-close>{{ t('common.cancel') }}</button>
+    <button mat-flat-button class="ck-cta" type="button" (click)="save()" [disabled]="!canSave() || busy()">
+      {{ t('planner.add') }}
+    </button>
+  </mat-dialog-actions>
+</ng-container>

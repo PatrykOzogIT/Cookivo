@@ -123,6 +123,13 @@ export class AccountService {
       include: {
         consents: { orderBy: { grantedAt: 'asc' } },
         householdMember: { include: { household: { select: { name: true } } } },
+        // Osobisty plan (plan gospodarstwa należy do gospodarstwa)
+        planMeals: {
+          include: { cook: { include: { recipe: { select: { title: true } } } }, customSlot: true },
+          orderBy: { date: 'asc' },
+        },
+        customSlots: true,
+        plannerSettings: true,
         sessions: { orderBy: { createdAt: 'asc' } },
         ingredientsCreated: { include: { category: true } },
         recipes: {
@@ -164,6 +171,22 @@ export class AccountService {
       targets: profile.targets,
       allergens: profile.allergens,
       preferences,
+      planner: {
+        settings: user.plannerSettings
+          ? {
+              hiddenSlots: user.plannerSettings.hiddenSlots,
+              exactPortions: user.plannerSettings.exactPortions,
+            }
+          : null,
+        customMeals: user.customSlots.map((s) => s.name),
+        meals: user.planMeals.map((m) => ({
+          date: m.date.toISOString().slice(0, 10),
+          meal: m.slotCode ?? m.customSlot?.name ?? null,
+          recipe: m.cook.recipe.title,
+          servings: m.servings,
+          cookedOn: m.cook.date.toISOString().slice(0, 10),
+        })),
+      },
       household: user.householdMember
         ? {
             name: user.householdMember.household.name,

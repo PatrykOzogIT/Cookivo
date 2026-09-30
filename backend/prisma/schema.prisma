@@ -63,6 +63,12 @@ model User {
   householdMember  HouseholdMember?
   householdInvites HouseholdInvite[]
 
+  plannerSettings PlannerSettings?
+  customSlots     CustomMealSlot[]
+  planCooks       PlanCook[]       @relation("PlanCookOwner")
+  planMeals       PlanMeal[]
+  planCooksAdded  PlanCook[]       @relation("PlanCookCreatedBy")
+
   @@map("users")
 }
 
@@ -339,6 +345,7 @@ model Recipe {
   ingredients RecipeIngredient[] @relation("RecipeLines")
   usedIn      RecipeIngredient[] @relation("SubRecipe")
   steps       RecipeStep[]
+  planCooks   PlanCook[]
   photos      Photo[]
   allergens   RecipeAllergen[]
 
@@ -550,6 +557,11 @@ model Household {
   members   HouseholdMember[]
   invites   HouseholdInvite[]
 
+  plannerSettings PlannerSettings?
+  customSlots     CustomMealSlot[]
+  planCooks       PlanCook[]
+  planMeals       PlanMeal[]
+
   @@map("households")
 }
 
@@ -584,4 +596,85 @@ model HouseholdInvite {
 
   @@index([householdId])
   @@map("household_invites")
+}
+
+// --- Planer ---------------------------------------------------------------------------
+// Plan należy do gospodarstwa (gdy użytkownik w nim jest) albo do samego użytkownika:
+// w każdym wierszu dokładnie jedno z userId / householdId (sprawdza CHECK w migracji).
+
+/// Ustawienia planera: ukryte stałe posiłki i (etap 6b) tryb dokładnych porcji
+model PlannerSettings {
+  id            String     @id @default(uuid(7)) @db.Uuid
+  userId        String?    @unique @map("user_id") @db.Uuid
+  user          User?      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  householdId   String?    @unique @map("household_id") @db.Uuid
+  household     Household? @relation(fields: [householdId], references: [id], onDelete: Cascade)
+  /// Kody stałych posiłków ukrytych w planerze
+  hiddenSlots   String[]   @default([]) @map("hidden_slots")
+  exactPortions Boolean    @default(false) @map("exact_portions")
+  updatedAt     DateTime   @updatedAt @map("updated_at")
+
+  @@map("planner_settings")
+}
+
+/// Własny posiłek dnia (np. "Po treningu")
+model CustomMealSlot {
+  id          String     @id @default(uuid(7)) @db.Uuid
+  userId      String?    @map("user_id") @db.Uuid
+  user        User?      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  householdId String?    @map("household_id") @db.Uuid
+  household   Household? @relation(fields: [householdId], references: [id], onDelete: Cascade)
+  name        String     @db.VarChar(40)
+  sortOrder   Int        @default(0) @map("sort_order")
+  createdAt   DateTime   @default(now()) @map("created_at")
+  meals       PlanMeal[]
+
+  @@index([userId])
+  @@index([householdId])
+  @@map("custom_meal_slots")
+}
+
+/// Gotowanie: przepis przygotowany danego dnia w N porcjach (może starczyć na kilka posiłków)
+model PlanCook {
+  id          String     @id @default(uuid(7)) @db.Uuid
+  userId      String?    @map("user_id") @db.Uuid
+  user        User?      @relation("PlanCookOwner", fields: [userId], references: [id], onDelete: Cascade)
+  householdId String?    @map("household_id") @db.Uuid
+  household   Household? @relation(fields: [householdId], references: [id], onDelete: Cascade)
+  recipeId    String     @map("recipe_id") @db.Uuid
+  recipe      Recipe     @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+  /// Dzień gotowania = dzień pierwszego posiłku z tej partii
+  date        DateTime   @db.Date
+  servings    Float
+  createdById String?    @map("created_by_id") @db.Uuid
+  createdBy   User?      @relation("PlanCookCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
+  createdAt   DateTime   @default(now()) @map("created_at")
+  meals       PlanMeal[]
+
+  @@index([userId, date])
+  @@index([householdId, date])
+  @@map("plan_cooks")
+}
+
+/// Posiłek w planie: porcje z danej partii zjedzone w dniu i posiłku
+model PlanMeal {
+  id           String          @id @default(uuid(7)) @db.Uuid
+  userId       String?         @map("user_id") @db.Uuid
+  user         User?           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  householdId  String?         @map("household_id") @db.Uuid
+  household    Household?      @relation(fields: [householdId], references: [id], onDelete: Cascade)
+  date         DateTime        @db.Date
+  /// Stały posiłek (kod) albo własny (customSlotId) - dokładnie jedno
+  slotCode     String?         @map("slot_code") @db.VarChar(32)
+  customSlotId String?         @map("custom_slot_id") @db.Uuid
+  customSlot   CustomMealSlot? @relation(fields: [customSlotId], references: [id], onDelete: Cascade)
+  cookId       String          @map("cook_id") @db.Uuid
+  cook         PlanCook        @relation(fields: [cookId], references: [id], onDelete: Cascade)
+  servings     Float
+  createdAt    DateTime        @default(now()) @map("created_at")
+
+  @@index([userId, date])
+  @@index([householdId, date])
+  @@index([cookId])
+  @@map("plan_meals")
 }

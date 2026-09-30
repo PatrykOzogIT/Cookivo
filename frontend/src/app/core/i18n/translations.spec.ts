@@ -30,6 +30,12 @@ describe('Pliki tłumaczeń', () => {
 
   it('każdy kod błędu z backendu ma tłumaczenie', () => {
     const backendCodes = [
+      'PORTIONS_EXCEEDED',
+      'SLOT_UNKNOWN',
+      'DATE_INVALID',
+      'DATE_RANGE_INVALID',
+      'MEAL_SOURCE_INVALID',
+      'TOO_MANY_SLOTS',
       'ALREADY_IN_HOUSEHOLD',
       'NOT_IN_HOUSEHOLD',
       'INVITE_INVALID',

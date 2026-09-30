@@ -91,6 +91,12 @@ export const routes: Routes = [
     data: { titleKey: 'nav.preferences' },
   },
   {
+    path: 'planner',
+    canMatch: [authGuard],
+    data: { titleKey: 'nav.planner' },
+    loadComponent: () => import('./features/planner/planner-page').then((m) => m.PlannerPage),
+  },
+  {
     path: 'household',
     children: [
       {
@@ -161,7 +167,6 @@ export const routes: Routes = [
   // Sekcje dla zalogowanych - wypełniamy je w kolejnych etapach.
   ...(
     [
-      ['planner', 'nav.planner', 'calendar_month', 6],
       ['shopping', 'nav.shopping', 'shopping_cart', 7],
       ['pantry', 'nav.pantry', 'kitchen', 7],
       ['prices', 'nav.prices', 'sell', 7],
