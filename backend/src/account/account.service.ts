@@ -122,7 +122,9 @@ export class AccountService {
       where: { id: userId },
       include: {
         consents: { orderBy: { grantedAt: 'asc' } },
-        householdMember: { include: { household: { select: { name: true } } } },
+        householdMember: {
+          include: { household: { select: { name: true, dependents: { orderBy: { birthYear: 'asc' } } } } },
+        },
         // Osobisty plan (plan gospodarstwa należy do gospodarstwa)
         planMeals: {
           include: { cook: { include: { recipe: { select: { title: true } } } }, customSlot: true },
@@ -193,6 +195,14 @@ export class AccountService {
             role: user.householdMember.role,
             joinedAt: user.householdMember.joinedAt,
             shareAllergies: user.householdMember.shareAllergies,
+            shareTargets: user.householdMember.shareTargets,
+            // Osoby bez konta wpisane w gospodarstwie (np. dzieci)
+            dependents: user.householdMember.household.dependents.map((d) => ({
+              name: d.name,
+              birthYear: d.birthYear,
+              sex: d.sex,
+              customKcal: d.customKcal,
+            })),
           }
         : null,
       sessions: user.sessions.map((s) => ({

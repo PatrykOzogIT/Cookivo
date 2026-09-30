@@ -5,6 +5,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { apiErrorCode } from '../../core/api-error';
 import {
@@ -30,6 +31,7 @@ export interface SettingsData {
     MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
+    MatSlideToggleModule,
     TranslocoDirective,
   ],
   template: `
@@ -47,6 +49,19 @@ export interface SettingsData {
               {{ t('planner.slots.' + code) }}
             </mat-checkbox>
           }
+        </fieldset>
+
+        <fieldset>
+          <legend>{{ t('planner.exact.title') }}</legend>
+          <mat-slide-toggle
+            [checked]="exact()"
+            (change)="setExact($event.checked)"
+            [disabled]="busy()"
+            aria-describedby="exact-hint"
+          >
+            {{ t('planner.exact.toggle') }}
+          </mat-slide-toggle>
+          <p class="hint" id="exact-hint">{{ t('planner.exact.hint') }}</p>
         </fieldset>
 
         <fieldset>
@@ -125,6 +140,7 @@ export class PlannerSettingsDialog {
 
   protected readonly standard = STANDARD_SLOTS;
   protected readonly hidden = signal(new Set<StandardSlot>(this.data.settings.hiddenSlots));
+  protected readonly exact = signal(this.data.settings.exactPortions);
   protected readonly custom = signal(this.data.slots.filter((s) => !s.code));
   protected readonly busy = signal(false);
   protected readonly error = signal<string | null>(null);
@@ -141,8 +157,15 @@ export class PlannerSettingsDialog {
     if (visible) next.delete(code);
     else next.add(code);
     await this.run(async () => {
-      const saved = await this.api.saveSettings({ ...this.data.settings, hiddenSlots: [...next] });
+      const saved = await this.api.saveSettings({ hiddenSlots: [...next], exactPortions: this.exact() });
       this.hidden.set(new Set(saved.hiddenSlots));
+    });
+  }
+
+  protected async setExact(on: boolean): Promise<void> {
+    await this.run(async () => {
+      const saved = await this.api.saveSettings({ hiddenSlots: [...this.hidden()], exactPortions: on });
+      this.exact.set(saved.exactPortions);
     });
   }
 

@@ -118,7 +118,8 @@
     "DATE_INVALID": "Invalid date.",
     "DATE_RANGE_INVALID": "Invalid date range.",
     "MEAL_SOURCE_INVALID": "Choose a recipe or portions from leftovers.",
-    "TOO_MANY_SLOTS": "You can have at most 6 custom meals."
+    "TOO_MANY_SLOTS": "You can have at most 6 custom meals.",
+    "PERSON_UNKNOWN": "There is no such person in the household."
   },
   "auth": {
     "fields": {
@@ -757,7 +758,7 @@
     "leaveOwnerConfirm": "Are you sure you want to leave the household? The longest-standing member will become the owner.",
     "removeConfirm": "Remove {{username}} from the household?",
     "makeOwnerConfirm": "Make {{username}} the owner? You will become a regular member.",
-    "shareTitle": "My allergies in the household",
+    "shareTitle": "What I share with household members",
     "shareLead": "If you agree, household members will see your allergies and intolerances, and “For us” mode will take them into account. You can withdraw consent at any time.",
     "shareToggle": "Share my allergies with household members",
     "shareNeedsConsent": "Save your allergies first - they are health data and require your consent.",
@@ -797,6 +798,23 @@
       "toMine": "Go to my household",
       "loginFirst": "Sign in to join. Don't have an account? Create one, then open this link again.",
       "invalidTitle": "This invitation is invalid"
+    },
+    "shareTargetsToggle": "Use my daily calorie target when splitting portions",
+    "shareTargetsHint": "Needed for the planner’s exact mode. Without consent your portion is calculated as for a neutral 2000 kcal. Household members may infer an approximate target from portion sizes.",
+    "dependents": {
+      "title": "People without an account",
+      "lead": "E.g. children. Used only to split portions in the planner’s exact mode.",
+      "kcalReference": "Target: {{kcal}} kcal (reference value for age)",
+      "kcalCustom": "Target: {{kcal}} kcal (entered)",
+      "edit": "Edit",
+      "add": "Add a person",
+      "name": "Name",
+      "birthYear": "Year of birth",
+      "birthYearError": "Enter a year from 1916 to {{max}}.",
+      "customKcal": "Own calorie target (optional)",
+      "customKcalHint": "E.g. recommended by a paediatrician or dietitian. Empty = reference value.",
+      "note": "EFSA reference values for children are approximate and are not medical advice.",
+      "ageForms": "year|years|years"
     }
   },
   "planner": {
@@ -872,6 +890,27 @@
     "customHint": "Removing a custom meal also removes the dishes planned in it.",
     "done": "Done",
     "increase": "Add a portion",
-    "decrease": "Remove a portion"
+    "decrease": "Remove a portion",
+    "exact": {
+      "title": "Exact portions",
+      "toggle": "Split portions by each person’s calorie target",
+      "hint": "For families and the meticulous: who eats which meal, how many grams to serve each person and weighing the pot. Off = regular equal portions.",
+      "whose": "Whose balance to show",
+      "me": "You",
+      "notEating": "{{name}}: not eating",
+      "without": "without: {{names}}",
+      "servingTitle": "Serving",
+      "mealGrams": "For this meal: {{grams}} g",
+      "estimate": "estimated from raw ingredients - weigh the pot for more accuracy",
+      "person": "Person",
+      "grams": "Grams",
+      "portions": "Portions",
+      "nobody": "Nobody eats this meal.",
+      "leave": "Keep the rest for later meals: about {{grams}} g.",
+      "whoEats": "Who eats",
+      "weigh": "Weight of the whole pot after cooking",
+      "weighHint": "Optional. A weighed pot gives the most accurate grams (without the pot itself).",
+      "lead": "Shared plan of the “{{name}}” household · portions split by each person’s calorie target."
+    }
   }
 }

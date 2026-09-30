@@ -130,3 +130,64 @@
     flex: 1;
   }
 }
+
+// --- Nakładanie (tryb dokładny) -----------------------------------------------------
+.serving {
+  margin: 0 0 16px;
+  padding: 12px 14px;
+  border-radius: var(--ck-radius-sm);
+  background: var(--ck-surface-2);
+  h3 {
+    margin: 0 0 6px;
+    font-size: 1rem;
+  }
+  .pot,
+  .leave {
+    margin: 0 0 8px;
+  }
+  .leave {
+    display: flex;
+    gap: 6px;
+    font-weight: 600;
+  }
+  .muted {
+    color: var(--ck-text-muted);
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 8px;
+    font-variant-numeric: tabular-nums;
+  }
+  th,
+  td {
+    padding: 6px 4px;
+    text-align: left;
+    border-bottom: 1px solid var(--ck-border);
+  }
+  thead th {
+    font-size: 0.75rem;
+    color: var(--ck-text-muted);
+  }
+  tbody th {
+    font-weight: 700;
+  }
+  .num {
+    text-align: right;
+    white-space: nowrap;
+  }
+  tbody td.num:nth-child(2) {
+    font-weight: 700;
+  }
+  .eaters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 8px;
+    margin: 8px 0 12px;
+    padding: 0;
+    border: 0;
+    legend {
+      font-weight: 600;
+    }
+  }
+}

@@ -1,0 +1,140 @@
+<ng-container *transloco="let t">
+  <h2 mat-dialog-title>{{ m.recipe.title }}</h2>
+  <mat-dialog-content>
+    <p class="info">
+      @if (m.cook.mealsCount > 1 || m.cook.remaining > 0) {
+        {{
+          t('planner.cookInfo', {
+            date: day(m.cook.date),
+            servings: fmt(m.cook.servings),
+            rest: fmt(m.cook.remaining),
+          })
+        }}
+      }
+      <a [routerLink]="['/recipes', m.recipe.id]" mat-dialog-close>{{ t('planner.openRecipe') }}</a>
+    </p>
+
+    @if (exact) {
+      <!-- Nakładanie: ile dla kogo -->
+      <section class="serving" aria-labelledby="serving-title">
+        <h3 id="serving-title">{{ t('planner.exact.servingTitle') }}</h3>
+        @if (m.grams !== null) {
+          <p class="pot">
+            {{ t('planner.exact.mealGrams', { grams: (m.grams | num: data.lang : 0) }) }}
+            @if (m.cook.gramsSource === 'ESTIMATE') {
+              <span class="muted"> · {{ t('planner.exact.estimate') }}</span>
+            }
+          </p>
+        }
+        @if (rows().length) {
+          <table>
+            <caption class="visually-hidden">
+              {{
+                t('planner.exact.servingTitle')
+              }}
+            </caption>
+            <thead>
+              <tr>
+                <th scope="col">{{ t('planner.exact.person') }}</th>
+                <th scope="col" class="num">{{ t('planner.exact.grams') }}</th>
+                <th scope="col" class="num">%</th>
+                <th scope="col" class="num">{{ t('planner.exact.portions') }}</th>
+                <th scope="col" class="num">kcal</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (r of rows(); track r.key) {
+                <tr>
+                  <th scope="row">{{ r.isMe ? t('planner.exact.me') : r.name }}</th>
+                  <td class="num">{{ r.grams !== null ? (r.grams | num: data.lang : 0) + ' g' : '–' }}</td>
+                  <td class="num">{{ r.fraction * 100 | num: data.lang : 0 }}%</td>
+                  <td class="num">≈ {{ fmt(r.servings) }}</td>
+                  <td class="num">{{ r.kcal | num: data.lang : 0 }}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        } @else {
+          <p class="muted">{{ t('planner.exact.nobody') }}</p>
+        }
+        @if (leave(); as g) {
+          <p class="leave">
+            <span class="material-symbols-rounded" aria-hidden="true">kitchen</span>
+            {{ t('planner.exact.leave', { grams: (g | num: data.lang : 0) }) }}
+          </p>
+        }
+
+        <fieldset class="eaters">
+          <legend>{{ t('planner.exact.whoEats') }}</legend>
+          @for (p of data.persons; track p.key) {
+            <mat-checkbox [checked]="!absent().has(p.key)" (change)="toggleEater(p.key, $event.checked)">
+              {{ p.isMe ? t('planner.exact.me') : p.name }}
+            </mat-checkbox>
+          }
+        </fieldset>
+
+        <mat-form-field class="full" subscriptSizing="dynamic">
+          <mat-label>{{ t('planner.exact.weigh') }}</mat-label>
+          <input matInput [(ngModel)]="weighed" type="text" inputmode="decimal" autocomplete="off" />
+          <span matTextSuffix>g</span>
+          <mat-hint>{{ t('planner.exact.weighHint') }}</mat-hint>
+        </mat-form-field>
+      </section>
+    }
+
+    <div class="row">
+      <mat-form-field subscriptSizing="dynamic">
+        <mat-label>{{ t('planner.day') }}</mat-label>
+        <mat-select [(ngModel)]="date">
+          @for (d of data.days; track d) {
+            <mat-option [value]="d">{{ day(d) }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field subscriptSizing="dynamic">
+        <mat-label>{{ t('planner.meal') }}</mat-label>
+        <mat-select [(ngModel)]="slot">
+          @for (s of data.slots; track s.key) {
+            <mat-option [value]="s.key">{{ s.label }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="amounts">
+      <app-servings-stepper
+        id="edit-servings"
+        [label]="t('planner.servingsNow')"
+        [lang]="data.lang"
+        [(value)]="servings"
+      />
+      @if (m.cook.mealsCount > 1 || m.cook.remaining > 0) {
+        <app-servings-stepper
+          id="edit-cook"
+          [label]="t('planner.cookServings')"
+          [lang]="data.lang"
+          [(value)]="cookServings"
+        />
+      }
+    </div>
+
+    @if (error(); as code) {
+      <p class="alert" role="alert">{{ t('errors.' + code) }}</p>
+    }
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-button type="button" class="danger" (click)="remove()" [disabled]="busy()">
+      {{ t('planner.removeMeal') }}
+    </button>
+    @if (m.cook.mealsCount > 1) {
+      <button mat-button type="button" class="danger" (click)="removeCook()" [disabled]="busy()">
+        {{ t('planner.removeCook') }}
+      </button>
+    }
+    <span class="spacer"></span>
+    <button mat-button type="button" mat-dialog-close>{{ t('common.cancel') }}</button>
+    <button mat-flat-button class="ck-cta" type="button" (click)="save()" [disabled]="busy()">
+      {{ t('common.save') }}
+    </button>
+  </mat-dialog-actions>
+</ng-container>

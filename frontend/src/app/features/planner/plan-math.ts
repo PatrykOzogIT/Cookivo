@@ -35,12 +35,17 @@ export function weekFromParam(param: string | undefined, today = isoDay(new Date
   return mondayOf(today);
 }
 
-/** Suma kcal i makro z moich porcji w danym dniu */
-export function dayTotals(meals: PlanMeal[]): Macros {
+/**
+ * Suma kcal i makro z porcji osoby w danym dniu. Bez klucza osoby (tryb prosty) - moje porcje;
+ * w trybie dokładnym - porcje z podziału (osoba nieobecna przy posiłku nic nie je).
+ */
+export function dayTotals(meals: PlanMeal[], personKey?: string): Macros {
   const total = { kcal: 0, protein: 0, fat: 0, carbs: 0 };
   for (const m of meals) {
+    const servings =
+      personKey && m.shares ? (m.shares.find((s) => s.key === personKey)?.servings ?? 0) : m.myServings;
     for (const k of ['kcal', 'protein', 'fat', 'carbs'] as const)
-      total[k] += m.recipe.perServing[k] * m.myServings;
+      total[k] += m.recipe.perServing[k] * servings;
   }
   return total;
 }

@@ -49,13 +49,47 @@ export interface PlanSlot {
   hidden: boolean;
 }
 
+/** Osoba w trybie dokładnym ('u:<id>' z kontem, 'd:<id>' bez konta) */
+export interface PlanPerson {
+  key: string;
+  kind: 'MEMBER' | 'DEPENDENT';
+  isMe: boolean;
+  name: string;
+  /** Cel kcal używany do podziału */
+  kcal: number;
+  /** PROFILE - z profilu, REFERENCE - wartość dla wieku, CUSTOM - wpisana, DEFAULT - neutralna (brak zgody/profilu) */
+  source: 'PROFILE' | 'REFERENCE' | 'CUSTOM' | 'DEFAULT';
+}
+
+export interface PlanShare {
+  key: string;
+  fraction: number;
+  servings: number;
+  grams: number | null;
+  kcal: number;
+}
+
+export type GramsSource = 'WEIGHED' | 'RECIPE' | 'ESTIMATE';
+
 export interface PlanMeal {
   id: string;
   date: string;
   slot: string;
   servings: number;
   myServings: number;
-  cook: { id: string; date: string; servings: number; remaining: number; mealsCount: number };
+  /** Tryb dokładny: kto nie je, podział i waga tego posiłku */
+  absent: string[];
+  shares: PlanShare[] | null;
+  grams: number | null;
+  cook: {
+    id: string;
+    date: string;
+    servings: number;
+    remaining: number;
+    mealsCount: number;
+    potGrams: number | null;
+    gramsSource: GramsSource | null;
+  };
   fromLeftovers: boolean;
   daysAfterCooking: number;
   stale: boolean;
@@ -82,6 +116,7 @@ export interface PlanWeek {
   settings: PlannerSettings;
   slots: PlanSlot[];
   targets: Targets | null;
+  persons: PlanPerson[];
   meals: PlanMeal[];
   leftovers: Leftover[];
 }
@@ -117,6 +152,14 @@ export class PlannerApi {
 
   updateCook(id: string, servings: number): Promise<unknown> {
     return firstValueFrom(this.http.patch(`/api/planner/cooks/${id}`, { servings }));
+  }
+
+  setEaters(mealId: string, absent: string[]): Promise<unknown> {
+    return firstValueFrom(this.http.put(`/api/planner/meals/${mealId}/eaters`, { absent }));
+  }
+
+  setCookWeight(cookId: string, cookedGrams: number | null): Promise<unknown> {
+    return firstValueFrom(this.http.put(`/api/planner/cooks/${cookId}/weight`, { cookedGrams }));
   }
 
   deleteCook(id: string): Promise<unknown> {

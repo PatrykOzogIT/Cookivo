@@ -15,7 +15,9 @@ import {
 import { CurrentUser, type AuthUser } from '../common/auth.decorators.js';
 import {
   AddMealDto,
+  CookWeightDto,
   CopyDto,
+  MealEatersDto,
   CustomSlotDto,
   PlannerSettingsDto,
   RangeQueryDto,
@@ -53,6 +55,26 @@ export class PlannerController {
     @Body() dto: UpdateMealDto,
   ) {
     return this.planner.updateMeal(user.id, id, dto);
+  }
+
+  @Put('meals/:id/eaters')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  setEaters(
+    @CurrentUser() user: AuthUser,
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() dto: MealEatersDto,
+  ) {
+    return this.planner.setAbsent(user, id, dto.absent);
+  }
+
+  @Put('cooks/:id/weight')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  setWeight(
+    @CurrentUser() user: AuthUser,
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() dto: CookWeightDto,
+  ) {
+    return this.planner.setCookWeight(user.id, id, dto.cookedGrams ?? null);
   }
 
   @Delete('meals/:id')

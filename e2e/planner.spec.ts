@@ -96,4 +96,67 @@ test.describe('Planer', () => {
     await expect(page.getByRole('button', { name: /Dodaj danie: II śniadanie/ })).toHaveCount(0);
     await expectNoA11yViolations(page);
   });
+
+  test('tryb dokładny: dziecko bez konta, nakładanie, kto je i ważenie garnka', async ({ page, request }) => {
+    const user = await createUser(request, 'rodzina');
+    const title = `Gulasz ${Date.now().toString(36)}`;
+    await createRecipe(request, user, title);
+    await loginUi(page, user);
+
+    // Gospodarstwo i dziecko bez konta
+    await page.goto('/household');
+    await page.getByLabel('Nazwa gospodarstwa').fill('Dom rodzinny');
+    await page.getByRole('button', { name: 'Załóż' }).click();
+    await page.getByRole('button', { name: 'Dodaj osobę' }).click();
+    await page.getByLabel('Imię').fill('Ola');
+    await page.getByLabel('Rok urodzenia').fill(String(new Date().getFullYear() - 8));
+    await page.getByRole('button', { name: 'Zapisz zmiany' }).click();
+    await expect(page.getByText('Cel: 1530 kcal (wartość referencyjna dla wieku)')).toBeVisible();
+    await expect(page.getByText('8 lat')).toBeVisible();
+    await expectNoA11yViolations(page);
+
+    // Włączenie trybu dokładnego
+    await page.goto('/planner?week=2026-10-05&day=2026-10-07');
+    await page.getByRole('button', { name: 'Więcej' }).click();
+    await page.getByRole('menuitem', { name: 'Ustawienia planera' }).click();
+    const dialog = page.getByRole('dialog');
+    await dialog.getByText('Dziel porcje według celów kcal każdej osoby').click();
+    await dialog.getByRole('button', { name: 'Gotowe' }).click();
+    await expect(dialog).toBeHidden();
+    await expect(page.getByRole('group', { name: 'Czyj bilans pokazać' })).toBeVisible();
+
+    // Danie na 2 porcje
+    await page.getByRole('button', { name: 'Dodaj danie: Obiad, środa, 7 października' }).click();
+    await dialog.getByLabel('Szukaj przepisu').fill(title);
+    await dialog.getByRole('radio', { name: new RegExp(title) }).click();
+    await dialog.getByRole('button', { name: 'Dodaj', exact: true }).click();
+    await expect(dialog).toBeHidden();
+
+    // Nakładanie: dwie osoby wg celów (ja bez profilu = 2000, Ola 1530)
+    await page.getByRole('button', { name: new RegExp(title) }).click();
+    const table = dialog.getByRole('table');
+    await expect(table.getByRole('row', { name: /^Ty/ })).toContainText('57%');
+    await expect(table.getByRole('row', { name: /^Ola/ })).toContainText('43%');
+
+    // Zważony garnek 1000 g, Ola nie je
+    await dialog.getByLabel('Waga całego garnka po ugotowaniu').fill('1000');
+    await dialog.getByRole('checkbox', { name: 'Ola' }).uncheck();
+    await dialog.getByRole('button', { name: 'Zapisz zmiany' }).click();
+    await expect(dialog).toBeHidden();
+    await expect(page.getByText(/bez: Ola/)).toBeVisible();
+
+    await page.getByRole('button', { name: new RegExp(title) }).click();
+    await expect(dialog.getByText('Na ten posiłek: 1000 g')).toBeVisible();
+    await expect(table.getByRole('row', { name: /^Ty/ })).toContainText('1000 g');
+    await expect(table.getByRole('row', { name: /^Ola/ })).toHaveCount(0);
+    await dialog.getByRole('button', { name: 'Anuluj' }).click();
+
+    // Bilans Oli: tego dnia nic nie je
+    await page
+      .getByRole('group', { name: 'Czyj bilans pokazać' })
+      .getByRole('button', { name: 'Ola' })
+      .click();
+    await expect(page.getByText('Ola: nie je')).toBeVisible();
+    await expectNoA11yViolations(page);
+  });
 });

@@ -4,7 +4,9 @@
       <h1>{{ t('nav.planner') }}</h1>
       @if (data(); as d) {
         <p class="lead">
-          @if (d.scope === 'HOUSEHOLD') {
+          @if (d.settings.exactPortions && d.scope === 'HOUSEHOLD') {
+            {{ t('planner.exact.lead', { name: household()?.name ?? '' }) }}
+          } @else if (d.scope === 'HOUSEHOLD') {
             {{ t('planner.householdLead', { name: household()?.name ?? '', people: d.people }) }}
           } @else {
             {{ t('planner.lead') }}
@@ -73,6 +75,21 @@
       </p>
     }
 
+    @if (exact() && d.persons.length > 1) {
+      <div class="persons" role="group" [attr.aria-label]="t('planner.exact.whose')">
+        @for (p of d.persons; track p.key) {
+          <button
+            type="button"
+            class="person"
+            [attr.aria-pressed]="p.key === person()?.key"
+            (click)="personKey.set(p.key)"
+          >
+            {{ p.isMe ? t('planner.exact.me') : p.name }}
+          </button>
+        }
+      </div>
+    }
+
     <!-- Wąskie ekrany: wybór dnia -->
     @if (!wide()) {
       <div class="day-tabs" role="group" [attr.aria-label]="t('planner.days')">
@@ -129,13 +146,37 @@
                   [attr.data-leftover]="m.fromLeftovers"
                 >
                   <span class="title">{{ m.recipe.title }}</span>
-                  <span class="meta">
-                    {{ portions(m.servings) }}
-                    @if (d.people > 1) {
-                      · {{ t('planner.mine', { portions: portions(m.myServings) }) }}
+                  @if (exact()) {
+                    <span class="meta">
+                      @if (share(m); as s) {
+                        {{ person()?.isMe ? t('planner.exact.me') : person()?.name }}:
+                        @if (s.grams !== null) {
+                          {{ s.grams | num: lang() : 0 }} g ·
+                        }
+                        {{ s.kcal | num: lang() : 0 }} kcal
+                      } @else {
+                        {{
+                          t('planner.exact.notEating', {
+                            name: person()?.isMe ? t('planner.exact.me') : person()?.name,
+                          })
+                        }}
+                      }
+                    </span>
+                    @if (m.absent.length) {
+                      <span class="tag">
+                        <span class="material-symbols-rounded" aria-hidden="true">person_off</span>
+                        {{ t('planner.exact.without', { names: absentNames(m) }) }}
+                      </span>
                     }
-                    · {{ myKcal(m) | num: lang() : 0 }} kcal
-                  </span>
+                  } @else {
+                    <span class="meta">
+                      {{ portions(m.servings) }}
+                      @if (d.people > 1) {
+                        · {{ t('planner.mine', { portions: portions(m.myServings) }) }}
+                      }
+                      · {{ myKcal(m) | num: lang() : 0 }} kcal
+                    </span>
+                  }
                   @if (m.fromLeftovers) {
                     <span class="tag">
                       <span class="material-symbols-rounded" aria-hidden="true">kitchen</span>
@@ -181,14 +222,14 @@
               <h4 class="visually-hidden">{{ t('planner.balance') }}</h4>
               <p class="kcal">
                 <strong>{{ tot.kcal | num: lang() : 0 }}</strong>
-                @if (d.targets) {
-                  / {{ d.targets.kcal | num: lang() : 0 }}
+                @if (dayTarget(); as tg) {
+                  / {{ tg.kcal | num: lang() : 0 }}
                 }
                 kcal
               </p>
-              @if (d.targets) {
+              @if (dayTarget(); as tg) {
                 <div class="bar" aria-hidden="true">
-                  <span [style.width.%]="percent(tot.kcal, d.targets.kcal)"></span>
+                  <span [style.width.%]="percent(tot.kcal, tg.kcal)"></span>
                 </div>
                 <p class="status">{{ t('planner.status.' + status(day)) }}</p>
               }
@@ -198,8 +239,10 @@
                     <dt>{{ t('nutrition.' + k) }}</dt>
                     <dd>
                       {{ $any(tot)[k] | num: lang() : 0 }}
-                      @if (d.targets) {
-                        / {{ $any(d.targets)[k] | num: lang() : 0 }}
+                      @if (dayTarget(); as tg) {
+                        @if ($any(tg)[k]) {
+                          / {{ $any(tg)[k] | num: lang() : 0 }}
+                        }
                       }
                       g
                     </dd>

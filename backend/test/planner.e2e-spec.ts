@@ -218,6 +218,122 @@ describe('Planer (e2e)', () => {
     await add({ date: '2026-10-06', slot: 'DINNER', recipeId: soup, servings: 2 }, partner).expect(404);
   });
 
+  it('tryb dokładny: podział wg celów kcal, osoby bez konta, nieobecni i ważenie garnka', async () => {
+    const partner = await t.login('partner');
+    await api().post('/api/household').set(bearer(me)).send({ name: 'Dom' }).expect(201);
+    const invite = (await api().post('/api/household/invites').set(bearer(me)).send({}).expect(201)).body;
+    const token = new URL(invite.url).searchParams.get('token');
+    await api().post('/api/household/join').set(bearer(partner)).send({ token }).expect(201);
+
+    // Dziecko bez konta: 8 lat, dziewczynka → 1530 kcal (EFSA)
+    const year = new Date().getFullYear();
+    const hh = (
+      await api()
+        .post('/api/household/dependents')
+        .set(bearer(partner))
+        .send({ name: 'Ola', birthYear: year - 8, sex: 'FEMALE' })
+        .expect(201)
+    ).body;
+    expect(hh.dependents[0]).toMatchObject({ name: 'Ola', age: 8, kcal: 1530, reference: true });
+    const olaKey = `d:${hh.dependents[0].id}`;
+    const bad = await api()
+      .post('/api/household/dependents')
+      .set(bearer(me))
+      .send({ name: 'Niemowlę', birthYear: year, sex: 'MALE' })
+      .expect(400);
+    expect(bad.body.code).toBe('AGE_OUT_OF_RANGE');
+
+    // Partner udostępnia cel kcal (wymaga zgody zdrowotnej i profilu)
+    await api().put('/api/household/share-targets').set(bearer(partner)).send({ share: true }).expect(403);
+    await api().post('/api/me/consents/health-data').set(bearer(partner)).send({ granted: true }).expect(200);
+    const profile = (
+      await api()
+        .put('/api/me/profile')
+        .set(bearer(partner))
+        .send({
+          sex: 'MALE',
+          birthDate: '1990-01-01',
+          heightCm: 180,
+          weightKg: 80,
+          activity: 'MODERATE',
+          goal: 'MAINTAIN',
+        })
+        .expect(200)
+    ).body;
+    await api().put('/api/household/share-targets').set(bearer(partner)).send({ share: true }).expect(200);
+
+    await api()
+      .put('/api/planner/settings')
+      .set(bearer(me))
+      .send({ hiddenSlots: [], exactPortions: true })
+      .expect(200);
+    await add({ date: '2026-10-05', slot: 'DINNER', recipeId: soup, servings: 3 }).expect(201);
+
+    type Exact = {
+      persons: { key: string; kcal: number; source: string; isMe: boolean }[];
+      meals: (PlanMeal & {
+        absent: string[];
+        grams: number | null;
+        shares: { key: string; fraction: number; grams: number | null; servings: number }[];
+        cook: { potGrams: number | null; gramsSource: string };
+      })[];
+    };
+    let w = (await week()) as unknown as Exact;
+    expect(w.persons.map((p) => [p.source, p.kcal])).toEqual([
+      ['DEFAULT', 2000], // ja - bez profilu
+      ['PROFILE', profile.targets.kcal],
+      ['REFERENCE', 1530],
+    ]);
+    const total = 2000 + profile.targets.kcal + 1530;
+    const meal = w.meals[0];
+    expect(meal.shares.map((s) => s.fraction)).toEqual([
+      2000 / total,
+      profile.targets.kcal / total,
+      1530 / total,
+    ]);
+    expect(meal.myServings).toBeCloseTo((3 * 2000) / total);
+    expect(meal.cook.gramsSource).toBe('ESTIMATE'); // 800 g surowej marchwi na 4 porcje
+
+    // Ola je w szkole; garnek zważony: 900 g
+    await api()
+      .put(`/api/planner/meals/${meal.id}/eaters`)
+      .set(bearer(me))
+      .send({ absent: [olaKey] })
+      .expect(204);
+    await api()
+      .put(`/api/planner/cooks/${meal.cook.id}/weight`)
+      .set(bearer(me))
+      .send({ cookedGrams: 900 })
+      .expect(204);
+    w = (await week()) as unknown as Exact;
+    expect(w.meals[0].absent).toEqual([olaKey]);
+    expect(w.meals[0].shares).toHaveLength(2);
+    expect(w.meals[0].cook).toMatchObject({ potGrams: 900, gramsSource: 'WEIGHED' });
+    expect(w.meals[0].shares.reduce((a, s) => a + (s.grams ?? 0), 0)).toBeCloseTo(900, -1);
+
+    // Nieznana osoba i powrót do wagi z przepisu
+    await api()
+      .put(`/api/planner/meals/${meal.id}/eaters`)
+      .set(bearer(me))
+      .send({ absent: ['d:00000000-0000-0000-0000-000000000000'] })
+      .expect(400);
+    await api()
+      .put(`/api/planner/cooks/${meal.cook.id}/weight`)
+      .set(bearer(me))
+      .send({ cookedGrams: null })
+      .expect(204);
+
+    // Tryb prosty dalej liczy osoby bez konta: 3 osoby
+    await api()
+      .put('/api/planner/settings')
+      .set(bearer(me))
+      .send({ hiddenSlots: [], exactPortions: false })
+      .expect(200);
+    const simple = await week();
+    expect(simple.people).toBe(3);
+    expect(simple.meals[0].myServings).toBe(1);
+  });
+
   it('osobisty plan jest w eksporcie danych', async () => {
     await add({ date: '2026-10-05', slot: 'DINNER', recipeId: soup, servings: 1 }).expect(201);
     const exported = (await api().get('/api/me/export').set(bearer(me)).expect(200)).body;

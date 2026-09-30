@@ -3,6 +3,9 @@ import type { AuthUser } from '../common/auth.decorators.js';
 import type { Prisma } from '../generated/prisma/client.js';
 import { toPhotoDto } from '../photos/photos.service.js';
 import { PrismaService } from '../prisma/prisma.service.js';
+import { toDependentDto } from '../household/household.service.js';
+import { DEFAULT_KCAL } from '../household/reference-energy.js';
+import type { Targets } from '../profile/nutrition-calculator.js';
 import { ProfileService } from '../profile/profile.service.js';
 import { RecipesService } from '../recipes/recipes.service.js';
 import {
@@ -13,6 +16,7 @@ import {
   type StandardSlot,
   type UpdateMealDto,
 } from './planner.dto.js';
+import { potGrams, splitMeal, type Person } from './portions.js';
 
 /** Po ilu dniach od ugotowania ostrzegamy o świeżości (lodówka ~3 dni) */
 export const FRESH_DAYS = 3;
@@ -47,6 +51,8 @@ const RECIPE_SELECT = {
   fat: true,
   carbs: true,
   kcalPerServing: true,
+  cookedGrams: true,
+  totalGrams: true,
   visibility: true,
   hiddenAt: true,
   authorId: true,
@@ -101,6 +107,9 @@ export class PlannerService {
     ]);
 
     const hidden = new Set(settings?.hiddenSlots ?? []);
+    const exact = settings?.exactPortions ?? false;
+    const persons = exact ? await this.persons(user.id, scope, me.targets) : [];
+    const myKey = `u:${user.id}`;
     return {
       scope: scope.householdId ? 'HOUSEHOLD' : 'USER',
       /** Na ile osób dzielimy porcje w trybie prostym */
@@ -112,22 +121,41 @@ export class PlannerService {
         ...customSlots.map((s) => ({ key: s.id, code: null, name: s.name, hidden: false })),
       ],
       targets: me.targets,
+      /** Tryb dokładny: kto je i jaki ma cel (waga przy podziale) */
+      persons,
       meals: meals.map((m) => {
         const allocated = sum(m.cook.meals.map((x) => x.servings));
         const age = daysBetween(m.cook.date, m.date);
+        const pot = potGrams(m.cook, m.cook.recipe);
+        const absent = [
+          ...m.absentUserIds.map((id) => `u:${id}`),
+          ...m.absentDependentIds.map((id) => `d:${id}`),
+        ];
+        const shares = exact
+          ? splitMeal(persons, new Set(absent), {
+              servings: m.servings,
+              grams: pot.grams === null ? null : (pot.grams * m.servings) / m.cook.servings,
+              kcalPerServing: m.cook.recipe.kcalPerServing,
+            })
+          : null;
         return {
           id: m.id,
           date: isoDate(m.date),
           slot: m.slotCode ?? m.customSlotId!,
           servings: m.servings,
-          /** Moja część w trybie prostym: porcje dzielone równo na domowników */
-          myServings: m.servings / people,
+          /** Moja część: w trybie prostym po równo, w dokładnym wg celów kcal */
+          myServings: shares ? (shares.find((s) => s.key === myKey)?.servings ?? 0) : m.servings / people,
+          absent,
+          shares,
+          grams: pot.grams === null ? null : Math.round((pot.grams * m.servings) / m.cook.servings),
           cook: {
             id: m.cook.id,
             date: isoDate(m.cook.date),
             servings: m.cook.servings,
             remaining: round(m.cook.servings - allocated),
             mealsCount: m.cook.meals.length,
+            potGrams: pot.grams === null ? null : Math.round(pot.grams),
+            gramsSource: pot.source,
           },
           /** Posiłek z wcześniej ugotowanej partii (resztki) */
           fromLeftovers: age > 0,
@@ -216,6 +244,32 @@ export class PlannerService {
       await tx.planMeal.delete({ where: { id } });
       await this.syncCookDate(tx, meal.cookId);
     });
+  }
+
+  /** Tryb dokładny: kto nie je tego posiłku (klucze osób 'u:<id>' / 'd:<id>') */
+  async setAbsent(user: AuthUser, id: string, keys: string[]): Promise<void> {
+    const scope = await this.scope(user.id);
+    const meal = await this.prisma.planMeal.findFirst({ where: { id, ...scope } });
+    if (!meal) throw new NotFoundException({ code: 'NOT_FOUND' });
+    const known = new Set((await this.persons(user.id, scope, null)).map((p) => p.key));
+    if (keys.some((k) => !known.has(k))) throw new BadRequestException({ code: 'PERSON_UNKNOWN' });
+    await this.prisma.planMeal.update({
+      where: { id },
+      data: {
+        absentUserIds: keys.filter((k) => k.startsWith('u:')).map((k) => k.slice(2)),
+        absentDependentIds: keys.filter((k) => k.startsWith('d:')).map((k) => k.slice(2)),
+      },
+    });
+  }
+
+  /** Zważona waga całej partii (null = wróć do wagi z przepisu) */
+  async setCookWeight(userId: string, id: string, cookedGrams: number | null): Promise<void> {
+    const scope = await this.scope(userId);
+    const { count } = await this.prisma.planCook.updateMany({
+      where: { id, ...scope },
+      data: { cookedGrams },
+    });
+    if (!count) throw new NotFoundException({ code: 'NOT_FOUND' });
   }
 
   /** Zmiana liczby ugotowanych porcji (nie mniej niż już rozdysponowano) */
@@ -352,10 +406,62 @@ export class PlannerService {
     return member ? { householdId: member.householdId } : { userId };
   }
 
+  /** Liczba osób w gospodarstwie (z dziećmi bez konta) */
   private async people(scope: Scope): Promise<number> {
-    return scope.householdId
-      ? this.prisma.householdMember.count({ where: { householdId: scope.householdId } })
-      : 1;
+    if (!scope.householdId) return 1;
+    const [members, dependents] = await Promise.all([
+      this.prisma.householdMember.count({ where: { householdId: scope.householdId } }),
+      this.prisma.householdDependent.count({ where: { householdId: scope.householdId } }),
+    ]);
+    return members + dependents;
+  }
+
+  /**
+   * Osoby do podziału porcji. Cel kcal domownika z kontem używamy tylko za jego zgodą
+   * (dane pochodne od danych o zdrowiu); bez niej - neutralna wartość referencyjna.
+   */
+  private async persons(userId: string, scope: Scope, myTargets: Targets | null) {
+    const me = { key: `u:${userId}`, kind: 'MEMBER' as const, isMe: true };
+    if (!scope.householdId) {
+      const username = (await this.prisma.user.findUniqueOrThrow({ where: { id: userId } })).username;
+      return [personOut({ ...me, name: username }, myTargets?.kcal, 'PROFILE')];
+    }
+    const [members, dependents] = await Promise.all([
+      this.prisma.householdMember.findMany({
+        where: { householdId: scope.householdId },
+        include: { user: { select: { username: true } } },
+        orderBy: { joinedAt: 'asc' },
+      }),
+      this.prisma.householdDependent.findMany({
+        where: { householdId: scope.householdId },
+        orderBy: { birthYear: 'asc' },
+      }),
+    ]);
+    const out = [];
+    for (const m of members) {
+      const base = {
+        key: `u:${m.userId}`,
+        kind: 'MEMBER' as const,
+        isMe: m.userId === userId,
+        name: m.user.username,
+      };
+      if (base.isMe) out.push(personOut(base, myTargets?.kcal, 'PROFILE'));
+      else if (m.shareTargets)
+        out.push(personOut(base, (await this.profile.get(m.userId)).targets?.kcal, 'PROFILE'));
+      else out.push(personOut(base, undefined, 'PROFILE'));
+    }
+    for (const d of dependents) {
+      const dto = toDependentDto(d);
+      out.push({
+        key: `d:${d.id}`,
+        kind: 'DEPENDENT' as const,
+        isMe: false,
+        name: d.name,
+        kcal: dto.kcal,
+        source: dto.reference ? ('REFERENCE' as const) : ('CUSTOM' as const),
+      });
+    }
+    return out;
   }
 
   private async myAllergens(userId: string): Promise<Set<string>> {
@@ -403,4 +509,13 @@ function toRecipeDto(r: RecipeRow, myAllergens: Set<string>) {
     allergens: r.allergens.map((a) => a.allergen.code),
     myAllergens: r.allergens.map((a) => a.allergen.code).filter((c) => myAllergens.has(c)),
   };
+}
+
+/** Osoba z wagą do podziału; brak celu (albo brak zgody) = neutralne 2000 kcal */
+function personOut(
+  p: { key: string; kind: 'MEMBER'; isMe: boolean; name: string },
+  kcal: number | undefined,
+  source: 'PROFILE',
+): Person & { kind: 'MEMBER' | 'DEPENDENT'; isMe: boolean; name: string; source: string } {
+  return kcal ? { ...p, kcal, source } : { ...p, kcal: DEFAULT_KCAL, source: 'DEFAULT' };
 }

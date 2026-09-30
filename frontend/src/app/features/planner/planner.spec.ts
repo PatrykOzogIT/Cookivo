@@ -52,3 +52,24 @@ describe('bilans dnia', () => {
     expect(balanceStatus(1500, undefined)).toBe('empty');
   });
 });
+
+describe('bilans osoby w trybie dokładnym', () => {
+  const meal = (shares: { key: string; servings: number }[]) =>
+    ({
+      myServings: 99,
+      shares: shares.map((s) => ({ ...s, fraction: 0, grams: null, kcal: 0 })),
+      recipe: { perServing: { kcal: 400, protein: 20, fat: 10, carbs: 50 } },
+    }) as unknown as PlanMeal;
+
+  it('liczy porcję wskazanej osoby, a nieobecna nic nie je', () => {
+    const meals = [
+      meal([
+        { key: 'u:ja', servings: 1.2 },
+        { key: 'd:ola', servings: 0.8 },
+      ]),
+      meal([{ key: 'u:ja', servings: 1 }]),
+    ];
+    expect(dayTotals(meals, 'd:ola')).toEqual({ kcal: 320, protein: 16, fat: 8, carbs: 40 });
+    expect(dayTotals(meals, 'u:ja').kcal).toBeCloseTo(880);
+  });
+});

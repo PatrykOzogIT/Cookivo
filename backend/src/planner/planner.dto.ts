@@ -91,6 +91,23 @@ export class UpdateMealDto {
   servings?: number;
 }
 
+export class MealEatersDto {
+  @IsArray()
+  @ArrayMaxSize(20)
+  @ArrayUnique()
+  @Matches(/^[ud]:[0-9a-f-]{36}$/i, { each: true })
+  absent!: string[];
+}
+
+export class CookWeightDto {
+  @IsOptional()
+  @Type(() => Number)
+  @IsNumber({ maxDecimalPlaces: 1 })
+  @Min(10)
+  @Max(50000)
+  cookedGrams!: number | null;
+}
+
 export class UpdateCookDto {
   @Servings()
   servings!: number;

@@ -118,7 +118,8 @@
     "DATE_INVALID": "Nieprawidłowa data.",
     "DATE_RANGE_INVALID": "Nieprawidłowy zakres dat.",
     "MEAL_SOURCE_INVALID": "Wybierz przepis albo porcje z zapasu.",
-    "TOO_MANY_SLOTS": "Możesz mieć najwyżej 6 własnych posiłków."
+    "TOO_MANY_SLOTS": "Możesz mieć najwyżej 6 własnych posiłków.",
+    "PERSON_UNKNOWN": "Nie ma takiej osoby w gospodarstwie."
   },
   "auth": {
     "fields": {
@@ -757,7 +758,7 @@
     "leaveOwnerConfirm": "Na pewno chcesz opuścić gospodarstwo? Rolę właściciela przejmie osoba, która jest w nim najdłużej.",
     "removeConfirm": "Usunąć {{username}} z gospodarstwa?",
     "makeOwnerConfirm": "Przekazać rolę właściciela użytkownikowi {{username}}? Ty zostaniesz zwykłym członkiem.",
-    "shareTitle": "Moje alergie w gospodarstwie",
+    "shareTitle": "Co udostępniam domownikom",
     "shareLead": "Jeśli się zgodzisz, domownicy zobaczą Twoje alergie i nietolerancje, a tryb „Dla nas” będzie je uwzględniał. Zgodę możesz wycofać w każdej chwili.",
     "shareToggle": "Udostępniaj moje alergie domownikom",
     "shareNeedsConsent": "Najpierw zapisz swoje alergie - to dane o zdrowiu i wymagają Twojej zgody.",
@@ -797,6 +798,23 @@
       "toMine": "Przejdź do mojego gospodarstwa",
       "loginFirst": "Zaloguj się, aby dołączyć. Nie masz konta? Załóż je, a potem otwórz ten link ponownie.",
       "invalidTitle": "Zaproszenie jest nieważne"
+    },
+    "shareTargetsToggle": "Używaj mojego dziennego celu kcal przy dzieleniu porcji",
+    "shareTargetsHint": "Potrzebne w trybie dokładnym planera. Bez zgody Twoja porcja liczy się jak dla neutralnych 2000 kcal. Domownicy mogą z gramatury porcji wywnioskować przybliżony cel.",
+    "dependents": {
+      "title": "Osoby bez konta",
+      "lead": "Np. dzieci. Służą tylko do podziału porcji w trybie dokładnym planera.",
+      "kcalReference": "Cel: {{kcal}} kcal (wartość referencyjna dla wieku)",
+      "kcalCustom": "Cel: {{kcal}} kcal (wpisany)",
+      "edit": "Edytuj",
+      "add": "Dodaj osobę",
+      "name": "Imię",
+      "birthYear": "Rok urodzenia",
+      "birthYearError": "Podaj rok od 1916 do {{max}}.",
+      "customKcal": "Własny cel kcal (opcjonalnie)",
+      "customKcalHint": "Np. zalecony przez pediatrę lub dietetyka. Puste = wartość referencyjna.",
+      "note": "Wartości referencyjne EFSA dla dzieci są orientacyjne i nie są poradą medyczną.",
+      "ageForms": "rok|lata|lat"
     }
   },
   "planner": {
@@ -872,6 +890,27 @@
     "customHint": "Usunięcie własnego posiłku usuwa też zaplanowane w nim dania.",
     "done": "Gotowe",
     "increase": "Dodaj porcję",
-    "decrease": "Odejmij porcję"
+    "decrease": "Odejmij porcję",
+    "exact": {
+      "title": "Dokładne porcje",
+      "toggle": "Dziel porcje według celów kcal każdej osoby",
+      "hint": "Dla rodzin i skrupulatnych: kto je dany posiłek, ile gramów nałożyć każdemu i ważenie garnka. Wyłączone = zwykłe porcje po równo.",
+      "whose": "Czyj bilans pokazać",
+      "me": "Ty",
+      "notEating": "{{name}}: nie je",
+      "without": "bez: {{names}}",
+      "servingTitle": "Nakładanie",
+      "mealGrams": "Na ten posiłek: {{grams}} g",
+      "estimate": "szacunek z surowych składników - zważ garnek, aby było dokładniej",
+      "person": "Osoba",
+      "grams": "Gramy",
+      "portions": "Porcje",
+      "nobody": "Nikt nie je tego posiłku.",
+      "leave": "Resztę zostaw na kolejne posiłki: ok. {{grams}} g.",
+      "whoEats": "Kto je",
+      "weigh": "Waga całego garnka po ugotowaniu",
+      "weighHint": "Opcjonalnie. Zważony garnek daje najdokładniejsze gramy (bez naczynia).",
+      "lead": "Wspólny plan gospodarstwa „{{name}}” · porcje dzielimy według celów kcal każdej osoby."
+    }
   }
 }

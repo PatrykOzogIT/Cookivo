@@ -13,8 +13,30 @@ export interface HouseholdMember {
   joinedAt: string;
   isMe: boolean;
   shareAllergies: boolean;
+  shareTargets: boolean;
   /** null = domownik nie udostępnia alergii */
   allergens: { code: string; namePl: string; nameEn: string; severity: Severity }[] | null;
+}
+
+/** Osoba bez konta (np. dziecko) */
+export interface Dependent {
+  id: string;
+  name: string;
+  birthYear: number;
+  sex: 'MALE' | 'FEMALE';
+  age: number;
+  customKcal: number | null;
+  /** Cel do podziału porcji */
+  kcal: number;
+  /** true = wartość referencyjna dla wieku */
+  reference: boolean;
+}
+
+export interface SaveDependent {
+  name: string;
+  birthYear: number;
+  sex: 'MALE' | 'FEMALE';
+  customKcal?: number | null;
 }
 
 export interface Household {
@@ -23,6 +45,7 @@ export interface Household {
   role: HouseholdRole;
   maxMembers: number;
   members: HouseholdMember[];
+  dependents: Dependent[];
   invites: { id: string; email: string | null; expiresAt: string; createdAt: string }[];
 }
 
@@ -112,6 +135,22 @@ export class HouseholdApi {
 
   setShareAllergies(share: boolean): Promise<Household> {
     return this.set(this.http.put<Household>('/api/household/share-allergies', { share }));
+  }
+
+  setShareTargets(share: boolean): Promise<Household> {
+    return this.set(this.http.put<Household>('/api/household/share-targets', { share }));
+  }
+
+  addDependent(body: SaveDependent): Promise<Household> {
+    return this.set(this.http.post<Household>('/api/household/dependents', body));
+  }
+
+  updateDependent(id: string, body: SaveDependent): Promise<Household> {
+    return this.set(this.http.put<Household>(`/api/household/dependents/${id}`, body));
+  }
+
+  removeDependent(id: string): Promise<Household> {
+    return this.set(this.http.delete<Household>(`/api/household/dependents/${id}`));
   }
 
   private async set(request: Observable<unknown>): Promise<Household> {

@@ -13,12 +13,31 @@ import { MailService } from '../mail/mail.service.js';
 import { containsProfanity } from '../moderation/profanity.js';
 import { PrismaService } from '../prisma/prisma.service.js';
 import { ProfileService } from '../profile/profile.service.js';
+import type { DependentDto } from './household.dto.js';
+import { ageFromBirthYear, MAX_DEPENDENT_AGE, MIN_DEPENDENT_AGE, referenceKcal } from './reference-energy.js';
 
 export const MAX_MEMBERS = 8;
 export const INVITE_TTL_MS = 7 * 24 * 60 * 60 * 1000;
 /** Ile aktywnych zaproszeń naraz - chroni przed spamowaniem maili */
 const MAX_ACTIVE_INVITES = 10;
 export const HOUSEHOLD_ALLERGIES_CONSENT_VERSION = '2026-09-30';
+export const HOUSEHOLD_TARGETS_CONSENT_VERSION = '2026-09-30';
+const MAX_DEPENDENTS = 8;
+
+/** Co domownik udostępnia reszcie gospodarstwa (każde za osobną zgodą) */
+export type ShareKind = 'ALLERGIES' | 'TARGETS';
+const SHARE = {
+  ALLERGIES: {
+    field: 'shareAllergies',
+    consent: 'HOUSEHOLD_ALLERGIES',
+    version: HOUSEHOLD_ALLERGIES_CONSENT_VERSION,
+  },
+  TARGETS: {
+    field: 'shareTargets',
+    consent: 'HOUSEHOLD_TARGETS',
+    version: HOUSEHOLD_TARGETS_CONSENT_VERSION,
+  },
+} as const;
 
 type Tx = Prisma.TransactionClient;
 
@@ -58,6 +77,7 @@ export class HouseholdService {
           where: { usedAt: null, revokedAt: null, expiresAt: { gt: new Date() } },
           orderBy: { createdAt: 'desc' },
         },
+        dependents: { orderBy: { birthYear: 'asc' } },
       },
     });
     const isOwner = me.role === 'OWNER';
@@ -73,6 +93,7 @@ export class HouseholdService {
         joinedAt: m.joinedAt,
         isMe: m.userId === userId,
         shareAllergies: m.shareAllergies,
+        shareTargets: m.shareTargets,
         // Alergie innych tylko za ich zgodą; swoje widzę zawsze
         allergens:
           m.shareAllergies || m.userId === userId
@@ -84,6 +105,7 @@ export class HouseholdService {
               }))
             : null,
       })),
+      dependents: household.dependents.map((d) => toDependentDto(d)),
       // Zaproszenia widzi i odwołuje właściciel
       invites: isOwner
         ? household.invites.map((i) => ({
@@ -241,25 +263,60 @@ export class HouseholdService {
     return this.mine(userId);
   }
 
-  /** Zgoda na udostępnienie alergii domownikom (dane o zdrowiu - osobna, wycofywalna zgoda) */
-  async setShareAllergies(userId: string, share: boolean, ip?: string) {
+  /**
+   * Zgoda na udostępnienie domownikom alergii albo celu kcal (dane o zdrowiu -
+   * każda osobna i wycofywalna, zapisana w historii zgód).
+   */
+  async setShare(userId: string, kind: ShareKind, share: boolean, ip?: string) {
     const me = await this.prisma.householdMember.findUnique({ where: { userId } });
     if (!me) throw new NotFoundException({ code: 'NOT_IN_HOUSEHOLD' });
     if (share && !(await this.profile.hasHealthConsent(userId))) {
       throw new ForbiddenException({ code: 'HEALTH_CONSENT_REQUIRED' });
     }
-    if (share === me.shareAllergies) return this.mine(userId);
+    const { field, consent, version } = SHARE[kind];
+    if (share === me[field]) return this.mine(userId);
     await this.prisma.$transaction([
-      this.prisma.householdMember.update({ where: { userId }, data: { shareAllergies: share } }),
+      this.prisma.householdMember.update({ where: { userId }, data: { [field]: share } }),
       share
-        ? this.prisma.consent.create({
-            data: { userId, type: 'HOUSEHOLD_ALLERGIES', version: HOUSEHOLD_ALLERGIES_CONSENT_VERSION, ip },
-          })
+        ? this.prisma.consent.create({ data: { userId, type: consent, version, ip } })
         : this.prisma.consent.updateMany({
-            where: { userId, type: 'HOUSEHOLD_ALLERGIES', revokedAt: null },
+            where: { userId, type: consent, revokedAt: null },
             data: { revokedAt: new Date() },
           }),
     ]);
+    return this.mine(userId);
+  }
+
+  // --- Osoby bez konta (np. dzieci) -------------------------------------------------
+
+  async addDependent(userId: string, dto: DependentDto) {
+    const me = await this.requireMember(userId);
+    this.assertDependent(dto);
+    const count = await this.prisma.householdDependent.count({ where: { householdId: me.householdId } });
+    if (count >= MAX_DEPENDENTS) throw new ConflictException({ code: 'HOUSEHOLD_FULL' });
+    await this.prisma.householdDependent.create({
+      data: { householdId: me.householdId, ...dependentData(dto) },
+    });
+    return this.mine(userId);
+  }
+
+  async updateDependent(userId: string, id: string, dto: DependentDto) {
+    const me = await this.requireMember(userId);
+    this.assertDependent(dto);
+    const { count } = await this.prisma.householdDependent.updateMany({
+      where: { id, householdId: me.householdId },
+      data: dependentData(dto),
+    });
+    if (!count) throw new NotFoundException({ code: 'NOT_FOUND' });
+    return this.mine(userId);
+  }
+
+  async removeDependent(userId: string, id: string) {
+    const me = await this.requireMember(userId);
+    const { count } = await this.prisma.householdDependent.deleteMany({
+      where: { id, householdId: me.householdId },
+    });
+    if (!count) throw new NotFoundException({ code: 'NOT_FOUND' });
     return this.mine(userId);
   }
 
@@ -288,6 +345,20 @@ export class HouseholdService {
 
   // ---------------------------------------------------------------------------
 
+  private async requireMember(userId: string) {
+    const me = await this.prisma.householdMember.findUnique({ where: { userId } });
+    if (!me) throw new NotFoundException({ code: 'NOT_IN_HOUSEHOLD' });
+    return me;
+  }
+
+  private assertDependent(dto: DependentDto): void {
+    if (containsProfanity(dto.name)) throw new BadRequestException({ code: 'NAME_OFFENSIVE' });
+    const age = ageFromBirthYear(dto.birthYear);
+    if (age < MIN_DEPENDENT_AGE || age > MAX_DEPENDENT_AGE) {
+      throw new BadRequestException({ code: 'AGE_OUT_OF_RANGE' });
+    }
+  }
+
   private async requireOwner(userId: string) {
     const me = await this.prisma.householdMember.findUnique({ where: { userId } });
     if (!me) throw new NotFoundException({ code: 'NOT_IN_HOUSEHOLD' });
@@ -309,4 +380,34 @@ export class HouseholdService {
   private assertName(name: string): void {
     if (containsProfanity(name)) throw new BadRequestException({ code: 'NAME_OFFENSIVE' });
   }
+}
+
+function dependentData(dto: DependentDto) {
+  return {
+    name: dto.name.trim(),
+    birthYear: dto.birthYear,
+    sex: dto.sex,
+    customKcal: dto.customKcal ?? null,
+  };
+}
+
+export function toDependentDto(d: {
+  id: string;
+  name: string;
+  birthYear: number;
+  sex: 'MALE' | 'FEMALE';
+  customKcal: number | null;
+}) {
+  const age = ageFromBirthYear(d.birthYear);
+  return {
+    id: d.id,
+    name: d.name,
+    birthYear: d.birthYear,
+    sex: d.sex,
+    age,
+    customKcal: d.customKcal,
+    /** Cel do podziału porcji: własny albo referencyjny dla wieku */
+    kcal: d.customKcal ?? referenceKcal(age, d.sex),
+    reference: d.customKcal === null,
+  };
 }

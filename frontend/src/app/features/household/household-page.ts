@@ -4,15 +4,18 @@ import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angula
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatRadioModule } from '@angular/material/radio';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { RouterLink } from '@angular/router';
-import { TranslocoDirective } from '@jsverse/transloco';
+import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 import { apiErrorCode } from '../../core/api-error';
 import { LocalizedPipe } from '../../core/i18n/format.pipes';
 import { LanguageService } from '../../core/i18n/language.service';
 import { ProfileApi } from '../profile/profile.api';
-import { HouseholdApi, type CreatedInvite, type HouseholdMember } from './household.api';
+import { pluralForm } from '../recipes/unit-plural';
+import { parseDecimal } from '../../core/i18n/format.pipes';
+import { HouseholdApi, type CreatedInvite, type Dependent, type HouseholdMember } from './household.api';
 
 type Confirm = { kind: 'leave' } | { kind: 'remove' | 'owner'; member: HouseholdMember } | null;
 
@@ -26,6 +29,7 @@ type Confirm = { kind: 'leave' } | { kind: 'remove' | 'owner'; member: Household
     MatFormFieldModule,
     MatInputModule,
     MatProgressBarModule,
+    MatRadioModule,
     MatSlideToggleModule,
     TranslocoDirective,
     LocalizedPipe,
@@ -38,6 +42,7 @@ export class HouseholdPage implements OnInit {
   private readonly profileApi = inject(ProfileApi);
   private readonly fb = inject(NonNullableFormBuilder);
   protected readonly lang = inject(LanguageService).current;
+  private readonly transloco = inject(TranslocoService);
 
   protected readonly household = this.api.current;
   protected readonly isOwner = computed(() => this.household()?.role === 'OWNER');
@@ -63,6 +68,21 @@ export class HouseholdPage implements OnInit {
   protected readonly renameForm = this.fb.group({
     name: this.fb.control('', [Validators.required, Validators.minLength(2), Validators.maxLength(60)]),
   });
+  /** Osoba bez konta: dodawanie i edycja (editing = id albo 'new') */
+  protected readonly editing = signal<string | null>(null);
+  protected readonly thisYear = new Date().getFullYear();
+  protected readonly dependentForm = this.fb.group({
+    name: this.fb.control('', [Validators.required, Validators.maxLength(40)]),
+    birthYear: this.fb.control('', [
+      Validators.required,
+      Validators.pattern(/^\d{4}$/),
+      Validators.min(this.thisYear - 110),
+      Validators.max(this.thisYear - 1),
+    ]),
+    sex: this.fb.control<'MALE' | 'FEMALE'>('FEMALE'),
+    customKcal: this.fb.control(''),
+  });
+
   protected readonly inviteForm = this.fb.group({
     email: this.fb.control('', [Validators.required, Validators.email]),
   });
@@ -149,6 +169,50 @@ export class HouseholdPage implements OnInit {
 
   protected async setShare(share: boolean): Promise<void> {
     await this.run(() => this.api.setShareAllergies(share));
+  }
+
+  protected async setShareTargets(share: boolean): Promise<void> {
+    await this.run(() => this.api.setShareTargets(share));
+  }
+
+  /** "8 lat" / "2 lata" / "1 rok" */
+  protected ageLabel(age: number): string {
+    return `${age} ${pluralForm(this.transloco.translate('household.dependents.ageForms'), age, this.lang())}`;
+  }
+
+  protected startDependent(d?: Dependent): void {
+    this.dependentForm.reset({
+      name: d?.name ?? '',
+      birthYear: d ? String(d.birthYear) : '',
+      sex: d?.sex ?? 'FEMALE',
+      customKcal: d?.customKcal ? String(d.customKcal) : '',
+    });
+    this.editing.set(d?.id ?? 'new');
+  }
+
+  protected async saveDependent(): Promise<void> {
+    if (this.dependentForm.invalid) {
+      this.dependentForm.markAllAsTouched();
+      return;
+    }
+    const v = this.dependentForm.getRawValue();
+    const kcal = parseDecimal(v.customKcal);
+    const body = {
+      name: v.name.trim(),
+      birthYear: Number(v.birthYear),
+      sex: v.sex,
+      customKcal: kcal && !Number.isNaN(kcal) ? Math.round(kcal) : null,
+    };
+    const id = this.editing();
+    await this.run(async () => {
+      if (id === 'new') await this.api.addDependent(body);
+      else if (id) await this.api.updateDependent(id, body);
+      this.editing.set(null);
+    });
+  }
+
+  protected async removeDependent(id: string): Promise<void> {
+    await this.run(() => this.api.removeDependent(id));
   }
 
   protected async confirmAction(): Promise<void> {

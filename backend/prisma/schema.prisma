@@ -212,6 +212,8 @@ enum ConsentType {
   HEALTH_DATA
   /// Udostępnienie własnych alergii członkom gospodarstwa
   HOUSEHOLD_ALLERGIES
+  /// Udostępnienie dziennego celu kcal domownikom (do podziału porcji w trybie dokładnym)
+  HOUSEHOLD_TARGETS
 }
 
 /// Historia zgód. Wycofanie zgody = nowy wpis z revokedAt, starych nie nadpisujemy.
@@ -561,6 +563,7 @@ model Household {
   customSlots     CustomMealSlot[]
   planCooks       PlanCook[]
   planMeals       PlanMeal[]
+  dependents      HouseholdDependent[]
 
   @@map("households")
 }
@@ -574,6 +577,8 @@ model HouseholdMember {
   role           HouseholdRole @default(MEMBER)
   /// Zgoda na pokazanie własnych alergii domownikom i uwzględnianie ich w trybie "Dla nas"
   shareAllergies Boolean       @default(false) @map("share_allergies")
+  /// Zgoda na użycie mojego celu kcal przy dzieleniu porcji
+  shareTargets   Boolean       @default(false) @map("share_targets")
   joinedAt       DateTime      @default(now()) @map("joined_at")
 
   @@index([householdId])
@@ -646,6 +651,8 @@ model PlanCook {
   /// Dzień gotowania = dzień pierwszego posiłku z tej partii
   date        DateTime   @db.Date
   servings    Float
+  /// Zważona waga całego garnka po ugotowaniu (tryb dokładny)
+  cookedGrams Float?     @map("cooked_grams")
   createdById String?    @map("created_by_id") @db.Uuid
   createdBy   User?      @relation("PlanCookCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
   createdAt   DateTime   @default(now()) @map("created_at")
@@ -658,23 +665,42 @@ model PlanCook {
 
 /// Posiłek w planie: porcje z danej partii zjedzone w dniu i posiłku
 model PlanMeal {
-  id           String          @id @default(uuid(7)) @db.Uuid
-  userId       String?         @map("user_id") @db.Uuid
-  user         User?           @relation(fields: [userId], references: [id], onDelete: Cascade)
-  householdId  String?         @map("household_id") @db.Uuid
-  household    Household?      @relation(fields: [householdId], references: [id], onDelete: Cascade)
-  date         DateTime        @db.Date
+  id                 String          @id @default(uuid(7)) @db.Uuid
+  userId             String?         @map("user_id") @db.Uuid
+  user               User?           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  householdId        String?         @map("household_id") @db.Uuid
+  household          Household?      @relation(fields: [householdId], references: [id], onDelete: Cascade)
+  date               DateTime        @db.Date
   /// Stały posiłek (kod) albo własny (customSlotId) - dokładnie jedno
-  slotCode     String?         @map("slot_code") @db.VarChar(32)
-  customSlotId String?         @map("custom_slot_id") @db.Uuid
-  customSlot   CustomMealSlot? @relation(fields: [customSlotId], references: [id], onDelete: Cascade)
-  cookId       String          @map("cook_id") @db.Uuid
-  cook         PlanCook        @relation(fields: [cookId], references: [id], onDelete: Cascade)
-  servings     Float
-  createdAt    DateTime        @default(now()) @map("created_at")
+  slotCode           String?         @map("slot_code") @db.VarChar(32)
+  customSlotId       String?         @map("custom_slot_id") @db.Uuid
+  customSlot         CustomMealSlot? @relation(fields: [customSlotId], references: [id], onDelete: Cascade)
+  cookId             String          @map("cook_id") @db.Uuid
+  cook               PlanCook        @relation(fields: [cookId], references: [id], onDelete: Cascade)
+  servings           Float
+  /// Tryb dokładny: kto NIE je tego posiłku (domyślnie jedzą wszyscy)
+  absentUserIds      String[]        @default([]) @map("absent_user_ids") @db.Uuid
+  absentDependentIds String[]        @default([]) @map("absent_dependent_ids") @db.Uuid
+  createdAt          DateTime        @default(now()) @map("created_at")
 
   @@index([userId, date])
   @@index([householdId, date])
   @@index([cookId])
   @@map("plan_meals")
+}
+
+/// Osoba w gospodarstwie bez konta (np. dziecko) - do podziału porcji
+model HouseholdDependent {
+  id          String    @id @default(uuid(7)) @db.Uuid
+  householdId String    @map("household_id") @db.Uuid
+  household   Household @relation(fields: [householdId], references: [id], onDelete: Cascade)
+  name        String    @db.VarChar(40)
+  birthYear   Int       @map("birth_year")
+  sex         Sex
+  /// Własny cel kcal (np. od pediatry); bez niego - wartość referencyjna dla wieku
+  customKcal  Int?      @map("custom_kcal")
+  createdAt   DateTime  @default(now()) @map("created_at")
+
+  @@index([householdId])
+  @@map("household_dependents")
 }

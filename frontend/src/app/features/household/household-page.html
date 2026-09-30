@@ -125,6 +125,89 @@
       }
     </section>
 
+    <!-- Osoby bez konta -->
+    <section class="ck-card box" aria-labelledby="dependents-title">
+      <h2 id="dependents-title">{{ t('household.dependents.title') }}</h2>
+      <p class="muted">{{ t('household.dependents.lead') }}</p>
+      @if (h.dependents.length) {
+        <ul class="members">
+          @for (d of h.dependents; track d.id) {
+            <li>
+              <span class="avatar" aria-hidden="true">{{ d.name.slice(0, 2).toUpperCase() }}</span>
+              <div class="who">
+                <strong>{{ d.name }}</strong>
+                <span class="muted"> · {{ ageLabel(d.age) }}</span>
+                <div class="muted small">
+                  {{
+                    t(
+                      d.reference ? 'household.dependents.kcalReference' : 'household.dependents.kcalCustom',
+                      {
+                        kcal: d.kcal,
+                      }
+                    )
+                  }}
+                </div>
+              </div>
+              <div class="member-actions">
+                <button mat-button type="button" (click)="startDependent(d)">
+                  {{ t('household.dependents.edit') }}
+                </button>
+                <button mat-button type="button" class="danger" (click)="removeDependent(d.id)">
+                  {{ t('household.remove') }}
+                </button>
+              </div>
+            </li>
+          }
+        </ul>
+      }
+      @if (editing()) {
+        <form class="dependent-form" [formGroup]="dependentForm" (ngSubmit)="saveDependent()" novalidate>
+          <mat-form-field subscriptSizing="dynamic">
+            <mat-label>{{ t('household.dependents.name') }}</mat-label>
+            <input matInput formControlName="name" maxlength="40" autocomplete="off" required />
+          </mat-form-field>
+          <mat-form-field subscriptSizing="dynamic">
+            <mat-label>{{ t('household.dependents.birthYear') }}</mat-label>
+            <input
+              matInput
+              formControlName="birthYear"
+              type="text"
+              inputmode="numeric"
+              maxlength="4"
+              required
+            />
+            @if (dependentForm.controls.birthYear.invalid && dependentForm.controls.birthYear.touched) {
+              <mat-error>{{ t('household.dependents.birthYearError', { max: thisYear - 1 }) }}</mat-error>
+            }
+          </mat-form-field>
+          <fieldset class="sex">
+            <legend>{{ t('profile.form.sex') }}</legend>
+            <mat-radio-group formControlName="sex">
+              <mat-radio-button value="FEMALE">{{ t('profile.form.female') }}</mat-radio-button>
+              <mat-radio-button value="MALE">{{ t('profile.form.male') }}</mat-radio-button>
+            </mat-radio-group>
+          </fieldset>
+          <mat-form-field subscriptSizing="dynamic">
+            <mat-label>{{ t('household.dependents.customKcal') }}</mat-label>
+            <input matInput formControlName="customKcal" type="text" inputmode="numeric" autocomplete="off" />
+            <mat-hint>{{ t('household.dependents.customKcalHint') }}</mat-hint>
+          </mat-form-field>
+          <div class="row">
+            <button mat-flat-button class="ck-cta" type="submit" [disabled]="busy()">
+              {{ t('common.save') }}
+            </button>
+            <button mat-button type="button" (click)="editing.set(null)">{{ t('common.cancel') }}</button>
+          </div>
+        </form>
+      } @else {
+        <button mat-stroked-button type="button" (click)="startDependent()">
+          <span class="material-symbols-rounded" aria-hidden="true">person_add</span
+          >{{ t('household.dependents.add') }}
+        </button>
+      }
+      <p class="muted small">{{ t('household.dependents.note') }}</p>
+    </section>
+
     <!-- Moje alergie w grupie -->
     <section class="ck-card box" aria-labelledby="share-title">
       <h2 id="share-title">{{ t('household.shareTitle') }}</h2>
@@ -137,6 +220,16 @@
         >
           {{ t('household.shareToggle') }}
         </mat-slide-toggle>
+        <mat-slide-toggle
+          class="share-targets"
+          [checked]="me()?.shareTargets ?? false"
+          (change)="setShareTargets($event.checked)"
+          [disabled]="busy()"
+          aria-describedby="share-targets-hint"
+        >
+          {{ t('household.shareTargetsToggle') }}
+        </mat-slide-toggle>
+        <p class="muted small" id="share-targets-hint">{{ t('household.shareTargetsHint') }}</p>
       } @else {
         <p>{{ t('household.shareNeedsConsent') }}</p>
         <a mat-stroked-button routerLink="/preferences">{{ t('nav.preferences') }}</a>

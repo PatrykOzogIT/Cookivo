@@ -1,5 +1,16 @@
-import { Transform } from 'class-transformer';
-import { IsBoolean, IsEmail, IsOptional, IsString, Length, MaxLength } from 'class-validator';
+import { Transform, Type } from 'class-transformer';
+import {
+  IsBoolean,
+  IsEmail,
+  IsIn,
+  IsInt,
+  IsOptional,
+  IsString,
+  Length,
+  Max,
+  MaxLength,
+  Min,
+} from 'class-validator';
 
 const trim = ({ value }: { value: unknown }) => (typeof value === 'string' ? value.trim() : value);
 const lower = ({ value }: { value: unknown }) =>
@@ -24,6 +35,29 @@ export class InviteTokenDto {
   @IsString()
   @Length(10, 200)
   token!: string;
+}
+
+export class DependentDto {
+  @Transform(trim)
+  @IsString()
+  @Length(1, 40)
+  name!: string;
+
+  @Type(() => Number)
+  @IsInt()
+  @Min(1900)
+  @Max(2100)
+  birthYear!: number;
+
+  @IsIn(['MALE', 'FEMALE'])
+  sex!: 'MALE' | 'FEMALE';
+
+  @IsOptional()
+  @Type(() => Number)
+  @IsInt()
+  @Min(300)
+  @Max(5000)
+  customKcal?: number | null;
 }
 
 export class ShareAllergiesDto {

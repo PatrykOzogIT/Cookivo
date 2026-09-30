@@ -16,7 +16,13 @@ import {
 import { Throttle } from '@nestjs/throttler';
 import type { Request } from 'express';
 import { CurrentUser, Public, type AuthUser } from '../common/auth.decorators.js';
-import { CreateInviteDto, HouseholdNameDto, InviteTokenDto, ShareAllergiesDto } from './household.dto.js';
+import {
+  CreateInviteDto,
+  DependentDto,
+  HouseholdNameDto,
+  InviteTokenDto,
+  ShareAllergiesDto,
+} from './household.dto.js';
 import { HouseholdService } from './household.service.js';
 
 @Controller('household')
@@ -82,6 +88,30 @@ export class HouseholdController {
 
   @Put('share-allergies')
   share(@CurrentUser() user: AuthUser, @Body() dto: ShareAllergiesDto, @Req() req: Request) {
-    return this.household.setShareAllergies(user.id, dto.share, req.ip);
+    return this.household.setShare(user.id, 'ALLERGIES', dto.share, req.ip);
+  }
+
+  @Put('share-targets')
+  shareTargets(@CurrentUser() user: AuthUser, @Body() dto: ShareAllergiesDto, @Req() req: Request) {
+    return this.household.setShare(user.id, 'TARGETS', dto.share, req.ip);
+  }
+
+  @Post('dependents')
+  addDependent(@CurrentUser() user: AuthUser, @Body() dto: DependentDto) {
+    return this.household.addDependent(user.id, dto);
+  }
+
+  @Put('dependents/:id')
+  updateDependent(
+    @CurrentUser() user: AuthUser,
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() dto: DependentDto,
+  ) {
+    return this.household.updateDependent(user.id, id, dto);
+  }
+
+  @Delete('dependents/:id')
+  removeDependent(@CurrentUser() user: AuthUser, @Param('id', ParseUUIDPipe) id: string) {
+    return this.household.removeDependent(user.id, id);
   }
 }

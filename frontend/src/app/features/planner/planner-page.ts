@@ -85,10 +85,27 @@ export class PlannerPage {
     }
     return map;
   });
+  /** Tryb dokładny: osoba, której bilans oglądamy (domyślnie ja) */
+  protected readonly exact = computed(() => this.data()?.settings.exactPortions ?? false);
+  protected readonly personKey = signal<string | null>(null);
+  protected readonly person = computed(() => {
+    const persons = this.data()?.persons ?? [];
+    return persons.find((p) => p.key === this.personKey()) ?? persons.find((p) => p.isMe) ?? null;
+  });
+  /** Cel dnia wybranej osoby: moje pełne cele z profilu, u innych tylko kcal */
+  protected readonly dayTarget = computed(() => {
+    const d = this.data();
+    const p = this.person();
+    if (!d) return null;
+    if (!this.exact() || !p || p.isMe) return d.targets;
+    return { kcal: p.kcal, protein: 0, fat: 0, carbs: 0 };
+  });
+
   protected readonly totals = computed(() => {
     const byDay = new Map<string, PlanMeal[]>();
     for (const m of this.data()?.meals ?? []) byDay.set(m.date, [...(byDay.get(m.date) ?? []), m]);
-    return new Map(this.days().map((d) => [d, dayTotals(byDay.get(d) ?? [])]));
+    const key = this.exact() ? this.person()?.key : undefined;
+    return new Map(this.days().map((d) => [d, dayTotals(byDay.get(d) ?? [], key)]));
   });
 
   constructor() {
@@ -153,6 +170,7 @@ export class PlannerPage {
       days: this.days(),
       slots: this.slots().map((s) => ({ key: s.key, label: this.slotLabel(s) })),
       lang: this.lang(),
+      persons: this.exact() ? (this.data()?.persons ?? []) : [],
     };
     const ref = this.dialog.open(EditMealDialog, { ...DIALOG, data });
     if (await firstValueFrom(ref.afterClosed())) await this.load(this.monday());
@@ -223,7 +241,20 @@ export class PlannerPage {
   }
 
   protected status(date: string) {
-    return balanceStatus(this.totals().get(date)?.kcal ?? 0, this.data()?.targets?.kcal);
+    return balanceStatus(this.totals().get(date)?.kcal ?? 0, this.dayTarget()?.kcal);
+  }
+
+  /** Porcja wybranej osoby w posiłku (tryb dokładny) */
+  protected share(m: PlanMeal) {
+    return m.shares?.find((s) => s.key === this.person()?.key) ?? null;
+  }
+
+  protected absentNames(m: PlanMeal): string {
+    const persons = this.data()?.persons ?? [];
+    return m.absent
+      .map((k) => persons.find((p) => p.key === k)?.name ?? '')
+      .filter(Boolean)
+      .join(', ');
   }
 
   protected percent(value: number, target: number | undefined): number {

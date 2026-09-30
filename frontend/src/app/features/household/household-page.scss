@@ -155,3 +155,28 @@ h3 {
     justify-content: flex-start;
   }
 }
+
+.dependent-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+  margin: 12px 0;
+  .row,
+  .sex {
+    grid-column: 1 / -1;
+  }
+  .sex {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    legend {
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+  }
+}
+
+.share-targets {
+  display: block;
+  margin-top: 12px;
+}

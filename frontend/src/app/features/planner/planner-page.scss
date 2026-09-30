@@ -361,3 +361,30 @@
     padding: 16px;
   }
 }
+
+// --- Tryb dokładny: czyj bilans ------------------------------------------------------
+.persons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.person {
+  min-height: 44px;
+  padding: 0 16px;
+  font: inherit;
+  font-weight: 600;
+  color: var(--ck-text);
+  background: var(--ck-surface);
+  border: 1px solid var(--ck-border);
+  border-radius: 999px;
+  cursor: pointer;
+  &[aria-pressed='true'] {
+    background: var(--ck-sage-bg);
+    border-color: var(--ck-link);
+  }
+  &:focus-visible {
+    outline: 3px solid var(--ck-focus);
+    outline-offset: 2px;
+  }
+}
