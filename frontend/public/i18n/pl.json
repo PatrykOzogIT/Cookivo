@@ -119,7 +119,8 @@
     "DATE_RANGE_INVALID": "Nieprawidłowy zakres dat.",
     "MEAL_SOURCE_INVALID": "Wybierz przepis albo porcje z zapasu.",
     "TOO_MANY_SLOTS": "Możesz mieć najwyżej 6 własnych posiłków.",
-    "PERSON_UNKNOWN": "Nie ma takiej osoby w gospodarstwie."
+    "PERSON_UNKNOWN": "Nie ma takiej osoby w gospodarstwie.",
+    "ITEM_INVALID": "Wybierz składnik z bazy albo wpisz własną nazwę."
   },
   "auth": {
     "fields": {
@@ -305,7 +306,8 @@
       "name": "Nazwa",
       "kcal": "Najmniej kalorii",
       "time": "Najszybsze",
-      "forYou": "Dopasowane do Ciebie"
+      "forYou": "Dopasowane do Ciebie",
+      "fromPantry": "Najpierw z tego, co mam"
     },
     "filters": {
       "mine": "Tylko moje przepisy",
@@ -911,6 +913,59 @@
       "weigh": "Waga całego garnka po ugotowaniu",
       "weighHint": "Opcjonalnie. Zważony garnek daje najdokładniejsze gramy (bez naczynia).",
       "lead": "Wspólny plan gospodarstwa „{{name}}” · porcje dzielimy według celów kcal każdej osoby."
-    }
+    },
+    "toShopping": "Dodaj tydzień do listy zakupów",
+    "addedToShopping": "Dodano do listy zakupów: {{count}} poz. (bez tego, co jest w lodówce)."
+  },
+  "pantry": {
+    "lead": "Co masz w domu. Ilość jest opcjonalna - z nią lista zakupów odejmie dokładnie, bez niej po prostu pominie składnik.",
+    "addTitle": "Dodaj do lodówki",
+    "search": "Szukaj składnika",
+    "amount": "Ilość (opcjonalnie)",
+    "unit": "Jednostka",
+    "expiresOn": "Ważne do (opcjonalnie)",
+    "amountHint": "Bez ilości zapiszemy po prostu „mam”.",
+    "add": "Dodaj",
+    "have": "mam",
+    "edit": "Edytuj: {{name}}",
+    "remove": "Usuń: {{name}}",
+    "expired": "po terminie",
+    "expiresToday": "ważne do dziś",
+    "expiresIn": "ważne jeszcze {{days}}",
+    "soonTitle": "Zużyj wkrótce",
+    "cookFromIt": "Przepisy z tego, co mam",
+    "empty": "Lodówka jest pusta. Dodaj, co masz w domu - albo przenieś tu zakupy z listy.",
+    "dayForms": "dzień|dni|dni"
+  },
+  "shopping": {
+    "lead": "Twoja lista zakupów. Odhaczaj w sklepie, a kupione przenieś jednym kliknięciem do lodówki.",
+    "leadHousehold": "Wspólna lista gospodarstwa „{{name}}” - domownicy widzą, co już jest w koszyku.",
+    "addTitle": "Dodaj do listy",
+    "fromPlan": "Z planu posiłków",
+    "thisWeek": "Ten tydzień",
+    "nextWeek": "Następny tydzień",
+    "from": "Od",
+    "to": "Do",
+    "fromPlanHint": "Zsumujemy składniki wszystkich gotowań z tych dni (z podprzepisami) i odejmiemy to, co masz w lodówce.",
+    "addFromPlan": "Dodaj składniki",
+    "added": "Dodano pozycji: {{count}}.",
+    "skipped": "Pominięto, bo masz w domu: {{names}}.",
+    "addItem": "Dodaj składnik albo własną pozycję",
+    "addItemHint": "Wybierz składnik z podpowiedzi albo wpisz dowolną nazwę i naciśnij Enter (np. papier do pieczenia).",
+    "note": "Ilość / opis (opcjonalnie)",
+    "add": "Dodaj",
+    "custom": "Inne zakupy",
+    "remove": "Usuń z listy: {{name}}",
+    "inCart": "W koszyku ({{count}})",
+    "by": "odhaczył(a): {{name}}",
+    "toPantry": "Przenieś kupione do lodówki",
+    "clearBought": "Usuń kupione",
+    "clearAll": "Wyczyść całą listę",
+    "moved": "Przeniesiono do lodówki: {{count}} poz.",
+    "empty": "Lista jest pusta. Dodaj składniki z planu posiłków albo z przepisu.",
+    "pieces": "szt.",
+    "about": "ok.",
+    "fromRecipe": "Do listy zakupów ({{count}} porcji)",
+    "open": "Otwórz listę"
   }
 }

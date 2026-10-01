@@ -6,6 +6,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import type { AuthUser } from '../common/auth.decorators.js';
+import { ownerScope } from '../common/owner-scope.js';
 import { normalizeSearch } from '../common/text.js';
 import { Prisma } from '../generated/prisma/client.js';
 import { containsProfanity } from '../moderation/profanity.js';
@@ -96,6 +97,17 @@ export class RecipesService {
     else if (query.forMe && user) c.push(recipeForMe(user.id));
 
     const collate = query.lang === 'en' ? Prisma.sql`"en-x-icu"` : Prisma.sql`"pl-x-icu"`;
+    // "Najpierw z tego, co mam": udział składników przepisu, które są w lodówce
+    let pantryScore = Prisma.sql`0`;
+    if (query.sort === 'fromPantry' && user) {
+      const scope = await ownerScope(this.prisma, user.id);
+      const owner = scope.householdId
+        ? Prisma.sql`p.household_id = ${scope.householdId}::uuid`
+        : Prisma.sql`p.user_id = ${user.id}::uuid`;
+      pantryScore = Prisma.sql`(SELECT coalesce(avg(CASE WHEN EXISTS (SELECT 1 FROM pantry_items p
+          WHERE p.ingredient_id = ri.ingredient_id AND ${owner}) THEN 1.0 ELSE 0 END), 0)
+        FROM recipe_ingredients ri WHERE ri.recipe_id = r.id AND ri.ingredient_id IS NOT NULL)`;
+    }
     const orders: Record<ListRecipesQuery['sort'], Prisma.Sql> = {
       newest: Prisma.sql`r.created_at DESC`,
       kcal: Prisma.sql`r.kcal_per_serving ASC`,
@@ -104,6 +116,7 @@ export class RecipesService {
       forYou: user
         ? Prisma.sql`(${Prisma.join((us?.memberIds ?? [user.id]).map(recipeScore), ' + ')}) DESC, r.created_at DESC`
         : Prisma.sql`r.created_at DESC`,
+      fromPantry: Prisma.sql`${pantryScore} DESC, r.created_at DESC`,
     };
     let order = orders[query.sort];
     const q = query.q ? normalizeSearch(query.q) : '';

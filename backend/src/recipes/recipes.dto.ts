@@ -97,8 +97,8 @@ export class ListRecipesQuery {
   household?: boolean;
 
   @IsOptional()
-  @IsIn(['newest', 'kcal', 'time', 'name', 'forYou'])
-  sort: 'newest' | 'kcal' | 'time' | 'name' | 'forYou' = 'newest';
+  @IsIn(['newest', 'kcal', 'time', 'name', 'forYou', 'fromPantry'])
+  sort: 'newest' | 'kcal' | 'time' | 'name' | 'forYou' | 'fromPantry' = 'newest';
 
   @IsOptional()
   @IsIn(['pl', 'en'])

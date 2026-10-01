@@ -78,7 +78,7 @@ export class RecipesPage {
   protected readonly timeLimits = TIME_LIMITS;
   protected readonly sorts = computed<Sort[]>(() =>
     this.auth.isLoggedIn()
-      ? ['newest', 'forYou', 'name', 'kcal', 'time']
+      ? ['newest', 'forYou', 'fromPantry', 'name', 'kcal', 'time']
       : ['newest', 'name', 'kcal', 'time'],
   );
   protected readonly personalOn = computed(() => this.auth.isLoggedIn() && this.forMe() !== '0');

@@ -13,6 +13,7 @@ import { LanguageService } from '../../../core/i18n/language.service';
 import { NutritionTableComponent } from '../../../shared/nutrition-table/nutrition-table';
 import { AmountLabelPipe } from '../amount-label.pipe';
 import { scaleAmount } from '../recipe-units';
+import { ShoppingApi, type AddResult } from '../../shopping/shopping.api';
 import { RecipesApi } from '../recipes.api';
 import type { RecipeDetail, RecipeLine } from '../recipes.models';
 
@@ -52,6 +53,9 @@ export function groupLines(lines: RecipeLine[]): LineGroup[] {
 })
 export class RecipeDetailPage implements OnInit {
   private readonly api = inject(RecipesApi);
+  private readonly shopping = inject(ShoppingApi);
+  protected readonly shoppingBusy = signal(false);
+  protected readonly shoppingResult = signal<AddResult | null>(null);
   private readonly router = inject(Router);
   private readonly title = inject(Title);
   protected readonly auth = inject(AuthService);
@@ -62,6 +66,18 @@ export class RecipeDetailPage implements OnInit {
   protected readonly recipe = signal<RecipeDetail | null>(null);
   protected readonly error = signal<string | null>(null);
   protected readonly servings = signal(1);
+
+  /** Składniki na wybraną liczbę porcji (z podprzepisami) trafiają na wspólną listę zakupów */
+  protected async toShopping(): Promise<void> {
+    const r = this.recipe();
+    if (!r) return;
+    this.shoppingBusy.set(true);
+    try {
+      this.shoppingResult.set(await this.shopping.fromRecipe(r.id, this.servings()));
+    } finally {
+      this.shoppingBusy.set(false);
+    }
+  }
   protected readonly photoIndex = signal(0);
   protected readonly busy = signal(false);
   protected readonly actionError = signal<string | null>(null);

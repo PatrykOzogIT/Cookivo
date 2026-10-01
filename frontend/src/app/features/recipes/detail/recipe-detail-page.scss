@@ -421,3 +421,12 @@
     grid-template-columns: 1fr;
   }
 }
+
+.to-shopping {
+  margin-top: 16px;
+  .ok {
+    margin: 8px 0 0;
+    color: var(--ck-success);
+    font-weight: 600;
+  }
+}

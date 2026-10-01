@@ -217,6 +217,20 @@
               }
             </ul>
           }
+          @if (auth.isLoggedIn()) {
+            <div class="to-shopping">
+              <button mat-stroked-button type="button" (click)="toShopping()" [disabled]="shoppingBusy()">
+                <span class="material-symbols-rounded" aria-hidden="true">add_shopping_cart</span>
+                {{ t('shopping.fromRecipe', { count: servings() }) }}
+              </button>
+              @if (shoppingResult(); as res) {
+                <p class="ok" role="status">
+                  {{ t('shopping.added', { count: res.added }) }}
+                  <a routerLink="/shopping">{{ t('shopping.open') }}</a>
+                </p>
+              }
+            </div>
+          }
         </section>
 
         <section class="steps" aria-labelledby="steps-title">

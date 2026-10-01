@@ -119,7 +119,8 @@
     "DATE_RANGE_INVALID": "Invalid date range.",
     "MEAL_SOURCE_INVALID": "Choose a recipe or portions from leftovers.",
     "TOO_MANY_SLOTS": "You can have at most 6 custom meals.",
-    "PERSON_UNKNOWN": "There is no such person in the household."
+    "PERSON_UNKNOWN": "There is no such person in the household.",
+    "ITEM_INVALID": "Choose an ingredient from the database or type your own name."
   },
   "auth": {
     "fields": {
@@ -305,7 +306,8 @@
       "name": "Name",
       "kcal": "Fewest calories",
       "time": "Quickest",
-      "forYou": "Matched to you"
+      "forYou": "Matched to you",
+      "fromPantry": "What I have first"
     },
     "filters": {
       "mine": "Only my recipes",
@@ -911,6 +913,59 @@
       "weigh": "Weight of the whole pot after cooking",
       "weighHint": "Optional. A weighed pot gives the most accurate grams (without the pot itself).",
       "lead": "Shared plan of the “{{name}}” household · portions split by each person’s calorie target."
-    }
+    },
+    "toShopping": "Add the week to the shopping list",
+    "addedToShopping": "Added to the shopping list: {{count}} items (minus what is in your pantry)."
+  },
+  "pantry": {
+    "lead": "What you have at home. Quantity is optional - with it the shopping list subtracts exactly, without it the ingredient is simply skipped.",
+    "addTitle": "Add to pantry",
+    "search": "Search for an ingredient",
+    "amount": "Quantity (optional)",
+    "unit": "Unit",
+    "expiresOn": "Best before (optional)",
+    "amountHint": "Without a quantity we simply save “have it”.",
+    "add": "Add",
+    "have": "have it",
+    "edit": "Edit: {{name}}",
+    "remove": "Remove: {{name}}",
+    "expired": "expired",
+    "expiresToday": "expires today",
+    "expiresIn": "{{days}} left",
+    "soonTitle": "Use soon",
+    "cookFromIt": "Recipes with what I have",
+    "empty": "Your pantry is empty. Add what you have at home - or move your shopping here from the list.",
+    "dayForms": "day|days|days"
+  },
+  "shopping": {
+    "lead": "Your shopping list. Tick items off in the shop, then move what you bought to the pantry in one click.",
+    "leadHousehold": "Shared list of the “{{name}}” household - everyone sees what is already in the basket.",
+    "addTitle": "Add to the list",
+    "fromPlan": "From the meal plan",
+    "thisWeek": "This week",
+    "nextWeek": "Next week",
+    "from": "From",
+    "to": "To",
+    "fromPlanHint": "We add up the ingredients of all cooking in these days (including sub-recipes) and subtract what is in your pantry.",
+    "addFromPlan": "Add ingredients",
+    "added": "Items added: {{count}}.",
+    "skipped": "Skipped because you have them: {{names}}.",
+    "addItem": "Add an ingredient or your own item",
+    "addItemHint": "Pick an ingredient from the suggestions or type any name and press Enter (e.g. baking paper).",
+    "note": "Quantity / note (optional)",
+    "add": "Add",
+    "custom": "Other shopping",
+    "remove": "Remove from the list: {{name}}",
+    "inCart": "In the basket ({{count}})",
+    "by": "ticked by: {{name}}",
+    "toPantry": "Move bought items to the pantry",
+    "clearBought": "Remove bought items",
+    "clearAll": "Clear the whole list",
+    "moved": "Moved to the pantry: {{count}} items.",
+    "empty": "The list is empty. Add ingredients from the meal plan or from a recipe.",
+    "pieces": "pcs",
+    "about": "approx.",
+    "fromRecipe": "Add to shopping list ({{count}} portions)",
+    "open": "Open the list"
   }
 }

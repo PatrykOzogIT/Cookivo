@@ -97,6 +97,18 @@ export const routes: Routes = [
     loadComponent: () => import('./features/planner/planner-page').then((m) => m.PlannerPage),
   },
   {
+    path: 'shopping',
+    canMatch: [authGuard],
+    data: { titleKey: 'nav.shopping' },
+    loadComponent: () => import('./features/shopping/shopping-page').then((m) => m.ShoppingPage),
+  },
+  {
+    path: 'pantry',
+    canMatch: [authGuard],
+    data: { titleKey: 'nav.pantry' },
+    loadComponent: () => import('./features/pantry/pantry-page').then((m) => m.PantryPage),
+  },
+  {
     path: 'household',
     children: [
       {
@@ -165,13 +177,7 @@ export const routes: Routes = [
     loadComponent: () => import('./features/legal/legal-page').then((m) => m.LegalPage),
   },
   // Sekcje dla zalogowanych - wypełniamy je w kolejnych etapach.
-  ...(
-    [
-      ['shopping', 'nav.shopping', 'shopping_cart', 7],
-      ['pantry', 'nav.pantry', 'kitchen', 7],
-      ['prices', 'nav.prices', 'sell', 7],
-    ] as const
-  ).map(([path, titleKey, icon, stage]) => ({
+  ...([['prices', 'nav.prices', 'sell', 7]] as const).map(([path, titleKey, icon, stage]) => ({
     path,
     canMatch: [authGuard],
     loadComponent: () => import('./features/placeholder/placeholder-page').then((m) => m.PlaceholderPage),

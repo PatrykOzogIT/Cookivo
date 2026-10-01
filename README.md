@@ -120,6 +120,8 @@ backend/
   src/profile/       profil żywieniowy, kalkulator kcal/makro, alergie, preferencje, dopasowanie list
   src/household/     gospodarstwa domowe: zaproszenia, członkowie, udostępnianie alergii
   src/planner/       planer: gotowania (partie) i posiłki, zapasy, bilans dnia, kopiowanie
+  src/pantry/        lodówka i spiżarnia (ilość opcjonalna, daty ważności)
+  src/shopping/      lista zakupów: z planu i z przepisu (z podprzepisami), minus lodówka
   src/account/       ustawienia konta, urządzenia, eksport danych i usunięcie konta (RODO)
   src/moderation/    filtr wulgaryzmów
   src/mail/          maile (PL/EN)
@@ -143,7 +145,7 @@ e2e/                 testy Playwright
 
 ### Plan
 
-0. Fundament ✅ · 1. Konta ✅ · 2. Składniki i alergeny ✅ · 3. Przepisy, tryb gotowania, zdjęcia ✅ · 4. Profil żywieniowy, kalkulator, preferencje, RODO (eksport/usuwanie) ✅ · 5. Gospodarstwa domowe ✅ · 6a. Planer (tryb prosty) ✅ · 6b. Dokładne porcje dla rodzin ✅ · 7. Lodówka, zakupy, cenniki · 8. Warianty i oceny · 9. Moderacja i panel admina · 10. PWA · 11. Wdrożenie
+0. Fundament ✅ · 1. Konta ✅ · 2. Składniki i alergeny ✅ · 3. Przepisy, tryb gotowania, zdjęcia ✅ · 4. Profil żywieniowy, kalkulator, preferencje, RODO (eksport/usuwanie) ✅ · 5. Gospodarstwa domowe ✅ · 6a. Planer (tryb prosty) ✅ · 6b. Dokładne porcje dla rodzin ✅ · 7a. Lodówka i lista zakupów ✅ · 7b. Cenniki i koszty · 8. Warianty i oceny · 9. Moderacja i panel admina · 10. PWA · 11. Wdrożenie
 
 ---
 

@@ -68,6 +68,9 @@ model User {
   planCooks       PlanCook[]       @relation("PlanCookOwner")
   planMeals       PlanMeal[]
   planCooksAdded  PlanCook[]       @relation("PlanCookCreatedBy")
+  pantryItems     PantryItem[]
+  shoppingItems   ShoppingItem[]   @relation("ShoppingOwner")
+  shoppingChecked ShoppingItem[]   @relation("ShoppingCheckedBy")
 
   @@map("users")
 }
@@ -169,10 +172,12 @@ model Ingredient {
   createdAt       DateTime  @default(now()) @map("created_at")
   updatedAt       DateTime  @updatedAt @map("updated_at")
 
-  allergens   IngredientAllergen[]
-  units       IngredientUnit[]
-  usedIn      RecipeIngredient[]
-  preferences IngredientPreference[]
+  allergens     IngredientAllergen[]
+  units         IngredientUnit[]
+  pantryItems   PantryItem[]
+  shoppingItems ShoppingItem[]
+  usedIn        RecipeIngredient[]
+  preferences   IngredientPreference[]
 
   @@index([status, categoryId])
   @@index([createdById])
@@ -564,6 +569,8 @@ model Household {
   planCooks       PlanCook[]
   planMeals       PlanMeal[]
   dependents      HouseholdDependent[]
+  pantryItems     PantryItem[]
+  shoppingItems   ShoppingItem[]
 
   @@map("households")
 }
@@ -703,4 +710,54 @@ model HouseholdDependent {
 
   @@index([householdId])
   @@map("household_dependents")
+}
+
+// --- Lodówka i lista zakupów ---------------------------------------------------------
+// Jak plan: należą do gospodarstwa albo do użytkownika (CHECK num_nonnulls w migracji).
+
+/// Co mam w domu. Ilość opcjonalna (null = "mam", bez ilości).
+model PantryItem {
+  id           String     @id @default(uuid(7)) @db.Uuid
+  userId       String?    @map("user_id") @db.Uuid
+  user         User?      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  householdId  String?    @map("household_id") @db.Uuid
+  household    Household? @relation(fields: [householdId], references: [id], onDelete: Cascade)
+  ingredientId String     @map("ingredient_id") @db.Uuid
+  ingredient   Ingredient @relation(fields: [ingredientId], references: [id], onDelete: Cascade)
+  /// Ilość tak, jak wpisał użytkownik (np. 6 PIECE), i jej przeliczenie na gramy
+  amount       Float?
+  unitCode     String?    @map("unit_code") @db.VarChar(32)
+  grams        Float?
+  expiresOn    DateTime?  @map("expires_on") @db.Date
+  createdAt    DateTime   @default(now()) @map("created_at")
+  updatedAt    DateTime   @updatedAt @map("updated_at")
+
+  @@index([userId])
+  @@index([householdId])
+  @@map("pantry_items")
+}
+
+/// Pozycja listy zakupów: składnik z bazy (z gramami) albo własna pozycja (nazwa + opis ilości)
+model ShoppingItem {
+  id           String      @id @default(uuid(7)) @db.Uuid
+  userId       String?     @map("user_id") @db.Uuid
+  user         User?       @relation("ShoppingOwner", fields: [userId], references: [id], onDelete: Cascade)
+  householdId  String?     @map("household_id") @db.Uuid
+  household    Household?  @relation(fields: [householdId], references: [id], onDelete: Cascade)
+  ingredientId String?     @map("ingredient_id") @db.Uuid
+  ingredient   Ingredient? @relation(fields: [ingredientId], references: [id], onDelete: Cascade)
+  name         String?     @db.VarChar(80)
+  grams        Float?
+  /// Ilość opisowa dla własnych pozycji, np. "2 rolki"
+  note         String?     @db.VarChar(80)
+  checked      Boolean     @default(false)
+  checkedById  String?     @map("checked_by_id") @db.Uuid
+  checkedBy    User?       @relation("ShoppingCheckedBy", fields: [checkedById], references: [id], onDelete: SetNull)
+  checkedAt    DateTime?   @map("checked_at")
+  createdAt    DateTime    @default(now()) @map("created_at")
+  updatedAt    DateTime    @updatedAt @map("updated_at")
+
+  @@index([userId])
+  @@index([householdId])
+  @@map("shopping_items")
 }

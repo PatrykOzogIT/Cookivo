@@ -30,6 +30,7 @@ describe('Pliki tłumaczeń', () => {
 
   it('każdy kod błędu z backendu ma tłumaczenie', () => {
     const backendCodes = [
+      'ITEM_INVALID',
       'PERSON_UNKNOWN',
       'PORTIONS_EXCEEDED',
       'SLOT_UNKNOWN',

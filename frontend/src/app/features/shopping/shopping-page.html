@@ -1,0 +1,171 @@
+<div class="page" *transloco="let t">
+  <header class="head">
+    <h1>{{ t('nav.shopping') }}</h1>
+    <p class="lead">
+      {{ t(household() ? 'shopping.leadHousehold' : 'shopping.lead', { name: household()?.name ?? '' }) }}
+    </p>
+  </header>
+
+  @if (error(); as code) {
+    <div class="alert" role="alert">{{ t('errors.' + code) }}</div>
+  }
+
+  <section class="ck-card box" aria-labelledby="add-title">
+    <h2 id="add-title">{{ t('shopping.addTitle') }}</h2>
+    <div class="row top">
+      <button mat-flat-button class="ck-cta" type="button" (click)="showPlan.set(!showPlan())">
+        <span class="material-symbols-rounded" aria-hidden="true">calendar_month</span
+        >{{ t('shopping.fromPlan') }}
+      </button>
+    </div>
+
+    @if (showPlan()) {
+      <div class="plan-range">
+        <div class="row">
+          <button mat-stroked-button type="button" (click)="setWeek(0)">{{ t('shopping.thisWeek') }}</button>
+          <button mat-stroked-button type="button" (click)="setWeek(1)">{{ t('shopping.nextWeek') }}</button>
+        </div>
+        <div class="fields">
+          <mat-form-field subscriptSizing="dynamic">
+            <mat-label>{{ t('shopping.from') }}</mat-label>
+            <input matInput type="date" [ngModel]="planFrom()" (ngModelChange)="planFrom.set($event)" />
+          </mat-form-field>
+          <mat-form-field subscriptSizing="dynamic">
+            <mat-label>{{ t('shopping.to') }}</mat-label>
+            <input matInput type="date" [ngModel]="planTo()" (ngModelChange)="planTo.set($event)" />
+          </mat-form-field>
+        </div>
+        <p class="hint">{{ t('shopping.fromPlanHint') }}</p>
+        <div class="row">
+          <button mat-flat-button class="ck-cta" type="button" (click)="fromPlan()" [disabled]="busy()">
+            {{ t('shopping.addFromPlan') }}
+          </button>
+        </div>
+      </div>
+    }
+
+    @if (result(); as r) {
+      <p class="ok" role="status">
+        {{ t('shopping.added', { count: r.added }) }}
+        @if (r.inPantry.length) {
+          {{ t('shopping.skipped', { names: skippedNames() }) }}
+        }
+      </p>
+    }
+
+    <app-ingredient-picker
+      [label]="t('shopping.addItem')"
+      [allowText]="true"
+      (picked)="addIngredient($event)"
+      (text)="customName.set($event)"
+    />
+    <p class="hint">{{ t('shopping.addItemHint') }}</p>
+    @if (customName(); as name) {
+      <form class="custom" (ngSubmit)="addCustom()" novalidate>
+        <p>
+          <strong>{{ name }}</strong>
+        </p>
+        <mat-form-field subscriptSizing="dynamic">
+          <mat-label>{{ t('shopping.note') }}</mat-label>
+          <input matInput name="note" [(ngModel)]="customNote" maxlength="80" autocomplete="off" />
+        </mat-form-field>
+        <div class="row">
+          <button mat-flat-button class="ck-cta" type="submit" [disabled]="busy()">
+            {{ t('shopping.add') }}
+          </button>
+          <button mat-button type="button" (click)="customName.set(null)">{{ t('common.cancel') }}</button>
+        </div>
+      </form>
+    }
+  </section>
+
+  @if (notice(); as n) {
+    <p class="ok" role="status">{{ n }}</p>
+  }
+
+  @if (loading()) {
+    <mat-progress-bar mode="indeterminate" [attr.aria-label]="t('common.loading')" />
+  } @else if (!items().length) {
+    <div class="ck-card empty">
+      <span class="material-symbols-rounded" aria-hidden="true">shopping_cart</span>
+      <p>{{ t('shopping.empty') }}</p>
+      <a mat-stroked-button routerLink="/planner">{{ t('nav.planner') }}</a>
+    </div>
+  } @else {
+    @for (g of toBuy(); track g.code) {
+      <section class="group" [attr.aria-labelledby]="'cat-' + g.code">
+        <h2 [id]="'cat-' + g.code">
+          @if (g.items[0].ingredient; as ing) {
+            <span class="material-symbols-rounded" aria-hidden="true">{{ ing.category.icon }}</span>
+            {{ ing.category | localized: lang() }}
+          } @else {
+            <span class="material-symbols-rounded" aria-hidden="true">edit_note</span>
+            {{ t('shopping.custom') }}
+          }
+        </h2>
+        <ul>
+          @for (i of g.items; track i.id) {
+            <li>
+              <mat-checkbox class="check" [checked]="i.checked" (change)="toggle(i, $event.checked)">
+                <span class="what">
+                  <strong>{{ label(i) }}</strong>
+                  <span class="qty">{{ amount(i) }}</span>
+                  @if (i.note) {
+                    <span class="qty">{{ i.note }}</span>
+                  }
+                </span>
+              </mat-checkbox>
+              <button
+                mat-icon-button
+                type="button"
+                (click)="remove(i)"
+                [attr.aria-label]="t('shopping.remove', { name: label(i) })"
+              >
+                <span class="material-symbols-rounded" aria-hidden="true">close</span>
+              </button>
+            </li>
+          }
+        </ul>
+      </section>
+    }
+
+    @if (bought().length) {
+      <section class="group bought" aria-labelledby="bought-title">
+        <h2 id="bought-title">
+          <span class="material-symbols-rounded" aria-hidden="true">shopping_basket</span>
+          {{ t('shopping.inCart', { count: bought().length }) }}
+        </h2>
+        <ul>
+          @for (i of bought(); track i.id) {
+            <li>
+              <mat-checkbox class="check" [checked]="true" (change)="toggle(i, $event.checked)">
+                <span class="what">
+                  <strong>{{ label(i) }}</strong>
+                  <span class="qty">{{ amount(i) || i.note }}</span>
+                  @if (i.checkedBy && household()) {
+                    <span class="by">{{ t('shopping.by', { name: i.checkedBy }) }}</span>
+                  }
+                </span>
+              </mat-checkbox>
+            </li>
+          }
+        </ul>
+        <div class="row">
+          <button mat-flat-button class="ck-cta" type="button" (click)="toPantry()" [disabled]="busy()">
+            <span class="material-symbols-rounded" aria-hidden="true">kitchen</span
+            >{{ t('shopping.toPantry') }}
+          </button>
+          <button mat-button type="button" (click)="clear(true)" [disabled]="busy()">
+            {{ t('shopping.clearBought') }}
+          </button>
+        </div>
+      </section>
+    }
+
+    <div class="row end">
+      <button mat-button type="button" class="danger" (click)="clear(false)" [disabled]="busy()">
+        {{ t('shopping.clearAll') }}
+      </button>
+    </div>
+  }
+</div>

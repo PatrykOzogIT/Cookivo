@@ -1,0 +1,144 @@
+<div class="page" *transloco="let t">
+  <header class="head">
+    <h1>{{ t('nav.pantry') }}</h1>
+    <p class="lead">{{ t('pantry.lead') }}</p>
+  </header>
+
+  @if (error(); as code) {
+    <div class="alert" role="alert">{{ t('errors.' + code) }}</div>
+  }
+
+  <section class="ck-card box" aria-labelledby="add-title">
+    <h2 id="add-title">{{ t('pantry.addTitle') }}</h2>
+    <app-ingredient-picker [label]="t('pantry.search')" (picked)="startAdd($event)" />
+
+    @if (draft(); as d) {
+      <form class="draft" (ngSubmit)="save()" novalidate>
+        <p class="draft-name">
+          <span class="material-symbols-rounded" aria-hidden="true">{{ d.ingredient.category.icon }}</span>
+          <strong>{{ d.ingredient | localized: lang() }}</strong>
+        </p>
+        <div class="fields">
+          <mat-form-field subscriptSizing="dynamic">
+            <mat-label>{{ t('pantry.amount') }}</mat-label>
+            <input
+              matInput
+              name="amount"
+              type="text"
+              inputmode="decimal"
+              autocomplete="off"
+              [ngModel]="d.amount"
+              (ngModelChange)="patchDraft({ amount: $event })"
+            />
+          </mat-form-field>
+          <mat-form-field subscriptSizing="dynamic">
+            <mat-label>{{ t('pantry.unit') }}</mat-label>
+            <mat-select name="unit" [ngModel]="d.unitCode" (ngModelChange)="patchDraft({ unitCode: $event })">
+              @for (u of units(); track u.code) {
+                <mat-option [value]="u.code">{{ unitLabel(u.code) }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field subscriptSizing="dynamic">
+            <mat-label>{{ t('pantry.expiresOn') }}</mat-label>
+            <input
+              matInput
+              name="expires"
+              type="date"
+              [ngModel]="d.expiresOn"
+              (ngModelChange)="patchDraft({ expiresOn: $event })"
+            />
+          </mat-form-field>
+        </div>
+        <p class="hint">{{ t('pantry.amountHint') }}</p>
+        <div class="row">
+          <button mat-flat-button class="ck-cta" type="submit" [disabled]="busy()">
+            {{ t(d.id ? 'common.save' : 'pantry.add') }}
+          </button>
+          <button mat-button type="button" (click)="draft.set(null)">{{ t('common.cancel') }}</button>
+        </div>
+      </form>
+    }
+  </section>
+
+  @if (loading()) {
+    <mat-progress-bar mode="indeterminate" [attr.aria-label]="t('common.loading')" />
+  } @else {
+    @if (expiring().length) {
+      <section class="ck-card box soon" aria-labelledby="soon-title">
+        <h2 id="soon-title">
+          <span class="material-symbols-rounded" aria-hidden="true">schedule</span>{{ t('pantry.soonTitle') }}
+        </h2>
+        <p>
+          @for (i of expiring(); track i.id; let last = $last) {
+            <strong>{{ i.ingredient | localized: lang() }}</strong> ({{ expiryLabel(i) }}){{
+              last ? '' : ', '
+            }}
+          }
+        </p>
+        <a mat-stroked-button routerLink="/recipes" [queryParams]="{ sort: 'fromPantry' }">
+          <span class="material-symbols-rounded" aria-hidden="true">restaurant_menu</span
+          >{{ t('pantry.cookFromIt') }}
+        </a>
+      </section>
+    }
+
+    @if (items().length) {
+      @for (g of groups(); track g.category.code) {
+        <section class="group" [attr.aria-labelledby]="'cat-' + g.category.code">
+          <h2 [id]="'cat-' + g.category.code">
+            <span class="material-symbols-rounded" aria-hidden="true">{{ g.category.icon }}</span>
+            {{ g.category | localized: lang() }}
+          </h2>
+          <ul>
+            @for (i of g.items; track i.id) {
+              <li [class.expiring]="i.expiring">
+                <div class="what">
+                  <strong>{{ i.ingredient | localized: lang() }}</strong>
+                  <span class="qty">
+                    @if (i.amount && i.unitCode) {
+                      {{ i.amount | amountLabel: i.unitCode : lang() }}
+                    } @else {
+                      {{ t('pantry.have') }}
+                    }
+                  </span>
+                  @if (i.expiresOn) {
+                    <span class="expiry" [class.bad]="i.expiring">
+                      @if (i.expiring) {
+                        <span class="material-symbols-rounded" aria-hidden="true">warning</span>
+                      }
+                      {{ expiryLabel(i) }}
+                    </span>
+                  }
+                </div>
+                <div class="actions">
+                  <button
+                    mat-icon-button
+                    type="button"
+                    (click)="startEdit(i)"
+                    [attr.aria-label]="t('pantry.edit', { name: (i.ingredient | localized: lang()) })"
+                  >
+                    <span class="material-symbols-rounded" aria-hidden="true">edit</span>
+                  </button>
+                  <button
+                    mat-icon-button
+                    type="button"
+                    (click)="remove(i)"
+                    [attr.aria-label]="t('pantry.remove', { name: (i.ingredient | localized: lang()) })"
+                  >
+                    <span class="material-symbols-rounded" aria-hidden="true">delete</span>
+                  </button>
+                </div>
+              </li>
+            }
+          </ul>
+        </section>
+      }
+    } @else {
+      <div class="ck-card empty">
+        <span class="material-symbols-rounded" aria-hidden="true">kitchen</span>
+        <p>{{ t('pantry.empty') }}</p>
+      </div>
+    }
+  }
+</div>

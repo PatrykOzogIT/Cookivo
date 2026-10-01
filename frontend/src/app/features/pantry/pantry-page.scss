@@ -1,0 +1,153 @@
+// Wspólny układ stron lodówki i listy zakupów
+.page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 24px max(var(--ck-gutter), env(safe-area-inset-right)) 0
+    max(var(--ck-gutter), env(safe-area-inset-left));
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.head {
+  h1 {
+    margin: 0;
+    font-size: clamp(1.6rem, 1.2rem + 1.5vw, 2.2rem);
+  }
+  .lead {
+    margin: 4px 0 0;
+    color: var(--ck-text-muted);
+  }
+}
+
+.box {
+  padding: 16px 20px;
+  h2 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 12px;
+    font-size: 1.1rem;
+  }
+}
+
+.alert {
+  padding: 12px 14px;
+  border-radius: var(--ck-radius-sm);
+  background: color-mix(in srgb, var(--ck-danger) 12%, transparent);
+  color: var(--ck-danger);
+}
+
+.hint {
+  margin: 6px 0 0;
+  font-size: 0.8rem;
+  color: var(--ck-text-muted);
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  margin-top: 12px;
+}
+
+.draft {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--ck-border);
+  .draft-name {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 12px;
+  }
+  .fields {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 12px;
+  }
+}
+
+.soon {
+  border-color: color-mix(in srgb, var(--ck-danger) 40%, var(--ck-border));
+  p {
+    margin: 0 0 12px;
+  }
+}
+
+.group {
+  h2 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 8px 0;
+    font-size: 1rem;
+    color: var(--ck-text-muted);
+  }
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-radius: var(--ck-radius);
+    border: 1px solid var(--ck-border);
+    background: var(--ck-surface);
+    overflow: hidden;
+  }
+  li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    min-height: 56px;
+    padding: 6px 8px 6px 16px;
+    & + li {
+      border-top: 1px solid var(--ck-border);
+    }
+  }
+}
+
+.what {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 10px;
+  min-width: 0;
+  .qty {
+    color: var(--ck-text-muted);
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+.expiry {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 0.8rem;
+  color: var(--ck-text-muted);
+  &.bad {
+    color: var(--ck-danger);
+    font-weight: 600;
+  }
+  .material-symbols-rounded {
+    font-size: 1.1em;
+  }
+}
+
+.actions {
+  display: flex;
+  flex-shrink: 0;
+}
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 32px 16px;
+  text-align: center;
+  color: var(--ck-text-muted);
+  .material-symbols-rounded {
+    font-size: 40px;
+  }
+}

@@ -25,6 +25,7 @@ import {
   weekDays,
   weekFromParam,
 } from './plan-math';
+import { ShoppingApi } from '../shopping/shopping.api';
 import { PlannerApi, SLOT_MEAL_TYPE, type PlanMeal, type PlanSlot, type PlanWeek } from './planner.api';
 import { PlannerSettingsDialog, type SettingsData } from './planner-settings-dialog';
 
@@ -38,6 +39,7 @@ const DIALOG = { width: '560px', maxWidth: '100vw', autoFocus: 'first-heading' a
 })
 export class PlannerPage {
   private readonly api = inject(PlannerApi);
+  private readonly shopping = inject(ShoppingApi);
   private readonly router = inject(Router);
   private readonly dialog = inject(MatDialog);
   private readonly transloco = inject(TranslocoService);
@@ -183,6 +185,14 @@ export class PlannerPage {
     const ref = this.dialog.open(PlannerSettingsDialog, { ...DIALOG, data });
     await firstValueFrom(ref.afterClosed());
     await this.load(this.monday());
+  }
+
+  /** Składniki z całego tygodnia na listę zakupów (minus lodówka) */
+  protected async weekToShopping(): Promise<void> {
+    await this.run(async () => {
+      const res = await this.shopping.fromPlan(this.monday(), addDays(this.monday(), 6));
+      this.notice.set(this.transloco.translate('planner.addedToShopping', { count: res.added }));
+    });
   }
 
   protected async copyToNextWeek(): Promise<void> {

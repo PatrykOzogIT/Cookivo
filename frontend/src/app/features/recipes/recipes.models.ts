@@ -87,7 +87,7 @@ export interface RecipeQuery {
   forMe?: boolean;
   forUs?: boolean;
   household?: boolean;
-  sort?: 'newest' | 'kcal' | 'time' | 'name' | 'forYou';
+  sort?: 'newest' | 'kcal' | 'time' | 'name' | 'forYou' | 'fromPantry';
   lang?: string;
   page?: number;
   pageSize?: number;

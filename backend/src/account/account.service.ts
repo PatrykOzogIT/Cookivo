@@ -132,6 +132,8 @@ export class AccountService {
         },
         customSlots: true,
         plannerSettings: true,
+        pantryItems: { include: { ingredient: { select: { namePl: true } } } },
+        shoppingItems: { include: { ingredient: { select: { namePl: true } } } },
         sessions: { orderBy: { createdAt: 'asc' } },
         ingredientsCreated: { include: { category: true } },
         recipes: {
@@ -189,6 +191,19 @@ export class AccountService {
           cookedOn: m.cook.date.toISOString().slice(0, 10),
         })),
       },
+      // Osobista lodówka i lista zakupów (gospodarstwa należą do gospodarstwa)
+      pantry: user.pantryItems.map((i) => ({
+        ingredient: i.ingredient.namePl,
+        amount: i.amount,
+        unit: i.unitCode,
+        expiresOn: i.expiresOn?.toISOString().slice(0, 10) ?? null,
+      })),
+      shoppingList: user.shoppingItems.map((i) => ({
+        item: i.ingredient?.namePl ?? i.name,
+        grams: i.grams,
+        note: i.note,
+        checked: i.checked,
+      })),
       household: user.householdMember
         ? {
             name: user.householdMember.household.name,

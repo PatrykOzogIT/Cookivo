@@ -1,0 +1,75 @@
+.top {
+  margin: 0 0 12px;
+}
+
+.plan-range {
+  margin: 0 0 16px;
+  padding: 12px 14px;
+  border-radius: var(--ck-radius-sm);
+  background: var(--ck-surface-2);
+  .row {
+    margin-top: 0;
+    margin-bottom: 12px;
+  }
+  .fields {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+  }
+  .row:last-child {
+    margin: 12px 0 0;
+  }
+}
+
+.ok {
+  margin: 0 0 12px;
+  color: var(--ck-success);
+  font-weight: 600;
+}
+
+.custom {
+  margin-top: 12px;
+  p {
+    margin: 0 0 8px;
+  }
+  mat-form-field {
+    width: 100%;
+  }
+}
+
+// Duże pole do odhaczania (w sklepie, jedną ręką)
+.check {
+  flex: 1;
+  min-width: 0;
+  --mat-checkbox-label-text-size: 1rem;
+  .what {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 2px 10px;
+    padding: 8px 0;
+  }
+  .qty {
+    color: var(--ck-text-muted);
+    font-variant-numeric: tabular-nums;
+  }
+  .by {
+    font-size: 0.8rem;
+    color: var(--ck-text-muted);
+  }
+}
+
+.bought {
+  .what strong {
+    text-decoration: line-through;
+    color: var(--ck-text-muted);
+  }
+}
+
+.end {
+  justify-content: flex-end;
+}
+
+.danger {
+  color: var(--ck-danger);
+}

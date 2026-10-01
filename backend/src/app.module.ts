@@ -12,6 +12,8 @@ import { ProfileModule } from './profile/profile.module.js';
 import { AccountModule } from './account/account.module.js';
 import { HouseholdModule } from './household/household.module.js';
 import { PlannerModule } from './planner/planner.module.js';
+import { PantryModule } from './pantry/pantry.module.js';
+import { ShoppingModule } from './shopping/shopping.module.js';
 import { VerifiedEmailGuard } from './common/verified-email.guard.js';
 import { JwtAuthGuard } from './common/jwt-auth.guard.js';
 import { RolesGuard } from './common/roles.guard.js';
@@ -51,6 +53,8 @@ import { PrismaModule } from './prisma/prisma.module.js';
     AccountModule,
     HouseholdModule,
     PlannerModule,
+    PantryModule,
+    ShoppingModule,
   ],
   controllers: [HealthController],
   providers: [

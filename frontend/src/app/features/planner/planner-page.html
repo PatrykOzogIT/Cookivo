@@ -19,6 +19,10 @@
         <span class="material-symbols-rounded" aria-hidden="true">more_horiz</span>{{ t('planner.more') }}
       </button>
       <mat-menu #menu="matMenu">
+        <button mat-menu-item type="button" (click)="weekToShopping()">
+          <span class="material-symbols-rounded" aria-hidden="true">add_shopping_cart</span>
+          <span>{{ t('planner.toShopping') }}</span>
+        </button>
         <button mat-menu-item type="button" (click)="copyToNextWeek()">
           <span class="material-symbols-rounded" aria-hidden="true">content_copy</span>
           <span>{{ t('planner.copyWeek') }}</span>
