@@ -15,7 +15,8 @@ import type { Ingredient } from '../ingredients/ingredients.models';
 import { IngredientPickerComponent } from '../pantry/ingredient-picker';
 import { addDays, isoDay, mondayOf } from '../planner/plan-math';
 import { formatShoppingAmount, groupByCategory } from './shopping-format';
-import { ShoppingApi, type AddResult, type ShoppingItem } from './shopping.api';
+import { formatMoney } from '../prices/prices.api';
+import { ShoppingApi, type AddResult, type ShoppingCost, type ShoppingItem } from './shopping.api';
 
 /** Co ile sekund odświeżać wspólną listę (domownicy odhaczają w tym samym czasie) */
 const POLL_MS = 15_000;
@@ -44,6 +45,7 @@ export class ShoppingPage implements OnInit {
   protected readonly household = inject(HouseholdApi).current;
 
   protected readonly items = signal<ShoppingItem[]>([]);
+  protected readonly cost = signal<ShoppingCost | null>(null);
   protected readonly loading = signal(true);
   protected readonly busy = signal(false);
   protected readonly error = signal<string | null>(null);
@@ -136,6 +138,10 @@ export class ShoppingPage implements OnInit {
     });
   }
 
+  protected money(cents: number): string {
+    return formatMoney(cents, this.cost()?.currency ?? 'PLN', this.lang());
+  }
+
   protected label(item: ShoppingItem): string {
     if (!item.ingredient) return item.name ?? '';
     return this.lang() === 'en' && item.ingredient.nameEn ? item.ingredient.nameEn : item.ingredient.namePl;
@@ -160,7 +166,9 @@ export class ShoppingPage implements OnInit {
 
   private async load(silent = false): Promise<void> {
     try {
-      this.items.set(await this.api.list());
+      const res = await this.api.list();
+      this.items.set(res.items);
+      this.cost.set(res.cost);
     } catch (err) {
       if (!silent) this.error.set(apiErrorCode(err));
     } finally {

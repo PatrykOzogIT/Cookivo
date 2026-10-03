@@ -134,6 +134,7 @@ export class AccountService {
         plannerSettings: true,
         pantryItems: { include: { ingredient: { select: { namePl: true } } } },
         shoppingItems: { include: { ingredient: { select: { namePl: true } } } },
+        priceLists: { include: { entries: { include: { ingredient: { select: { namePl: true } } } } } },
         sessions: { orderBy: { createdAt: 'asc' } },
         ingredientsCreated: { include: { category: true } },
         recipes: {
@@ -203,6 +204,16 @@ export class AccountService {
         grams: i.grams,
         note: i.note,
         checked: i.checked,
+      })),
+      priceLists: user.priceLists.map((l) => ({
+        name: l.name,
+        currency: l.currency,
+        isDefault: l.isDefault,
+        prices: l.entries.map((e) => ({
+          ingredient: e.ingredient.namePl,
+          package: `${e.packageAmount} ${e.packageUnitCode}`,
+          price: e.priceCents / 100,
+        })),
       })),
       household: user.householdMember
         ? {

@@ -25,6 +25,7 @@ import {
   weekDays,
   weekFromParam,
 } from './plan-math';
+import { formatMoney } from '../prices/prices.api';
 import { ShoppingApi } from '../shopping/shopping.api';
 import { PlannerApi, SLOT_MEAL_TYPE, type PlanMeal, type PlanSlot, type PlanWeek } from './planner.api';
 import { PlannerSettingsDialog, type SettingsData } from './planner-settings-dialog';
@@ -185,6 +186,10 @@ export class PlannerPage {
     const ref = this.dialog.open(PlannerSettingsDialog, { ...DIALOG, data });
     await firstValueFrom(ref.afterClosed());
     await this.load(this.monday());
+  }
+
+  protected money(cents: number, currency: string): string {
+    return formatMoney(cents, currency, this.lang());
   }
 
   /** Składniki z całego tygodnia na listę zakupów (minus lodówka) */

@@ -14,6 +14,7 @@ import { HouseholdModule } from './household/household.module.js';
 import { PlannerModule } from './planner/planner.module.js';
 import { PantryModule } from './pantry/pantry.module.js';
 import { ShoppingModule } from './shopping/shopping.module.js';
+import { PricesModule } from './prices/prices.module.js';
 import { VerifiedEmailGuard } from './common/verified-email.guard.js';
 import { JwtAuthGuard } from './common/jwt-auth.guard.js';
 import { RolesGuard } from './common/roles.guard.js';
@@ -55,6 +56,7 @@ import { PrismaModule } from './prisma/prisma.module.js';
     PlannerModule,
     PantryModule,
     ShoppingModule,
+    PricesModule,
   ],
   controllers: [HealthController],
   providers: [

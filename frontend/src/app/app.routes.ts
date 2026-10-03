@@ -177,12 +177,12 @@ export const routes: Routes = [
     loadComponent: () => import('./features/legal/legal-page').then((m) => m.LegalPage),
   },
   // Sekcje dla zalogowanych - wypełniamy je w kolejnych etapach.
-  ...([['prices', 'nav.prices', 'sell', 7]] as const).map(([path, titleKey, icon, stage]) => ({
-    path,
+  {
+    path: 'prices',
     canMatch: [authGuard],
-    loadComponent: () => import('./features/placeholder/placeholder-page').then((m) => m.PlaceholderPage),
-    data: { titleKey, icon, stage },
-  })),
+    data: { titleKey: 'nav.prices' },
+    loadComponent: () => import('./features/prices/prices-page').then((m) => m.PricesPage),
+  },
   {
     path: '**',
     data: { titleKey: 'notFound.title' },

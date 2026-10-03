@@ -120,7 +120,8 @@
     "MEAL_SOURCE_INVALID": "Choose a recipe or portions from leftovers.",
     "TOO_MANY_SLOTS": "You can have at most 6 custom meals.",
     "PERSON_UNKNOWN": "There is no such person in the household.",
-    "ITEM_INVALID": "Choose an ingredient from the database or type your own name."
+    "ITEM_INVALID": "Choose an ingredient from the database or type your own name.",
+    "PRICE_INVALID": "Enter the package size and price (e.g. 1 kg - 4.29)."
   },
   "auth": {
     "fields": {
@@ -967,5 +968,40 @@
     "about": "approx.",
     "fromRecipe": "Add to shopping list ({{count}} portions)",
     "open": "Open the list"
+  },
+  "prices": {
+    "lead": "Your shop prices. Enter them as on the shelf - per package. The default price list calculates the cost of recipes, the shopping list and the week.",
+    "leadHousehold": "Price lists of the “{{name}}” household, shared by everyone. The default one calculates the cost of recipes, the shopping list and the week.",
+    "pick": "Choose a price list",
+    "default": "default",
+    "newList": "New price list",
+    "firstList": "Create your first price list",
+    "name": "Name",
+    "namePlaceholder": "e.g. Tesco, Farmers market",
+    "currency": "Currency",
+    "create": "Create price list",
+    "rename": "Rename",
+    "makeDefault": "Make default",
+    "deleteList": "Delete price list",
+    "deleteConfirm": "Delete the “{{name}}” price list with its prices?",
+    "defaultHint": "This price list calculates costs across the app.",
+    "notDefaultHint": "Costs come from the default price list - this one is extra (e.g. for comparison).",
+    "addPrice": "Add an ingredient price",
+    "package": "Package (amount)",
+    "unit": "Unit",
+    "price": "Price ({{currency}})",
+    "packageHint": "E.g. milk: 1 l - 1.20; eggs: 10 pieces - 2.99. We calculate the price per kg / l / piece.",
+    "entries": "Prices in the list",
+    "perPiece": "/ pc",
+    "edit": "Change price: {{name}}",
+    "remove": "Remove price: {{name}}",
+    "emptyList": "This price list has no prices yet. Add prices of the ingredients you use most.",
+    "recipeCost": "Cost approx. {{total}} ({{perServing}} per portion)",
+    "shoppingCost": "Estimated cost: approx. {{total}} (“{{list}}” price list)",
+    "weekCost": "Cost of the week: approx. {{total}}",
+    "missing": "No price: {{names}}.",
+    "missingCount": "no price: {{count}} items",
+    "addPrices": "Complete the price list",
+    "noList": "Create a price list to see the recipe cost."
   }
 }

@@ -22,7 +22,17 @@ export interface ShoppingItem {
   amount: ShoppingAmount | null;
   checked: boolean;
   checkedBy: string | null;
+  /** Koszt pozycji wg domyślnego cennika (null = brak ceny) */
+  costCents: number | null;
   updatedAt: string;
+}
+
+export interface ShoppingCost {
+  currency: string;
+  listName: string;
+  cents: number;
+  priced: number;
+  missing: number;
 }
 
 export interface AddResult {
@@ -43,8 +53,10 @@ export interface AddItem {
 export class ShoppingApi {
   private readonly http = inject(HttpClient);
 
-  async list(): Promise<ShoppingItem[]> {
-    return (await firstValueFrom(this.http.get<{ items: ShoppingItem[] }>('/api/shopping'))).items;
+  list(): Promise<{ items: ShoppingItem[]; cost: ShoppingCost | null }> {
+    return firstValueFrom(
+      this.http.get<{ items: ShoppingItem[]; cost: ShoppingCost | null }>('/api/shopping'),
+    );
   }
 
   fromPlan(from: string, to: string): Promise<AddResult> {

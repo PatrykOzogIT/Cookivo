@@ -218,6 +218,29 @@
             </ul>
           }
           @if (auth.isLoggedIn()) {
+            <div class="cost" aria-live="polite">
+              @if (cost(); as c) {
+                <p>
+                  <span class="material-symbols-rounded" aria-hidden="true">payments</span>
+                  {{
+                    t('prices.recipeCost', {
+                      total: money(c.cents, c.currency),
+                      perServing: money(c.perServingCents, c.currency),
+                    })
+                  }}
+                </p>
+                @if (c.missing.length) {
+                  <p class="muted small">
+                    {{ t('prices.missing', { names: missingNames(c) }) }}
+                    <a routerLink="/prices">{{ t('prices.addPrices') }}</a>
+                  </p>
+                }
+              } @else if (cost() === null) {
+                <p class="muted small">
+                  {{ t('prices.noList') }} <a routerLink="/prices">{{ t('nav.prices') }}</a>
+                </p>
+              }
+            </div>
             <div class="to-shopping">
               <button mat-stroked-button type="button" (click)="toShopping()" [disabled]="shoppingBusy()">
                 <span class="material-symbols-rounded" aria-hidden="true">add_shopping_cart</span>

@@ -4,13 +4,15 @@ import { ownerScope, type OwnerScope } from '../common/owner-scope.js';
 import type { Prisma } from '../generated/prisma/client.js';
 import { containsProfanity } from '../moderation/profanity.js';
 import { PantryService } from '../pantry/pantry.service.js';
+import { PricesService } from '../prices/prices.service.js';
 import { toDate } from '../planner/planner.service.js';
 import { PrismaService } from '../prisma/prisma.service.js';
 import { ingredientForMath, RecipeCalculatorService } from '../recipes/recipe-calculator.service.js';
 import { gramsFor } from '../recipes/recipe-math.js';
 import { RecipesService } from '../recipes/recipes.service.js';
+import { loadRecipesForExpansion } from './recipe-loader.js';
 import type { AddItemDto } from './shopping.dto.js';
-import { expandRecipe, LIQUID_CATEGORIES, shoppingAmount, type RecipeForShopping } from './shopping-math.js';
+import { expandRecipe, LIQUID_CATEGORIES, shoppingAmount } from './shopping-math.js';
 
 const MAX_RANGE_DAYS = 42;
 const DAY_MS = 24 * 60 * 60 * 1000;
@@ -41,6 +43,7 @@ export class ShoppingService {
     private readonly recipes: RecipesService,
     private readonly calculator: RecipeCalculatorService,
     private readonly pantry: PantryService,
+    private readonly prices: PricesService,
   ) {}
 
   async list(userId: string) {
@@ -50,7 +53,32 @@ export class ShoppingService {
       include: ITEM_INCLUDE,
       orderBy: [{ checked: 'asc' }, { createdAt: 'asc' }],
     });
-    return { items: rows.map(toDto) };
+    // Koszt: to, co jeszcze do kupienia (nieodhaczone, z ilością), wg domyślnego cennika
+    const prices = await this.prices.defaultPrices(scope);
+    const need = new Map<string, number>();
+    for (const r of rows) {
+      if (!r.checked && r.ingredientId && r.grams)
+        need.set(r.ingredientId, (need.get(r.ingredientId) ?? 0) + r.grams);
+    }
+    const cost = prices ? await this.prices.cost(scope, need) : null;
+    return {
+      items: rows.map((r) => {
+        const perGram = r.ingredientId ? prices?.centsPerGram.get(r.ingredientId) : undefined;
+        return {
+          ...toDto(r),
+          costCents: perGram !== undefined && r.grams ? Math.round(r.grams * perGram) : null,
+        };
+      }),
+      cost: cost
+        ? {
+            currency: cost.currency,
+            listName: cost.listName,
+            cents: cost.cents,
+            priced: cost.priced,
+            missing: cost.missing.length,
+          }
+        : null,
+    };
   }
 
   /** Składniki na partie ugotowane w zakresie dat planu, minus to, co jest w lodówce */
@@ -65,7 +93,10 @@ export class ShoppingService {
       where: { ...scope, date: { gte: from, lte: to } },
       include: { recipe: { select: { servings: true } } },
     });
-    const recipes = await this.loadRecipes(cooks.map((c) => c.recipeId));
+    const recipes = await loadRecipesForExpansion(
+      this.prisma,
+      cooks.map((c) => c.recipeId),
+    );
     const need = new Map<string, number>();
     for (const c of cooks)
       expandRecipe(c.recipeId, c.servings / Math.max(1, c.recipe.servings), recipes, need);
@@ -76,7 +107,7 @@ export class ShoppingService {
     // Rzuci NOT_FOUND, jeśli przepisu nie widać
     const recipe = await this.recipes.get(recipeId, user);
     const scope = await ownerScope(this.prisma, user.id);
-    const recipes = await this.loadRecipes([recipeId]);
+    const recipes = await loadRecipesForExpansion(this.prisma, [recipeId]);
     const need = expandRecipe(recipeId, servings / Math.max(1, recipe.servings), recipes);
     return this.merge(scope, need);
   }
@@ -160,27 +191,6 @@ export class ShoppingService {
   }
 
   // ---------------------------------------------------------------------------
-
-  /** Przepisy z podprzepisami (wszerz), w kształcie potrzebnym do rozwijania */
-  private async loadRecipes(rootIds: string[]): Promise<Map<string, RecipeForShopping>> {
-    const out = new Map<string, RecipeForShopping>();
-    let frontier = [...new Set(rootIds)];
-    for (let depth = 0; frontier.length && depth < 8; depth++) {
-      const rows = await this.prisma.recipe.findMany({
-        where: { id: { in: frontier } },
-        select: {
-          id: true,
-          totalGrams: true,
-          ingredients: { select: { ingredientId: true, subRecipeId: true, grams: true } },
-        },
-      });
-      for (const r of rows) out.set(r.id, { totalGrams: r.totalGrams, lines: r.ingredients });
-      frontier = [
-        ...new Set(rows.flatMap((r) => r.ingredients.flatMap((l) => (l.subRecipeId ? [l.subRecipeId] : [])))),
-      ].filter((id) => !out.has(id));
-    }
-    return out;
-  }
 
   /** Odejmuje lodówkę i dopisuje resztę do listy */
   private async merge(scope: OwnerScope, need: Map<string, number>): Promise<AddResult> {

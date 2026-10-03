@@ -1,4 +1,4 @@
-import { Component, computed, inject, input, signal, type OnInit } from '@angular/core';
+import { Component, computed, effect, inject, input, signal, untracked, type OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -13,6 +13,7 @@ import { LanguageService } from '../../../core/i18n/language.service';
 import { NutritionTableComponent } from '../../../shared/nutrition-table/nutrition-table';
 import { AmountLabelPipe } from '../amount-label.pipe';
 import { scaleAmount } from '../recipe-units';
+import { formatMoney, PricesApi, type Cost } from '../../prices/prices.api';
 import { ShoppingApi, type AddResult } from '../../shopping/shopping.api';
 import { RecipesApi } from '../recipes.api';
 import type { RecipeDetail, RecipeLine } from '../recipes.models';
@@ -56,6 +57,10 @@ export class RecipeDetailPage implements OnInit {
   private readonly shopping = inject(ShoppingApi);
   protected readonly shoppingBusy = signal(false);
   protected readonly shoppingResult = signal<AddResult | null>(null);
+  private readonly pricesApi = inject(PricesApi);
+  /** Szacowany koszt wg domyślnego cennika (undefined = jeszcze nie wiadomo) */
+  protected readonly cost = signal<Cost | null | undefined>(undefined);
+  private costTimer?: ReturnType<typeof setTimeout>;
   private readonly router = inject(Router);
   private readonly title = inject(Title);
   protected readonly auth = inject(AuthService);
@@ -66,6 +71,30 @@ export class RecipeDetailPage implements OnInit {
   protected readonly recipe = signal<RecipeDetail | null>(null);
   protected readonly error = signal<string | null>(null);
   protected readonly servings = signal(1);
+
+  constructor() {
+    // Koszt przeliczamy po zmianie porcji (z krótkim opóźnieniem przy szybkim klikaniu)
+    effect(() => {
+      const r = this.recipe();
+      const servings = this.servings();
+      if (!r || !this.auth.isLoggedIn()) return;
+      untracked(() => {
+        clearTimeout(this.costTimer);
+        this.costTimer = setTimeout(async () => {
+          this.cost.set(await this.pricesApi.recipeCost(r.id, servings).catch(() => null));
+        }, 250);
+      });
+    });
+  }
+
+  protected money(cents: number, currency: string): string {
+    return formatMoney(cents, currency, this.lang());
+  }
+
+  protected missingNames(c: Cost): string {
+    const lang = this.lang();
+    return c.missing.map((m) => (lang === 'en' && m.nameEn ? m.nameEn : m.namePl)).join(', ');
+  }
 
   /** Składniki na wybraną liczbę porcji (z podprzepisami) trafiają na wspólną listę zakupów */
   protected async toShopping(): Promise<void> {

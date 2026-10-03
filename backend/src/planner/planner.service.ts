@@ -6,7 +6,9 @@ import { PrismaService } from '../prisma/prisma.service.js';
 import { toDependentDto } from '../household/household.service.js';
 import { DEFAULT_KCAL } from '../household/reference-energy.js';
 import type { Targets } from '../profile/nutrition-calculator.js';
+import { PricesService } from '../prices/prices.service.js';
 import { ProfileService } from '../profile/profile.service.js';
+import { ingredientNeeds } from '../shopping/recipe-loader.js';
 import { RecipesService } from '../recipes/recipes.service.js';
 import {
   STANDARD_SLOTS,
@@ -73,6 +75,7 @@ export class PlannerService {
     private readonly prisma: PrismaService,
     private readonly recipes: RecipesService,
     private readonly profile: ProfileService,
+    private readonly prices: PricesService,
   ) {}
 
   async get(user: AuthUser, fromIso: string, toIso: string) {
@@ -164,6 +167,8 @@ export class PlannerService {
           recipe: toRecipeDto(m.cook.recipe, mine),
         };
       }),
+      /** Koszt partii gotowanych w tym zakresie wg domyślnego cennika (null = brak cennika) */
+      cost: await this.rangeCost(scope, from, to),
       leftovers: leftovers
         .map((c) => ({ c, remaining: round(c.servings - sum(c.meals.map((x) => x.servings))) }))
         .filter(({ remaining }) => remaining > EPS)
@@ -404,6 +409,19 @@ export class PlannerService {
   private async scope(userId: string): Promise<Scope> {
     const member = await this.prisma.householdMember.findUnique({ where: { userId } });
     return member ? { householdId: member.householdId } : { userId };
+  }
+
+  private async rangeCost(scope: Scope, from: Date, to: Date) {
+    const cooks = await this.prisma.planCook.findMany({
+      where: { ...scope, date: { gte: from, lte: to } },
+      include: { recipe: { select: { servings: true } } },
+    });
+    const need = await ingredientNeeds(
+      this.prisma,
+      cooks.map((c) => ({ recipeId: c.recipeId, factor: c.servings / Math.max(1, c.recipe.servings) })),
+    );
+    const cost = await this.prices.cost(scope, need);
+    return cost ? { currency: cost.currency, cents: cost.cents, missing: cost.missing.length } : null;
   }
 
   /** Liczba osób w gospodarstwie (z dziećmi bez konta) */

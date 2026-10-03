@@ -388,3 +388,16 @@
     outline-offset: 2px;
   }
 }
+
+.week-cost {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
+  margin: 6px 0 0;
+  font-weight: 700;
+  .muted {
+    font-weight: 400;
+    color: var(--ck-text-muted);
+  }
+}

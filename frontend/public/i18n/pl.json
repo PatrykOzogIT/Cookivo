@@ -120,7 +120,8 @@
     "MEAL_SOURCE_INVALID": "Wybierz przepis albo porcje z zapasu.",
     "TOO_MANY_SLOTS": "Możesz mieć najwyżej 6 własnych posiłków.",
     "PERSON_UNKNOWN": "Nie ma takiej osoby w gospodarstwie.",
-    "ITEM_INVALID": "Wybierz składnik z bazy albo wpisz własną nazwę."
+    "ITEM_INVALID": "Wybierz składnik z bazy albo wpisz własną nazwę.",
+    "PRICE_INVALID": "Podaj wielkość opakowania i cenę (np. 1 kg - 4,29)."
   },
   "auth": {
     "fields": {
@@ -967,5 +968,40 @@
     "about": "ok.",
     "fromRecipe": "Do listy zakupów ({{count}} porcji)",
     "open": "Otwórz listę"
+  },
+  "prices": {
+    "lead": "Twoje ceny ze sklepów. Wpisuj je tak, jak na półce - za opakowanie. Domyślny cennik liczy koszt przepisów, listy zakupów i tygodnia.",
+    "leadHousehold": "Cenniki gospodarstwa „{{name}}”, wspólne dla domowników. Domyślny liczy koszt przepisów, listy zakupów i tygodnia.",
+    "pick": "Wybierz cennik",
+    "default": "domyślny",
+    "newList": "Nowy cennik",
+    "firstList": "Załóż pierwszy cennik",
+    "name": "Nazwa",
+    "namePlaceholder": "np. Biedronka, Rynek",
+    "currency": "Waluta",
+    "create": "Utwórz cennik",
+    "rename": "Zmień nazwę",
+    "makeDefault": "Ustaw jako domyślny",
+    "deleteList": "Usuń cennik",
+    "deleteConfirm": "Usunąć cennik „{{name}}” razem z cenami?",
+    "defaultHint": "Ten cennik liczy koszty w całej aplikacji.",
+    "notDefaultHint": "Koszty liczymy z cennika domyślnego - ten jest dodatkowy (np. do porównań).",
+    "addPrice": "Dodaj cenę składnika",
+    "package": "Opakowanie (ilość)",
+    "unit": "Jednostka",
+    "price": "Cena ({{currency}})",
+    "packageHint": "Np. mleko: 1 l - 4,29; jajka: 10 sztuk - 12,99. Cenę za kg / l / sztukę policzymy sami.",
+    "entries": "Ceny w cenniku",
+    "perPiece": "/ szt.",
+    "edit": "Zmień cenę: {{name}}",
+    "remove": "Usuń cenę: {{name}}",
+    "emptyList": "W tym cenniku nie ma jeszcze cen. Dodaj ceny składników, których używasz najczęściej.",
+    "recipeCost": "Koszt ok. {{total}} ({{perServing}} za porcję)",
+    "shoppingCost": "Szacowany koszt: ok. {{total}} (cennik „{{list}}”)",
+    "weekCost": "Koszt tygodnia: ok. {{total}}",
+    "missing": "Bez ceny: {{names}}.",
+    "missingCount": "bez ceny: {{count}} poz.",
+    "addPrices": "Uzupełnij cennik",
+    "noList": "Załóż cennik, aby widzieć koszt przepisu."
   }
 }

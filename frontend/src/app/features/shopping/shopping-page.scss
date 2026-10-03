@@ -73,3 +73,20 @@
 .danger {
   color: var(--ck-danger);
 }
+
+.total {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
+  margin: 0;
+  font-weight: 700;
+  .muted {
+    font-weight: 400;
+    color: var(--ck-text-muted);
+  }
+}
+
+.price {
+  white-space: nowrap;
+}

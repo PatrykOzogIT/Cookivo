@@ -92,6 +92,15 @@
       <a mat-stroked-button routerLink="/planner">{{ t('nav.planner') }}</a>
     </div>
   } @else {
+    @if (cost(); as c) {
+      <p class="total" aria-live="polite">
+        <span class="material-symbols-rounded" aria-hidden="true">payments</span>
+        {{ t('prices.shoppingCost', { total: money(c.cents), list: c.listName }) }}
+        @if (c.missing) {
+          <span class="muted">{{ t('prices.missingCount', { count: c.missing }) }}</span>
+        }
+      </p>
+    }
     @for (g of toBuy(); track g.code) {
       <section class="group" [attr.aria-labelledby]="'cat-' + g.code">
         <h2 [id]="'cat-' + g.code">
@@ -110,6 +119,9 @@
                 <span class="what">
                   <strong>{{ label(i) }}</strong>
                   <span class="qty">{{ amount(i) }}</span>
+                  @if (i.costCents !== null) {
+                    <span class="qty price">≈ {{ money(i.costCents) }}</span>
+                  }
                   @if (i.note) {
                     <span class="qty">{{ i.note }}</span>
                   }

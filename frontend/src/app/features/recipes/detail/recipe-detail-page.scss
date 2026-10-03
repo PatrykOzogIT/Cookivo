@@ -430,3 +430,22 @@
     font-weight: 600;
   }
 }
+
+.cost {
+  margin-top: 16px;
+  p {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    margin: 0 0 4px;
+    font-weight: 600;
+  }
+  .small {
+    font-size: 0.85rem;
+    font-weight: 400;
+  }
+  .muted {
+    color: var(--ck-text-muted);
+  }
+}

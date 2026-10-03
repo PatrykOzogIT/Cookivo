@@ -71,6 +71,7 @@ model User {
   pantryItems     PantryItem[]
   shoppingItems   ShoppingItem[]   @relation("ShoppingOwner")
   shoppingChecked ShoppingItem[]   @relation("ShoppingCheckedBy")
+  priceLists      PriceList[]
 
   @@map("users")
 }
@@ -176,6 +177,7 @@ model Ingredient {
   units         IngredientUnit[]
   pantryItems   PantryItem[]
   shoppingItems ShoppingItem[]
+  prices        PriceEntry[]
   usedIn        RecipeIngredient[]
   preferences   IngredientPreference[]
 
@@ -571,6 +573,7 @@ model Household {
   dependents      HouseholdDependent[]
   pantryItems     PantryItem[]
   shoppingItems   ShoppingItem[]
+  priceLists      PriceList[]
 
   @@map("households")
 }
@@ -760,4 +763,45 @@ model ShoppingItem {
   @@index([userId])
   @@index([householdId])
   @@map("shopping_items")
+}
+
+// --- Cenniki -------------------------------------------------------------------------
+
+/// Cennik (np. sklep). Należy do gospodarstwa albo użytkownika; jeden domyślny liczy koszty.
+model PriceList {
+  id          String       @id @default(uuid(7)) @db.Uuid
+  userId      String?      @map("user_id") @db.Uuid
+  user        User?        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  householdId String?      @map("household_id") @db.Uuid
+  household   Household?   @relation(fields: [householdId], references: [id], onDelete: Cascade)
+  name        String       @db.VarChar(60)
+  /// Kod ISO 4217 (PLN, EUR...)
+  currency    String       @default("PLN") @db.VarChar(3)
+  isDefault   Boolean      @default(false) @map("is_default")
+  createdAt   DateTime     @default(now()) @map("created_at")
+  entries     PriceEntry[]
+
+  @@index([userId])
+  @@index([householdId])
+  @@map("price_lists")
+}
+
+/// Cena składnika za opakowanie, tak jak na półce (np. 1 l mleka - 4,29 zł)
+model PriceEntry {
+  id              String     @id @default(uuid(7)) @db.Uuid
+  listId          String     @map("list_id") @db.Uuid
+  list            PriceList  @relation(fields: [listId], references: [id], onDelete: Cascade)
+  ingredientId    String     @map("ingredient_id") @db.Uuid
+  ingredient      Ingredient @relation(fields: [ingredientId], references: [id], onDelete: Cascade)
+  packageAmount   Float      @map("package_amount")
+  /// 'g', 'kg', 'ml', 'l' albo kod jednostki kuchennej składnika (np. PIECE)
+  packageUnitCode String     @map("package_unit_code") @db.VarChar(32)
+  /// Waga opakowania w gramach - z niej liczymy cenę za gram
+  packageGrams    Float      @map("package_grams")
+  /// Cena w groszach (centach), żeby uniknąć błędów zaokrągleń
+  priceCents      Int        @map("price_cents")
+  updatedAt       DateTime   @updatedAt @map("updated_at")
+
+  @@unique([listId, ingredientId])
+  @@map("price_entries")
 }

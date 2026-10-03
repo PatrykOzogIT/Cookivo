@@ -1,0 +1,114 @@
+.lists {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.list-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 16px;
+  font: inherit;
+  font-weight: 600;
+  color: var(--ck-text);
+  background: var(--ck-surface);
+  border: 1px solid var(--ck-border);
+  border-radius: 999px;
+  cursor: pointer;
+  .badge {
+    padding: 1px 8px;
+    border-radius: 999px;
+    background: var(--ck-sage-bg);
+    font-size: 0.75rem;
+  }
+  .count {
+    font-size: 0.8rem;
+    color: var(--ck-text-muted);
+  }
+  &[aria-pressed='true'] {
+    border-color: var(--ck-link);
+    box-shadow: 0 0 0 1px var(--ck-link);
+  }
+  &:focus-visible {
+    outline: 3px solid var(--ck-focus);
+    outline-offset: 2px;
+  }
+}
+
+.new-list .fields,
+.draft .fields {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px;
+}
+
+.list-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  h2 {
+    margin: 0;
+  }
+}
+
+.list-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  .currency {
+    width: 110px;
+  }
+}
+
+.rename {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  mat-form-field {
+    flex: 1 1 220px;
+  }
+}
+
+.confirm {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  margin: 12px 0;
+  padding: 10px 14px;
+  border-radius: var(--ck-radius-sm);
+  background: var(--ck-surface-2);
+  p {
+    margin: 0;
+  }
+}
+
+.danger {
+  color: var(--ck-danger);
+}
+
+.danger-fill:not(:disabled) {
+  background: var(--ck-danger);
+  color: light-dark(#fff, #1a1512);
+}
+
+.box > app-ingredient-picker {
+  display: block;
+  margin-top: 16px;
+}
+
+.unit-price {
+  font-size: 0.8rem;
+  color: var(--ck-text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.price {
+  color: var(--ck-text);
+}

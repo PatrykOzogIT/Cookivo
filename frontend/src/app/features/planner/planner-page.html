@@ -12,6 +12,15 @@
             {{ t('planner.lead') }}
           }
         </p>
+        @if (d.cost; as c) {
+          <p class="week-cost">
+            <span class="material-symbols-rounded" aria-hidden="true">payments</span>
+            {{ t('prices.weekCost', { total: money(c.cents, c.currency) }) }}
+            @if (c.missing) {
+              <span class="muted">{{ t('prices.missingCount', { count: c.missing }) }}</span>
+            }
+          </p>
+        }
       }
     </div>
     <div class="actions">

@@ -1,0 +1,232 @@
+<div class="page" *transloco="let t">
+  <ng-template #newListForm>
+    <form class="ck-card box new-list" (ngSubmit)="createList()" novalidate>
+      <h2>{{ t(lists().length ? 'prices.newList' : 'prices.firstList') }}</h2>
+      <div class="fields">
+        <mat-form-field subscriptSizing="dynamic">
+          <mat-label>{{ t('prices.name') }}</mat-label>
+          <input
+            matInput
+            name="name"
+            [(ngModel)]="newName"
+            maxlength="60"
+            autocomplete="off"
+            [placeholder]="t('prices.namePlaceholder')"
+          />
+        </mat-form-field>
+        <mat-form-field subscriptSizing="dynamic">
+          <mat-label>{{ t('prices.currency') }}</mat-label>
+          <mat-select name="currency" [(ngModel)]="newCurrency">
+            @for (c of currencies; track c) {
+              <mat-option [value]="c">{{ c }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <button mat-stroked-button type="submit" [disabled]="busy() || !newName.trim()">
+          <span class="material-symbols-rounded" aria-hidden="true">add</span>{{ t('prices.create') }}
+        </button>
+      </div>
+    </form>
+  </ng-template>
+
+  <header class="head">
+    <h1>{{ t('nav.prices') }}</h1>
+    <p class="lead">
+      {{ t(household() ? 'prices.leadHousehold' : 'prices.lead', { name: household()?.name ?? '' }) }}
+    </p>
+  </header>
+
+  @if (error(); as code) {
+    <div class="alert" role="alert">{{ t('errors.' + code) }}</div>
+  }
+
+  @if (loading()) {
+    <mat-progress-bar mode="indeterminate" [attr.aria-label]="t('common.loading')" />
+  } @else {
+    <!-- Wybór cennika -->
+    @if (lists().length) {
+      <div class="lists" role="group" [attr.aria-label]="t('prices.pick')">
+        @for (l of lists(); track l.id) {
+          <button
+            type="button"
+            class="list-chip"
+            [attr.aria-pressed]="l.id === selected()?.id"
+            (click)="selectList(l.id)"
+          >
+            {{ l.name }}
+            @if (l.isDefault) {
+              <span class="badge">{{ t('prices.default') }}</span>
+            }
+            <span class="count">{{ l.entries }}</span>
+          </button>
+        }
+      </div>
+    }
+
+    @if (!lists().length) {
+      <ng-container *ngTemplateOutlet="newListForm" />
+    }
+
+    @if (selected(); as s) {
+      <section class="ck-card box" aria-labelledby="list-title">
+        <div class="list-head">
+          @if (renaming()) {
+            <form class="rename" (ngSubmit)="saveRename()" novalidate>
+              <mat-form-field subscriptSizing="dynamic">
+                <mat-label>{{ t('prices.name') }}</mat-label>
+                <input matInput name="rename" [(ngModel)]="renameValue" maxlength="60" autocomplete="off" />
+              </mat-form-field>
+              <button mat-flat-button class="ck-cta" type="submit" [disabled]="busy()">
+                {{ t('common.save') }}
+              </button>
+              <button mat-button type="button" (click)="renaming.set(false)">{{ t('common.cancel') }}</button>
+            </form>
+          } @else {
+            <h2 id="list-title">
+              <span class="material-symbols-rounded" aria-hidden="true">sell</span>{{ s.name }}
+            </h2>
+            <div class="list-actions">
+              <mat-form-field class="currency" subscriptSizing="dynamic">
+                <mat-label>{{ t('prices.currency') }}</mat-label>
+                <mat-select [value]="s.currency" (valueChange)="setCurrency($event)">
+                  @for (c of currencies; track c) {
+                    <mat-option [value]="c">{{ c }}</mat-option>
+                  }
+                </mat-select>
+              </mat-form-field>
+              <button mat-button type="button" (click)="startRename()">{{ t('prices.rename') }}</button>
+              @if (!s.isDefault) {
+                <button mat-button type="button" (click)="makeDefault()">
+                  {{ t('prices.makeDefault') }}
+                </button>
+              }
+              <button mat-button type="button" class="danger" (click)="confirmDelete.set(true)">
+                {{ t('prices.deleteList') }}
+              </button>
+            </div>
+          }
+        </div>
+        <p class="hint">{{ t(s.isDefault ? 'prices.defaultHint' : 'prices.notDefaultHint') }}</p>
+
+        @if (confirmDelete()) {
+          <div class="confirm" role="alert">
+            <p>{{ t('prices.deleteConfirm', { name: s.name }) }}</p>
+            <button mat-flat-button type="button" class="danger-fill" (click)="removeList()">
+              {{ t('prices.deleteList') }}
+            </button>
+            <button mat-button type="button" (click)="confirmDelete.set(false)">
+              {{ t('common.cancel') }}
+            </button>
+          </div>
+        }
+
+        <!-- Dodawanie ceny -->
+        <app-ingredient-picker [label]="t('prices.addPrice')" (picked)="startEntry($event)" />
+        @if (draft(); as d) {
+          <form class="draft" (ngSubmit)="saveEntry()" novalidate>
+            <p class="draft-name">
+              <strong>{{ d.ingredient | localized: lang() }}</strong>
+            </p>
+            <div class="fields">
+              <mat-form-field subscriptSizing="dynamic">
+                <mat-label>{{ t('prices.package') }}</mat-label>
+                <input
+                  matInput
+                  name="amount"
+                  type="text"
+                  inputmode="decimal"
+                  autocomplete="off"
+                  [ngModel]="d.packageAmount"
+                  (ngModelChange)="patchDraft({ packageAmount: $event })"
+                />
+              </mat-form-field>
+              <mat-form-field subscriptSizing="dynamic">
+                <mat-label>{{ t('prices.unit') }}</mat-label>
+                <mat-select
+                  name="unit"
+                  [ngModel]="d.packageUnitCode"
+                  (ngModelChange)="patchDraft({ packageUnitCode: $event })"
+                >
+                  @for (u of units(); track u.code) {
+                    <mat-option [value]="u.code">{{ u.label }}</mat-option>
+                  }
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field subscriptSizing="dynamic">
+                <mat-label>{{ t('prices.price', { currency: s.currency }) }}</mat-label>
+                <input
+                  matInput
+                  name="price"
+                  type="text"
+                  inputmode="decimal"
+                  autocomplete="off"
+                  [ngModel]="d.price"
+                  (ngModelChange)="patchDraft({ price: $event })"
+                />
+              </mat-form-field>
+            </div>
+            <p class="hint">{{ t('prices.packageHint') }}</p>
+            <div class="row">
+              <button mat-flat-button class="ck-cta" type="submit" [disabled]="busy()">
+                {{ t('common.save') }}
+              </button>
+              <button mat-button type="button" (click)="draft.set(null)">{{ t('common.cancel') }}</button>
+            </div>
+          </form>
+        }
+      </section>
+
+      @if (data(); as d) {
+        @if (d.entries.length) {
+          <section class="group" aria-labelledby="entries-title">
+            <h2 id="entries-title" class="visually-hidden">{{ t('prices.entries') }}</h2>
+            <ul>
+              @for (e of d.entries; track e.id) {
+                <li>
+                  <div class="what">
+                    <strong>{{ e.ingredient | localized: lang() }}</strong>
+                    <span class="qty">
+                      {{ packageLabel(e) || (e.packageAmount | amountLabel: e.packageUnitCode : lang()) }}
+                      · <strong class="price">{{ money(e.priceCents) }}</strong>
+                    </span>
+                    <span class="unit-price"
+                      >{{ money(e.unitPrice.cents) }} {{ perLabel(e.unitPrice.per) }}</span
+                    >
+                  </div>
+                  <div class="actions">
+                    <button
+                      mat-icon-button
+                      type="button"
+                      (click)="editEntry(e)"
+                      [attr.aria-label]="t('prices.edit', { name: (e.ingredient | localized: lang()) })"
+                    >
+                      <span class="material-symbols-rounded" aria-hidden="true">edit</span>
+                    </button>
+                    <button
+                      mat-icon-button
+                      type="button"
+                      (click)="removeEntry(e)"
+                      [attr.aria-label]="t('prices.remove', { name: (e.ingredient | localized: lang()) })"
+                    >
+                      <span class="material-symbols-rounded" aria-hidden="true">delete</span>
+                    </button>
+                  </div>
+                </li>
+              }
+            </ul>
+          </section>
+        } @else {
+          <div class="ck-card empty">
+            <span class="material-symbols-rounded" aria-hidden="true">sell</span>
+            <p>{{ t('prices.emptyList') }}</p>
+          </div>
+        }
+      }
+    }
+    @if (lists().length) {
+      <ng-container *ngTemplateOutlet="newListForm" />
+    }
+  }
+</div>
