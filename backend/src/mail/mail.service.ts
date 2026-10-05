@@ -18,6 +18,10 @@ export class MailService {
       port: config.get('SMTP_PORT', { infer: true }),
       secure: config.get('SMTP_SECURE', { infer: true }),
       auth: user ? { user, pass: config.get('SMTP_PASS', { infer: true }) } : undefined,
+      // Domyślnie nodemailer czeka na serwer do 2 min - żądanie użytkownika nie może tyle wisieć
+      connectionTimeout: 10_000,
+      greetingTimeout: 10_000,
+      socketTimeout: 15_000,
     });
     this.from = config.get('MAIL_FROM', { infer: true });
   }
