@@ -121,7 +121,8 @@
     "TOO_MANY_SLOTS": "You can have at most 6 custom meals.",
     "PERSON_UNKNOWN": "There is no such person in the household.",
     "ITEM_INVALID": "Choose an ingredient from the database or type your own name.",
-    "PRICE_INVALID": "Enter the package size and price (e.g. 1 kg - 4.29)."
+    "PRICE_INVALID": "Enter the package size and price (e.g. 1 kg - 4.29).",
+    "OWN_RECIPE": "You cannot rate your own recipe."
   },
   "auth": {
     "fields": {
@@ -308,7 +309,8 @@
       "kcal": "Fewest calories",
       "time": "Quickest",
       "forYou": "Matched to you",
-      "fromPantry": "What I have first"
+      "fromPantry": "What I have first",
+      "rating": "Top rated"
     },
     "filters": {
       "mine": "Only my recipes",
@@ -1003,5 +1005,31 @@
     "missingCount": "no price: {{count}} items",
     "addPrices": "Complete the price list",
     "noList": "Create a price list to see the recipe cost."
+  },
+  "variants": {
+    "title": "Alternatives",
+    "make": "Make my own version",
+    "original": "Original",
+    "none": "Nobody has shared their version yet. Do it your way? Create a variant and publish it.",
+    "without": "without: {{name}}",
+    "with": "contains: {{name}}",
+    "basedOn": "Based on:",
+    "note": "What did you change? (optional)",
+    "noteHint": "E.g. “buckwheat flour instead of wheat, less sugar” - shown under the original."
+  },
+  "ratings": {
+    "title": "Reviews",
+    "aria": "Rated {{value}} out of 5, number of ratings: {{count}}",
+    "starsLabel": "Stars: {{count}} out of 5",
+    "yours": "Your rating",
+    "comment": "Comment (optional)",
+    "save": "Rate",
+    "update": "Save rating",
+    "remove": "Remove my rating",
+    "saved": "Thanks for rating!",
+    "loginToRate": "to rate this recipe.",
+    "none": "This recipe has no reviews yet.",
+    "more": "Show more reviews",
+    "ariaOne": "Rated {{value}} out of 5"
   }
 }

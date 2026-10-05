@@ -1,0 +1,126 @@
+<ng-container *transloco="let t">
+  @if (error(); as code) {
+    <p class="alert" role="alert">{{ t('errors.' + code) }}</p>
+  }
+
+  <!-- Alternatywy: oryginał i warianty -->
+  <section class="ck-card box" aria-labelledby="variants-title">
+    <div class="box-head">
+      <h2 id="variants-title">{{ t('variants.title') }}</h2>
+      @if (auth.isLoggedIn()) {
+        <button mat-stroked-button type="button" (click)="makeVariant()" [disabled]="busy()">
+          <span class="material-symbols-rounded" aria-hidden="true">fork_right</span>
+          {{ t('variants.make') }}
+        </button>
+      }
+    </div>
+    @if (variants().length) {
+      <ul class="variants">
+        @for (v of variants(); track v.id) {
+          <li>
+            <a [routerLink]="['/recipes', v.id]" class="variant">
+              <span class="name">
+                @if (v.isOriginal) {
+                  <span class="tag">{{ t('variants.original') }}</span>
+                }
+                <strong>{{ v.title }}</strong>
+                @if (v.author) {
+                  <span class="muted">· {{ t('recipes.by', { username: v.author.username }) }}</span>
+                }
+              </span>
+              @if (v.variantNote) {
+                <span class="note">{{ v.variantNote }}</span>
+              }
+              <span class="diff">
+                @if (diff(v); as d) {
+                  @if (d.kcal !== 0) {
+                    <span
+                      >{{ d.kcal > 0 ? '+' : '' }}{{ d.kcal | num: lang() : 0 }}
+                      {{ t('recipes.kcalPerServing') }}</span
+                    >
+                  }
+                  @for (a of d.without; track a.code) {
+                    <span class="good">{{ t('variants.without', { name: (a | localized: lang()) }) }}</span>
+                  }
+                  @for (a of d.with; track a.code) {
+                    <span class="warn">{{ t('variants.with', { name: (a | localized: lang()) }) }}</span>
+                  }
+                }
+                @if (v.ratingAvg !== null) {
+                  <app-stars [value]="v.ratingAvg" [count]="v.ratingCount" [lang]="lang()" />
+                }
+              </span>
+            </a>
+          </li>
+        }
+      </ul>
+    } @else {
+      <p class="muted">{{ t('variants.none') }}</p>
+    }
+  </section>
+
+  <!-- Opinie -->
+  <section class="ck-card box" aria-labelledby="ratings-title">
+    <h2 id="ratings-title">{{ t('ratings.title') }}</h2>
+    @if (recipe().ratingAvg !== null) {
+      <p class="summary">
+        <app-stars [value]="recipe().ratingAvg!" [count]="recipe().ratingCount" [lang]="lang()" />
+      </p>
+    }
+
+    @if (canRate()) {
+      <form class="rate" (ngSubmit)="saveRating()" novalidate>
+        <app-star-input [label]="t('ratings.yours')" [(value)]="stars" />
+        <mat-form-field class="full" subscriptSizing="dynamic">
+          <mat-label>{{ t('ratings.comment') }}</mat-label>
+          <textarea matInput name="comment" rows="2" maxlength="500" [(ngModel)]="comment"></textarea>
+          <mat-hint align="end">{{ comment.length }}/500</mat-hint>
+        </mat-form-field>
+        <div class="row">
+          <button mat-flat-button class="ck-cta" type="submit" [disabled]="busy() || !stars()">
+            {{ t(recipe().myRating ? 'ratings.update' : 'ratings.save') }}
+          </button>
+          @if (recipe().myRating) {
+            <button mat-button type="button" (click)="removeRating()" [disabled]="busy()">
+              {{ t('ratings.remove') }}
+            </button>
+          }
+          @if (saved()) {
+            <span class="ok" role="status">{{ t('ratings.saved') }}</span>
+          }
+        </div>
+      </form>
+    } @else if (!auth.isLoggedIn()) {
+      <p class="muted">
+        <a routerLink="/auth/login">{{ t('nav.login') }}</a
+        >, {{ t('ratings.loginToRate') }}
+      </p>
+    }
+
+    @if (ratings().length) {
+      <ul class="ratings">
+        @for (r of ratings(); track r.username) {
+          <li>
+            <div class="who">
+              <strong>{{ r.username }}</strong>
+              @if (r.isMine) {
+                <span class="muted">({{ t('household.you') }})</span>
+              }
+              <app-stars [value]="r.stars" [lang]="lang()" [showValue]="false" />
+            </div>
+            @if (r.comment) {
+              <p>{{ r.comment }}</p>
+            }
+          </li>
+        }
+      </ul>
+      @if (hasMoreRatings()) {
+        <button mat-button type="button" (click)="moreRatings()" [disabled]="busy()">
+          {{ t('ratings.more') }}
+        </button>
+      }
+    } @else {
+      <p class="muted">{{ t('ratings.none') }}</p>
+    }
+  </section>
+</ng-container>

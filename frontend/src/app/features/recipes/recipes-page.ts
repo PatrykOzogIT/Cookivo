@@ -19,6 +19,7 @@ import { PageLayoutComponent } from '../../layout/page-layout/page-layout';
 import { CatalogTabsComponent } from '../../shared/catalog-tabs';
 import { HouseholdApi } from '../household/household.api';
 import { IngredientsApi } from '../ingredients/ingredients.api';
+import { StarsComponent } from './detail/stars';
 import { RecipesApi } from './recipes.api';
 import type { RecipeQuery, RecipeSummary } from './recipes.models';
 
@@ -41,6 +42,7 @@ type Sort = NonNullable<RecipeQuery['sort']>;
     MatSlideToggleModule,
     TranslocoDirective,
     PageLayoutComponent,
+    StarsComponent,
     CatalogTabsComponent,
     LocalizedPipe,
     NumberPipe,
@@ -78,8 +80,8 @@ export class RecipesPage {
   protected readonly timeLimits = TIME_LIMITS;
   protected readonly sorts = computed<Sort[]>(() =>
     this.auth.isLoggedIn()
-      ? ['newest', 'forYou', 'fromPantry', 'name', 'kcal', 'time']
-      : ['newest', 'name', 'kcal', 'time'],
+      ? ['newest', 'forYou', 'rating', 'fromPantry', 'name', 'kcal', 'time']
+      : ['newest', 'rating', 'name', 'kcal', 'time'],
   );
   protected readonly personalOn = computed(() => this.auth.isLoggedIn() && this.forMe() !== '0');
   protected readonly search = new FormControl('', { nonNullable: true });

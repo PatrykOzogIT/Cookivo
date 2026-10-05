@@ -285,6 +285,14 @@
       <!-- Ustawienia -->
       <section class="ck-card box">
         <h2>{{ t('recipes.form.settings') }}</h2>
+        @if (variantOf(); as o) {
+          <p class="muted small">{{ t('variants.basedOn') }} {{ o.title }}</p>
+          <mat-form-field class="full">
+            <mat-label>{{ t('variants.note') }}</mat-label>
+            <input matInput formControlName="variantNote" maxlength="200" autocomplete="off" />
+            <mat-hint>{{ t('variants.noteHint') }}</mat-hint>
+          </mat-form-field>
+        }
         <fieldset>
           <legend>{{ t('recipes.form.visibility') }}</legend>
           <mat-radio-group formControlName="visibility" class="radios">

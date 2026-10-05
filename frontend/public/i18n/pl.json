@@ -121,7 +121,8 @@
     "TOO_MANY_SLOTS": "Możesz mieć najwyżej 6 własnych posiłków.",
     "PERSON_UNKNOWN": "Nie ma takiej osoby w gospodarstwie.",
     "ITEM_INVALID": "Wybierz składnik z bazy albo wpisz własną nazwę.",
-    "PRICE_INVALID": "Podaj wielkość opakowania i cenę (np. 1 kg - 4,29)."
+    "PRICE_INVALID": "Podaj wielkość opakowania i cenę (np. 1 kg - 4,29).",
+    "OWN_RECIPE": "Nie możesz ocenić własnego przepisu."
   },
   "auth": {
     "fields": {
@@ -308,7 +309,8 @@
       "kcal": "Najmniej kalorii",
       "time": "Najszybsze",
       "forYou": "Dopasowane do Ciebie",
-      "fromPantry": "Najpierw z tego, co mam"
+      "fromPantry": "Najpierw z tego, co mam",
+      "rating": "Najlepiej oceniane"
     },
     "filters": {
       "mine": "Tylko moje przepisy",
@@ -1003,5 +1005,31 @@
     "missingCount": "bez ceny: {{count}} poz.",
     "addPrices": "Uzupełnij cennik",
     "noList": "Załóż cennik, aby widzieć koszt przepisu."
+  },
+  "variants": {
+    "title": "Alternatywy",
+    "make": "Zrób własną wersję",
+    "original": "Oryginał",
+    "none": "Nikt jeszcze nie udostępnił swojej wersji. Masz własny sposób? Zrób wariant i opublikuj go.",
+    "without": "bez: {{name}}",
+    "with": "zawiera: {{name}}",
+    "basedOn": "Na podstawie:",
+    "note": "Co zmieniono? (opcjonalnie)",
+    "noteHint": "Np. „mąka gryczana zamiast pszennej, mniej cukru” - pokaże się pod oryginałem."
+  },
+  "ratings": {
+    "title": "Opinie",
+    "aria": "Ocena {{value}} na 5, liczba ocen: {{count}}",
+    "starsLabel": "Gwiazdki: {{count}} na 5",
+    "yours": "Twoja ocena",
+    "comment": "Komentarz (opcjonalnie)",
+    "save": "Oceń",
+    "update": "Zapisz ocenę",
+    "remove": "Usuń moją ocenę",
+    "saved": "Dziękujemy za ocenę!",
+    "loginToRate": "aby ocenić przepis.",
+    "none": "Ten przepis nie ma jeszcze opinii.",
+    "more": "Pokaż więcej opinii",
+    "ariaOne": "Ocena {{value}} na 5"
   }
 }

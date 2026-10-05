@@ -54,10 +54,11 @@ model User {
   ingredientPreferences IngredientPreference[]
   categoryPreferences   CategoryPreference[]
 
-  ingredientsCreated  Ingredient[] @relation("IngredientCreatedBy")
-  ingredientsReviewed Ingredient[] @relation("IngredientReviewedBy")
-  recipes             Recipe[]     @relation("RecipeAuthor")
-  recipesHidden       Recipe[]     @relation("RecipeHiddenBy")
+  ingredientsCreated  Ingredient[]   @relation("IngredientCreatedBy")
+  ingredientsReviewed Ingredient[]   @relation("IngredientReviewedBy")
+  recipes             Recipe[]       @relation("RecipeAuthor")
+  recipesHidden       Recipe[]       @relation("RecipeHiddenBy")
+  recipeRatings       RecipeRating[]
   photos              Photo[]
 
   householdMember  HouseholdMember?
@@ -328,6 +329,18 @@ model Recipe {
   hiddenById      String?          @map("hidden_by_id") @db.Uuid
   hiddenBy        User?            @relation("RecipeHiddenBy", fields: [hiddenById], references: [id], onDelete: SetNull)
   hiddenReason    String?          @map("hidden_reason") @db.VarChar(500)
+
+  /// Wariant: wskazuje zawsze na pierwotny oryginał (bez łańcuchów wariantów)
+  variantOfId String?  @map("variant_of_id") @db.Uuid
+  variantOf   Recipe?  @relation("RecipeVariants", fields: [variantOfId], references: [id], onDelete: SetNull)
+  variants    Recipe[] @relation("RecipeVariants")
+  /// Co zmieniono względem oryginału, np. "mąka gryczana zamiast pszennej"
+  variantNote String?  @map("variant_note") @db.VarChar(200)
+
+  /// Oceny zapisane w przepisie, żeby szybko sortować (przeliczane po każdej ocenie)
+  ratingAvg   Float?         @map("rating_avg")
+  ratingCount Int            @default(0) @map("rating_count")
+  ratings     RecipeRating[]
 
   /// Opcjonalna waga gotowej potrawy - jeśli podana, wartości na 100 g są dokładne
   /// (gotowanie odparowuje albo wchłania wodę); jeśli nie, przybliżamy sumą składników.
@@ -804,4 +817,20 @@ model PriceEntry {
 
   @@unique([listId, ingredientId])
   @@map("price_entries")
+}
+
+/// Ocena przepisu: gwiazdki 1-5 i opcjonalny krótki komentarz. Jedna na osobę.
+model RecipeRating {
+  recipeId  String   @map("recipe_id") @db.Uuid
+  recipe    Recipe   @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+  userId    String   @map("user_id") @db.Uuid
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  stars     Int
+  comment   String?  @db.VarChar(500)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@id([recipeId, userId])
+  @@index([userId])
+  @@map("recipe_ratings")
 }

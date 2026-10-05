@@ -30,6 +30,25 @@
               >
             }
           </p>
+          @if (r.ratingAvg !== null) {
+            <p class="rating"><app-stars [value]="r.ratingAvg" [count]="r.ratingCount" [lang]="lang()" /></p>
+          }
+          @if (r.variantOf; as o) {
+            <p class="variant-of">
+              <span class="material-symbols-rounded" aria-hidden="true">fork_right</span>
+              @if (o.viewable) {
+                {{ t('variants.basedOn') }} <a [routerLink]="['/recipes', o.id]">{{ o.title }}</a>
+              } @else {
+                {{ t('variants.basedOn') }} {{ o.title }}
+              }
+              @if (o.author) {
+                ({{ t('recipes.by', { username: o.author }) }})
+              }
+              @if (r.variantNote) {
+                · <em>{{ r.variantNote }}</em>
+              }
+            </p>
+          }
         </div>
         @if (r.steps.length) {
           <a
@@ -310,6 +329,8 @@
           {{ t('recipes.notMedical') }}
         </p>
       </section>
+
+      <app-recipe-community [recipe]="r" [lang]="lang()" (rated)="onRated($event)" />
 
       @if (r.canEdit || auth.isAdmin()) {
         <section class="ck-card box actions" [attr.aria-label]="t('recipes.actions')">

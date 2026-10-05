@@ -35,6 +35,35 @@ export interface RecipeSummary {
   isOwn: boolean;
   /** Alergeny z listy zalogowanego użytkownika (kody) */
   myAllergens: string[];
+  /** Średnia ocen (null = brak ocen) */
+  ratingAvg: number | null;
+  ratingCount: number;
+  isVariant: boolean;
+}
+
+export interface MyRating {
+  stars: number;
+  comment: string | null;
+}
+
+export interface RatingSummary {
+  ratingAvg: number | null;
+  ratingCount: number;
+  myRating: MyRating | null;
+}
+
+export interface RatingItem {
+  username: string;
+  isMine: boolean;
+  stars: number;
+  comment: string | null;
+  updatedAt: string;
+}
+
+/** Oryginał albo wariant w sekcji "Alternatywy" */
+export interface VariantSummary extends RecipeSummary {
+  variantNote: string | null;
+  isOriginal: boolean;
 }
 
 export interface RecipeLine {
@@ -70,6 +99,10 @@ export interface RecipeDetail extends RecipeSummary {
   ingredients: RecipeLine[];
   steps: { text: string; timerMinutes: number | null; photo: Photo | null }[];
   usedInCount: number;
+  variantNote: string | null;
+  variantOf: { id: string; title: string; author: string | null; viewable: boolean } | null;
+  variantsCount: number;
+  myRating: MyRating | null;
   canEdit: boolean;
   hiddenReason: string | null;
   createdAt: string;
@@ -87,13 +120,14 @@ export interface RecipeQuery {
   forMe?: boolean;
   forUs?: boolean;
   household?: boolean;
-  sort?: 'newest' | 'kcal' | 'time' | 'name' | 'forYou' | 'fromPantry';
+  sort?: 'newest' | 'kcal' | 'time' | 'name' | 'forYou' | 'fromPantry' | 'rating';
   lang?: string;
   page?: number;
   pageSize?: number;
 }
 
 export interface SaveRecipe {
+  variantNote?: string | null;
   title: string;
   description?: string;
   servings: number;

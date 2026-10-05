@@ -49,6 +49,16 @@ const DETAIL_INCLUDE = {
     },
   },
   _count: { select: { usedIn: true } },
+  variantOf: {
+    select: {
+      id: true,
+      title: true,
+      visibility: true,
+      hiddenAt: true,
+      authorId: true,
+      author: { select: { username: true } },
+    },
+  },
 } satisfies Prisma.RecipeInclude;
 
 type ListRow = Prisma.RecipeGetPayload<{ include: typeof LIST_INCLUDE }>;
@@ -113,9 +123,13 @@ export class RecipesService {
       kcal: Prisma.sql`r.kcal_per_serving ASC`,
       time: Prisma.sql`coalesce(r.prep_minutes, 0) + coalesce(r.cook_minutes, 0) ASC`,
       name: Prisma.sql`r.title COLLATE ${collate}`,
+      // Dopasowanie: upodobania (moje / gospodarstwa) + moja ocena przepisu (5 gwiazdek podbija, 1 obniża)
       forYou: user
-        ? Prisma.sql`(${Prisma.join((us?.memberIds ?? [user.id]).map(recipeScore), ' + ')}) DESC, r.created_at DESC`
+        ? Prisma.sql`(${Prisma.join((us?.memberIds ?? [user.id]).map(recipeScore), ' + ')}
+            + coalesce((SELECT (rr.stars - 3) * 2 FROM recipe_ratings rr
+                WHERE rr.recipe_id = r.id AND rr.user_id = ${user.id}::uuid), 0)) DESC, r.created_at DESC`
         : Prisma.sql`r.created_at DESC`,
+      rating: Prisma.sql`r.rating_avg DESC NULLS LAST, r.rating_count DESC, r.created_at DESC`,
       fromPantry: Prisma.sql`${pantryScore} DESC, r.created_at DESC`,
     };
     let order = orders[query.sort];
@@ -152,7 +166,90 @@ export class RecipesService {
       this.mates(user),
     ]);
     if (!recipe || !canView(recipe, user, mates)) throw new NotFoundException({ code: 'NOT_FOUND' });
-    return toDetailDto(recipe, user, await this.myAllergens(user), mates);
+    const [myRating, variantsCount] = await Promise.all([
+      user
+        ? this.prisma.recipeRating.findUnique({
+            where: { recipeId_userId: { recipeId: id, userId: user.id } },
+          })
+        : null,
+      this.prisma.recipe.count({
+        where: { variantOfId: recipe.variantOfId ?? recipe.id, visibility: 'PUBLIC', hiddenAt: null },
+      }),
+    ]);
+    return {
+      ...toDetailDto(recipe, user, await this.myAllergens(user), mates),
+      myRating: myRating ? { stars: myRating.stars, comment: myRating.comment } : null,
+      /** Publiczne warianty oryginału (bez samego siebie, jeśli to wariant) */
+      variantsCount:
+        variantsCount - (recipe.variantOfId && recipe.visibility === 'PUBLIC' && !recipe.hiddenAt ? 1 : 0),
+    };
+  }
+
+  /**
+   * "Zrób własną wersję": prywatna kopia przepisu wskazująca na pierwotny oryginał.
+   * Zdjęć nie kopiujemy (należą do oryginału); kroki i składniki - tak.
+   */
+  async createVariant(id: string, user: AuthUser) {
+    const original = await this.get(id, user);
+    const source = await this.prisma.recipe.findUniqueOrThrow({
+      where: { id },
+      include: {
+        mealTypes: true,
+        ingredients: { orderBy: { position: 'asc' } },
+        steps: { orderBy: { position: 'asc' } },
+      },
+    });
+    const dto = {
+      title: source.title,
+      description: source.description ?? undefined,
+      servings: source.servings,
+      prepMinutes: source.prepMinutes,
+      cookMinutes: source.cookMinutes,
+      difficulty: source.difficulty,
+      visibility: 'PRIVATE' as const,
+      canBeIngredient: false,
+      cookedGrams: source.cookedGrams,
+      variantNote: null,
+      mealTypes: source.mealTypes.map((m) => m.mealTypeCode),
+      ingredients: source.ingredients.map((l) => ({
+        ingredientId: l.ingredientId ?? undefined,
+        subRecipeId: l.subRecipeId ?? undefined,
+        amount: l.amount,
+        unitCode: l.unitCode,
+        groupName: l.groupName ?? undefined,
+        note: l.note ?? undefined,
+      })),
+      steps: source.steps.map((s) => ({ text: s.text, timerMinutes: s.timerMinutes ?? undefined })),
+      photoIds: [],
+    } as SaveRecipeDto;
+    const created = await this.create(dto, user);
+    await this.prisma.recipe.update({
+      where: { id: created.id },
+      data: { variantOfId: source.variantOfId ?? original.id },
+    });
+    return this.get(created.id, user);
+  }
+
+  /** Oryginał i jego warianty widoczne dla czytającego (do sekcji "Alternatywy") */
+  async variants(id: string, user?: AuthUser) {
+    const current = await this.get(id, user);
+    const rootId = current.variantOf?.id ?? id;
+    const mates = await this.mates(user);
+    const rows = await this.prisma.recipe.findMany({
+      where: { OR: [{ id: rootId }, { variantOfId: rootId }], NOT: { id } },
+      include: LIST_INCLUDE,
+      orderBy: [{ ratingAvg: { sort: 'desc', nulls: 'last' } }, { createdAt: 'asc' }],
+    });
+    const mine = await this.myAllergens(user);
+    const visible = rows.filter((r) => canView(r, user, mates));
+    return {
+      originalId: rootId,
+      items: visible.map((r) => ({
+        ...toListDto(r, user, mine),
+        variantNote: r.variantNote,
+        isOriginal: r.id === rootId,
+      })),
+    };
   }
 
   async create(dto: SaveRecipeDto, user: AuthUser) {
@@ -449,6 +546,7 @@ function recipeFields(dto: SaveRecipeDto) {
     visibility: dto.visibility,
     canBeIngredient: dto.canBeIngredient,
     cookedGrams: dto.cookedGrams ?? null,
+    variantNote: dto.variantNote ?? null,
   };
 }
 
@@ -494,6 +592,9 @@ function toListDto(r: ListRow, user?: AuthUser, myAllergens = new Set<string>())
     isOwn: own,
     /** Alergeny przepisu, na które uważa zalogowany użytkownik */
     myAllergens: r.allergens.map((a) => a.allergen.code).filter((code) => myAllergens.has(code)),
+    ratingAvg: r.ratingAvg === null ? null : Math.round(r.ratingAvg * 10) / 10,
+    ratingCount: r.ratingCount,
+    isVariant: r.variantOfId !== null,
   };
 }
 
@@ -550,6 +651,16 @@ function toDetailDto(
       photo: s.photo ? toPhotoDto(s.photo) : null,
     })),
     usedInCount: r._count.usedIn,
+    variantNote: r.variantNote,
+    /** Oryginał, na którym oparto wariant (link tylko, jeśli czytający go widzi) */
+    variantOf: r.variantOf
+      ? {
+          id: r.variantOf.id,
+          title: r.variantOf.title,
+          author: r.variantOf.author?.username ?? null,
+          viewable: canView(r.variantOf, user, mates),
+        }
+      : null,
     canEdit: canEdit(r, user),
     hiddenReason: own || isAdmin(user) ? r.hiddenReason : null,
     createdAt: r.createdAt,

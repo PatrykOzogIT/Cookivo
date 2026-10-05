@@ -1,7 +1,17 @@
 import { HttpClient, HttpEventType, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { firstValueFrom, filter, map, type Observable } from 'rxjs';
-import type { Page, Photo, RecipeDetail, RecipeQuery, RecipeSummary, SaveRecipe } from './recipes.models';
+import type {
+  Page,
+  Photo,
+  RatingItem,
+  RatingSummary,
+  RecipeDetail,
+  RecipeQuery,
+  RecipeSummary,
+  SaveRecipe,
+  VariantSummary,
+} from './recipes.models';
 
 export type UploadEvent = { type: 'progress'; percent: number } | { type: 'done'; photo: Photo };
 
@@ -32,6 +42,31 @@ export class RecipesApi {
 
   update(id: string, data: SaveRecipe): Promise<RecipeDetail> {
     return firstValueFrom(this.http.patch<RecipeDetail>(`/api/recipes/${id}`, data));
+  }
+
+  /** "Zrób własną wersję" - prywatna kopia jako wariant */
+  createVariant(id: string): Promise<RecipeDetail> {
+    return firstValueFrom(this.http.post<RecipeDetail>(`/api/recipes/${id}/variant`, {}));
+  }
+
+  variants(id: string): Promise<{ originalId: string; items: VariantSummary[] }> {
+    return firstValueFrom(
+      this.http.get<{ originalId: string; items: VariantSummary[] }>(`/api/recipes/${id}/variants`),
+    );
+  }
+
+  rate(id: string, stars: number, comment?: string): Promise<RatingSummary> {
+    return firstValueFrom(this.http.put<RatingSummary>(`/api/recipes/${id}/rating`, { stars, comment }));
+  }
+
+  removeRating(id: string): Promise<RatingSummary> {
+    return firstValueFrom(this.http.delete<RatingSummary>(`/api/recipes/${id}/rating`));
+  }
+
+  ratings(id: string, page = 1): Promise<Page<RatingItem>> {
+    return firstValueFrom(
+      this.http.get<Page<RatingItem>>(`/api/recipes/${id}/ratings`, { params: { page } }),
+    );
   }
 
   remove(id: string): Promise<unknown> {

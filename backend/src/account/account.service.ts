@@ -11,6 +11,7 @@ import { photoUrls, PhotosService } from '../photos/photos.service.js';
 import { HouseholdService } from '../household/household.service.js';
 import { PrismaService } from '../prisma/prisma.service.js';
 import { ProfileService } from '../profile/profile.service.js';
+import { recomputeRatings } from '../ratings/ratings.service.js';
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 
@@ -132,6 +133,7 @@ export class AccountService {
         },
         customSlots: true,
         plannerSettings: true,
+        recipeRatings: { include: { recipe: { select: { title: true } } }, orderBy: { updatedAt: 'asc' } },
         pantryItems: { include: { ingredient: { select: { namePl: true } } } },
         shoppingItems: { include: { ingredient: { select: { namePl: true } } } },
         priceLists: { include: { entries: { include: { ingredient: { select: { namePl: true } } } } } },
@@ -204,6 +206,12 @@ export class AccountService {
         grams: i.grams,
         note: i.note,
         checked: i.checked,
+      })),
+      ratings: user.recipeRatings.map((r) => ({
+        recipe: r.recipe.title,
+        stars: r.stars,
+        comment: r.comment,
+        updatedAt: r.updatedAt,
       })),
       priceLists: user.priceLists.map((l) => ({
         name: l.name,
@@ -294,6 +302,8 @@ export class AccountService {
     const photoIds = privateRecipes.flatMap((r) => r.photos.map((p) => p.id));
 
     const inHousehold = await this.prisma.householdMember.findUnique({ where: { userId } });
+    // Oceny znikną razem z kontem - po usunięciu przeliczymy średnie tych przepisów
+    const rated = await this.prisma.recipeRating.findMany({ where: { userId }, select: { recipeId: true } });
     await this.prisma.$transaction(async (tx) => {
       // Gospodarstwo: przekazanie roli właściciela albo zamknięcie, gdy byłem sam
       if (inHousehold) await this.household.leave(userId, tx);
@@ -306,6 +316,10 @@ export class AccountService {
       });
       await tx.user.delete({ where: { id: userId } });
     });
+    await recomputeRatings(
+      this.prisma,
+      rated.map((r) => r.recipeId),
+    );
     await this.photos.delete(photoIds);
     await this.mail.send(user.email, 'accountDeleted', user.locale, { username: user.username });
   }

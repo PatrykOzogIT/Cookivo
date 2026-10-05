@@ -16,7 +16,9 @@ import { scaleAmount } from '../recipe-units';
 import { formatMoney, PricesApi, type Cost } from '../../prices/prices.api';
 import { ShoppingApi, type AddResult } from '../../shopping/shopping.api';
 import { RecipesApi } from '../recipes.api';
-import type { RecipeDetail, RecipeLine } from '../recipes.models';
+import { RecipeCommunityComponent } from './recipe-community';
+import { StarsComponent } from './stars';
+import type { RatingSummary, RecipeDetail, RecipeLine } from '../recipes.models';
 
 export interface LineGroup {
   name: string | null;
@@ -45,6 +47,8 @@ export function groupLines(lines: RecipeLine[]): LineGroup[] {
     MatInputModule,
     TranslocoDirective,
     NutritionTableComponent,
+    RecipeCommunityComponent,
+    StarsComponent,
     LocalizedPipe,
     NumberPipe,
     AmountLabelPipe,
@@ -73,6 +77,13 @@ export class RecipeDetailPage implements OnInit {
   protected readonly servings = signal(1);
 
   constructor() {
+    // Ta sama strona dla innego przepisu (Angular używa ponownie komponentu) - wczytujemy od nowa
+    let loadedId: string | undefined;
+    effect(() => {
+      const id = this.id();
+      if (loadedId !== undefined && id !== loadedId) untracked(() => void this.load(id));
+      loadedId = id;
+    });
     // Koszt przeliczamy po zmianie porcji (z krótkim opóźnieniem przy szybkim klikaniu)
     effect(() => {
       const r = this.recipe();
@@ -85,6 +96,11 @@ export class RecipeDetailPage implements OnInit {
         }, 250);
       });
     });
+  }
+
+  /** Po ocenie: nowa średnia w nagłówku */
+  protected onRated(summary: RatingSummary): void {
+    this.recipe.update((r) => (r ? { ...r, ...summary } : r));
   }
 
   protected money(cents: number, currency: string): string {
@@ -132,8 +148,19 @@ export class RecipeDetailPage implements OnInit {
   protected readonly photo = computed(() => this.recipe()?.photos[this.photoIndex()] ?? null);
 
   async ngOnInit(): Promise<void> {
+    await this.load(this.id());
+  }
+
+  /** Wczytanie przepisu - także po przejściu na inny przepis z tej samej strony (link do oryginału, podprzepisu) */
+  private async load(id: string): Promise<void> {
+    this.error.set(null);
+    this.shoppingResult.set(null);
+    this.cost.set(undefined);
+    this.photoIndex.set(0);
+    this.confirmDelete.set(false);
+    this.hiding.set(false);
     try {
-      const r = await this.api.get(this.id());
+      const r = await this.api.get(id);
       this.recipe.set(r);
       this.servings.set(r.servings);
       this.title.setTitle(`${r.title} · Cookivo`);

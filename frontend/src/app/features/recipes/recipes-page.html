@@ -218,6 +218,9 @@
           </div>
           <div class="body">
             <h2>{{ r.title }}</h2>
+            @if (r.ratingAvg !== null) {
+              <app-stars [value]="r.ratingAvg" [count]="r.ratingCount" [lang]="lang()" />
+            }
             <p class="meta">
               <span>
                 <strong>{{ r.kcalPerServing | num: lang() : 0 }}</strong> {{ t('recipes.kcalPerServing') }}

@@ -97,8 +97,8 @@ export class ListRecipesQuery {
   household?: boolean;
 
   @IsOptional()
-  @IsIn(['newest', 'kcal', 'time', 'name', 'forYou', 'fromPantry'])
-  sort: 'newest' | 'kcal' | 'time' | 'name' | 'forYou' | 'fromPantry' = 'newest';
+  @IsIn(['newest', 'kcal', 'time', 'name', 'forYou', 'fromPantry', 'rating'])
+  sort: 'newest' | 'kcal' | 'time' | 'name' | 'forYou' | 'fromPantry' | 'rating' = 'newest';
 
   @IsOptional()
   @IsIn(['pl', 'en'])
@@ -215,6 +215,13 @@ export class SaveRecipeDto {
   @Min(1)
   @Max(100000)
   cookedGrams?: number | null;
+
+  /** Tylko dla wariantów: co zmieniono względem oryginału */
+  @IsOptional()
+  @Transform(emptyToUndefined)
+  @IsString()
+  @MaxLength(200)
+  variantNote?: string | null;
 
   @IsArray()
   @ArrayMaxSize(10)

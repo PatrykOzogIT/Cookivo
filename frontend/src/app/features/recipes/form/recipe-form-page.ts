@@ -79,6 +79,8 @@ export class RecipeFormPage implements OnInit {
 
   /** Parametr trasy :id - tylko przy edycji */
   readonly id = input<string>();
+  /** Edytowany przepis jest wariantem - pokazujemy pole "co zmieniono" */
+  protected readonly variantOf = signal<RecipeDetail['variantOf']>(null);
 
   protected readonly difficulties: Difficulty[] = ['EASY', 'MEDIUM', 'HARD'];
   protected readonly maxGallery = MAX_GALLERY;
@@ -97,6 +99,7 @@ export class RecipeFormPage implements OnInit {
     visibility: this.fb.control<Visibility>('PRIVATE'),
     canBeIngredient: this.fb.control(false),
     cookedGrams: this.fb.control('', [decimalValidator(1, 100000)]),
+    variantNote: this.fb.control('', [Validators.maxLength(200)]),
     mealTypes: this.fb.control<string[]>([]),
     ingredients: this.fb.array<LineGroup>([]),
     steps: this.fb.array<StepGroup>([]),
@@ -296,6 +299,7 @@ export class RecipeFormPage implements OnInit {
       visibility: v.visibility,
       canBeIngredient: v.canBeIngredient,
       cookedGrams: parseDecimal(v.cookedGrams),
+      variantNote: v.variantNote.trim() || null,
       mealTypes: v.mealTypes,
       ingredients: v.ingredients.map((l) => ({
         ...(l.item!.kind === 'recipe' ? { subRecipeId: l.item!.id } : { ingredientId: l.item!.id }),
@@ -316,6 +320,7 @@ export class RecipeFormPage implements OnInit {
   private fill(r: RecipeDetail): void {
     const text = (n: number | null) => (n === null ? '' : String(n));
     const decimal = (n: number) => formatNumber(n, this.lang(), 3).replace(/\s/g, '');
+    this.variantOf.set(r.variantOf);
     this.form.patchValue({
       title: r.title,
       description: r.description ?? '',
@@ -326,6 +331,7 @@ export class RecipeFormPage implements OnInit {
       visibility: r.visibility,
       canBeIngredient: r.canBeIngredient,
       cookedGrams: r.cookedGrams === null ? '' : decimal(r.cookedGrams),
+      variantNote: r.variantNote ?? '',
       mealTypes: r.mealTypes.map((m) => m.code),
     });
     for (const l of r.ingredients) {

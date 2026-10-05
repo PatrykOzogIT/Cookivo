@@ -50,6 +50,19 @@ export class RecipesController {
     return this.recipes.remove(id, user);
   }
 
+  /** "Zrób własną wersję" - prywatna kopia jako wariant oryginału */
+  @RequireVerifiedEmail()
+  @Post(':id/variant')
+  createVariant(@Param('id', ParseUUIDPipe) id: string, @CurrentUser() user: AuthUser) {
+    return this.recipes.createVariant(id, user);
+  }
+
+  @Public()
+  @Get(':id/variants')
+  variants(@Param('id', ParseUUIDPipe) id: string, @CurrentUser() user?: AuthUser) {
+    return this.recipes.variants(id, user);
+  }
+
   /** Admin ukrywa przepis (np. nieodpowiednia treść) - widzi go dalej autor z podanym powodem */
   @Roles('ADMIN')
   @Post(':id/hide')

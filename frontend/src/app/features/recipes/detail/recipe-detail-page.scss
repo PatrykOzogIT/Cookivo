@@ -449,3 +449,23 @@
     color: var(--ck-text-muted);
   }
 }
+
+.rating {
+  margin: 4px 0 0;
+}
+
+.variant-of {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  margin: 6px 0 0;
+  color: var(--ck-text-muted);
+  a {
+    color: var(--ck-link);
+  }
+}
+
+app-recipe-community {
+  margin-top: 20px;
+}
