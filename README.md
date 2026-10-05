@@ -128,6 +128,7 @@ backend/
   src/account/       ustawienia konta, urządzenia, eksport danych i usunięcie konta (RODO)
   src/moderation/    filtr wulgaryzmów
   src/reports/       zgłoszenia (przepisy, opinie, użytkownicy), auto-ukrycie, kolejka admina
+  src/admin-users/   panel admina: lista kont, blokady czasowe i stałe, role (super admin)
   src/mail/          maile (PL/EN)
   test/              testy integracyjne API
 frontend/
@@ -145,11 +146,12 @@ e2e/                 testy Playwright
 - Blokada konta po 5 nieudanych logowaniach, limity żądań na IP, `helmet`, walidacja DTO (odrzucanie nieznanych pól).
 - Odpowiedzi nie zdradzają, czy konto o danym mailu istnieje.
 - Dane o zdrowiu (waga, cel, alergie) tylko po wyraźnej zgodzie; jej wycofanie usuwa te dane. Eksport wszystkich danych (JSON) i usunięcie konta w ustawieniach - publiczne przepisy zostają jako anonimowe.
-- Role: gość → `USER` → `ADMIN` → `SUPER_ADMIN` (globalny guard, endpointy publiczne oznaczone `@Public()`).
+- Role: gość → `USER` → `ADMIN` → `SUPER_ADMIN` (globalny guard, endpointy publiczne oznaczone `@Public()`). Rolę ADMIN nadaje i odbiera tylko super admin.
+- Blokady kont przez admina (czasowe lub stałe, z powodem): unieważniają sesje, a przy zapisach i na endpointach admina konto jest sprawdzane w bazie - blokada i zmiana roli działają od razu, bez czekania na wygaśnięcie tokenu.
 
 ### Plan
 
-0. Fundament ✅ · 1. Konta ✅ · 2. Składniki i alergeny ✅ · 3. Przepisy, tryb gotowania, zdjęcia ✅ · 4. Profil żywieniowy, kalkulator, preferencje, RODO (eksport/usuwanie) ✅ · 5. Gospodarstwa domowe ✅ · 6a. Planer (tryb prosty) ✅ · 6b. Dokładne porcje dla rodzin ✅ · 7a. Lodówka i lista zakupów ✅ · 7b. Cenniki i koszty ✅ · 8. Warianty i oceny ✅ · 9a. Zgłoszenia i kolejka moderacji ✅ · 9b. Blokady kont i role · 10. PWA · 11. Wdrożenie
+0. Fundament ✅ · 1. Konta ✅ · 2. Składniki i alergeny ✅ · 3. Przepisy, tryb gotowania, zdjęcia ✅ · 4. Profil żywieniowy, kalkulator, preferencje, RODO (eksport/usuwanie) ✅ · 5. Gospodarstwa domowe ✅ · 6a. Planer (tryb prosty) ✅ · 6b. Dokładne porcje dla rodzin ✅ · 7a. Lodówka i lista zakupów ✅ · 7b. Cenniki i koszty ✅ · 8. Warianty i oceny ✅ · 9a. Zgłoszenia i kolejka moderacji ✅ · 9b. Blokady kont i role ✅ · 10. PWA · 11. Wdrożenie
 
 ---
 

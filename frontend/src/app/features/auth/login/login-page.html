@@ -4,6 +4,19 @@
   [heading]="t('auth.login.title')"
   [subheading]="t('auth.login.subtitle')"
 >
+  @if (auth.blocked(); as b) {
+    <div class="alert error" role="alert">
+      <span class="material-symbols-rounded" aria-hidden="true">block</span>
+      <span>
+        <strong>{{
+          b.until ? t('auth.blocked.until', { date: formatDate(b.until) }) : t('auth.blocked.permanent')
+        }}</strong>
+        @if (b.reason) {
+          <br />{{ t('auth.blocked.reason', { reason: b.reason }) }}
+        }
+      </span>
+    </div>
+  }
   @if (error(); as code) {
     <div class="alert error" role="alert">
       <span class="material-symbols-rounded" aria-hidden="true">error</span>

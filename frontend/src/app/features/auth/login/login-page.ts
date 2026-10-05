@@ -7,7 +7,9 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { Router, RouterLink } from '@angular/router';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { apiErrorCode } from '../../../core/api-error';
+import { accountBlockOf } from '../../../core/auth/account-block';
 import { AuthService } from '../../../core/auth/auth.service';
+import { LanguageService } from '../../../core/i18n/language.service';
 import { AuthShellComponent } from '../auth-shell';
 
 @Component({
@@ -26,7 +28,8 @@ import { AuthShellComponent } from '../auth-shell';
   styleUrl: '../auth-forms.scss',
 })
 export class LoginPage {
-  private readonly auth = inject(AuthService);
+  protected readonly auth = inject(AuthService);
+  private readonly lang = inject(LanguageService).current;
   private readonly router = inject(Router);
 
   /** Z query param - dokąd wrócić po zalogowaniu */
@@ -40,6 +43,12 @@ export class LoginPage {
   protected readonly pending = signal(false);
   protected readonly error = signal<string | null>(null);
 
+  protected formatDate(iso: string): string {
+    return new Intl.DateTimeFormat(this.lang(), { dateStyle: 'long', timeStyle: 'short' }).format(
+      new Date(iso),
+    );
+  }
+
   protected async submit(): Promise<void> {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
@@ -47,12 +56,15 @@ export class LoginPage {
     }
     this.pending.set(true);
     this.error.set(null);
+    this.auth.blocked.set(null);
     try {
       const { login, password } = this.form.getRawValue();
       await this.auth.login(login, password);
       await this.router.navigateByUrl(safeReturnUrl(this.returnUrl()));
     } catch (err) {
-      this.error.set(apiErrorCode(err));
+      const block = accountBlockOf(err);
+      if (block) this.auth.blocked.set(block);
+      else this.error.set(apiErrorCode(err));
       this.form.controls.password.reset();
     } finally {
       this.pending.set(false);

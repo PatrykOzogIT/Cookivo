@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import type { AuthResponse, RegisterRequest, Role, User, UsernameAvailability } from './auth.models';
 import { hasRole } from './auth.models';
+import type { AccountBlock } from './account-block';
 
 export type AuthStatus = 'unknown' | 'authenticated' | 'anonymous';
 
@@ -27,6 +28,9 @@ export class AuthService {
   readonly status = this.statusState.asReadonly();
   readonly isLoggedIn = computed(() => this.statusState() === 'authenticated');
   readonly isAdmin = computed(() => hasRole(this.userState(), 'ADMIN'));
+  readonly isSuperAdmin = computed(() => hasRole(this.userState(), 'SUPER_ADMIN'));
+  /** Ostatnia informacja o blokadzie konta - pokazywana na stronie logowania */
+  readonly blocked = signal<AccountBlock | null>(null);
 
   get token(): string | null {
     return this.accessToken();

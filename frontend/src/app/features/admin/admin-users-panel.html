@@ -1,0 +1,93 @@
+<ng-container *transloco="let t">
+  <form class="users-search" role="search" (ngSubmit)="search()">
+    <mat-form-field subscriptSizing="dynamic">
+      <mat-label>{{ t('admin.users.search') }}</mat-label>
+      <input matInput type="search" name="q" autocomplete="off" [(ngModel)]="q" />
+    </mat-form-field>
+    <button mat-stroked-button type="submit">{{ t('admin.users.searchButton') }}</button>
+  </form>
+
+  <mat-button-toggle-group
+    class="users-filter"
+    [value]="filter()"
+    (change)="setFilter($event.value)"
+    [attr.aria-label]="t('admin.users.filter')"
+    hideSingleSelectionIndicator
+  >
+    @for (f of ['all', 'blocked', 'admins']; track f) {
+      <mat-button-toggle [value]="f">{{ t('admin.users.filters.' + f) }}</mat-button-toggle>
+    }
+  </mat-button-toggle-group>
+
+  @if (error(); as code) {
+    <p class="alert" role="alert">{{ t('errors.' + code) }}</p>
+  }
+
+  @if (loading()) {
+    <p class="muted" role="status">{{ t('common.loading') }}</p>
+  } @else if (!items().length) {
+    <p class="muted">{{ t('admin.users.empty') }}</p>
+  } @else {
+    <p class="muted" role="status">{{ t('admin.users.total', { n: total() }) }}</p>
+    <ul class="queue">
+      @for (u of items(); track u.id) {
+        <li class="ck-card item" [attr.aria-labelledby]="'u-' + u.id">
+          <div class="item-head">
+            @if (u.role !== 'USER') {
+              <span>{{ t('admin.users.roles.' + u.role) }}</span>
+            }
+            @if (u.block) {
+              <span class="flag">{{ t('admin.users.blocked') }}</span>
+            }
+            @if (u.openReports) {
+              <span>{{ t('admin.count', { n: u.openReports }) }}</span>
+            }
+          </div>
+          <h3 [id]="'u-' + u.id">{{ u.username }}</h3>
+          <p class="sub">
+            {{ u.email }} · {{ t('admin.users.since', { date: formatDate(u.createdAt) }) }} ·
+            {{ t('admin.users.recipes', { n: u.recipesCount }) }}
+          </p>
+          @if (u.block; as b) {
+            <p class="sub">
+              <strong>{{
+                b.until
+                  ? t('auth.blocked.until', { date: formatDate(b.until, true) })
+                  : t('auth.blocked.permanent')
+              }}</strong>
+              — {{ b.reason }}
+            </p>
+          }
+          @if (canBlock(u) || canChangeRole(u)) {
+            <div class="row">
+              @if (canBlock(u)) {
+                @if (u.block) {
+                  <button mat-stroked-button type="button" (click)="unblock(u)" [disabled]="busy() === u.id">
+                    {{ t('admin.users.unblock') }}
+                  </button>
+                } @else {
+                  <button mat-stroked-button type="button" class="danger-text" (click)="block(u)">
+                    {{ t('admin.users.block') }}
+                  </button>
+                }
+              }
+              @if (canChangeRole(u)) {
+                <button
+                  mat-stroked-button
+                  type="button"
+                  (click)="toggleAdmin(u)"
+                  [disabled]="busy() === u.id"
+                >
+                  {{ t(u.role === 'ADMIN' ? 'admin.users.revokeAdmin' : 'admin.users.grantAdmin') }}
+                </button>
+              }
+            </div>
+          }
+        </li>
+      }
+    </ul>
+    @if (items().length < total()) {
+      <button mat-button type="button" class="more" (click)="more()">{{ t('admin.users.more') }}</button>
+    }
+  }
+</ng-container>

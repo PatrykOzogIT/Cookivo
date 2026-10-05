@@ -147,3 +147,37 @@
   background: var(--ck-danger);
   color: light-dark(#fff, #1a1512);
 }
+
+.tabs {
+  // Karta pod zakładkami
+  ::ng-deep .mat-mdc-tab-body-content {
+    padding-top: 12px;
+  }
+}
+
+.users-title {
+  margin: 0 0 12px;
+  font-size: 1.15rem;
+}
+
+.users-search {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  mat-form-field {
+    flex: 1 1 220px;
+  }
+}
+
+.users-filter {
+  margin: 12px 0;
+}
+
+.danger-text:not(:disabled) {
+  color: var(--ck-danger);
+}
+
+.more {
+  margin-top: 12px;
+}

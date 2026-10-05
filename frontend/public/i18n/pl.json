@@ -125,7 +125,9 @@
     "OWN_RECIPE": "Nie możesz ocenić własnego przepisu.",
     "ALREADY_REPORTED": "Już zgłosiłeś tę treść - czeka na decyzję moderacji.",
     "OWN_CONTENT": "Nie możesz zgłosić własnej treści.",
-    "REPORT_INVALID": "Nie można zgłosić tej treści."
+    "REPORT_INVALID": "Nie można zgłosić tej treści.",
+    "ACCOUNT_BLOCKED": "Twoje konto jest zablokowane.",
+    "CANNOT_MODIFY_SELF": "Nie możesz zmienić własnego konta w ten sposób."
   },
   "auth": {
     "fields": {
@@ -202,6 +204,11 @@
       "invalid": "W linku brakuje tokenu. Poproś o nowy link.",
       "requestNew": "Poproś o nowy link",
       "submit": "Zapisz nowe hasło"
+    },
+    "blocked": {
+      "until": "Konto zablokowane do {{date}}.",
+      "permanent": "Konto zablokowane na stałe.",
+      "reason": "Powód: {{reason}}"
     }
   },
   "home": {
@@ -1094,6 +1101,36 @@
     "hide": "Ukryj",
     "resetName": "Zmień nazwę na losową",
     "restore": "Przywróć",
-    "reject": "Odrzuć zgłoszenia"
+    "reject": "Odrzuć zgłoszenia",
+    "users": {
+      "title": "Użytkownicy",
+      "search": "Nazwa lub e-mail",
+      "searchButton": "Szukaj",
+      "filter": "Pokaż",
+      "filters": {
+        "all": "Wszyscy",
+        "blocked": "Zablokowani",
+        "admins": "Administratorzy"
+      },
+      "empty": "Brak użytkowników.",
+      "total": "Znaleziono: {{n}}",
+      "roles": {
+        "ADMIN": "Administrator",
+        "SUPER_ADMIN": "Super admin"
+      },
+      "blocked": "Zablokowany",
+      "since": "od {{date}}",
+      "recipes": "przepisy: {{n}}",
+      "block": "Zablokuj",
+      "unblock": "Odblokuj",
+      "grantAdmin": "Nadaj rolę admina",
+      "revokeAdmin": "Odbierz rolę admina",
+      "more": "Pokaż więcej",
+      "blockTitle": "Zablokuj {{name}}",
+      "period": "Na jak długo",
+      "permanent": "Na stałe",
+      "reason": "Powód (zobaczy go użytkownik)",
+      "blockHint": "Użytkownik zostanie wylogowany ze wszystkich urządzeń i dostanie maila z powodem."
+    }
   }
 }

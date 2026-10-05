@@ -20,6 +20,8 @@ import { ReportsModule } from './reports/reports.module.js';
 import { VerifiedEmailGuard } from './common/verified-email.guard.js';
 import { JwtAuthGuard } from './common/jwt-auth.guard.js';
 import { RolesGuard } from './common/roles.guard.js';
+import { ActiveAccountGuard } from './common/active-account.guard.js';
+import { AdminUsersModule } from './admin-users/admin-users.module.js';
 import { validateEnv, type Env } from './config/env.js';
 import { MailModule } from './mail/mail.module.js';
 import { PrismaModule } from './prisma/prisma.module.js';
@@ -61,12 +63,14 @@ import { PrismaModule } from './prisma/prisma.module.js';
     PricesModule,
     RatingsModule,
     ReportsModule,
+    AdminUsersModule,
   ],
   controllers: [HealthController],
   providers: [
     // Kolejność ma znaczenie: limit żądań → uwierzytelnienie → role → potwierdzony e-mail
     { provide: APP_GUARD, useClass: ThrottlerGuard },
     { provide: APP_GUARD, useClass: JwtAuthGuard },
+    { provide: APP_GUARD, useClass: ActiveAccountGuard },
     { provide: APP_GUARD, useClass: RolesGuard },
     { provide: APP_GUARD, useClass: VerifiedEmailGuard },
   ],

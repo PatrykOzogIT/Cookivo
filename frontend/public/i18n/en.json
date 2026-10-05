@@ -125,7 +125,9 @@
     "OWN_RECIPE": "You cannot rate your own recipe.",
     "ALREADY_REPORTED": "You have already reported this - it is awaiting a moderator decision.",
     "OWN_CONTENT": "You cannot report your own content.",
-    "REPORT_INVALID": "This content cannot be reported."
+    "REPORT_INVALID": "This content cannot be reported.",
+    "ACCOUNT_BLOCKED": "Your account is blocked.",
+    "CANNOT_MODIFY_SELF": "You cannot change your own account this way."
   },
   "auth": {
     "fields": {
@@ -202,6 +204,11 @@
       "invalid": "The link is missing a token. Request a new link.",
       "requestNew": "Request a new link",
       "submit": "Save new password"
+    },
+    "blocked": {
+      "until": "Account blocked until {{date}}.",
+      "permanent": "Account blocked permanently.",
+      "reason": "Reason: {{reason}}"
     }
   },
   "home": {
@@ -1094,6 +1101,36 @@
     "hide": "Hide",
     "resetName": "Replace with a random name",
     "restore": "Restore",
-    "reject": "Reject reports"
+    "reject": "Reject reports",
+    "users": {
+      "title": "Users",
+      "search": "Username or email",
+      "searchButton": "Search",
+      "filter": "Show",
+      "filters": {
+        "all": "Everyone",
+        "blocked": "Blocked",
+        "admins": "Administrators"
+      },
+      "empty": "No users.",
+      "total": "Found: {{n}}",
+      "roles": {
+        "ADMIN": "Administrator",
+        "SUPER_ADMIN": "Super admin"
+      },
+      "blocked": "Blocked",
+      "since": "since {{date}}",
+      "recipes": "recipes: {{n}}",
+      "block": "Block",
+      "unblock": "Unblock",
+      "grantAdmin": "Make admin",
+      "revokeAdmin": "Remove admin role",
+      "more": "Show more",
+      "blockTitle": "Block {{name}}",
+      "period": "For how long",
+      "permanent": "Permanently",
+      "reason": "Reason (shown to the user)",
+      "blockHint": "The user will be signed out on all devices and receive an email with the reason."
+    }
   }
 }

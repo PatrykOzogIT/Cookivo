@@ -149,6 +149,20 @@ const COPY = {
       footer: 'This is the last email from us.',
     },
   },
+  accountBlocked: {
+    pl: {
+      subject: 'Twoje konto w Cookivo zostało zablokowane',
+      heading: 'Cześć {username}!',
+      body: 'Administrator zablokował Twoje konto {until}. Powód: {reason}. Jeśli uważasz, że to pomyłka, odpowiedz na tę wiadomość.',
+      footer: 'Dbamy, żeby Cookivo było miłym miejscem dla wszystkich.',
+    },
+    en: {
+      subject: 'Your Cookivo account has been blocked',
+      heading: 'Hi {username}!',
+      body: 'An administrator blocked your account {until}. Reason: {reason}. If you think this is a mistake, reply to this email.',
+      footer: 'We keep Cookivo a friendly place for everyone.',
+    },
+  },
   householdInvite: {
     pl: {
       subject: 'Zaproszenie do wspólnego gotowania w Cookivo',
@@ -178,7 +192,12 @@ export interface MailVars {
   /** Moderacja: czego dotyczy i dlaczego */
   title?: string;
   reason?: string;
+  /** Blokada: data końca (sformatowana); brak = na stałe */
+  until?: string;
 }
+
+const PERMANENT: Record<Locale, string> = { pl: 'na stałe', en: 'permanently' };
+const UNTIL: Record<Locale, string> = { pl: 'do {date}', en: 'until {date}' };
 
 function escapeHtml(value: string): string {
   return value.replace(/[&<>"']/g, (c) => `&#${c.charCodeAt(0)};`);
@@ -192,7 +211,8 @@ export function renderMail(kind: MailKind, locale: Locale, vars: MailVars): Mail
       .replaceAll('{inviter}', vars.inviter ?? '')
       .replaceAll('{household}', vars.household ?? '')
       .replaceAll('{title}', vars.title ?? '')
-      .replaceAll('{reason}', vars.reason ?? '');
+      .replaceAll('{reason}', vars.reason ?? '')
+      .replaceAll('{until}', vars.until ? UNTIL[locale].replace('{date}', vars.until) : PERMANENT[locale]);
   const heading = fill(copy.heading);
 
   const text = [heading, '', fill(copy.body), '', vars.url ?? '', '', copy.footer, '', '— Cookivo'].join(

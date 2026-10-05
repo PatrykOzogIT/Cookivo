@@ -34,7 +34,7 @@ async function sql(query: string, params: unknown[]): Promise<void> {
 export async function createUser(
   request: APIRequestContext,
   prefix: string,
-  role: 'USER' | 'ADMIN' = 'USER',
+  role: 'USER' | 'ADMIN' | 'SUPER_ADMIN' = 'USER',
 ): Promise<TestUser> {
   const user = newUser(prefix);
   const res = await request.post('/api/auth/register', {

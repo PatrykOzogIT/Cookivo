@@ -12,6 +12,7 @@ import type { LoginDto, RegisterDto } from './auth.dto.js';
 import { PasswordPolicyService } from './password-policy.service.js';
 import { generateToken, hashToken } from './tokens.js';
 import { checkUsername, normalizeUsername } from './username-policy.js';
+import { activeBlock, blockedError } from '../common/account-block.js';
 
 export const MAX_FAILED_LOGINS = 5;
 export const LOCK_MINUTES = 15;
@@ -168,6 +169,10 @@ export class AuthService {
       throw new UnauthorizedException({ code: 'INVALID_CREDENTIALS' });
     }
 
+    // Blokada przez admina: po poprawnym haśle mówimy wprost, do kiedy i dlaczego
+    const block = activeBlock(user);
+    if (block) throw blockedError(block);
+
     const data: Prisma.UserUpdateInput = {
       failedLoginCount: 0,
       lockedUntil: null,
@@ -202,6 +207,8 @@ export class AuthService {
     if (session.revokedAt || session.expiresAt < new Date()) {
       throw new UnauthorizedException({ code: 'SESSION_EXPIRED' });
     }
+    const block = activeBlock(session.user);
+    if (block) throw blockedError(block);
 
     const newToken = generateToken();
     await this.prisma.session.update({

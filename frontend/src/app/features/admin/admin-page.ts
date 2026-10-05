@@ -4,10 +4,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatTabsModule } from '@angular/material/tabs';
 import { RouterLink } from '@angular/router';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { apiErrorCode } from '../../core/api-error';
 import { LanguageService } from '../../core/i18n/language.service';
+import { AdminUsersPanel } from './admin-users-panel';
 import { ReportsApi, type QueueItem, type ReportStatus } from '../moderation/reports.api';
 
 /** Panel administracyjny: kolejka zgłoszeń (pogrupowanych po celu) i skróty */
@@ -20,6 +22,8 @@ import { ReportsApi, type QueueItem, type ReportStatus } from '../moderation/rep
     MatButtonToggleModule,
     MatFormFieldModule,
     MatInputModule,
+    MatTabsModule,
+    AdminUsersPanel,
     TranslocoDirective,
   ],
   templateUrl: './admin-page.html',
