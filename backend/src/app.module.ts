@@ -16,6 +16,7 @@ import { PantryModule } from './pantry/pantry.module.js';
 import { ShoppingModule } from './shopping/shopping.module.js';
 import { PricesModule } from './prices/prices.module.js';
 import { RatingsModule } from './ratings/ratings.module.js';
+import { ReportsModule } from './reports/reports.module.js';
 import { VerifiedEmailGuard } from './common/verified-email.guard.js';
 import { JwtAuthGuard } from './common/jwt-auth.guard.js';
 import { RolesGuard } from './common/roles.guard.js';
@@ -59,6 +60,7 @@ import { PrismaModule } from './prisma/prisma.module.js';
     ShoppingModule,
     PricesModule,
     RatingsModule,
+    ReportsModule,
   ],
   controllers: [HealthController],
   providers: [

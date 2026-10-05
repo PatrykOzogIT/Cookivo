@@ -42,6 +42,12 @@ model User {
   failedLoginCount   Int       @default(0) @map("failed_login_count")
   lockedUntil        DateTime? @map("locked_until")
   lastLoginAt        DateTime? @map("last_login_at")
+  /// Blokada przez admina: blockedAt ustawione = zablokowane; blockedUntil null = na stałe
+  blockedAt          DateTime? @map("blocked_at")
+  blockedUntil       DateTime? @map("blocked_until")
+  blockReason        String?   @map("block_reason") @db.VarChar(500)
+  /// Nazwa ukryta po zgłoszeniach (wyświetlamy "Użytkownik") do decyzji admina
+  nameHiddenAt       DateTime? @map("name_hidden_at")
   createdAt          DateTime  @default(now()) @map("created_at")
   updatedAt          DateTime  @updatedAt @map("updated_at")
 
@@ -59,6 +65,9 @@ model User {
   recipes             Recipe[]       @relation("RecipeAuthor")
   recipesHidden       Recipe[]       @relation("RecipeHiddenBy")
   recipeRatings       RecipeRating[]
+  reportsMade         Report[]       @relation("ReportReporter")
+  reportsAgainst      Report[]       @relation("ReportTargetUser")
+  reportsResolved     Report[]       @relation("ReportResolver")
   photos              Photo[]
 
   householdMember  HouseholdMember?
@@ -341,6 +350,7 @@ model Recipe {
   ratingAvg   Float?         @map("rating_avg")
   ratingCount Int            @default(0) @map("rating_count")
   ratings     RecipeRating[]
+  reports     Report[]
 
   /// Opcjonalna waga gotowej potrawy - jeśli podana, wartości na 100 g są dokładne
   /// (gotowanie odparowuje albo wchłania wodę); jeśli nie, przybliżamy sumą składników.
@@ -821,16 +831,71 @@ model PriceEntry {
 
 /// Ocena przepisu: gwiazdki 1-5 i opcjonalny krótki komentarz. Jedna na osobę.
 model RecipeRating {
-  recipeId  String   @map("recipe_id") @db.Uuid
-  recipe    Recipe   @relation(fields: [recipeId], references: [id], onDelete: Cascade)
-  userId    String   @map("user_id") @db.Uuid
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  stars     Int
-  comment   String?  @db.VarChar(500)
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+  recipeId     String    @map("recipe_id") @db.Uuid
+  recipe       Recipe    @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+  userId       String    @map("user_id") @db.Uuid
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  stars        Int
+  comment      String?   @db.VarChar(500)
+  /// Ukryta przez moderację (po zgłoszeniach albo decyzją admina) - nie liczy się do średniej
+  hiddenAt     DateTime? @map("hidden_at")
+  hiddenReason String?   @map("hidden_reason") @db.VarChar(500)
+  createdAt    DateTime  @default(now()) @map("created_at")
+  updatedAt    DateTime  @updatedAt @map("updated_at")
 
   @@id([recipeId, userId])
   @@index([userId])
   @@map("recipe_ratings")
+}
+
+// --- Moderacja --------------------------------------------------------------------------
+
+enum ReportTarget {
+  RECIPE
+  /// Opinia: przepis + autor opinii
+  RATING
+  /// Profil / nazwa użytkownika
+  USER
+}
+
+enum ReportReason {
+  OFFENSIVE
+  SPAM
+  DANGEROUS
+  OTHER
+}
+
+enum ReportStatus {
+  OPEN
+  /// Admin przyznał rację - treść ukryta
+  ACCEPTED
+  /// Admin odrzucił zgłoszenie - treść zostaje
+  REJECTED
+}
+
+/// Zgłoszenie treści. Cel: przepis, opinia (przepis + autor opinii) albo użytkownik.
+model Report {
+  id             String       @id @default(uuid(7)) @db.Uuid
+  targetType     ReportTarget @map("target_type")
+  recipeId       String?      @map("recipe_id") @db.Uuid
+  recipe         Recipe?      @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+  /// Dla RATING - autor opinii, dla USER - zgłaszany użytkownik
+  targetUserId   String?      @map("target_user_id") @db.Uuid
+  targetUser     User?        @relation("ReportTargetUser", fields: [targetUserId], references: [id], onDelete: Cascade)
+  reporterId     String       @map("reporter_id") @db.Uuid
+  reporter       User         @relation("ReportReporter", fields: [reporterId], references: [id], onDelete: Cascade)
+  reason         ReportReason
+  details        String?      @db.VarChar(500)
+  status         ReportStatus @default(OPEN)
+  resolvedAt     DateTime?    @map("resolved_at")
+  resolvedById   String?      @map("resolved_by_id") @db.Uuid
+  resolvedBy     User?        @relation("ReportResolver", fields: [resolvedById], references: [id], onDelete: SetNull)
+  resolutionNote String?      @map("resolution_note") @db.VarChar(500)
+  createdAt      DateTime     @default(now()) @map("created_at")
+
+  @@index([status, targetType])
+  @@index([recipeId])
+  @@index([targetUserId])
+  @@index([reporterId])
+  @@map("reports")
 }

@@ -30,6 +30,9 @@ describe('Pliki tłumaczeń', () => {
 
   it('każdy kod błędu z backendu ma tłumaczenie', () => {
     const backendCodes = [
+      'ALREADY_REPORTED',
+      'OWN_CONTENT',
+      'REPORT_INVALID',
       'OWN_RECIPE',
       'ITEM_INVALID',
       'PERSON_UNKNOWN',

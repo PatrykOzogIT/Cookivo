@@ -1,5 +1,5 @@
 import type { Routes } from '@angular/router';
-import { authGuard, guestGuard } from './core/auth/auth.guards';
+import { authGuard, guestGuard, roleGuard } from './core/auth/auth.guards';
 
 export const routes: Routes = [
   {
@@ -125,6 +125,12 @@ export const routes: Routes = [
     ],
   },
   { path: 'my-recipes', redirectTo: '/recipes?mine=1' },
+  {
+    path: 'admin',
+    canMatch: [authGuard, roleGuard('ADMIN')],
+    data: { titleKey: 'nav.admin' },
+    loadComponent: () => import('./features/admin/admin-page').then((m) => m.AdminPage),
+  },
   {
     path: 'settings',
     canMatch: [authGuard],

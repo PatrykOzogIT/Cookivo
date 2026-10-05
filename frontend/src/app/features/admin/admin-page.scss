@@ -1,0 +1,149 @@
+.page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 24px max(var(--ck-gutter), env(safe-area-inset-right)) 0
+    max(var(--ck-gutter), env(safe-area-inset-left));
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.head {
+  h1 {
+    margin: 0;
+    font-size: clamp(1.6rem, 1.2rem + 1.5vw, 2.2rem);
+  }
+  .lead {
+    margin: 4px 0 0;
+    color: var(--ck-text-muted);
+  }
+}
+
+.shortcuts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  .material-symbols-rounded {
+    margin-right: 4px;
+  }
+}
+
+.box {
+  padding: 16px 20px;
+}
+
+.box-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 12px;
+  margin-bottom: 12px;
+  h2 {
+    margin: 0;
+    font-size: 1.15rem;
+  }
+}
+
+.muted {
+  color: var(--ck-text-muted);
+}
+
+.alert {
+  padding: 10px 12px;
+  border-radius: var(--ck-radius-sm);
+  background: color-mix(in srgb, var(--ck-danger) 12%, transparent);
+  color: var(--ck-danger);
+}
+
+.queue,
+.reports {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.queue {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.item {
+  padding: 14px 16px;
+  h3 {
+    margin: 6px 0 2px;
+    font-size: 1.05rem;
+    overflow-wrap: anywhere;
+  }
+  .sub {
+    margin: 0;
+    font-size: 0.9rem;
+    a {
+      color: var(--ck-link);
+      display: inline-block;
+      min-height: 24px;
+    }
+  }
+  blockquote {
+    margin: 8px 0 0;
+    padding: 8px 12px;
+    border-left: 3px solid var(--ck-border);
+    background: var(--ck-surface-2);
+    overflow-wrap: anywhere;
+  }
+  details {
+    margin: 10px 0;
+  }
+  summary {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    color: var(--ck-link);
+    font-weight: 600;
+  }
+  .reports li {
+    padding: 8px 0;
+    border-top: 1px solid var(--ck-border);
+    p {
+      margin: 4px 0 0;
+      white-space: pre-line;
+      overflow-wrap: anywhere;
+    }
+  }
+}
+
+.item-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  span {
+    padding: 2px 10px;
+    border-radius: 999px;
+    background: var(--ck-surface-2);
+  }
+  .flag {
+    background: color-mix(in srgb, var(--ck-danger) 12%, transparent);
+    color: var(--ck-danger);
+  }
+}
+
+.full {
+  width: 100%;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  margin-top: 12px;
+}
+
+.danger-fill:not(:disabled) {
+  background: var(--ck-danger);
+  color: light-dark(#fff, #1a1512);
+}

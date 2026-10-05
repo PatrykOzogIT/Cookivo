@@ -122,7 +122,10 @@
     "PERSON_UNKNOWN": "Nie ma takiej osoby w gospodarstwie.",
     "ITEM_INVALID": "Wybierz składnik z bazy albo wpisz własną nazwę.",
     "PRICE_INVALID": "Podaj wielkość opakowania i cenę (np. 1 kg - 4,29).",
-    "OWN_RECIPE": "Nie możesz ocenić własnego przepisu."
+    "OWN_RECIPE": "Nie możesz ocenić własnego przepisu.",
+    "ALREADY_REPORTED": "Już zgłosiłeś tę treść - czeka na decyzję moderacji.",
+    "OWN_CONTENT": "Nie możesz zgłosić własnej treści.",
+    "REPORT_INVALID": "Nie można zgłosić tej treści."
   },
   "auth": {
     "fields": {
@@ -1031,5 +1034,66 @@
     "none": "Ten przepis nie ma jeszcze opinii.",
     "more": "Pokaż więcej opinii",
     "ariaOne": "Ocena {{value}} na 5"
+  },
+  "moderation": {
+    "report": "Zgłoś",
+    "reportRecipe": "Zgłoś przepis",
+    "reportUser": "Zgłoś użytkownika {{name}}",
+    "reportRatingAria": "Zgłoś opinię użytkownika {{name}}",
+    "reportTitle": {
+      "RECIPE": "Zgłoś przepis",
+      "RATING": "Zgłoś opinię",
+      "USER": "Zgłoś użytkownika"
+    },
+    "target": {
+      "RECIPE": "Przepis",
+      "RATING": "Opinia",
+      "USER": "Użytkownik"
+    },
+    "reason": "Powód",
+    "reasons": {
+      "OFFENSIVE": "Obraźliwe lub nieodpowiednie",
+      "SPAM": "Spam lub reklama",
+      "DANGEROUS": "Niebezpieczne (np. zagrożenie dla zdrowia)",
+      "OTHER": "Inny powód"
+    },
+    "details": "Opis (opcjonalnie)",
+    "reportHint": "Zgłoszenie trafi do moderacji. Jego status zobaczysz w ustawieniach konta.",
+    "send": "Wyślij zgłoszenie",
+    "sent": "Dziękujemy, zgłoszenie trafiło do moderacji.",
+    "sentHidden": "Dziękujemy. Po kilku zgłoszeniach treść została tymczasowo ukryta do decyzji moderacji.",
+    "hiddenUser": "Użytkownik",
+    "ratingHidden": "Ukryta przez moderację",
+    "autoHidden": "Ukryty automatycznie po zgłoszeniach użytkowników - czeka na decyzję moderacji.",
+    "mineTitle": "Moje zgłoszenia",
+    "status": {
+      "OPEN": "W trakcie",
+      "ACCEPTED": "Uwzględnione",
+      "REJECTED": "Odrzucone"
+    }
+  },
+  "admin": {
+    "lead": "Zgłoszenia użytkowników i treści czekające na decyzję.",
+    "shortcuts": "Skróty administracyjne",
+    "reportsTitle": "Zgłoszenia",
+    "statusFilter": "Status zgłoszeń",
+    "statusTab": {
+      "OPEN": "Otwarte",
+      "ACCEPTED": "Uwzględnione",
+      "REJECTED": "Odrzucone"
+    },
+    "empty": "Brak zgłoszeń.",
+    "count": "Zgłoszeń: {{n}}",
+    "hidden": "Ukryte",
+    "autoHidden": "Ukryte automatycznie",
+    "ratingBy": "Opinia {{name}} o „{{recipe}}”",
+    "openRecipe": "Otwórz przepis",
+    "reportsList": "Szczegóły zgłoszeń",
+    "note": "Notatka",
+    "noteLabel": "Powód (zobaczy go autor)",
+    "hide": "Ukryj",
+    "resetName": "Zmień nazwę na losową",
+    "restore": "Przywróć",
+    "reject": "Odrzuć zgłoszenia"
   }
 }

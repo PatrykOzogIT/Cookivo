@@ -107,6 +107,34 @@ const COPY = {
       footer: "If this wasn't you, reset your password and contact us.",
     },
   },
+  contentHidden: {
+    pl: {
+      subject: 'Twoja treść w Cookivo została ukryta',
+      heading: 'Cześć {username}!',
+      body: 'Moderator ukrył: „{title}”. Powód: {reason}. Możesz poprawić treść - jeśli uważasz, że to pomyłka, odpowiedz na tę wiadomość.',
+      footer: 'Dbamy, żeby Cookivo było miłym miejscem dla wszystkich.',
+    },
+    en: {
+      subject: 'Your content on Cookivo was hidden',
+      heading: 'Hi {username}!',
+      body: 'A moderator hid: “{title}”. Reason: {reason}. You can edit the content - if you think this is a mistake, reply to this email.',
+      footer: 'We keep Cookivo a friendly place for everyone.',
+    },
+  },
+  usernameReset: {
+    pl: {
+      subject: 'Zmieniliśmy Twoją nazwę w Cookivo',
+      heading: 'Cześć!',
+      body: 'Po zgłoszeniach innych użytkowników moderator zmienił Twoją nazwę na „{title}”. Powód: {reason}. Logujesz się nową nazwą albo adresem e-mail.',
+      footer: 'Dbamy, żeby Cookivo było miłym miejscem dla wszystkich.',
+    },
+    en: {
+      subject: 'We changed your Cookivo username',
+      heading: 'Hi!',
+      body: 'After reports from other users, a moderator changed your username to “{title}”. Reason: {reason}. Sign in with the new name or your email address.',
+      footer: 'We keep Cookivo a friendly place for everyone.',
+    },
+  },
   accountDeleted: {
     pl: {
       subject: 'Konto w Cookivo zostało usunięte',
@@ -147,6 +175,9 @@ export interface MailVars {
   /** Zaproszenie do gospodarstwa: kto zaprasza i dokąd */
   inviter?: string;
   household?: string;
+  /** Moderacja: czego dotyczy i dlaczego */
+  title?: string;
+  reason?: string;
 }
 
 function escapeHtml(value: string): string {
@@ -159,7 +190,9 @@ export function renderMail(kind: MailKind, locale: Locale, vars: MailVars): Mail
     s
       .replaceAll('{username}', vars.username)
       .replaceAll('{inviter}', vars.inviter ?? '')
-      .replaceAll('{household}', vars.household ?? '');
+      .replaceAll('{household}', vars.household ?? '')
+      .replaceAll('{title}', vars.title ?? '')
+      .replaceAll('{reason}', vars.reason ?? '');
   const heading = fill(copy.heading);
 
   const text = [heading, '', fill(copy.body), '', vars.url ?? '', '', copy.footer, '', '— Cookivo'].join(

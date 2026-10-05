@@ -132,3 +132,12 @@
     overflow-wrap: anywhere;
   }
 }
+
+.hidden-tag {
+  padding: 1px 8px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--ck-danger) 12%, transparent);
+  color: var(--ck-danger);
+  font-size: 0.75rem;
+  font-weight: 700;
+}

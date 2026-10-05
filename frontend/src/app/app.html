@@ -60,12 +60,12 @@
                   <span class="material-symbols-rounded menu-icon" aria-hidden="true">fact_check</span>
                   <span>{{ t('nav.reviewIngredients') }}</span>
                 </a>
-                <button mat-menu-item type="button" disabled>
+                <a mat-menu-item routerLink="/admin">
                   <span class="material-symbols-rounded menu-icon" aria-hidden="true"
                     >admin_panel_settings</span
                   >
                   <span>{{ t('nav.admin') }}</span>
-                </button>
+                </a>
               }
               <mat-divider />
               <button mat-menu-item type="button" (click)="auth.logout()">

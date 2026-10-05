@@ -269,3 +269,13 @@ a {
   color: var(--ck-danger);
   font-weight: 600;
 }
+
+/* Dyskretny przycisk "Zgłoś" (przepis, opinie) */
+.ck-report-btn.mat-mdc-button {
+  margin-left: auto;
+  color: var(--ck-text-muted);
+  .material-symbols-rounded {
+    font-size: 1.1em;
+    margin-right: 2px;
+  }
+}

@@ -30,6 +30,22 @@
               >
             }
           </p>
+          @if (auth.isLoggedIn() && !r.isOwn) {
+            <button mat-button type="button" class="ck-report-btn" [matMenuTriggerFor]="reportMenu">
+              <span class="material-symbols-rounded" aria-hidden="true">flag</span
+              >{{ t('moderation.report') }}
+            </button>
+            <mat-menu #reportMenu="matMenu">
+              <button mat-menu-item type="button" (click)="report('RECIPE')">
+                {{ t('moderation.reportRecipe') }}
+              </button>
+              @if (r.author) {
+                <button mat-menu-item type="button" (click)="report('USER')">
+                  {{ t('moderation.reportUser', { name: r.author.username }) }}
+                </button>
+              }
+            </mat-menu>
+          }
           @if (r.ratingAvg !== null) {
             <p class="rating"><app-stars [value]="r.ratingAvg" [count]="r.ratingCount" [lang]="lang()" /></p>
           }
@@ -76,7 +92,7 @@
           <span>
             <strong>{{ t('recipes.hiddenNotice') }}</strong>
             @if (r.hiddenReason) {
-              {{ r.hiddenReason }}
+              {{ r.hiddenReason === 'AUTO_REPORTS' ? t('moderation.autoHidden') : r.hiddenReason }}
             }
           </span>
         </p>

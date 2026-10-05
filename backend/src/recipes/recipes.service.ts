@@ -12,6 +12,7 @@ import { Prisma } from '../generated/prisma/client.js';
 import { containsProfanity } from '../moderation/profanity.js';
 import { PhotosService, toPhotoDto } from '../photos/photos.service.js';
 import { HouseholdService } from '../household/household.service.js';
+import { MailService } from '../mail/mail.service.js';
 import { householdMatesSql, recipeForMe, recipeForUsers, recipeScore } from '../profile/personalization.js';
 import { PrismaService } from '../prisma/prisma.service.js';
 import { ingredientForMath, RecipeCalculatorService, subRecipeForMath } from './recipe-calculator.service.js';
@@ -24,7 +25,7 @@ const MAX_DEPTH = 4;
 const isAdmin = (user?: AuthUser) => user?.role === 'ADMIN' || user?.role === 'SUPER_ADMIN';
 
 const LIST_INCLUDE = {
-  author: { select: { username: true } },
+  author: { select: { id: true, username: true, nameHiddenAt: true } },
   mealTypes: { include: { mealType: true }, orderBy: { mealType: { sortOrder: 'asc' } } },
   allergens: { include: { allergen: true }, orderBy: { allergen: { sortOrder: 'asc' } } },
   photos: { where: { position: { not: null } }, orderBy: { position: 'asc' }, take: 1 },
@@ -56,7 +57,7 @@ const DETAIL_INCLUDE = {
       visibility: true,
       hiddenAt: true,
       authorId: true,
-      author: { select: { username: true } },
+      author: { select: { id: true, username: true, nameHiddenAt: true } },
     },
   },
 } satisfies Prisma.RecipeInclude;
@@ -71,6 +72,7 @@ export class RecipesService {
     private readonly calculator: RecipeCalculatorService,
     private readonly photos: PhotosService,
     private readonly household: HouseholdService,
+    private readonly mail: MailService,
   ) {}
 
   async list(query: ListRecipesQuery, user?: AuthUser) {
@@ -301,8 +303,16 @@ export class RecipesService {
   }
 
   async setHidden(id: string, admin: AuthUser, reason: string | null) {
-    const existing = await this.prisma.recipe.findUnique({ where: { id } });
+    const existing = await this.prisma.recipe.findUnique({ where: { id }, include: { author: true } });
     if (!existing) throw new NotFoundException({ code: 'NOT_FOUND' });
+    // Autor dowiaduje się o ukryciu mailem (z powodem)
+    if (reason && !existing.hiddenAt && existing.author) {
+      await this.mail.send(existing.author.email, 'contentHidden', existing.author.locale, {
+        username: existing.author.username,
+        title: existing.title,
+        reason,
+      });
+    }
     await this.prisma.recipe.update({
       where: { id },
       data: reason
@@ -588,7 +598,8 @@ function toListDto(r: ListRow, user?: AuthUser, myAllergens = new Set<string>())
     mealTypes: r.mealTypes.map((m) => localized(m.mealType)),
     allergens: r.allergens.map((a) => localized(a.allergen)),
     cover: r.photos[0] ? toPhotoDto(r.photos[0]) : null,
-    author: r.author ? { username: r.author.username } : null,
+    // Nazwa ukryta po zgłoszeniach: autor jak anonimowy
+    author: r.author && !r.author.nameHiddenAt ? { id: r.author.id, username: r.author.username } : null,
     isOwn: own,
     /** Alergeny przepisu, na które uważa zalogowany użytkownik */
     myAllergens: r.allergens.map((a) => a.allergen.code).filter((code) => myAllergens.has(code)),
@@ -657,7 +668,7 @@ function toDetailDto(
       ? {
           id: r.variantOf.id,
           title: r.variantOf.title,
-          author: r.variantOf.author?.username ?? null,
+          author: r.variantOf.author && !r.variantOf.author.nameHiddenAt ? r.variantOf.author.username : null,
           viewable: canView(r.variantOf, user, mates),
         }
       : null,

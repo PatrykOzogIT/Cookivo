@@ -117,9 +117,13 @@ test.describe('Planer', () => {
 
     // Włączenie trybu dokładnego
     await page.goto('/planner?week=2026-10-05&day=2026-10-07');
-    await page.getByRole('button', { name: 'Więcej' }).click();
-    await page.getByRole('menuitem', { name: 'Ustawienia planera' }).click();
     const dialog = page.getByRole('dialog');
+    // Menu bywa klikane przed końcem ładowania planu - ponawiamy do otwarcia okna
+    await expect(async () => {
+      await page.getByRole('button', { name: 'Więcej' }).click();
+      await page.getByRole('menuitem', { name: 'Ustawienia planera' }).click({ timeout: 2000 });
+      await expect(dialog).toBeVisible({ timeout: 2000 });
+    }).toPass();
     await dialog.getByText('Dziel porcje według celów kcal każdej osoby').click();
     await dialog.getByRole('button', { name: 'Gotowe' }).click();
     await expect(dialog).toBeHidden();

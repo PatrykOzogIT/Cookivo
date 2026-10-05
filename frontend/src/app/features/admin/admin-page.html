@@ -1,0 +1,127 @@
+<div class="page" *transloco="let t">
+  <header class="head">
+    <h1>{{ t('nav.admin') }}</h1>
+    <p class="lead">{{ t('admin.lead') }}</p>
+  </header>
+
+  <nav class="shortcuts" [attr.aria-label]="t('admin.shortcuts')">
+    <a mat-stroked-button routerLink="/ingredients" [queryParams]="{ status: 'PENDING' }">
+      <span class="material-symbols-rounded" aria-hidden="true">fact_check</span>
+      {{ t('nav.reviewIngredients') }}
+    </a>
+  </nav>
+
+  <section class="ck-card box" aria-labelledby="reports-title">
+    <div class="box-head">
+      <h2 id="reports-title">{{ t('admin.reportsTitle') }}</h2>
+      <mat-button-toggle-group
+        [value]="status()"
+        (change)="status.set($event.value)"
+        [attr.aria-label]="t('admin.statusFilter')"
+        hideSingleSelectionIndicator
+      >
+        @for (s of ['OPEN', 'ACCEPTED', 'REJECTED']; track s) {
+          <mat-button-toggle [value]="s">{{ t('admin.statusTab.' + s) }}</mat-button-toggle>
+        }
+      </mat-button-toggle-group>
+    </div>
+
+    @if (error(); as code) {
+      <p class="alert" role="alert">{{ t('errors.' + code) }}</p>
+    }
+
+    @if (loading()) {
+      <p class="muted" role="status">{{ t('common.loading') }}</p>
+    } @else if (!items().length) {
+      <p class="muted">{{ t('admin.empty') }}</p>
+    } @else {
+      <ul class="queue">
+        @for (item of items(); track item.key) {
+          <li class="ck-card item" [attr.aria-labelledby]="'q-' + $index">
+            <div class="item-head">
+              <span class="type">{{ t('moderation.target.' + item.targetType) }}</span>
+              <span class="count">{{ t('admin.count', { n: item.count }) }}</span>
+              @if (item.hidden) {
+                <span class="flag">{{ t(item.autoHidden ? 'admin.autoHidden' : 'admin.hidden') }}</span>
+              }
+            </div>
+
+            <h3 [id]="'q-' + $index">
+              @switch (item.targetType) {
+                @case ('USER') {
+                  {{ item.user?.username }}
+                }
+                @case ('RATING') {
+                  {{ t('admin.ratingBy', { name: item.user?.username, recipe: item.recipe?.title }) }}
+                }
+                @default {
+                  {{ item.recipe?.title }}
+                }
+              }
+            </h3>
+            @if (item.recipe) {
+              <p class="sub">
+                <a [routerLink]="['/recipes', item.recipe.id]">{{ t('admin.openRecipe') }}</a>
+                @if (item.targetType === 'RECIPE' && item.recipe.author) {
+                  · {{ t('recipes.by', { username: item.recipe.author }) }}
+                }
+              </p>
+            }
+            @if (item.rating) {
+              <blockquote>
+                <strong>{{ item.rating.stars }}/5</strong>
+                @if (item.rating.comment) {
+                  — {{ item.rating.comment }}
+                }
+              </blockquote>
+            }
+
+            <details>
+              <summary>{{ t('admin.reportsList') }}</summary>
+              <ul class="reports">
+                @for (r of item.reports; track $index) {
+                  <li>
+                    <strong>{{ t('moderation.reasons.' + r.reason) }}</strong>
+                    <span class="muted">· {{ r.reporter }} · {{ formatDate(r.createdAt) }}</span>
+                    @if (r.details) {
+                      <p>{{ r.details }}</p>
+                    }
+                    @if (r.resolutionNote) {
+                      <p class="muted">{{ t('admin.note') }}: {{ r.resolutionNote }}</p>
+                    }
+                  </li>
+                }
+              </ul>
+            </details>
+
+            @if (status() === 'OPEN') {
+              <mat-form-field class="full" subscriptSizing="dynamic">
+                <mat-label>{{ t('admin.noteLabel') }}</mat-label>
+                <input matInput maxlength="300" [(ngModel)]="notes[item.key]" [name]="'note-' + $index" />
+              </mat-form-field>
+              <div class="row">
+                <button
+                  mat-flat-button
+                  class="danger-fill"
+                  type="button"
+                  (click)="resolve(item, 'HIDE')"
+                  [disabled]="busy() === item.key"
+                >
+                  {{ t(item.targetType === 'USER' ? 'admin.resetName' : 'admin.hide') }}
+                </button>
+                <button
+                  mat-stroked-button
+                  type="button"
+                  (click)="resolve(item, 'RESTORE')"
+                  [disabled]="busy() === item.key"
+                >
+                  {{ t(item.hidden ? 'admin.restore' : 'admin.reject') }}
+                </button>
+              </div>
+            }
+          </li>
+        }
+      </ul>
+    }
+  </section>
+</div>

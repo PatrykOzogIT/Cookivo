@@ -31,7 +31,7 @@ export interface RecipeSummary {
   mealTypes: MealType[];
   allergens: Allergen[];
   cover: Photo | null;
-  author: { username: string } | null;
+  author: { id: string; username: string } | null;
   isOwn: boolean;
   /** Alergeny z listy zalogowanego użytkownika (kody) */
   myAllergens: string[];
@@ -53,8 +53,12 @@ export interface RatingSummary {
 }
 
 export interface RatingItem {
-  username: string;
+  userId: string;
+  /** null = nazwa ukryta po zgłoszeniach */
+  username: string | null;
   isMine: boolean;
+  /** Ukryta przez moderację (widzi ją tylko autor opinii) */
+  hidden: boolean;
   stars: number;
   comment: string | null;
   updatedAt: string;

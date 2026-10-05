@@ -3,11 +3,13 @@ import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatDialog } from '@angular/material/dialog';
 import { Router, RouterLink } from '@angular/router';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { apiErrorCode } from '../../../core/api-error';
 import { AuthService } from '../../../core/auth/auth.service';
 import { LocalizedPipe, NumberPipe } from '../../../core/i18n/format.pipes';
+import { ReportDialog, type ReportDialogData } from '../../moderation/report-dialog';
 import { RecipesApi } from '../recipes.api';
 import type { RatingItem, RatingSummary, RecipeDetail, VariantSummary } from '../recipes.models';
 import { StarInputComponent } from './star-input';
@@ -44,6 +46,7 @@ export function variantDiff(current: RecipeDetail, v: VariantSummary) {
 export class RecipeCommunityComponent {
   private readonly api = inject(RecipesApi);
   private readonly router = inject(Router);
+  private readonly dialog = inject(MatDialog);
   protected readonly auth = inject(AuthService);
 
   readonly recipe = input.required<RecipeDetail>();
@@ -106,6 +109,14 @@ export class RecipeCommunityComponent {
       this.comment = '';
       await this.loadRatings(1);
     });
+  }
+
+  protected reportRating(r: RatingItem): void {
+    const data: ReportDialogData = {
+      target: { targetType: 'RATING', recipeId: this.recipe().id, userId: r.userId },
+      label: r.comment ? `„${r.comment.slice(0, 120)}”` : this.recipe().title,
+    };
+    this.dialog.open(ReportDialog, { width: '480px', maxWidth: '100vw', data });
   }
 
   protected async moreRatings(): Promise<void> {

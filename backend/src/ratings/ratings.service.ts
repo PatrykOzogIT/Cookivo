@@ -11,7 +11,11 @@ const PAGE_SIZE = 10;
 export async function recomputeRatings(db: Prisma.TransactionClient, recipeIds: string[]): Promise<void> {
   if (!recipeIds.length) return;
   for (const recipeId of new Set(recipeIds)) {
-    const agg = await db.recipeRating.aggregate({ where: { recipeId }, _avg: { stars: true }, _count: true });
+    const agg = await db.recipeRating.aggregate({
+      where: { recipeId, hiddenAt: null },
+      _avg: { stars: true },
+      _count: true,
+    });
     await db.recipe.updateMany({
       where: { id: recipeId },
       data: { ratingAvg: agg._avg.stars, ratingCount: agg._count },
@@ -55,11 +59,12 @@ export class RatingsService {
   /** Opinie pod przepisem (najnowsze najpierw); dostępne dla każdego, kto widzi przepis */
   async list(recipeId: string, page: number, user?: AuthUser) {
     await this.recipes.get(recipeId, user);
-    const where = { recipeId };
+    // Ukryte przez moderację widzi tylko autor opinii
+    const where = { recipeId, OR: [{ hiddenAt: null }, ...(user ? [{ userId: user.id }] : [])] };
     const [rows, total] = await Promise.all([
       this.prisma.recipeRating.findMany({
         where,
-        include: { user: { select: { username: true } } },
+        include: { user: { select: { id: true, username: true, nameHiddenAt: true } } },
         orderBy: { updatedAt: 'desc' },
         skip: (page - 1) * PAGE_SIZE,
         take: PAGE_SIZE,
@@ -68,8 +73,11 @@ export class RatingsService {
     ]);
     return {
       items: rows.map((r) => ({
-        username: r.user.username,
+        userId: r.user.id,
+        /** Nazwa ukryta po zgłoszeniach - front pokazuje "Użytkownik" */
+        username: r.user.nameHiddenAt ? null : r.user.username,
         isMine: r.userId === user?.id,
+        hidden: r.hiddenAt !== null,
         stars: r.stars,
         comment: r.comment,
         updatedAt: r.updatedAt,

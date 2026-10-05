@@ -112,7 +112,7 @@ export interface SettingsData {
         }
       </mat-dialog-content>
       <mat-dialog-actions align="end">
-        <button mat-flat-button class="ck-cta" type="button" [mat-dialog-close]="changed">
+        <button mat-flat-button class="ck-cta" type="button" (click)="done()">
           {{ t('planner.done') }}
         </button>
       </mat-dialog-actions>
@@ -149,7 +149,20 @@ export class PlannerSettingsDialog {
   protected changed = false;
 
   constructor() {
-    this.ref.backdropClick().subscribe(() => this.ref.close(this.changed));
+    // Zamknięcie czeka na trwające zapisy - inaczej planer przeładowałby się ze starymi ustawieniami
+    this.ref.disableClose = true;
+    this.ref.backdropClick().subscribe(() => void this.done());
+    this.ref.keydownEvents().subscribe((e) => {
+      if (e.key === 'Escape') void this.done();
+    });
+  }
+
+  /** Zapisy w toku (przełączniki zapisują się od razu) */
+  private readonly pending = new Set<Promise<unknown>>();
+
+  protected async done(): Promise<void> {
+    await Promise.allSettled([...this.pending]);
+    this.ref.close(this.changed);
   }
 
   protected async toggle(code: StandardSlot, visible: boolean): Promise<void> {
@@ -195,13 +208,16 @@ export class PlannerSettingsDialog {
   private async run(fn: () => Promise<unknown>): Promise<void> {
     this.busy.set(true);
     this.error.set(null);
+    const task = fn();
+    this.pending.add(task);
     try {
-      await fn();
+      await task;
       this.changed = true;
     } catch (err) {
       this.error.set(apiErrorCode(err));
     } finally {
-      this.busy.set(false);
+      this.pending.delete(task);
+      this.busy.set(this.pending.size > 0);
     }
   }
 }

@@ -16,6 +16,7 @@ Angular and NestJS.
 - 🥕 Pantry management
 - ⚠️ Allergies & food intolerances
 - ⭐ Recipe ratings and variants
+- 🚩 Content reports and moderation
 
 ## Tech Stack
 
@@ -126,6 +127,7 @@ backend/
   src/ratings/       oceny 1-5 z komentarzami, średnia zapisana w przepisie
   src/account/       ustawienia konta, urządzenia, eksport danych i usunięcie konta (RODO)
   src/moderation/    filtr wulgaryzmów
+  src/reports/       zgłoszenia (przepisy, opinie, użytkownicy), auto-ukrycie, kolejka admina
   src/mail/          maile (PL/EN)
   test/              testy integracyjne API
 frontend/
@@ -147,7 +149,7 @@ e2e/                 testy Playwright
 
 ### Plan
 
-0. Fundament ✅ · 1. Konta ✅ · 2. Składniki i alergeny ✅ · 3. Przepisy, tryb gotowania, zdjęcia ✅ · 4. Profil żywieniowy, kalkulator, preferencje, RODO (eksport/usuwanie) ✅ · 5. Gospodarstwa domowe ✅ · 6a. Planer (tryb prosty) ✅ · 6b. Dokładne porcje dla rodzin ✅ · 7a. Lodówka i lista zakupów ✅ · 7b. Cenniki i koszty ✅ · 8. Warianty i oceny ✅ · 9. Moderacja i panel admina · 10. PWA · 11. Wdrożenie
+0. Fundament ✅ · 1. Konta ✅ · 2. Składniki i alergeny ✅ · 3. Przepisy, tryb gotowania, zdjęcia ✅ · 4. Profil żywieniowy, kalkulator, preferencje, RODO (eksport/usuwanie) ✅ · 5. Gospodarstwa domowe ✅ · 6a. Planer (tryb prosty) ✅ · 6b. Dokładne porcje dla rodzin ✅ · 7a. Lodówka i lista zakupów ✅ · 7b. Cenniki i koszty ✅ · 8. Warianty i oceny ✅ · 9a. Zgłoszenia i kolejka moderacji ✅ · 9b. Blokady kont i role · 10. PWA · 11. Wdrożenie
 
 ---
 

@@ -122,7 +122,10 @@
     "PERSON_UNKNOWN": "There is no such person in the household.",
     "ITEM_INVALID": "Choose an ingredient from the database or type your own name.",
     "PRICE_INVALID": "Enter the package size and price (e.g. 1 kg - 4.29).",
-    "OWN_RECIPE": "You cannot rate your own recipe."
+    "OWN_RECIPE": "You cannot rate your own recipe.",
+    "ALREADY_REPORTED": "You have already reported this - it is awaiting a moderator decision.",
+    "OWN_CONTENT": "You cannot report your own content.",
+    "REPORT_INVALID": "This content cannot be reported."
   },
   "auth": {
     "fields": {
@@ -1031,5 +1034,66 @@
     "none": "This recipe has no reviews yet.",
     "more": "Show more reviews",
     "ariaOne": "Rated {{value}} out of 5"
+  },
+  "moderation": {
+    "report": "Report",
+    "reportRecipe": "Report recipe",
+    "reportUser": "Report user {{name}}",
+    "reportRatingAria": "Report review by {{name}}",
+    "reportTitle": {
+      "RECIPE": "Report recipe",
+      "RATING": "Report review",
+      "USER": "Report user"
+    },
+    "target": {
+      "RECIPE": "Recipe",
+      "RATING": "Review",
+      "USER": "User"
+    },
+    "reason": "Reason",
+    "reasons": {
+      "OFFENSIVE": "Offensive or inappropriate",
+      "SPAM": "Spam or advertising",
+      "DANGEROUS": "Dangerous (e.g. a health risk)",
+      "OTHER": "Other reason"
+    },
+    "details": "Description (optional)",
+    "reportHint": "Your report goes to moderators. You can follow its status in account settings.",
+    "send": "Send report",
+    "sent": "Thank you, your report has been sent to moderators.",
+    "sentHidden": "Thank you. After several reports the content has been hidden until moderators decide.",
+    "hiddenUser": "User",
+    "ratingHidden": "Hidden by moderators",
+    "autoHidden": "Hidden automatically after user reports - awaiting a moderator decision.",
+    "mineTitle": "My reports",
+    "status": {
+      "OPEN": "In review",
+      "ACCEPTED": "Accepted",
+      "REJECTED": "Rejected"
+    }
+  },
+  "admin": {
+    "lead": "User reports and content awaiting a decision.",
+    "shortcuts": "Admin shortcuts",
+    "reportsTitle": "Reports",
+    "statusFilter": "Report status",
+    "statusTab": {
+      "OPEN": "Open",
+      "ACCEPTED": "Accepted",
+      "REJECTED": "Rejected"
+    },
+    "empty": "No reports.",
+    "count": "Reports: {{n}}",
+    "hidden": "Hidden",
+    "autoHidden": "Hidden automatically",
+    "ratingBy": "Review by {{name}} on “{{recipe}}”",
+    "openRecipe": "Open recipe",
+    "reportsList": "Report details",
+    "note": "Note",
+    "noteLabel": "Reason (shown to the author)",
+    "hide": "Hide",
+    "resetName": "Replace with a random name",
+    "restore": "Restore",
+    "reject": "Reject reports"
   }
 }

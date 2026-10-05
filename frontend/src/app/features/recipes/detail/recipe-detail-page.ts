@@ -1,6 +1,8 @@
 import { Component, computed, effect, inject, input, signal, untracked, type OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialog } from '@angular/material/dialog';
+import { MatMenuModule } from '@angular/material/menu';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { Title } from '@angular/platform-browser';
@@ -16,6 +18,7 @@ import { scaleAmount } from '../recipe-units';
 import { formatMoney, PricesApi, type Cost } from '../../prices/prices.api';
 import { ShoppingApi, type AddResult } from '../../shopping/shopping.api';
 import { RecipesApi } from '../recipes.api';
+import { ReportDialog, type ReportDialogData } from '../../moderation/report-dialog';
 import { RecipeCommunityComponent } from './recipe-community';
 import { StarsComponent } from './stars';
 import type { RatingSummary, RecipeDetail, RecipeLine } from '../recipes.models';
@@ -48,6 +51,7 @@ export function groupLines(lines: RecipeLine[]): LineGroup[] {
     TranslocoDirective,
     NutritionTableComponent,
     RecipeCommunityComponent,
+    MatMenuModule,
     StarsComponent,
     LocalizedPipe,
     NumberPipe,
@@ -96,6 +100,19 @@ export class RecipeDetailPage implements OnInit {
         }, 250);
       });
     });
+  }
+
+  private readonly dialog = inject(MatDialog);
+
+  /** Zgłoszenie przepisu albo jego autora */
+  protected report(targetType: 'RECIPE' | 'USER'): void {
+    const r = this.recipe();
+    if (!r) return;
+    const data: ReportDialogData =
+      targetType === 'RECIPE'
+        ? { target: { targetType, recipeId: r.id }, label: r.title }
+        : { target: { targetType, userId: r.author!.id }, label: r.author!.username };
+    this.dialog.open(ReportDialog, { width: '480px', maxWidth: '100vw', data });
   }
 
   /** Po ocenie: nowa średnia w nagłówku */

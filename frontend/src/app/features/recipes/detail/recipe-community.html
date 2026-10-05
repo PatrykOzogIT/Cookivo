@@ -99,14 +99,31 @@
 
     @if (ratings().length) {
       <ul class="ratings">
-        @for (r of ratings(); track r.username) {
+        @for (r of ratings(); track r.userId) {
           <li>
             <div class="who">
-              <strong>{{ r.username }}</strong>
+              <strong>{{ r.username ?? t('moderation.hiddenUser') }}</strong>
               @if (r.isMine) {
                 <span class="muted">({{ t('household.you') }})</span>
               }
               <app-stars [value]="r.stars" [lang]="lang()" [showValue]="false" />
+              @if (r.hidden) {
+                <span class="hidden-tag">{{ t('moderation.ratingHidden') }}</span>
+              }
+              @if (auth.isLoggedIn() && !r.isMine) {
+                <button
+                  mat-button
+                  type="button"
+                  class="ck-report-btn"
+                  (click)="reportRating(r)"
+                  [attr.aria-label]="
+                    t('moderation.reportRatingAria', { name: r.username ?? t('moderation.hiddenUser') })
+                  "
+                >
+                  <span class="material-symbols-rounded" aria-hidden="true">flag</span
+                  >{{ t('moderation.report') }}
+                </button>
+              }
             </div>
             @if (r.comment) {
               <p>{{ r.comment }}</p>
