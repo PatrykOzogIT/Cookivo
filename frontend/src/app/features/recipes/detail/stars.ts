@@ -41,7 +41,7 @@ import { TranslocoDirective } from '@jsverse/transloco';
       color: var(--ck-text-muted);
     }
     .filled {
-      color: var(--ck-accent-to);
+      color: var(--ck-link);
       font-variation-settings: 'FILL' 1;
     }
     .value {

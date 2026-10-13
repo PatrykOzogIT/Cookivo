@@ -139,6 +139,10 @@ frontend/
 e2e/                 testy Playwright
 ```
 
+### Wdrożenie
+
+Produkcja: **https://cookivo.pl** - każdy push do `main` po zielonych testach aktualizuje stronę (GitHub Actions: build → migracje na Neon → FTP → restart → sprawdzenie). Szczegóły i konfiguracja: [docs/WDROZENIE.md](docs/WDROZENIE.md).
+
 ### Bezpieczeństwo (skrót)
 
 - Hasła: argon2id, min. 12 znaków, ocena siły zxcvbn (PL/EN), sprawdzanie wycieków HaveIBeenPwned (k-anonymity).

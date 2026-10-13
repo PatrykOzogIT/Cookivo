@@ -62,7 +62,7 @@ import { TranslocoDirective } from '@jsverse/transloco';
       color: var(--ck-text-muted);
     }
     label.on .material-symbols-rounded {
-      color: var(--ck-accent-to);
+      color: var(--ck-link);
       font-variation-settings: 'FILL' 1;
     }
     label:has(input:focus-visible) {

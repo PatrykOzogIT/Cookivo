@@ -8,6 +8,14 @@ import type { Env } from './config/env.js';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  // Na hostingu aplikacja jest podpięta pod /api (Passenger). Gdyby serwer obciął ten przedrostek,
+  // przywracamy go - w produkcji cały ruch do Node to i tak wyłącznie /api/*.
+  if (process.env['NODE_ENV'] === 'production') {
+    app.use((req: { url: string }, _res: unknown, next: () => void) => {
+      if (!req.url.startsWith('/api')) req.url = '/api' + (req.url.startsWith('/') ? '' : '/') + req.url;
+      next();
+    });
+  }
   configureApp(app);
   const config = app.get<ConfigService<Env, true>>(ConfigService);
 
