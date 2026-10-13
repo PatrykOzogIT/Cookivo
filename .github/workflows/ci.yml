@@ -57,6 +57,10 @@ jobs:
           node-version: ${{ matrix.node }}
           cache: npm
           cache-dependency-path: backend/package-lock.json
+      # Node 22 ma npm 10, który inaczej czyta lockfile z npm 11 (zależności peer) - tylko narzędzie instalacji,
+      # na hostingu npm nie jest używany (wgrywamy gotową paczkę)
+      - if: matrix.node == 22
+        run: npm install -g npm@11
       - run: npm ci
       - run: npm run lint
       - run: npm run typecheck
