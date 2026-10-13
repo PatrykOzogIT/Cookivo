@@ -17,6 +17,9 @@ export class MailService {
       host: config.get('SMTP_HOST', { infer: true }),
       port: config.get('SMTP_PORT', { infer: true }),
       secure: config.get('SMTP_SECURE', { infer: true }),
+      // Port 587 (STARTTLS): w produkcji szyfrowanie obowiązkowe - bez niego mail się nie wyśle,
+      // zamiast pójść otwartym tekstem. Lokalny Mailpit działa bez TLS.
+      requireTLS: config.get('NODE_ENV', { infer: true }) === 'production',
       auth: user ? { user, pass: config.get('SMTP_PASS', { infer: true }) } : undefined,
       // Domyślnie nodemailer czeka na serwer do 2 min - żądanie użytkownika nie może tyle wisieć
       connectionTimeout: 10_000,

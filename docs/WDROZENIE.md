@@ -18,26 +18,34 @@ GitHub Actions ── FTP(S) ──► pliki na hostingu
 - Restart aplikacji: Passenger restartuje ją, gdy zmieni się `tmp/restart.txt` (wgrywany na końcu).
 - Konfiguracja (`.env`) powstaje w Actions z sekretów i trafia do katalogu aplikacji poza `public_html`.
 - Zdjęcia: `UPLOADS_DIR` poza katalogiem wdrożenia (np. `../cookivo-data/uploads`), więc wdrożenie ich nie nadpisuje.
+- Osobne konto FTP zamknięte w katalogu domeny - wdrożenie nie ma dostępu do reszty hostingu:
+
+```
+/home/<login>/domains/cookivo.pl/   ← katalog główny konta FTP "deploy@cookivo.pl"
+├── public_html/     frontend
+├── cookivo-api/     backend (Setup Node.js App)
+└── cookivo-data/uploads/   zdjęcia
+```
 
 ## Jednorazowa konfiguracja
 
 ### 1. Hosting (DirectAdmin)
 
 1. **SSL**: certyfikat Let's Encrypt dla `cookivo.pl` i `www.cookivo.pl` (przed pierwszym wdrożeniem - `.htaccess` przekierowuje na HTTPS).
-2. **Poczta**: skrzynka np. `no-reply@cookivo.pl`; dane SMTP z panelu (zwykle serwer `mail.cookivo.pl`, port 465 SSL).
+2. **Poczta**: skrzynka np. `no-reply@cookivo.pl`; dane SMTP z panelu: `mail.cookivo.pl`, port 587 (STARTTLS - w produkcji wymuszony) albo 465 (SSL).
 3. **Setup Node.js App → Create application**:
 
-   | Pole                     | Wartość              |
-   | ------------------------ | -------------------- |
-   | Wersja Node.js           | 22.x                 |
-   | Tryb aplikacji           | Production           |
-   | Katalog główny aplikacji | `cookivo-api`        |
-   | URL aplikacji            | `cookivo.pl` / `api` |
-   | Plik startowy            | `app.cjs`            |
+   | Pole                     | Wartość                          |
+   | ------------------------ | -------------------------------- |
+   | Wersja Node.js           | 22.x                             |
+   | Tryb aplikacji           | Production                       |
+   | Katalog główny aplikacji | `domains/cookivo.pl/cookivo-api` |
+   | URL aplikacji            | `cookivo.pl` / `api`             |
+   | Plik startowy            | `app.cjs`                        |
 
    Zmiennych środowiskowych w panelu nie trzeba - aplikacja czyta `.env` wgrywany przy wdrożeniu.
 
-4. **FTP**: serwer i login konta FTP (najlepiej z FTPS). Ścieżki są względem katalogu, w którym loguje się konto FTP.
+4. **FTP**: osobne konto (np. `deploy@cookivo.pl`) z katalogiem `/home/<login>/domains/cookivo.pl` (opcja własnej ścieżki), połączenie FTPS (jawne FTP przez TLS). Ścieżki w zmiennych są względem tego katalogu.
 
 ### 2. Baza (Neon)
 
@@ -55,7 +63,7 @@ Projekt `cookivo`, region AWS Europe Central 1 (Frankfurt). Potrzebne dwa adresy
 | `DATABASE_URL`                                     | adres Neon z `-pooler`                                                                                  |
 | `DATABASE_URL_DIRECT`                              | adres Neon bez `-pooler`                                                                                |
 | `JWT_ACCESS_SECRET`                                | losowy, min. 32 znaki: `node -e "console.log(require('crypto').randomBytes(48).toString('base64url'))"` |
-| `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS` | dane skrzynki (port 465 = SSL)                                                                          |
+| `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS` | dane skrzynki (465 = SSL, 587 = STARTTLS)                                                               |
 | `FTP_SERVER`, `FTP_USERNAME`, `FTP_PASSWORD`       | konto FTP                                                                                               |
 
 **Variables**
@@ -66,7 +74,7 @@ Projekt `cookivo`, region AWS Europe Central 1 (Frankfurt). Potrzebne dwa adresy
 | `MAIL_FROM`        | `Cookivo <no-reply@cookivo.pl>`                                 |
 | `UPLOADS_DIR`      | `../cookivo-data/uploads`                                       |
 | `FTP_BACKEND_DIR`  | `cookivo-api/` (z ukośnikiem na końcu)                          |
-| `FTP_FRONTEND_DIR` | `domains/cookivo.pl/public_html/`                               |
+| `FTP_FRONTEND_DIR` | `public_html/`                                                  |
 | `FTP_PROTOCOL`     | `ftps` (domyślnie) albo `ftp`, jeśli hosting nie obsługuje FTPS |
 
 Na końcu w **Settings → Secrets and variables → Actions → Variables** (poziom repozytorium) ustaw `DEPLOY_ENABLED` = `true`. Bez tego zadanie wdrożenia jest pomijane.

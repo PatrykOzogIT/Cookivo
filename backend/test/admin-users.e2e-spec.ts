@@ -15,6 +15,8 @@ describe('Panel admina: użytkownicy, blokady, role (e2e)', () => {
   });
 
   beforeEach(async () => {
+    // Najpierw składniki: podprzepis (sub_recipe_id, RESTRICT) blokowałby usunięcie przepisów
+    await t.prisma.recipeIngredient.deleteMany();
     await t.prisma.recipe.deleteMany();
     await t.prisma.user.deleteMany();
     t.mails.length = 0;
