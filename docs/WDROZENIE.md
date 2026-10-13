@@ -14,6 +14,7 @@ GitHub Actions ── FTP(S) ──► pliki na hostingu
 ```
 
 - Hosting nie ma PostgreSQL ani SSH, dlatego baza jest w Neon, a pliki trafiają na serwer przez FTP.
+- Hosting blokuje wychodzący port 5432, więc aplikacja łączy się z Neon przez **WebSocket po 443** (`DB_DRIVER=neon`: `@prisma/adapter-neon` + `@neondatabase/serverless`). Lokalnie, w testach i przy migracjach z GitHub Actions - zwykły `pg` po TCP.
 - Backend wgrywamy jako jeden plik (`backend/scripts/bundle.mjs`: `dist/main.mjs` + moduły natywne `argon2`, `sharp` dla Linuksa x64 w `dist/node_modules`). Zależności nie są instalowane na serwerze.
 - Restart aplikacji: Passenger restartuje ją, gdy zmieni się `tmp/restart.txt` (wgrywany na końcu).
 - Konfiguracja (`.env`) powstaje w Actions z sekretów i trafia do katalogu aplikacji poza `public_html`.

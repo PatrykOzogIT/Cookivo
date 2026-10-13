@@ -32,6 +32,7 @@
     "db:usda": "tsx prisma/seed/tools/usda-extract.ts"
   },
   "dependencies": {
+    "@neondatabase/serverless": "^1.2.0",
     "@nestjs/common": "^12.0.1",
     "@nestjs/config": "^12.0.1",
     "@nestjs/core": "^12.0.1",
@@ -39,6 +40,7 @@
     "@nestjs/platform-express": "^12.0.1",
     "@nestjs/swagger": "^12.0.2",
     "@nestjs/throttler": "^6.7.1",
+    "@prisma/adapter-neon": "^7.10.0",
     "@prisma/adapter-pg": "^7.10.0",
     "@prisma/client": "^7.10.0",
     "@zxcvbn-ts/core": "^4.2.0",

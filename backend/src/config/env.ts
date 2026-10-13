@@ -10,6 +10,10 @@ export const envSchema = z.object({
   PORT: z.coerce.number().int().default(3000),
   APP_URL: z.url().default('http://localhost:4200'),
   DATABASE_URL: z.string().min(1),
+  /**
+   * Sterownik bazy: `pg` (TCP 5432) albo `neon` (WebSocket po 443 - hosting blokuje wychodzący port 5432).
+   */
+  DB_DRIVER: z.enum(['pg', 'neon']).default('pg'),
   JWT_ACCESS_SECRET: z.string().min(32),
   JWT_ACCESS_TTL_SECONDS: z.coerce.number().int().positive().default(900),
   REFRESH_TTL_DAYS: z.coerce.number().int().positive().default(30),

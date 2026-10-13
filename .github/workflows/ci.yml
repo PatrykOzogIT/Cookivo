@@ -199,6 +199,8 @@ jobs:
             echo "NODE_ENV='production'"
             echo "APP_URL='$APP_URL'"
             echo "DATABASE_URL='$DATABASE_URL'"
+            # Hosting blokuje wychodzący port 5432 - z Neon przez WebSocket (443)
+            echo "DB_DRIVER='neon'"
             echo "JWT_ACCESS_SECRET='$JWT_ACCESS_SECRET'"
             echo "SMTP_HOST='$SMTP_HOST'"
             echo "SMTP_PORT='$SMTP_PORT'"
