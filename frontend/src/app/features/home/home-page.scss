@@ -67,7 +67,11 @@ h1 {
   position: absolute;
   inset: 0;
   border-radius: 50%;
-  background: conic-gradient(#e8704a 0 32%, #f2a65a 32% 75%, #7fa37a 75% 100%);
+  background: conic-gradient(
+    var(--ck-chart-protein) 0 32%,
+    var(--ck-chart-carbs) 32% 75%,
+    var(--ck-chart-fats) 75% 100%
+  );
   box-shadow: var(--ck-shadow-lg);
   animation: spin-in 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
 }

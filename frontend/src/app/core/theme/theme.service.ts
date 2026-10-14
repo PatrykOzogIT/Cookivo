@@ -1,7 +1,10 @@
 import { DOCUMENT, Injectable, effect, inject, signal } from '@angular/core';
 import { safeStorage } from '../storage';
 
-export type ThemePreference = 'system' | 'light' | 'dark';
+/** Motyw wizualny; `auto` = wg ustawień systemu (ciemny → midnight, zwiększony kontrast → contrast) */
+export type ThemePreference = 'auto' | 'fresh' | 'citrus' | 'midnight' | 'contrast';
+
+export const THEMES: readonly ThemePreference[] = ['auto', 'fresh', 'citrus', 'midnight', 'contrast'];
 
 const STORAGE_KEY = 'ck-theme';
 
@@ -15,7 +18,7 @@ export class ThemeService {
     effect(() => {
       const pref = this.preference();
       const root = this.document.documentElement;
-      if (pref === 'system') {
+      if (pref === 'auto') {
         delete root.dataset['theme'];
         safeStorage.remove(STORAGE_KEY);
       } else {
@@ -25,14 +28,15 @@ export class ThemeService {
     });
   }
 
-  /** Cykl: systemowy → jasny → ciemny → systemowy */
-  cycle(): void {
-    const order: ThemePreference[] = ['system', 'light', 'dark'];
-    this.preference.update((p) => order[(order.indexOf(p) + 1) % order.length]);
+  set(pref: ThemePreference): void {
+    this.preference.set(pref);
   }
 }
 
-function readPreference(): ThemePreference {
+/** Zapisany wybór; dawne "light"/"dark" przechodzą na Fresh & Tasty / Midnight Mango */
+export function readPreference(): ThemePreference {
   const stored = safeStorage.get(STORAGE_KEY);
-  return stored === 'light' || stored === 'dark' ? stored : 'system';
+  if (stored === 'light') return 'fresh';
+  if (stored === 'dark') return 'midnight';
+  return THEMES.includes(stored as ThemePreference) ? (stored as ThemePreference) : 'auto';
 }

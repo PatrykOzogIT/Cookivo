@@ -7,7 +7,7 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { AuthService } from './core/auth/auth.service';
 import { LanguageService } from './core/i18n/language.service';
-import { ThemeService } from './core/theme/theme.service';
+import { THEMES, ThemeService, type ThemePreference } from './core/theme/theme.service';
 import { LogoComponent } from './layout/logo';
 import { GUEST_BOTTOM_NAV, GUEST_NAV, USER_BOTTOM_NAV, USER_MENU, USER_NAV } from './layout/navigation';
 
@@ -40,9 +40,15 @@ export class App {
   protected readonly userMenu = USER_MENU;
   protected readonly year = new Date().getFullYear();
 
-  protected readonly themeIcon = computed(
-    () => ({ system: 'brightness_auto', light: 'light_mode', dark: 'dark_mode' })[this.theme.preference()],
-  );
+  protected readonly themes = THEMES;
+  /** Podgląd kolorów w menu motywu (tło, kolor główny, akcent) - stały, niezależny od bieżącego motywu */
+  protected readonly swatches: Record<ThemePreference, readonly string[]> = {
+    auto: ['#f8f6ec', '#171f1b', '#237a53'],
+    fresh: ['#f8f6ec', '#237a53', '#ff8a4c'],
+    citrus: ['#f3f5e9', '#235a45', '#d2e85a'],
+    midnight: ['#171f1b', '#ffb547', '#8acb82'],
+    contrast: ['#ffffff', '#111111', '#0040a8'],
+  };
 
   protected readonly initials = computed(() => this.auth.user()?.username.slice(0, 2).toUpperCase() ?? '');
 

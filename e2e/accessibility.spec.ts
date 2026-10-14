@@ -1,9 +1,10 @@
 import AxeBuilder from '@axe-core/playwright';
 import { expect, test } from '@playwright/test';
+import { createUser, loginUi } from './support/users';
 
 /**
  * Automatyczny audyt WCAG 2.1 AA (axe-core) kluczowych stron,
- * w każdym projekcie (desktop / tablet / telefon) i w obu motywach.
+ * w każdym projekcie (desktop / tablet / telefon) i w każdym motywie.
  * Uwaga: axe wykrywa ok. 50% problemów - reszta to testy ręczne (klawiatura, czytnik ekranu).
  */
 const PAGES = [
@@ -17,9 +18,25 @@ const PAGES = [
   '/nie-ma',
 ];
 
-for (const scheme of ['light', 'dark'] as const) {
-  test.describe(`WCAG AA - motyw ${scheme}`, () => {
-    test.use({ colorScheme: scheme });
+/**
+ * Motywy: Fresh i Midnight przez ustawienia systemu (tryb Automatyczny), Citrus wybrany ręcznie,
+ * Wysoki kontrast przez prefers-contrast: more (też tryb Automatyczny).
+ */
+const THEMES = [
+  { name: 'fresh (auto, jasny system)', colorScheme: 'light', contrast: 'no-preference', stored: null },
+  { name: 'midnight (auto, ciemny system)', colorScheme: 'dark', contrast: 'no-preference', stored: null },
+  { name: 'citrus (wybrany)', colorScheme: 'light', contrast: 'no-preference', stored: 'citrus' },
+  { name: 'contrast (auto, prefers-contrast)', colorScheme: 'light', contrast: 'more', stored: null },
+] as const;
+
+for (const theme of THEMES) {
+  test.describe(`WCAG AA - motyw ${theme.name}`, () => {
+    test.use({ colorScheme: theme.colorScheme, contrast: theme.contrast });
+    test.beforeEach(async ({ page }) => {
+      if (theme.stored) {
+        await page.addInitScript((t) => localStorage.setItem('ck-theme', t), theme.stored);
+      }
+    });
 
     for (const path of PAGES) {
       test(`${path}`, async ({ page }) => {
@@ -56,3 +73,35 @@ test('skip link przenosi fokus do treści', async ({ page, isMobile }) => {
   await expect(page.locator('#main')).toBeFocused();
   await expect(page).toHaveURL('/recipes');
 });
+
+/** Strony po zalogowaniu w motywach innych niż domyślny (domyślny sprawdzają testy funkcji) */
+const USER_PAGES = [
+  '/planner',
+  '/shopping',
+  '/pantry',
+  '/profile',
+  '/settings',
+  '/recipes/new',
+  '/household',
+  '/prices',
+];
+
+for (const stored of ['citrus', 'midnight', 'contrast'] as const) {
+  test(`WCAG AA - strony po zalogowaniu, motyw ${stored}`, async ({ page, request }) => {
+    test.slow();
+    const user = await createUser(request, 'motyw');
+    await page.addInitScript((t) => localStorage.setItem('ck-theme', t), stored);
+    await loginUi(page, user);
+    for (const path of USER_PAGES) {
+      await page.goto(path);
+      await expect(page.locator('main h1').first()).toBeVisible();
+      await page.waitForTimeout(800);
+      const results = await new AxeBuilder({ page })
+        .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'])
+        .analyze();
+      expect(
+        results.violations.map((v) => ({ path, id: v.id, nodes: v.nodes.map((n) => n.target.join(' ')) })),
+      ).toEqual([]);
+    }
+  });
+}

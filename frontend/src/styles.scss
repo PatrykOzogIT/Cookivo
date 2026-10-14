@@ -1,20 +1,156 @@
 @use '@angular/material' as mat;
 
 /*
- * Motyw Cookivo: ciepły, czysty, z gradientami.
- * Kolory definiujemy przez light-dark(), więc tryb jasny/ciemny przełącza
- * jedna właściwość `color-scheme` na <html> (patrz ThemeService).
- * Wszystkie pary tekst/tło spełniają kontrast WCAG AA (≥ 4.5:1).
+ * Motywy Cookivo. Komponenty używają wyłącznie tokenów --ck-*; motyw to zestaw wartości:
+ *   fresh    - Fresh & Tasty (jasny, zieleń + mandarynka)
+ *   citrus   - Citrus Club (jasny, głęboka zieleń + limonka)
+ *   midnight - Midnight Mango (ciemny, grafit + mango)
+ *   contrast - Wysoki kontrast (WCAG AAA: tekst ≥ 7:1, bez dekoracji)
+ * Bez data-theme (tryb "Automatyczny"): ustawienia systemu - ciemny → midnight,
+ * zwiększony kontrast → contrast, inaczej fresh. Wybór zapisuje ThemeService.
+ * Pary tekst/tło sprawdzone: ≥ 4.5:1 (AA), w motywie kontrastowym ≥ 7:1.
  */
 
-html {
-  color-scheme: light dark;
+@mixin theme-fresh {
+  color-scheme: light;
+  --ck-bg: #f8f6ec;
+  --ck-surface: #ffffff;
+  --ck-surface-2: #eaf1e5;
+  --ck-border: #dce6d8;
+  --ck-border-strong: #7c8f80;
+  --ck-text: #20392c;
+  --ck-text-muted: #526357;
+  --ck-link: #1e6e4a;
+  --ck-cta-from: #237a53;
+  --ck-cta-to: #1c6544;
+  --ck-cta-text: #ffffff;
+  --ck-accent-from: #ffb27a;
+  --ck-accent-to: #ff8a4c;
+  --ck-on-accent: #20392c;
+  --ck-accent-text: #a84a17;
+  // Tekst z gradientem tylko w dużych nagłówkach (WCAG: duży tekst ≥ 3:1)
+  --ck-grad-text-from: #1e6e4a;
+  --ck-grad-text-to: #4a8f2a;
+  --ck-hero: linear-gradient(135deg, #f8f6ec 0%, #eaf1e5 55%, #fde6d4 100%);
+  --ck-sage: #2f6b4a;
+  --ck-sage-bg: #e4eedf;
+  --ck-danger: #b3261e;
+  --ck-on-danger: #ffffff;
+  --ck-success: #2f6b2f;
+  --ck-focus: #1c6544;
+  --ck-chart-protein: #237a53;
+  --ck-chart-carbs: #e2702f;
+  --ck-chart-fats: #b98a1c;
+  --ck-shadow: 0 4px 24px rgb(32 57 44 / 0.07);
+  --ck-shadow-lg: 0 12px 40px rgb(32 57 44 / 0.13);
+}
 
+@mixin theme-citrus {
+  color-scheme: light;
+  --ck-bg: #f3f5e9;
+  --ck-surface: #ffffff;
+  --ck-surface-2: #e7eddc;
+  --ck-border: #d8e2d2;
+  --ck-border-strong: #77887b;
+  --ck-text: #19352d;
+  --ck-text-muted: #4d6054;
+  --ck-link: #235a45;
+  --ck-cta-from: #235a45;
+  --ck-cta-to: #194733;
+  --ck-cta-text: #ffffff;
+  // Limonka tylko jako tło z ciemnym tekstem (na bieli ma kontrast 1.4:1)
+  --ck-accent-from: #e3f08a;
+  --ck-accent-to: #d2e85a;
+  --ck-on-accent: #19352d;
+  --ck-accent-text: #4f6510;
+  --ck-grad-text-from: #235a45;
+  --ck-grad-text-to: #4f6510;
+  --ck-hero: linear-gradient(135deg, #f3f5e9 0%, #e7eddc 55%, #eef5c8 100%);
+  --ck-sage: #2d5e46;
+  --ck-sage-bg: #e2ead3;
+  --ck-danger: #b3261e;
+  --ck-on-danger: #ffffff;
+  --ck-success: #2f6b2f;
+  --ck-focus: #194733;
+  --ck-chart-protein: #235a45;
+  --ck-chart-carbs: #7e9a14;
+  --ck-chart-fats: #c17a26;
+  --ck-shadow: 0 4px 24px rgb(25 53 45 / 0.07);
+  --ck-shadow-lg: 0 12px 40px rgb(25 53 45 / 0.13);
+}
+
+@mixin theme-midnight {
+  color-scheme: dark;
+  --ck-bg: #171f1b;
+  --ck-surface: #26312a;
+  --ck-surface-2: #1e2922;
+  --ck-border: #405045;
+  --ck-border-strong: #7d9184;
+  --ck-text: #f7f4e9;
+  --ck-text-muted: #c2cdbf;
+  --ck-link: #ffc66c;
+  --ck-cta-from: #ffc66c;
+  --ck-cta-to: #ffb547;
+  --ck-cta-text: #171f1b;
+  --ck-accent-from: #ffc66c;
+  --ck-accent-to: #ffb547;
+  --ck-on-accent: #171f1b;
+  --ck-accent-text: #ffc66c;
+  --ck-grad-text-from: #ffd08a;
+  --ck-grad-text-to: #ffb547;
+  --ck-hero: linear-gradient(135deg, #1e2922 0%, #222e27 55%, #2b3326 100%);
+  --ck-sage: #8acb82;
+  --ck-sage-bg: #22352a;
+  --ck-danger: #ffb4ab;
+  --ck-on-danger: #171f1b;
+  --ck-success: #9fd49a;
+  --ck-focus: #ffc66c;
+  --ck-chart-protein: #ffb547;
+  --ck-chart-carbs: #8acb82;
+  --ck-chart-fats: #f28b56;
+  --ck-shadow: 0 4px 24px rgb(0 0 0 / 0.35);
+  --ck-shadow-lg: 0 12px 40px rgb(0 0 0 / 0.5);
+}
+
+@mixin theme-contrast {
+  color-scheme: light;
+  --ck-bg: #ffffff;
+  --ck-surface: #ffffff;
+  --ck-surface-2: #f1f1f1;
+  --ck-border: #5c5c5c;
+  --ck-border-strong: #1a1a1a;
+  --ck-text: #111111;
+  --ck-text-muted: #303030;
+  --ck-link: #0040a8;
+  --ck-cta-from: #0b4a2e;
+  --ck-cta-to: #0b4a2e;
+  --ck-cta-text: #ffffff;
+  --ck-accent-from: #0b4a2e;
+  --ck-accent-to: #0b4a2e;
+  --ck-on-accent: #ffffff;
+  --ck-accent-text: #7a2e00;
+  --ck-grad-text-from: #0b4a2e;
+  --ck-grad-text-to: #0b4a2e;
+  --ck-hero: #ffffff;
+  --ck-sage: #0b4a2e;
+  --ck-sage-bg: #f1f1f1;
+  --ck-danger: #8c0000;
+  --ck-on-danger: #ffffff;
+  --ck-success: #0a4a0a;
+  --ck-focus: #0040a8;
+  --ck-chart-protein: #0b4a2e;
+  --ck-chart-carbs: #7a2e00;
+  --ck-chart-fats: #5c4300;
+  --ck-shadow: none;
+  --ck-shadow-lg: 0 0 0 2px #1a1a1a;
+}
+
+html {
   @include mat.theme(
     (
       color: (
-        primary: mat.$orange-palette,
-        tertiary: mat.$green-palette,
+        primary: mat.$green-palette,
+        tertiary: mat.$orange-palette,
         theme-type: color-scheme,
       ),
       typography: (
@@ -25,37 +161,37 @@ html {
     )
   );
 
-  // --- Tokeny aplikacji -----------------------------------------------------
-  --ck-bg: light-dark(#fff8f1, #17120f);
-  --ck-surface: light-dark(#ffffff, #231c18);
-  --ck-surface-2: light-dark(#fdf0e4, #2d2420);
-  --ck-border: light-dark(#eeddcd, #3d322c);
-  --ck-text: light-dark(#2e2a26, #f5ede6);
-  --ck-text-muted: light-dark(#665c54, #c7b9ad);
-  --ck-link: light-dark(#a8461f, #f6b183);
-
-  // Przyciski: tekst na gradiencie ma kontrast ≥ 4.5:1 w obu trybach
-  --ck-cta-from: light-dark(#bf5129, #f2a65a);
-  --ck-cta-to: light-dark(#9e3f24, #e8704a);
-  --ck-cta-text: light-dark(#ffffff, #1a1512);
-
-  // Gradienty dekoracyjne (bez tekstu na nich albo z ciemnym tekstem)
-  --ck-accent-from: #f2a65a;
-  --ck-accent-to: #e8704a;
-  --ck-hero: light-dark(
-    linear-gradient(135deg, #fff1e4 0%, #ffe0cb 55%, #fbd3c0 100%),
-    linear-gradient(135deg, #2a1f1a 0%, #33241d 55%, #3a2620 100%)
+  // Material korzysta z tych samych tokenów - pola, menu i przełączniki zmieniają się z motywem
+  @include mat.theme-overrides(
+    (
+      primary: var(--ck-cta-from),
+      on-primary: var(--ck-cta-text),
+      primary-container: var(--ck-surface-2),
+      on-primary-container: var(--ck-text),
+      secondary-container: var(--ck-surface-2),
+      on-secondary-container: var(--ck-text),
+      surface: var(--ck-surface),
+      on-surface: var(--ck-text),
+      on-surface-variant: var(--ck-text-muted),
+      surface-container-lowest: var(--ck-surface),
+      surface-container-low: var(--ck-surface),
+      surface-container: var(--ck-surface),
+      surface-container-high: var(--ck-surface),
+      surface-container-highest: var(--ck-surface-2),
+      outline: var(--ck-border-strong),
+      outline-variant: var(--ck-border),
+      error: var(--ck-danger),
+    )
   );
-  --ck-sage: light-dark(#4f7a4a, #a9cba4);
-  --ck-sage-bg: light-dark(#e9f2e6, #243024);
-  --ck-danger: light-dark(#b3261e, #ffb4ab);
-  --ck-success: light-dark(#2f6b2f, #9fd49a);
+
+  // Tryb "Automatyczny": domyślnie Fresh & Tasty
+  @include theme-fresh;
+
+  // Płynna zmiana kolorów przy przełączaniu motywu (bez animacji układu)
+  --ck-theme-transition: background-color 0.22s ease, color 0.22s ease, border-color 0.22s ease;
 
   --ck-radius: 16px;
   --ck-radius-sm: 10px;
-  --ck-shadow: light-dark(0 4px 24px rgb(94 58 33 / 0.08), 0 4px 24px rgb(0 0 0 / 0.35));
-  --ck-shadow-lg: light-dark(0 12px 40px rgb(94 58 33 / 0.14), 0 12px 40px rgb(0 0 0 / 0.5));
-  --ck-focus: light-dark(#9e3f24, #f6b183);
 
   --ck-header-h: 64px;
   --ck-bottom-nav-h: 64px;
@@ -82,11 +218,52 @@ html {
   }
 }
 
-html[data-theme='light'] {
-  color-scheme: light;
+// Tryb "Automatyczny" (brak data-theme): ustawienia systemu
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme]) {
+    @include theme-midnight;
+  }
 }
-html[data-theme='dark'] {
-  color-scheme: dark;
+@media (prefers-contrast: more) {
+  html:not([data-theme]) {
+    @include theme-contrast;
+  }
+}
+
+// Wybór użytkownika
+html[data-theme='fresh'] {
+  @include theme-fresh;
+}
+html[data-theme='citrus'] {
+  @include theme-citrus;
+}
+html[data-theme='midnight'] {
+  @include theme-midnight;
+}
+html[data-theme='contrast'] {
+  @include theme-contrast;
+}
+
+// Wysoki kontrast: wyraźniejsze obramowania i fokus, linki zawsze podkreślone
+html[data-theme='contrast'] {
+  --ck-focus-width: 4px;
+  .ck-card {
+    border-width: 2px;
+  }
+  a:not(.mat-mdc-button-base) {
+    text-decoration: underline;
+  }
+}
+@media (prefers-contrast: more) {
+  html:not([data-theme]) {
+    --ck-focus-width: 4px;
+    .ck-card {
+      border-width: 2px;
+    }
+    a:not(.mat-mdc-button-base) {
+      text-decoration: underline;
+    }
+  }
 }
 
 // --- Podstawy ----------------------------------------------------------------
@@ -116,6 +293,7 @@ body {
   margin: 0;
   background: var(--ck-bg);
   color: var(--ck-text);
+  transition: var(--ck-theme-transition);
   font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
   font-size: 16px;
   line-height: 1.55;
@@ -139,7 +317,7 @@ a {
 
 // WCAG 2.4.7: widoczny fokus dla klawiatury
 :focus-visible {
-  outline: 3px solid var(--ck-focus);
+  outline: var(--ck-focus-width, 3px) solid var(--ck-focus);
   outline-offset: 2px;
   border-radius: 4px;
 }
@@ -214,7 +392,7 @@ a {
     transform 0.15s ease,
     box-shadow 0.2s ease;
   &:hover {
-    box-shadow: 0 6px 18px rgb(191 81 41 / 0.35);
+    box-shadow: 0 6px 18px color-mix(in srgb, var(--ck-cta-from) 35%, transparent);
     transform: translateY(-1px);
   }
 }
@@ -226,7 +404,7 @@ a {
 
 // Tekst z gradientem - ciemniejsze odcienie niż dekoracje, żeby trzymać kontrast AA
 .gradient-text {
-  background: linear-gradient(135deg, light-dark(#c2552a, #f8c08f), light-dark(#9a3b22, #f08a5d));
+  background: linear-gradient(135deg, var(--ck-grad-text-from), var(--ck-grad-text-to));
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -277,5 +455,44 @@ a {
   .material-symbols-rounded {
     font-size: 1.1em;
     margin-right: 2px;
+  }
+}
+
+// Menu motywu w nagłówku (panel menu jest w nakładce poza komponentami)
+.ck-theme-menu {
+  .mat-mdc-menu-item {
+    min-height: 52px;
+  }
+  .mat-mdc-menu-item-text {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+  }
+  .theme-swatch {
+    display: inline-flex;
+    flex: none;
+    span {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      border: 1px solid var(--ck-border-strong);
+      & + span {
+        margin-left: -5px;
+      }
+    }
+  }
+  .theme-name {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.25;
+    small {
+      color: var(--ck-text-muted);
+      font-size: 0.75rem;
+    }
+  }
+  .theme-check {
+    margin-left: auto;
+    color: var(--ck-link);
   }
 }

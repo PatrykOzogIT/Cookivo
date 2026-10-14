@@ -44,9 +44,9 @@
   height: 56px;
   border-radius: 16px;
   background: linear-gradient(135deg, var(--ck-accent-from), var(--ck-accent-to));
-  color: #fff;
+  color: var(--ck-on-accent);
   font-size: 30px;
-  box-shadow: 0 8px 20px rgb(232 112 74 / 0.3);
+  box-shadow: 0 8px 20px color-mix(in srgb, var(--ck-accent-to) 30%, transparent);
 }
 
 .status {
@@ -177,7 +177,7 @@
   }
   .danger-fill:not(:disabled) {
     background: var(--ck-danger);
-    color: light-dark(#fff, #1a1512);
+    color: var(--ck-on-danger);
   }
 }
 

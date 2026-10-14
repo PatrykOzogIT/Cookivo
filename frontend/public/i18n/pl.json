@@ -9,9 +9,15 @@
   },
   "theme": {
     "label": "Motyw: {{mode}}",
-    "system": "systemowy",
-    "light": "jasny",
-    "dark": "ciemny"
+    "auto": "Automatyczny",
+    "fresh": "Fresh & Tasty",
+    "citrus": "Citrus Club",
+    "midnight": "Midnight Mango",
+    "contrast": "Wysoki kontrast",
+    "hint": {
+      "auto": "Jak w ustawieniach systemu",
+      "contrast": "Większa czytelność, bez dekoracji"
+    }
   },
   "nav": {
     "home": "Start",

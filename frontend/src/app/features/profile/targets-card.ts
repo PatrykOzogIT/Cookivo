@@ -100,13 +100,13 @@ import type { Targets } from './nutrition-calculator';
       }
     }
     [data-macro='protein'] .bar span {
-      background: var(--ck-sage);
+      background: var(--ck-chart-protein);
     }
     [data-macro='fat'] .bar span {
-      background: var(--ck-accent-from);
+      background: var(--ck-chart-fats);
     }
     [data-macro='carbs'] .bar span {
-      background: var(--ck-accent-to);
+      background: var(--ck-chart-carbs);
     }
     .meta,
     .note,

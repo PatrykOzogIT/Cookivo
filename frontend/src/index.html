@@ -9,8 +9,8 @@
       name="description"
       content="Cookivo - planuj posiłki pod swoje cele, twórz przepisy i listy zakupów."
     />
-    <meta name="theme-color" content="#fff8f1" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#17120f" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#f8f6ec" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#171f1b" media="(prefers-color-scheme: dark)" />
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -25,8 +25,17 @@
     <script>
       // Ustaw motyw przed renderem, żeby nie było mignięcia jasnego ekranu.
       try {
+        // Dawne "light"/"dark" → Fresh & Tasty / Midnight Mango (tak samo w ThemeService)
         var t = localStorage.getItem('ck-theme');
-        if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
+        var map = Object.assign(Object.create(null), {
+          light: 'fresh',
+          dark: 'midnight',
+          fresh: 'fresh',
+          citrus: 'citrus',
+          midnight: 'midnight',
+          contrast: 'contrast',
+        });
+        if (t && map[t]) document.documentElement.dataset.theme = map[t];
         var l = localStorage.getItem('ck-lang');
         if (l === 'pl' || l === 'en') document.documentElement.lang = l;
       } catch (e) {}

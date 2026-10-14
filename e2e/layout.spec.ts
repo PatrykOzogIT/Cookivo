@@ -49,13 +49,30 @@ test.describe('Układ i nawigacja', () => {
     await expect(page.getByRole('heading', { level: 1 })).toContainText('Eat well');
     await expect(page.locator('html')).toHaveAttribute('lang', 'en');
 
-    await page.getByRole('button', { name: /Theme/ }).click(); // system → jasny
-    await page.getByRole('button', { name: /Theme/ }).click(); // jasny → ciemny
-    await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+    await page.getByRole('button', { name: 'Theme: Automatic' }).click();
+    await expect(page.getByRole('menuitemradio', { name: /Automatic/ })).toHaveAttribute(
+      'aria-checked',
+      'true',
+    );
+    await page.getByRole('menuitemradio', { name: 'Midnight Mango' }).click();
+    await expect(page.locator('html')).toHaveAttribute('data-theme', 'midnight');
+    await expect(page.getByRole('button', { name: 'Theme: Midnight Mango' })).toBeVisible();
 
     await page.reload();
-    await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+    await expect(page.locator('html')).toHaveAttribute('data-theme', 'midnight');
     await expect(page.getByRole('heading', { level: 1 })).toContainText('Eat well');
+  });
+
+  test('dawny wybór jasny/ciemny przechodzi na nowe motywy', async ({ page }) => {
+    await page.addInitScript(() => {
+      if (!sessionStorage.getItem('ck-test-init')) {
+        localStorage.setItem('ck-theme', 'dark');
+        sessionStorage.setItem('ck-test-init', '1');
+      }
+    });
+    await page.goto('/');
+    await expect(page.locator('html')).toHaveAttribute('data-theme', 'midnight');
+    expect(await page.evaluate(() => localStorage.getItem('ck-theme'))).toBe('midnight');
   });
 
   test('cele dotykowe mają co najmniej 44 px', async ({ page, isMobile }) => {

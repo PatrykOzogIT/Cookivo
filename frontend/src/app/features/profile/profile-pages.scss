@@ -91,7 +91,7 @@ h1 {
 
 .danger-fill:not(:disabled) {
   background: var(--ck-danger);
-  color: light-dark(#fff, #1a1512);
+  color: var(--ck-on-danger);
 }
 
 .material-symbols-rounded {

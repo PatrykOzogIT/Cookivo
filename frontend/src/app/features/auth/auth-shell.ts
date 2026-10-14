@@ -59,8 +59,8 @@ import { Component, input } from '@angular/core';
       margin-bottom: 16px;
       border-radius: 16px;
       background: linear-gradient(135deg, var(--ck-accent-from), var(--ck-accent-to));
-      color: #fff;
-      box-shadow: 0 8px 20px rgb(232 112 74 / 0.35);
+      color: var(--ck-on-accent);
+      box-shadow: 0 8px 20px color-mix(in srgb, var(--ck-accent-to) 35%, transparent);
       .material-symbols-rounded {
         font-size: 30px;
       }

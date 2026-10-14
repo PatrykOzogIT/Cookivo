@@ -90,7 +90,7 @@ export const BLOCK_PERIODS = [1, 7, 30, 0] as const;
     }
     .danger-fill:not(:disabled) {
       background: var(--ck-danger);
-      color: light-dark(#fff, #1a1512);
+      color: var(--ck-on-danger);
     }
   `,
 })

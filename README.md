@@ -17,6 +17,7 @@ Angular and NestJS.
 - ⚠️ Allergies & food intolerances
 - ⭐ Recipe ratings and variants
 - 🚩 Content reports and moderation
+- 🎨 Four visual themes (Fresh & Tasty, Citrus Club, Midnight Mango, High contrast) + automatic mode
 
 ## Tech Stack
 

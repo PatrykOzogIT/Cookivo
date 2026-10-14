@@ -23,12 +23,38 @@
           <button
             mat-icon-button
             type="button"
-            (click)="theme.cycle()"
+            [matMenuTriggerFor]="themeMenuRef"
             [attr.aria-label]="t('theme.label', { mode: t('theme.' + theme.preference()) })"
             [matTooltip]="t('theme.label', { mode: t('theme.' + theme.preference()) })"
           >
-            <span class="material-symbols-rounded" aria-hidden="true">{{ themeIcon() }}</span>
+            <span class="material-symbols-rounded" aria-hidden="true">palette</span>
           </button>
+          <mat-menu #themeMenuRef="matMenu" xPosition="before" class="ck-theme-menu">
+            @for (option of themes; track option) {
+              <button
+                mat-menu-item
+                type="button"
+                role="menuitemradio"
+                [attr.aria-checked]="theme.preference() === option"
+                (click)="theme.set(option)"
+              >
+                <span class="theme-swatch" aria-hidden="true">
+                  @for (color of swatches[option]; track $index) {
+                    <span [style.background]="color"></span>
+                  }
+                </span>
+                <span class="theme-name">
+                  {{ t('theme.' + option) }}
+                  @if (option === 'auto' || option === 'contrast') {
+                    <small>{{ t('theme.hint.' + option) }}</small>
+                  }
+                </span>
+                @if (theme.preference() === option) {
+                  <span class="material-symbols-rounded theme-check" aria-hidden="true">check</span>
+                }
+              </button>
+            }
+          </mat-menu>
 
           @if (auth.user(); as user) {
             <button

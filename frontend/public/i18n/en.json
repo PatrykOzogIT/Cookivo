@@ -9,9 +9,15 @@
   },
   "theme": {
     "label": "Theme: {{mode}}",
-    "system": "system",
-    "light": "light",
-    "dark": "dark"
+    "auto": "Automatic",
+    "fresh": "Fresh & Tasty",
+    "citrus": "Citrus Club",
+    "midnight": "Midnight Mango",
+    "contrast": "High contrast",
+    "hint": {
+      "auto": "Follows your system",
+      "contrast": "Easier to read, no decorations"
+    }
   },
   "nav": {
     "home": "Home",
