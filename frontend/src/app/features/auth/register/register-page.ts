@@ -1,4 +1,4 @@
-import { Component, type Signal, computed, inject, signal } from '@angular/core';
+import { Component, type Signal, computed, inject, input, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -10,6 +10,7 @@ import { RouterLink } from '@angular/router';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { apiErrorCode } from '../../../core/api-error';
 import { AuthService } from '../../../core/auth/auth.service';
+import { rememberAfterSignup, safeReturnUrl } from '../../../core/auth/after-signup';
 import { LanguageService } from '../../../core/i18n/language.service';
 import { AuthShellComponent } from '../auth-shell';
 import { PasswordFieldComponent } from '../password/password-field';
@@ -79,6 +80,13 @@ export class RegisterPage {
 
   protected readonly pending = signal(false);
   protected readonly error = signal<string | null>(null);
+  /** Z query param - dokąd przejść po pierwszym logowaniu (np. funkcja wybrana na stronie głównej) */
+  readonly returnUrl = input<string>();
+  protected readonly loginQuery = computed(() => {
+    const url = safeReturnUrl(this.returnUrl());
+    return url === '/' ? null : { returnUrl: url };
+  });
+
   /** Po sukcesie pokazujemy ekran "sprawdź skrzynkę" */
   protected readonly sentTo = signal<string | null>(null);
 
@@ -110,6 +118,7 @@ export class RegisterPage {
         acceptTerms,
         locale: this.language.current() === 'en' ? 'en' : 'pl',
       });
+      rememberAfterSignup(this.returnUrl());
       this.sentTo.set(email.trim());
     } catch (err) {
       const code = apiErrorCode(err);

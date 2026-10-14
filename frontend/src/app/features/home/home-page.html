@@ -20,31 +20,62 @@
           }
           <a mat-stroked-button class="big" routerLink="/recipes">{{ t('home.ctaRecipes') }}</a>
         </div>
+
+        @if (!auth.isLoggedIn()) {
+          <div class="start">
+            <p class="start-title">{{ t('home.start.title') }}</p>
+            <ol>
+              @for (n of [1, 2, 3]; track n) {
+                <li>
+                  <span class="num" aria-hidden="true">{{ n }}</span
+                  >{{ t('home.start.s' + n) }}
+                </li>
+              }
+            </ol>
+            <p class="later">
+              <span class="material-symbols-rounded" aria-hidden="true">tune</span>{{ t('home.start.later') }}
+            </p>
+          </div>
+        } @else {
+          <p class="later">
+            <span class="material-symbols-rounded" aria-hidden="true">tune</span
+            >{{ t('home.start.laterUser') }}
+          </p>
+        }
       </div>
 
-      <div class="plate" aria-hidden="true">
-        <div class="ring"></div>
-        <div class="macro protein">
-          <strong>32%</strong><span>{{ t('nutrition.protein') }}</span>
-        </div>
-        <div class="macro carbs">
-          <strong>43%</strong><span>{{ t('nutrition.carbs') }}</span>
-        </div>
-        <div class="macro fat">
-          <strong>25%</strong><span>{{ t('nutrition.fat') }}</span>
-        </div>
-        <div class="kcal"><strong>2 150</strong><span>kcal</span></div>
-      </div>
+      <app-feature-showcase />
     </div>
   </section>
 
   <section class="features" [attr.aria-label]="t('home.featuresLabel')">
+    <h2 class="group-title">{{ t('home.featuresLabel') }}</h2>
     <ul>
-      @for (f of features; track f.key) {
-        <li class="ck-card">
-          <span class="icon material-symbols-rounded" aria-hidden="true">{{ f.icon }}</span>
-          <h2>{{ t('home.features.' + f.key + '.title') }}</h2>
-          <p>{{ t('home.features.' + f.key + '.body') }}</p>
+      @for (f of slides; track f.key) {
+        <li>
+          @let guestLocked = f.access === 'account' && !auth.isLoggedIn();
+          <a
+            class="ck-card shortcut"
+            [routerLink]="guestLocked ? '/auth/register' : f.path"
+            [queryParams]="guestLocked ? { returnUrl: f.path } : null"
+          >
+            <span class="icon material-symbols-rounded" aria-hidden="true">{{ f.icon }}</span>
+            <span class="text">
+              <span class="title">{{ t('home.showcase.slides.' + f.key + '.title') }}</span>
+              <span class="body">{{ t('home.showcase.slides.' + f.key + '.body') }}</span>
+              <span class="badges">
+                @if (!auth.isLoggedIn()) {
+                  <span class="badge" [class.public]="f.access === 'public'">{{
+                    t('home.showcase.access.' + f.access)
+                  }}</span>
+                }
+                @if (f.optional) {
+                  <span class="badge optional">{{ t('home.showcase.optional') }}</span>
+                }
+              </span>
+            </span>
+            <span class="material-symbols-rounded go" aria-hidden="true">arrow_forward</span>
+          </a>
         </li>
       }
     </ul>

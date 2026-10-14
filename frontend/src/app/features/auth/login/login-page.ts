@@ -9,6 +9,7 @@ import { TranslocoDirective } from '@jsverse/transloco';
 import { apiErrorCode } from '../../../core/api-error';
 import { accountBlockOf } from '../../../core/auth/account-block';
 import { AuthService } from '../../../core/auth/auth.service';
+import { clearAfterSignup, pendingAfterSignup, safeReturnUrl } from '../../../core/auth/after-signup';
 import { LanguageService } from '../../../core/i18n/language.service';
 import { AuthShellComponent } from '../auth-shell';
 
@@ -60,7 +61,9 @@ export class LoginPage {
     try {
       const { login, password } = this.form.getRawValue();
       await this.auth.login(login, password);
-      await this.router.navigateByUrl(safeReturnUrl(this.returnUrl()));
+      const target = safeReturnUrl(this.returnUrl() ?? pendingAfterSignup());
+      clearAfterSignup();
+      await this.router.navigateByUrl(target);
     } catch (err) {
       const block = accountBlockOf(err);
       if (block) this.auth.blocked.set(block);
@@ -72,7 +75,4 @@ export class LoginPage {
   }
 }
 
-/** Tylko ścieżki wewnętrzne - chroni przed open redirect (?returnUrl=https://zly.pl). */
-export function safeReturnUrl(url: string | undefined): string {
-  return url && url.startsWith('/') && !url.startsWith('//') && !url.startsWith('/\\') ? url : '/';
-}
+export { safeReturnUrl } from '../../../core/auth/after-signup';

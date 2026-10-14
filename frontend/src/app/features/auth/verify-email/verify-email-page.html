@@ -12,11 +12,17 @@
         [subheading]="t('auth.verify.successBody')"
       >
         @if (auth.isLoggedIn()) {
-          <a mat-flat-button class="ck-cta submit" routerLink="/">{{ t('auth.verify.toApp') }}</a>
-        } @else {
-          <a mat-flat-button class="ck-cta submit" routerLink="/auth/login">{{
-            t('auth.checkEmail.toLogin')
+          <a mat-flat-button class="ck-cta submit" [routerLink]="afterSignup ?? '/'">{{
+            t('auth.verify.toApp')
           }}</a>
+        } @else {
+          <a
+            mat-flat-button
+            class="ck-cta submit"
+            routerLink="/auth/login"
+            [queryParams]="afterSignup ? { returnUrl: afterSignup } : null"
+            >{{ t('auth.checkEmail.toLogin') }}</a
+          >
         }
       </app-auth-shell>
     }

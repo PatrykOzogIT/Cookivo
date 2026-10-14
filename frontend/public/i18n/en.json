@@ -229,30 +229,189 @@
     "ctaPlanner": "Open planner",
     "ctaRecipes": "Browse recipes",
     "featuresLabel": "What Cookivo can do",
-    "features": {
-      "goals": {
-        "title": "Calories for your goal",
-        "body": "Cut, maintain or bulk - the calculator sets your calories and macros."
+    "start": {
+      "title": "Get started in 3 steps",
+      "s1": "Create an account",
+      "s2": "Add a recipe to your plan",
+      "s3": "Your shopping list is ready",
+      "later": "Profile, fridge, price lists and household – whenever you like.",
+      "laterUser": "Profile, fridge, price lists and household are optional – add them whenever you like."
+    },
+    "showcase": {
+      "label": "What Cookivo offers",
+      "access": {
+        "public": "For everyone",
+        "account": "With an account"
       },
-      "planner": {
-        "title": "A plan for the whole week",
-        "body": "Cook once, eat twice - plan portions several days ahead."
+      "optional": "Optional",
+      "whereLabel": "Where to find it:",
+      "needLabel": "What you need to provide:",
+      "example": "Example",
+      "exampleLabel": "Example preview of the feature",
+      "prev": "Previous feature",
+      "next": "Next feature",
+      "position": "{{name}} – {{n}} of {{total}}",
+      "slides": {
+        "recipes": {
+          "tab": "Recipes",
+          "title": "Recipes with nutrition and allergens",
+          "body": "Calories per serving, macros and allergens for every recipe, plus a step-by-step cooking mode.",
+          "where": "Menu → Recipes",
+          "need": "nothing – browse without an account.",
+          "cta": "Browse recipes",
+          "ctaGuest": "Browse recipes"
+        },
+        "planner": {
+          "tab": "Planner",
+          "title": "A plan for the whole week",
+          "body": "Cook once, eat twice – batches for several days and a view of what is left over.",
+          "where": "Menu → Planner",
+          "need": "just pick a recipe and a day.",
+          "cta": "Open the planner",
+          "ctaGuest": "Sign up and plan your week"
+        },
+        "shopping": {
+          "tab": "Shopping",
+          "title": "The shopping list writes itself",
+          "body": "From your weekly plan or a single recipe, added up and without what you already have.",
+          "where": "Menu → Shopping list",
+          "need": "nothing – the list comes from your plan.",
+          "cta": "Open the shopping list",
+          "ctaGuest": "Sign up and make a list"
+        },
+        "goals": {
+          "tab": "Calories",
+          "title": "Calories and macros for your goal",
+          "body": "Cut, maintain or bulk – the calculator sets your calories and macros and respects your allergies.",
+          "where": "Account menu → Profile",
+          "need": "optionally age, height, weight and goal. Everything else works without it.",
+          "cta": "Set your goal",
+          "ctaGuest": "Sign up and set your goal"
+        },
+        "pantry": {
+          "tab": "Fridge",
+          "title": "Use what you have first",
+          "body": "Expiry dates at hand, and search suggests recipes from your ingredients.",
+          "where": "Menu → Fridge",
+          "need": "optional – quantities are not required either.",
+          "cta": "Open the fridge",
+          "ctaGuest": "Sign up and add your fridge"
+        },
+        "budget": {
+          "tab": "Budget",
+          "title": "What your week costs",
+          "body": "Cost per serving, recipe and whole plan from your price list – missing prices are always shown.",
+          "where": "Menu → Price lists",
+          "need": "optionally prices for only the products you want.",
+          "cta": "Open price lists",
+          "ctaGuest": "Sign up and add a price list"
+        },
+        "household": {
+          "tab": "Family",
+          "title": "One plan for the household",
+          "body": "One plan, one shopping list and everyone’s allergies. Exact portions by goal – if you want them.",
+          "where": "Account menu → Household",
+          "need": "optional – exact portions are a separate switch.",
+          "cta": "Open household",
+          "ctaGuest": "Sign up and invite your household"
+        },
+        "ingredients": {
+          "tab": "Ingredients",
+          "title": "Ingredient database",
+          "body": "Nutrition per 100 g, allergens and a portion calculator for every ingredient.",
+          "where": "Menu → Ingredients",
+          "need": "nothing – open to everyone.",
+          "cta": "Browse ingredients",
+          "ctaGuest": "Browse ingredients"
+        }
       },
-      "shopping": {
-        "title": "Shopping list writes itself",
-        "body": "From your plan or a single recipe, priced with your price list."
+      "p": {
+        "protein": "Protein",
+        "carbs": "Carbs",
+        "fat": "Fat",
+        "r1": {
+          "name": "Apple oatmeal",
+          "tag": "veggie",
+          "kcal": "412 kcal"
+        },
+        "r2": {
+          "name": "Pumpkin soup",
+          "tag": "lactose-free",
+          "kcal": "286 kcal"
+        },
+        "r3": {
+          "name": "Zucchini fritters",
+          "tag": "gluten-free",
+          "kcal": "338 kcal"
+        },
+        "days": {
+          "0": "Mon",
+          "1": "Tue",
+          "2": "Wed",
+          "3": "Thu",
+          "4": "Fri",
+          "5": "Sat",
+          "6": "Sun"
+        },
+        "leftover": "a portion from yesterday’s cooking",
+        "s1": {
+          "name": "Wheat flour",
+          "amount": "1 kg"
+        },
+        "s2": {
+          "name": "Eggs",
+          "amount": "10 pcs"
+        },
+        "s3": {
+          "name": "Milk",
+          "amount": "2 l"
+        },
+        "s4": {
+          "name": "Zucchini",
+          "amount": "2 pcs"
+        },
+        "fromPantry": "Butter skipped – it’s in your fridge",
+        "f1": {
+          "name": "Plain yogurt",
+          "expires": "tomorrow"
+        },
+        "f2": {
+          "name": "Zucchini",
+          "expires": "in 3 days"
+        },
+        "f3": {
+          "name": "Cheddar",
+          "expires": "in 9 days"
+        },
+        "pantryHint": "3 recipes from what you have",
+        "weekCost": "PLN 186.40",
+        "weekCostLabel": "this week’s plan",
+        "perPortion": "Dinner – per serving",
+        "perPortionValue": "PLN 7.40",
+        "missing": "Missing prices",
+        "missingValue": "2 products",
+        "h1": {
+          "name": "Anna",
+          "portion": "420 g"
+        },
+        "h2": {
+          "name": "Tom",
+          "portion": "520 g"
+        },
+        "h3": {
+          "name": "Ola, 8",
+          "portion": "260 g"
+        },
+        "ingName": "Rye flour",
+        "per100": "per 100 g",
+        "proteinShort": "g protein",
+        "carbsShort": "g carbs",
+        "fatShort": "g fat",
+        "portionCalc": "50 g → 168 kcal"
       },
-      "allergies": {
-        "title": "Allergen-free",
-        "body": "Mark allergies and intolerances - we'll never suggest what harms you."
-      },
-      "pantry": {
-        "title": "Use what you have first",
-        "body": "Add your fridge contents and search will suggest recipes that use them."
-      },
-      "household": {
-        "title": "Plan together",
-        "body": "A shared plan for your household, portions tailored to each person."
+      "scale": {
+        "basic": "Basics",
+        "advanced": "Advanced"
       }
     }
   },

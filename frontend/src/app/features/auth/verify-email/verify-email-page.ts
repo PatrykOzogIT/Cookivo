@@ -8,6 +8,7 @@ import { RouterLink } from '@angular/router';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { apiErrorCode } from '../../../core/api-error';
 import { AuthService } from '../../../core/auth/auth.service';
+import { pendingAfterSignup } from '../../../core/auth/after-signup';
 import { AuthShellComponent } from '../auth-shell';
 
 type State = 'verifying' | 'success' | 'invalid' | 'resent';
@@ -31,6 +32,8 @@ export class VerifyEmailPage implements OnInit {
   protected readonly auth = inject(AuthService);
 
   readonly token = input<string>();
+  /** Funkcja wybrana przed rejestracją (strona główna) */
+  protected readonly afterSignup = pendingAfterSignup();
 
   protected readonly state = signal<State>('verifying');
   protected readonly resendForm = inject(NonNullableFormBuilder).group({

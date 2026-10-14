@@ -3,7 +3,9 @@
     <app-auth-shell icon="mark_email_unread" [heading]="t('auth.checkEmail.title')">
       <p>{{ t('auth.checkEmail.body', { email }) }}</p>
       <p class="alt">{{ t('auth.checkEmail.spam') }}</p>
-      <a mat-flat-button class="ck-cta submit" routerLink="/auth/login">{{ t('auth.checkEmail.toLogin') }}</a>
+      <a mat-flat-button class="ck-cta submit" routerLink="/auth/login" [queryParams]="loginQuery()">{{
+        t('auth.checkEmail.toLogin')
+      }}</a>
     </app-auth-shell>
   } @else {
     <app-auth-shell
@@ -99,7 +101,7 @@
 
       <p class="alt">
         {{ t('auth.register.haveAccount') }}
-        <a routerLink="/auth/login">{{ t('auth.register.loginLink') }}</a>
+        <a routerLink="/auth/login" [queryParams]="loginQuery()">{{ t('auth.register.loginLink') }}</a>
       </p>
     </app-auth-shell>
   }

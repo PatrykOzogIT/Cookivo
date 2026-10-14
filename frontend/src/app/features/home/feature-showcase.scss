@@ -1,0 +1,510 @@
+:host {
+  display: block;
+  min-width: 0;
+}
+
+.showcase {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+// --- Zakładki: siatka 4 × 2, od podstaw (lewo, góra) do zaawansowanych --------
+.chips {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.chip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-height: 64px;
+  padding: 8px 4px;
+  border: 1px solid var(--ck-border);
+  border-radius: 14px;
+  background: var(--ck-surface);
+  color: var(--ck-text);
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  line-height: 1.15;
+  cursor: pointer;
+  transition:
+    var(--ck-theme-transition),
+    transform 0.15s ease;
+  .material-symbols-rounded {
+    font-size: 1.5rem;
+    color: var(--ck-link);
+  }
+  .chip-label {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  &:hover {
+    border-color: var(--ck-border-strong);
+    transform: translateY(-1px);
+  }
+  &[aria-selected='true'] {
+    border-color: var(--ck-cta-from);
+    background: var(--ck-cta-from);
+    color: var(--ck-cta-text);
+    .material-symbols-rounded {
+      color: inherit;
+    }
+  }
+}
+
+// Skala pod kafelkami: kierunek od podstaw do zaawansowanych
+.scale {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: -4px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--ck-text-muted);
+  .line {
+    flex: 1;
+    height: 2px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, var(--ck-border), var(--ck-cta-from));
+  }
+}
+
+// --- Panel slajdu ------------------------------------------------------------
+.panel {
+  padding: 18px 20px 14px;
+  touch-action: pan-y;
+}
+
+.slide {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  animation: slide-in 0.25s ease-out;
+}
+
+@keyframes slide-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
+  font-size: 0.8rem;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--ck-border);
+  background: var(--ck-surface-2);
+  color: var(--ck-text);
+  font-weight: 700;
+  .material-symbols-rounded {
+    font-size: 1.1em;
+  }
+  &.public {
+    border-color: transparent;
+    background: var(--ck-sage-bg);
+    color: var(--ck-sage);
+  }
+  &.optional {
+    border-style: dashed;
+    border-color: var(--ck-border-strong);
+    background: transparent;
+    color: var(--ck-text-muted);
+  }
+}
+
+.where {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  margin-left: auto;
+  color: var(--ck-text-muted);
+  .material-symbols-rounded {
+    font-size: 1.1em;
+  }
+}
+
+h2 {
+  margin: 4px 0 0;
+  font-size: 1.25rem;
+}
+
+.body {
+  margin: 0;
+  color: var(--ck-text-muted);
+}
+
+// --- Podgląd (przykładowe dane) ---------------------------------------------
+.preview {
+  position: relative;
+  display: grid;
+  align-content: center;
+  min-height: 200px;
+  padding: 18px 14px 12px;
+  border-radius: var(--ck-radius-sm);
+  background: var(--ck-surface-2);
+}
+
+.example {
+  position: absolute;
+  top: 6px;
+  right: 10px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ck-text-muted);
+}
+
+.muted {
+  color: var(--ck-text-muted);
+}
+
+.rows {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 44px;
+    padding: 6px 4px;
+    border-bottom: 1px solid var(--ck-border);
+    font-size: 0.92rem;
+    &:last-child {
+      border-bottom: 0;
+    }
+    &.done .grow {
+      text-decoration: line-through;
+      color: var(--ck-text-muted);
+    }
+  }
+  .grow {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .dot {
+    color: var(--ck-link);
+  }
+}
+
+.tag {
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--ck-surface);
+  color: var(--ck-text-muted);
+  font-size: 0.75rem;
+  font-weight: 700;
+  white-space: nowrap;
+  &.warn {
+    color: var(--ck-accent-text);
+  }
+}
+
+.note {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 10px 0 0;
+  font-size: 0.82rem;
+  color: var(--ck-text-muted);
+  .material-symbols-rounded {
+    font-size: 1.15em;
+    color: var(--ck-link);
+  }
+}
+
+// Planer: tydzień z kolorowymi posiłkami
+.week {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.day {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 6px 4px 8px;
+  border: 1px solid var(--ck-border);
+  border-radius: 10px;
+  background: var(--ck-surface);
+  text-align: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  &.today {
+    border-color: var(--ck-cta-from);
+    box-shadow: inset 0 0 0 1px var(--ck-cta-from);
+  }
+}
+
+.meal {
+  display: block;
+  height: 14px;
+  border-radius: 5px;
+  &.m1 {
+    background: var(--ck-chart-protein);
+  }
+  &.m2 {
+    background: var(--ck-chart-carbs);
+  }
+  &.m3 {
+    background: var(--ck-chart-fats);
+  }
+  &.empty {
+    background: transparent;
+    border: 1px dashed var(--ck-border-strong);
+  }
+  &.leftover {
+    background: repeating-linear-gradient(
+      45deg,
+      var(--ck-chart-fats) 0 4px,
+      color-mix(in srgb, var(--ck-chart-fats) 45%, var(--ck-surface)) 4px 8px
+    );
+  }
+}
+
+.note .meal {
+  width: 22px;
+  flex: none;
+}
+
+// Budżet
+.money {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 8px;
+  strong {
+    font-size: 2rem;
+    font-weight: 800;
+  }
+}
+
+// Gospodarstwo: porcje domowników
+.people {
+  .avatar {
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--ck-accent-from), var(--ck-accent-to));
+    color: var(--ck-on-accent);
+    font-weight: 700;
+    font-size: 0.85rem;
+  }
+  .bar {
+    flex: 0 0 30%;
+    height: 8px;
+    border-radius: 4px;
+    background: var(--ck-surface);
+    i {
+      display: block;
+      height: 100%;
+      border-radius: 4px;
+      background: var(--ck-chart-protein);
+    }
+  }
+}
+
+// Składnik
+.ingredient {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  strong {
+    font-size: 1.15rem;
+  }
+  .macros {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 6px;
+    margin-top: 6px;
+    span {
+      padding: 8px 4px;
+      border-radius: 10px;
+      background: var(--ck-surface);
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--ck-text-muted);
+    }
+    b {
+      display: block;
+      font-size: 1.1rem;
+      color: var(--ck-text);
+    }
+  }
+}
+
+// Kalorie: "talerz" z makroskładnikami (dawny wykres z hero)
+.plate {
+  position: relative;
+  justify-self: center;
+  width: min(220px, 70%);
+  aspect-ratio: 1;
+  margin: 4px 0;
+}
+
+.ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: conic-gradient(
+    var(--ck-chart-protein) 0 32%,
+    var(--ck-chart-carbs) 32% 75%,
+    var(--ck-chart-fats) 75% 100%
+  );
+  animation: spin-in 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.kcal {
+  position: absolute;
+  inset: 20%;
+  display: grid;
+  place-content: center;
+  text-align: center;
+  border-radius: 50%;
+  background: var(--ck-surface);
+  strong {
+    font-size: 1.6rem;
+    font-weight: 800;
+  }
+  span {
+    color: var(--ck-text-muted);
+    font-size: 0.85rem;
+  }
+}
+
+.macro {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  padding: 6px 10px;
+  border-radius: 10px;
+  background: var(--ck-surface);
+  box-shadow: var(--ck-shadow);
+  font-size: 0.75rem;
+  color: var(--ck-text-muted);
+  strong {
+    font-size: 0.95rem;
+    color: var(--ck-text);
+  }
+  &.protein {
+    top: 0;
+    right: -22%;
+  }
+  &.carbs {
+    bottom: 2%;
+    right: -18%;
+  }
+  &.fat {
+    top: 38%;
+    left: -24%;
+  }
+}
+
+@keyframes spin-in {
+  from {
+    transform: rotate(-90deg) scale(0.9);
+    opacity: 0;
+  }
+}
+
+// --- Dół: co trzeba podać, przycisk, nawigacja -------------------------------
+.need {
+  display: flex;
+  gap: 8px;
+  margin: 2px 0 0;
+  font-size: 0.9rem;
+  color: var(--ck-text-muted);
+  strong {
+    color: var(--ck-text);
+  }
+  .material-symbols-rounded {
+    flex: none;
+    font-size: 1.25em;
+    color: var(--ck-sage);
+  }
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  a .material-symbols-rounded {
+    margin-left: 4px;
+    font-size: 1.2em;
+  }
+}
+
+.nav {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  margin-left: auto;
+}
+
+.count {
+  min-width: 3.2em;
+  text-align: center;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--ck-text-muted);
+}
+
+// Telefon: ta sama siatka 4 × 2, mniejsze kafelki
+@media (max-width: 767.98px) {
+  .chips {
+    gap: 6px;
+  }
+  .chip {
+    min-height: 58px;
+    padding: 6px 2px;
+    font-size: 0.72rem;
+    .material-symbols-rounded {
+      font-size: 1.3rem;
+    }
+  }
+  .where {
+    margin-left: 0;
+    width: 100%;
+  }
+  .macro {
+    &.protein {
+      right: -14%;
+    }
+    &.carbs {
+      right: -10%;
+    }
+    &.fat {
+      left: -16%;
+    }
+  }
+}

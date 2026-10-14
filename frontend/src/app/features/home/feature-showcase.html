@@ -1,0 +1,211 @@
+<section class="showcase" *transloco="let t; prefix: 'home.showcase'" [attr.aria-label]="t('label')">
+  <div class="chips" role="tablist" [attr.aria-label]="t('label')">
+    @for (slide of slides; track slide.key; let i = $index) {
+      <button
+        type="button"
+        role="tab"
+        class="chip"
+        [id]="tabId(i)"
+        [attr.aria-selected]="index() === i"
+        aria-controls="ck-showcase-panel"
+        [tabindex]="index() === i ? 0 : -1"
+        (click)="select(i)"
+        (keydown)="onTabKey($event)"
+      >
+        <span class="material-symbols-rounded" aria-hidden="true">{{ slide.icon }}</span>
+        <span class="chip-label">{{ t('slides.' + slide.key + '.tab') }}</span>
+      </button>
+    }
+  </div>
+  <div class="scale">
+    <span>{{ t('scale.basic') }}</span>
+    <span class="line" aria-hidden="true"></span>
+    <span>{{ t('scale.advanced') }}</span>
+  </div>
+
+  @let s = current();
+  <div
+    id="ck-showcase-panel"
+    class="panel ck-card"
+    role="tabpanel"
+    [attr.aria-labelledby]="tabId(index())"
+    (pointerdown)="onPointerDown($event)"
+    (pointerup)="onPointerUp($event)"
+    (pointercancel)="onPointerUp($event)"
+  >
+    @for (k of [s.key]; track k) {
+      <div class="slide">
+        <div class="meta">
+          @if (!auth.isLoggedIn()) {
+            <span class="badge" [class.public]="s.access === 'public'">
+              <span class="material-symbols-rounded" aria-hidden="true">{{
+                s.access === 'public' ? 'public' : 'lock'
+              }}</span>
+              {{ t('access.' + s.access) }}
+            </span>
+          }
+          @if (s.optional) {
+            <span class="badge optional">
+              <span class="material-symbols-rounded" aria-hidden="true">tune</span>
+              {{ t('optional') }}
+            </span>
+          }
+          <span class="where">
+            <span class="material-symbols-rounded" aria-hidden="true">location_on</span>
+            <span class="visually-hidden">{{ t('whereLabel') }}</span>
+            {{ t('slides.' + s.key + '.where') }}
+          </span>
+        </div>
+
+        <h2>{{ t('slides.' + s.key + '.title') }}</h2>
+        <p class="body">{{ t('slides.' + s.key + '.body') }}</p>
+
+        <div class="preview" [attr.aria-label]="t('exampleLabel')" role="img">
+          <span class="example" aria-hidden="true">{{ t('example') }}</span>
+          @switch (s.key) {
+            @case ('goals') {
+              <div class="plate" aria-hidden="true">
+                <div class="ring"></div>
+                <div class="kcal"><strong>2 150</strong><span>kcal</span></div>
+                <div class="macro protein"><strong>32%</strong>{{ t('p.protein') }}</div>
+                <div class="macro carbs"><strong>43%</strong>{{ t('p.carbs') }}</div>
+                <div class="macro fat"><strong>25%</strong>{{ t('p.fat') }}</div>
+              </div>
+            }
+            @case ('recipes') {
+              <ul class="rows" aria-hidden="true">
+                @for (r of ['r1', 'r2', 'r3']; track r) {
+                  <li>
+                    <span class="dot material-symbols-rounded">restaurant</span>
+                    <span class="grow">{{ t('p.' + r + '.name') }}</span>
+                    <span class="tag">{{ t('p.' + r + '.tag') }}</span>
+                    <span class="muted">{{ t('p.' + r + '.kcal') }}</span>
+                  </li>
+                }
+              </ul>
+            }
+            @case ('planner') {
+              <div class="week" aria-hidden="true">
+                @for (d of [0, 1, 2, 3, 4, 5, 6]; track d) {
+                  <div class="day" [class.today]="d === 2">
+                    <span>{{ t('p.days.' + d) }}</span>
+                    <i class="meal m1"></i>
+                    <i class="meal m2" [class.empty]="d === 6"></i>
+                    <i class="meal m3" [class.leftover]="d === 1 || d === 3"></i>
+                  </div>
+                }
+              </div>
+              <p class="note" aria-hidden="true"><i class="meal m3 leftover"></i>{{ t('p.leftover') }}</p>
+            }
+            @case ('shopping') {
+              <ul class="rows" aria-hidden="true">
+                @for (r of ['s1', 's2', 's3', 's4']; track r; let first = $first) {
+                  <li [class.done]="first">
+                    <span class="dot material-symbols-rounded">{{
+                      first ? 'check_box' : 'check_box_outline_blank'
+                    }}</span>
+                    <span class="grow">{{ t('p.' + r + '.name') }}</span>
+                    <span class="muted">{{ t('p.' + r + '.amount') }}</span>
+                  </li>
+                }
+              </ul>
+              <p class="note" aria-hidden="true">
+                <span class="material-symbols-rounded">kitchen</span>{{ t('p.fromPantry') }}
+              </p>
+            }
+            @case ('pantry') {
+              <ul class="rows" aria-hidden="true">
+                @for (r of ['f1', 'f2', 'f3']; track r; let first = $first) {
+                  <li>
+                    <span class="dot material-symbols-rounded">kitchen</span>
+                    <span class="grow">{{ t('p.' + r + '.name') }}</span>
+                    <span class="tag" [class.warn]="first">{{ t('p.' + r + '.expires') }}</span>
+                  </li>
+                }
+              </ul>
+              <p class="note" aria-hidden="true">
+                <span class="material-symbols-rounded">search</span>{{ t('p.pantryHint') }}
+              </p>
+            }
+            @case ('budget') {
+              <div class="money" aria-hidden="true">
+                <strong>{{ t('p.weekCost') }}</strong>
+                <span class="muted">{{ t('p.weekCostLabel') }}</span>
+              </div>
+              <ul class="rows" aria-hidden="true">
+                <li>
+                  <span class="grow">{{ t('p.perPortion') }}</span
+                  ><strong>{{ t('p.perPortionValue') }}</strong>
+                </li>
+                <li>
+                  <span class="grow">{{ t('p.missing') }}</span
+                  ><span class="tag warn">{{ t('p.missingValue') }}</span>
+                </li>
+              </ul>
+            }
+            @case ('household') {
+              <ul class="rows people" aria-hidden="true">
+                @for (r of ['h1', 'h2', 'h3']; track r; let i = $index) {
+                  <li>
+                    <span class="avatar">{{ t('p.' + r + '.name').charAt(0) }}</span>
+                    <span class="grow">{{ t('p.' + r + '.name') }}</span>
+                    <span class="bar"><i [style.width.%]="[80, 100, 50][i]"></i></span>
+                    <span class="muted">{{ t('p.' + r + '.portion') }}</span>
+                  </li>
+                }
+              </ul>
+            }
+            @case ('ingredients') {
+              <div class="ingredient" aria-hidden="true">
+                <strong>{{ t('p.ingName') }}</strong>
+                <span class="muted">{{ t('p.per100') }}</span>
+                <div class="macros">
+                  <span><b>335</b> kcal</span>
+                  <span><b>9</b> {{ t('p.proteinShort') }}</span>
+                  <span><b>69</b> {{ t('p.carbsShort') }}</span>
+                  <span><b>1,7</b> {{ t('p.fatShort') }}</span>
+                </div>
+                <p class="note">
+                  <span class="material-symbols-rounded">calculate</span>{{ t('p.portionCalc') }}
+                </p>
+              </div>
+            }
+          }
+        </div>
+
+        <p class="need">
+          <span class="material-symbols-rounded" aria-hidden="true">{{
+            s.optional ? 'tune' : 'check_circle'
+          }}</span>
+          <span
+            ><strong>{{ t('needLabel') }}</strong> {{ t('slides.' + s.key + '.need') }}</span
+          >
+        </p>
+
+        <div class="actions">
+          @let link = ctaLink(s);
+          <a mat-stroked-button [routerLink]="link.path" [queryParams]="link.query">
+            {{ t('slides.' + s.key + (s.access === 'account' && !auth.isLoggedIn() ? '.ctaGuest' : '.cta')) }}
+            <span class="material-symbols-rounded" aria-hidden="true" matButtonIcon iconPositionEnd
+              >arrow_forward</span
+            >
+          </a>
+          <div class="nav">
+            <button mat-icon-button type="button" (click)="step(-1)" [attr.aria-label]="t('prev')">
+              <span class="material-symbols-rounded" aria-hidden="true">chevron_left</span>
+            </button>
+            <span class="count" aria-hidden="true">{{ index() + 1 }} / {{ slides.length }}</span>
+            <button mat-icon-button type="button" (click)="step(1)" [attr.aria-label]="t('next')">
+              <span class="material-symbols-rounded" aria-hidden="true">chevron_right</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+  <p class="visually-hidden" aria-live="polite">
+    @if (announced()) {
+      {{ t('position', { n: index() + 1, total: slides.length, name: t('slides.' + s.key + '.tab') }) }}
+    }
+  </p>
+</section>

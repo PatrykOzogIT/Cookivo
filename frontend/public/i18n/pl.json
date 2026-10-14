@@ -229,30 +229,189 @@
     "ctaPlanner": "Otwórz planer",
     "ctaRecipes": "Przeglądaj przepisy",
     "featuresLabel": "Możliwości Cookivo",
-    "features": {
-      "goals": {
-        "title": "Kalorie pod Twój cel",
-        "body": "Redukcja, utrzymanie albo masa - kalkulator dobierze kalorie i makroskładniki."
+    "start": {
+      "title": "Start w 3 krokach",
+      "s1": "Załóż konto",
+      "s2": "Dodaj przepis do planu",
+      "s3": "Lista zakupów gotowa",
+      "later": "Profil, lodówka, cenniki i domownicy – kiedy zechcesz.",
+      "laterUser": "Profil, lodówka, cenniki i domownicy są opcjonalne – dodaj je, kiedy zechcesz."
+    },
+    "showcase": {
+      "label": "Co oferuje Cookivo",
+      "access": {
+        "public": "Dla wszystkich",
+        "account": "Po zalogowaniu"
       },
-      "planner": {
-        "title": "Plan na cały tydzień",
-        "body": "Ugotuj raz, zjedz dwa razy - planuj porcje na kilka dni do przodu."
+      "optional": "Opcjonalne",
+      "whereLabel": "Gdzie to znajdziesz:",
+      "needLabel": "Co musisz podać:",
+      "example": "Przykład",
+      "exampleLabel": "Przykładowy podgląd funkcji",
+      "prev": "Poprzednia funkcja",
+      "next": "Następna funkcja",
+      "position": "{{name}} – {{n}} z {{total}}",
+      "slides": {
+        "recipes": {
+          "tab": "Przepisy",
+          "title": "Przepisy z wartościami i alergenami",
+          "body": "Kalorie na porcję, makroskładniki i alergeny przy każdym przepisie, do tego tryb gotowania krok po kroku.",
+          "where": "Menu → Przepisy",
+          "need": "nic – przeglądasz bez konta.",
+          "cta": "Przeglądaj przepisy",
+          "ctaGuest": "Przeglądaj przepisy"
+        },
+        "planner": {
+          "tab": "Planer",
+          "title": "Plan na cały tydzień",
+          "body": "Ugotuj raz, zjedz dwa razy – partie na kilka dni i podgląd, co zostało na zapas.",
+          "where": "Menu → Planer",
+          "need": "wystarczy wybrać przepis i dzień.",
+          "cta": "Otwórz planer",
+          "ctaGuest": "Załóż konto i zaplanuj tydzień"
+        },
+        "shopping": {
+          "tab": "Zakupy",
+          "title": "Lista zakupów sama się pisze",
+          "body": "Z planu tygodnia albo jednego przepisu, zsumowana i bez tego, co już masz.",
+          "where": "Menu → Lista zakupów",
+          "need": "nic – lista powstaje z planu.",
+          "cta": "Otwórz listę zakupów",
+          "ctaGuest": "Załóż konto i zrób listę"
+        },
+        "goals": {
+          "tab": "Kalorie",
+          "title": "Kalorie i makro pod Twój cel",
+          "body": "Redukcja, utrzymanie albo masa – kalkulator dobierze kalorie, makroskładniki i uwzględni alergie.",
+          "where": "Menu konta → Profil",
+          "need": "opcjonalnie wiek, wzrost, waga i cel. Bez tego wszystko inne działa.",
+          "cta": "Ustaw swój cel",
+          "ctaGuest": "Załóż konto i ustaw cel"
+        },
+        "pantry": {
+          "tab": "Lodówka",
+          "title": "Najpierw to, co masz",
+          "body": "Daty ważności pod ręką, a wyszukiwarka podpowie przepisy z Twoich składników.",
+          "where": "Menu → Lodówka",
+          "need": "opcjonalnie – ilości też nie są wymagane.",
+          "cta": "Otwórz lodówkę",
+          "ctaGuest": "Załóż konto i dodaj lodówkę"
+        },
+        "budget": {
+          "tab": "Budżet",
+          "title": "Ile kosztuje Twój tydzień",
+          "body": "Koszt porcji, przepisu i całego planu według Twojego cennika – brakujące ceny zawsze widać.",
+          "where": "Menu → Cenniki",
+          "need": "opcjonalnie ceny tylko tych produktów, które chcesz.",
+          "cta": "Otwórz cenniki",
+          "ctaGuest": "Załóż konto i dodaj cennik"
+        },
+        "household": {
+          "tab": "Rodzina",
+          "title": "Wspólny plan dla domowników",
+          "body": "Jeden plan, jedna lista zakupów i alergie domowników. Dokładne porcje wg celów – jeśli chcecie.",
+          "where": "Menu konta → Gospodarstwo",
+          "need": "opcjonalnie – dokładne porcje to osobny przełącznik.",
+          "cta": "Otwórz gospodarstwo",
+          "ctaGuest": "Załóż konto i zaproś domowników"
+        },
+        "ingredients": {
+          "tab": "Składniki",
+          "title": "Baza składników",
+          "body": "Wartości odżywcze na 100 g, alergeny i kalkulator porcji dla każdego składnika.",
+          "where": "Menu → Składniki",
+          "need": "nic – dostępna dla każdego.",
+          "cta": "Przeglądaj składniki",
+          "ctaGuest": "Przeglądaj składniki"
+        }
       },
-      "shopping": {
-        "title": "Lista zakupów sama się pisze",
-        "body": "Z planu albo jednego przepisu, z wyceną wg Twojego cennika."
+      "p": {
+        "protein": "Białko",
+        "carbs": "Węglowodany",
+        "fat": "Tłuszcze",
+        "r1": {
+          "name": "Owsianka z jabłkiem",
+          "tag": "wege",
+          "kcal": "412 kcal"
+        },
+        "r2": {
+          "name": "Krem z dyni",
+          "tag": "bez laktozy",
+          "kcal": "286 kcal"
+        },
+        "r3": {
+          "name": "Placki z cukinii",
+          "tag": "bez glutenu",
+          "kcal": "338 kcal"
+        },
+        "days": {
+          "0": "Pn",
+          "1": "Wt",
+          "2": "Śr",
+          "3": "Cz",
+          "4": "Pt",
+          "5": "So",
+          "6": "Nd"
+        },
+        "leftover": "porcja z wczorajszego gotowania",
+        "s1": {
+          "name": "Mąka pszenna",
+          "amount": "1 kg"
+        },
+        "s2": {
+          "name": "Jajka",
+          "amount": "10 szt."
+        },
+        "s3": {
+          "name": "Mleko",
+          "amount": "2 l"
+        },
+        "s4": {
+          "name": "Cukinia",
+          "amount": "2 szt."
+        },
+        "fromPantry": "Masło pominięte – jest w lodówce",
+        "f1": {
+          "name": "Jogurt naturalny",
+          "expires": "jutro"
+        },
+        "f2": {
+          "name": "Cukinia",
+          "expires": "za 3 dni"
+        },
+        "f3": {
+          "name": "Ser żółty",
+          "expires": "za 9 dni"
+        },
+        "pantryHint": "3 przepisy z tego, co masz",
+        "weekCost": "186,40 zł",
+        "weekCostLabel": "plan na ten tydzień",
+        "perPortion": "Obiad – porcja",
+        "perPortionValue": "7,40 zł",
+        "missing": "Brakujące ceny",
+        "missingValue": "2 produkty",
+        "h1": {
+          "name": "Anna",
+          "portion": "420 g"
+        },
+        "h2": {
+          "name": "Tomek",
+          "portion": "520 g"
+        },
+        "h3": {
+          "name": "Ola, 8 lat",
+          "portion": "260 g"
+        },
+        "ingName": "Mąka żytnia",
+        "per100": "wartości na 100 g",
+        "proteinShort": "g białka",
+        "carbsShort": "g węgl.",
+        "fatShort": "g tłuszczu",
+        "portionCalc": "50 g → 168 kcal"
       },
-      "allergies": {
-        "title": "Bez alergenów",
-        "body": "Oznacz uczulenia i nietolerancje - nie zaproponujemy nic, co Ci szkodzi."
-      },
-      "pantry": {
-        "title": "Najpierw to, co masz",
-        "body": "Wpisz zawartość lodówki, a wyszukiwarka podpowie przepisy z tych składników."
-      },
-      "household": {
-        "title": "Planujcie razem",
-        "body": "Wspólny plan dla domowników, porcje dopasowane do każdej osoby."
+      "scale": {
+        "basic": "Podstawy",
+        "advanced": "Zaawansowane"
       }
     }
   },
