@@ -47,6 +47,8 @@ export class App {
     fresh: ['#f8f6ec', '#237a53', '#ff8a4c'],
     citrus: ['#f3f5e9', '#235a45', '#d2e85a'],
     midnight: ['#171f1b', '#ffb547', '#8acb82'],
+    apricot: ['#fff8f1', '#bf5129', '#f2a65a'],
+    cinnamon: ['#17120f', '#f2a65a', '#e8704a'],
     contrast: ['#ffffff', '#111111', '#0040a8'],
   };
 

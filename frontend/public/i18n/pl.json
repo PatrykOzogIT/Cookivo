@@ -17,7 +17,9 @@
     "hint": {
       "auto": "Jak w ustawieniach systemu",
       "contrast": "Większa czytelność, bez dekoracji"
-    }
+    },
+    "apricot": "Apricot Morning",
+    "cinnamon": "Cinnamon Night"
   },
   "nav": {
     "home": "Start",

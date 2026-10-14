@@ -26,6 +26,8 @@ const THEMES = [
   { name: 'fresh (auto, jasny system)', colorScheme: 'light', contrast: 'no-preference', stored: null },
   { name: 'midnight (auto, ciemny system)', colorScheme: 'dark', contrast: 'no-preference', stored: null },
   { name: 'citrus (wybrany)', colorScheme: 'light', contrast: 'no-preference', stored: 'citrus' },
+  { name: 'apricot (wybrany)', colorScheme: 'light', contrast: 'no-preference', stored: 'apricot' },
+  { name: 'cinnamon (wybrany)', colorScheme: 'dark', contrast: 'no-preference', stored: 'cinnamon' },
   { name: 'contrast (auto, prefers-contrast)', colorScheme: 'light', contrast: 'more', stored: null },
 ] as const;
 
@@ -86,7 +88,7 @@ const USER_PAGES = [
   '/prices',
 ];
 
-for (const stored of ['citrus', 'midnight', 'contrast'] as const) {
+for (const stored of ['citrus', 'midnight', 'apricot', 'cinnamon', 'contrast'] as const) {
   test(`WCAG AA - strony po zalogowaniu, motyw ${stored}`, async ({ page, request }) => {
     test.slow();
     const user = await createUser(request, 'motyw');

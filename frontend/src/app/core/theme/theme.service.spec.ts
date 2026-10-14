@@ -8,17 +8,17 @@ describe('readPreference', () => {
   });
 
   it('nowe motywy wracają bez zmian', () => {
-    for (const t of ['fresh', 'citrus', 'midnight', 'contrast']) {
+    for (const t of ['fresh', 'citrus', 'midnight', 'apricot', 'cinnamon', 'contrast']) {
       localStorage.setItem('ck-theme', t);
       expect(readPreference()).toBe(t);
     }
   });
 
-  it('dawne jasny/ciemny przechodzą na Fresh & Tasty / Midnight Mango', () => {
+  it('dawne jasny/ciemny przechodzą na Apricot Morning / Cinnamon Night', () => {
     localStorage.setItem('ck-theme', 'light');
-    expect(readPreference()).toBe('fresh');
+    expect(readPreference()).toBe('apricot');
     localStorage.setItem('ck-theme', 'dark');
-    expect(readPreference()).toBe('midnight');
+    expect(readPreference()).toBe('cinnamon');
   });
 
   it('nieznana wartość - tryb automatyczny', () => {

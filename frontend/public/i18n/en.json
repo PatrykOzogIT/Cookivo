@@ -17,7 +17,9 @@
     "hint": {
       "auto": "Follows your system",
       "contrast": "Easier to read, no decorations"
-    }
+    },
+    "apricot": "Apricot Morning",
+    "cinnamon": "Cinnamon Night"
   },
   "nav": {
     "home": "Home",

@@ -2,9 +2,17 @@ import { DOCUMENT, Injectable, effect, inject, signal } from '@angular/core';
 import { safeStorage } from '../storage';
 
 /** Motyw wizualny; `auto` = wg ustawień systemu (ciemny → midnight, zwiększony kontrast → contrast) */
-export type ThemePreference = 'auto' | 'fresh' | 'citrus' | 'midnight' | 'contrast';
+export type ThemePreference = 'auto' | 'fresh' | 'citrus' | 'midnight' | 'apricot' | 'cinnamon' | 'contrast';
 
-export const THEMES: readonly ThemePreference[] = ['auto', 'fresh', 'citrus', 'midnight', 'contrast'];
+export const THEMES: readonly ThemePreference[] = [
+  'auto',
+  'fresh',
+  'citrus',
+  'midnight',
+  'apricot',
+  'cinnamon',
+  'contrast',
+];
 
 const STORAGE_KEY = 'ck-theme';
 
@@ -33,10 +41,10 @@ export class ThemeService {
   }
 }
 
-/** Zapisany wybór; dawne "light"/"dark" przechodzą na Fresh & Tasty / Midnight Mango */
+/** Zapisany wybór; dawne "light"/"dark" to dzisiejsze Apricot Morning / Cinnamon Night (ten sam wygląd) */
 export function readPreference(): ThemePreference {
   const stored = safeStorage.get(STORAGE_KEY);
-  if (stored === 'light') return 'fresh';
-  if (stored === 'dark') return 'midnight';
+  if (stored === 'light') return 'apricot';
+  if (stored === 'dark') return 'cinnamon';
   return THEMES.includes(stored as ThemePreference) ? (stored as ThemePreference) : 'auto';
 }

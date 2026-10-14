@@ -71,8 +71,8 @@ test.describe('Układ i nawigacja', () => {
       }
     });
     await page.goto('/');
-    await expect(page.locator('html')).toHaveAttribute('data-theme', 'midnight');
-    expect(await page.evaluate(() => localStorage.getItem('ck-theme'))).toBe('midnight');
+    await expect(page.locator('html')).toHaveAttribute('data-theme', 'cinnamon');
+    expect(await page.evaluate(() => localStorage.getItem('ck-theme'))).toBe('cinnamon');
   });
 
   test('cele dotykowe mają co najmniej 44 px', async ({ page, isMobile }) => {

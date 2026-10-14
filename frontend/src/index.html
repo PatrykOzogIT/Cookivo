@@ -25,14 +25,16 @@
     <script>
       // Ustaw motyw przed renderem, żeby nie było mignięcia jasnego ekranu.
       try {
-        // Dawne "light"/"dark" → Fresh & Tasty / Midnight Mango (tak samo w ThemeService)
+        // Dawne "light"/"dark" → Apricot Morning / Cinnamon Night (tak samo w ThemeService)
         var t = localStorage.getItem('ck-theme');
         var map = Object.assign(Object.create(null), {
-          light: 'fresh',
-          dark: 'midnight',
+          light: 'apricot',
+          dark: 'cinnamon',
           fresh: 'fresh',
           citrus: 'citrus',
           midnight: 'midnight',
+          apricot: 'apricot',
+          cinnamon: 'cinnamon',
           contrast: 'contrast',
         });
         if (t && map[t]) document.documentElement.dataset.theme = map[t];

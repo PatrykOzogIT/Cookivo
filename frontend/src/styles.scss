@@ -5,6 +5,8 @@
  *   fresh    - Fresh & Tasty (jasny, zieleń + mandarynka)
  *   citrus   - Citrus Club (jasny, głęboka zieleń + limonka)
  *   midnight - Midnight Mango (ciemny, grafit + mango)
+ *   apricot  - Apricot Morning (jasny, pierwotny motyw Cookivo: morela + brzoskwinia)
+ *   cinnamon - Cinnamon Night (ciemny, pierwotny motyw Cookivo: cynamon + ciepłe brązy)
  *   contrast - Wysoki kontrast (WCAG AAA: tekst ≥ 7:1, bez dekoracji)
  * Bez data-theme (tryb "Automatyczny"): ustawienia systemu - ciemny → midnight,
  * zwiększony kontrast → contrast, inaczej fresh. Wybór zapisuje ThemeService.
@@ -108,6 +110,75 @@
   --ck-chart-protein: #ffb547;
   --ck-chart-carbs: #8acb82;
   --ck-chart-fats: #f28b56;
+  --ck-shadow: 0 4px 24px rgb(0 0 0 / 0.35);
+  --ck-shadow-lg: 0 12px 40px rgb(0 0 0 / 0.5);
+}
+
+@mixin theme-apricot {
+  // Pierwotny jasny motyw Cookivo
+  color-scheme: light;
+  --ck-bg: #fff8f1;
+  --ck-surface: #ffffff;
+  --ck-surface-2: #fdf0e4;
+  --ck-border: #eeddcd;
+  --ck-border-strong: #9a887a;
+  --ck-text: #2e2a26;
+  --ck-text-muted: #665c54;
+  --ck-link: #a8461f;
+  --ck-cta-from: #bf5129;
+  --ck-cta-to: #9e3f24;
+  --ck-cta-text: #ffffff;
+  --ck-accent-from: #f2a65a;
+  --ck-accent-to: #e8704a;
+  --ck-on-accent: #2e2a26;
+  --ck-accent-text: #a8461f;
+  // Tekst z gradientem tylko w dużych nagłówkach (WCAG: duży tekst ≥ 3:1)
+  --ck-grad-text-from: #c2552a;
+  --ck-grad-text-to: #9a3b22;
+  --ck-hero: linear-gradient(135deg, #fff1e4 0%, #ffe0cb 55%, #fbd3c0 100%);
+  --ck-sage: #48733f;
+  --ck-sage-bg: #e9f2e6;
+  --ck-danger: #b3261e;
+  --ck-on-danger: #ffffff;
+  --ck-success: #2f6b2f;
+  --ck-focus: #9e3f24;
+  --ck-chart-protein: #d25a2e;
+  --ck-chart-carbs: #c9802a;
+  --ck-chart-fats: #5e8a58;
+  --ck-shadow: 0 4px 24px rgb(94 58 33 / 0.08);
+  --ck-shadow-lg: 0 12px 40px rgb(94 58 33 / 0.14);
+}
+
+@mixin theme-cinnamon {
+  // Pierwotny ciemny motyw Cookivo
+  color-scheme: dark;
+  --ck-bg: #17120f;
+  --ck-surface: #231c18;
+  --ck-surface-2: #2d2420;
+  --ck-border: #3d322c;
+  --ck-border-strong: #8a7a6e;
+  --ck-text: #f5ede6;
+  --ck-text-muted: #c7b9ad;
+  --ck-link: #f6b183;
+  --ck-cta-from: #f2a65a;
+  --ck-cta-to: #e8704a;
+  --ck-cta-text: #1a1512;
+  --ck-accent-from: #f2a65a;
+  --ck-accent-to: #e8704a;
+  --ck-on-accent: #1a1512;
+  --ck-accent-text: #f6b183;
+  --ck-grad-text-from: #f8c08f;
+  --ck-grad-text-to: #f08a5d;
+  --ck-hero: linear-gradient(135deg, #2a1f1a 0%, #33241d 55%, #3a2620 100%);
+  --ck-sage: #a9cba4;
+  --ck-sage-bg: #243024;
+  --ck-danger: #ffb4ab;
+  --ck-on-danger: #1a1512;
+  --ck-success: #9fd49a;
+  --ck-focus: #f6b183;
+  --ck-chart-protein: #e8704a;
+  --ck-chart-carbs: #f2a65a;
+  --ck-chart-fats: #7fa37a;
   --ck-shadow: 0 4px 24px rgb(0 0 0 / 0.35);
   --ck-shadow-lg: 0 12px 40px rgb(0 0 0 / 0.5);
 }
@@ -239,6 +310,12 @@ html[data-theme='citrus'] {
 }
 html[data-theme='midnight'] {
   @include theme-midnight;
+}
+html[data-theme='apricot'] {
+  @include theme-apricot;
+}
+html[data-theme='cinnamon'] {
+  @include theme-cinnamon;
 }
 html[data-theme='contrast'] {
   @include theme-contrast;
