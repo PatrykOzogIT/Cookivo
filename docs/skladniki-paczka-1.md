@@ -66,7 +66,7 @@ wartości na 100 g wg źródła. Alergeny: propozycja wg 14 alergenów UE.
 
 | Nazwa PL                                     | Dlaczego                                                                         |
 | -------------------------------------------- | -------------------------------------------------------------------------------- |
-| Twaróg tłusty                                | Ciqual ma tylko 0% i 2-3% (i „średni”)                                           |
+| Twaróg tłusty                                | dodany w paczce 4 (Ciqual 19711, twaróg 7-8% tłuszczu)                           |
 | Śmietana 12% / 18% kwaśna                    | Ciqual ma kwaśną gęstą tylko 30% (18% już jest w katalogu z USDA)                |
 | Serek homogenizowany waniliowy               | brak                                                                             |
 | Szprotki wędzone                             | Ciqual ma tylko surowe                                                           |

@@ -1,8 +1,9 @@
 # Rozbudowa bazy składników
 
-Stan na 2026-10-14: **375** składników (347 z USDA + 28 z Ciqual) w katalogu (`backend/prisma/seed/ingredients.catalog.ts`),
-wartości z USDA FoodData Central – SR Legacy (ok. 7 800 produktów, domena publiczna).
-Cel: stopniowo, w paczkach po 50–80 pozycji, bez obniżania jakości danych.
+Stan na 2026-10-14: **557** składników – 347 z USDA FoodData Central SR Legacy (`backend/prisma/seed/ingredients.catalog.ts`)
+
+- 210 z ANSES Ciqual 2025 (`backend/prisma/seed/ingredients.ciqual.ts`).
+  Cel: duże paczki tematyczne, bez obniżania jakości danych.
 
 ## Zasady (bez wyjątków)
 
@@ -38,24 +39,29 @@ Atrybucja CIQUAL (karta składnika + strona „Jak to działa”/README):
 - Katalog: pole `source` + `ref` zamiast samego `usda` (USDA zostaje domyślne – bez zmian w obecnych 348 pozycjach).
 - `tools/ciqual-extract.ts` – jak `usda-extract.ts`: czyta plik CIQUAL (XML, bez nowych zależności
   w produkcji), dopisuje wartości do `ingredients.data.json`, ma tryb `--search "fromage blanc"`.
-  Reguły: „-” → `null`, „traces” → 0, „< x” → `null` (nie znamy wartości).
+  Reguły: „-” → `null`, „traces” i „< x” → 0 (poniżej progu oznaczalności), przecinek dziesiętny.
+  Produkt bez kcal, białka, tłuszczu lub węglowodanów w źródle nie wchodzi do katalogu.
 - Karta składnika: „Źródło: USDA FoodData Central” / „Źródło: ANSES CIQUAL”.
 - Wdrożenie już uruchamia idempotentny seed przy każdym pushu – nowe składniki pojawią się na
   cookivo.pl automatycznie, bez ruszania danych użytkowników.
 
-## Paczki (kolejność według tego, co najczęściej brakuje w polskich przepisach)
+## Paczki
 
-| #   | Paczka                                          | Przykłady                                                                                                                                                                                                                          | Źródło        | Szac. | Status    |
-| --- | ----------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- | ----- | --------- |
-| 1   | **Polska kuchnia – braki**                      | twaróg, serek homogenizowany, mascarpone, napoje roślinne, podroby, królik, halibut, makrela wędzona, mąki gryczana / orkiszowa / ryżowa / jaglana, polenta, otręby, pita, tahini – [skladniki-paczka-1.md](skladniki-paczka-1.md) | CIQUAL        | 28    | ✅ dodane |
-| 2   | Nabiał i sery – uzupełnienie                    | kefir / maślanka smakowe, halloumi, ser kozi twardy, pecorino, jogurt pitny, serek naturalny do smarowania                                                                                                                         | CIQUAL        | ~30   |           |
-| 3   | Ryby, owoce morza, jaja                         | sola, okoń, sandacz, flądra, małże, ośmiornica, ikra, jaja kacze                                                                                                                                                                   | USDA + CIQUAL | ~30   |           |
-| 4   | Pieczywo, kasze, makarony                       | chleb bezglutenowy, kasza orkiszowa, amarantus, makaron gryczany / z soczewicy, gnocchi, ryż jaśminowy / basmati / dziki                                                                                                           | CIQUAL + USDA | ~40   |           |
-| 5   | Grzyby, warzywa, owoce – uzupełnienie           | borowik, boczniak, shiitake, topinambur, pasternak, kalarepa, rabarbar, agrest, porzeczki, mrożonki, owoce suszone                                                                                                                 | USDA + CIQUAL | ~60   |           |
-| 6   | Strączki, orzechy, nasiona, roślinne zamienniki | fasola mung, edamame, tempeh, seitan, chia, siemię lniane                                                                                                                                                                          | USDA + CIQUAL | ~35   |           |
-| 7   | Przyprawy, sosy, słodycze, napoje               | lubczyk, przyprawa do piernika, pesto, ajwar, tzatziki, syrop klonowy, dżem niskosłodzony, kompot, kwas chlebowy                                                                                                                   | USDA + CIQUAL | ~60   |           |
+| #   | Paczka                                                  | Przykłady                                                                                                                                                                                  | Źródło | Liczba | Status    |
+| --- | ------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------ | ------ | --------- |
+| 1   | **Polska kuchnia – braki**                              | twaróg, serek homogenizowany, mascarpone, napoje roślinne, podroby, królik, halibut, makrela wędzona, mąki, polenta, otręby, pita, tahini – [skladniki-paczka-1.md](skladniki-paczka-1.md) | CIQUAL | 28     | ✅ dodane |
+| 2   | **Warzywa, strączki, grzyby, owoce, orzechy**           | ziemniaki młode, topinambur, brukiew, dynia hokkaido, roszponka, rukiew, szczaw, kiełki, borowik, uszaki, groch łuskany, łubin, bób, liczi, kaki, pomelo, kasztany, mak                    | CIQUAL | 53     | ✅ dodane |
+| 3   | **Zboża, mąki, jaja, mięso, ryby i owoce morza**        | orkisz, ryż basmati / dziki / czerwony, amarantus, kasza gryczana niepalona, mąka z ciecierzycy, jaja kacze, antrykot, ozór, dziczyzna, kaczka, sandacz, leszcz, przegrzebki, raki         | CIQUAL | 76     | ✅ dodane |
+| 4   | **Nabiał i sery, tłuszcze, zioła i przyprawy, dodatki** | twaróg tłusty, mleko kozie, burrata, pecorino, grana padano, gorgonzola, olej lniany, masło solone, świeże zioła, szafran, sól selerowa, sos rybny, nori, płatki drożdżowe                 | CIQUAL | 53     | ✅ dodane |
+| 5   | Wyroby o zmiennym składzie                              | pasztet, parówki, salami, kabanosy, sosy gotowe, miso, musztardy – alergeny zależą od producenta, wymagają weryfikacji albo oznaczenia „sprawdź etykietę”                                  | CIQUAL | ~40    |           |
+| 6   | Braki spoza Ciqual                                      | golonka, mąka owsiana, mąka migdałowa, tempeh, seitan, edamame                                                                                                                             | USDA   | ~20    |           |
 
-Łącznie ok. **300 nowych** → baza ~650 składników (przed każdą paczką lista jest sprawdzana z katalogiem, żeby nie dublować pozycji). Dalej według zgłoszeń użytkowników
+Odrzucone przy przeglądzie: produkty, dla których Ciqual nie podaje energii lub makroskładników
+(np. skórka cytryny, kumkwat, morwa, czarny bez, laska wanilii, agar, syrop z agawy, olej rydzowy),
+regionalne odmiany (Martynika, Reunion), dania i produkty przetworzone, oraz pozycje dublujące
+katalog USDA (sprawdzane po fragmentach nazw i testem unikalności).
+
+Dalej według zgłoszeń użytkowników
 (najczęściej dodawane własne składniki = kandydaci do katalogu).
 
 ## Jak wygląda jedna paczka
