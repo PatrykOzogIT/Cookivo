@@ -86,10 +86,17 @@ npm run dev        # API :3000 + frontend :4200
 
 #### Dane startowe
 
-`npm run db:seed --prefix backend` wgrywa 14 alergenów UE, kategorie, jednostki i ~350 składników.
-Wartości odżywcze pochodzą z [USDA FoodData Central](https://fdc.nal.usda.gov/) (SR Legacy, domena publiczna),
-przeliczone na standard etykiety UE (węglowodany bez błonnika, sól = sód × 2,5). Polskie nazwy, alergeny i przeliczniki
-kuchenne są w `backend/prisma/seed/ingredients.catalog.ts`; wartości odświeża `npm run db:usda --prefix backend -- <katalog-CSV>`.
+`npm run db:seed --prefix backend` wgrywa 14 alergenów UE, kategorie, jednostki i składniki z dwóch źródeł:
+
+- [USDA FoodData Central](https://fdc.nal.usda.gov/) (SR Legacy, domena publiczna) – przeliczone na standard etykiety UE
+  (węglowodany bez błonnika, sól = sód × 2,5); katalog `backend/prisma/seed/ingredients.catalog.ts`,
+  wartości odświeża `npm run db:usda --prefix backend -- <katalog-CSV>`.
+- [ANSES Ciqual 2025](https://ciqual.anses.fr/) – Anses. 2025. Table de composition nutritionnelle des aliments Ciqual
+  (aktualizacja 3.11.2025), [Licence Ouverte 2.0](https://www.etalab.gouv.fr/licence-ouverte-open-licence/); wartości
+  już w standardzie UE; katalog `backend/prisma/seed/ingredients.ciqual.ts`, wartości odświeża
+  `npx tsx prisma/seed/tools/ciqual-extract.ts <katalog-XML>` (w `backend/`).
+
+Polskie nazwy, alergeny UE i przeliczniki kuchenne są w katalogach. Plan rozbudowy bazy: [docs/SKLADNIKI.md](docs/SKLADNIKI.md).
 
 #### Konto super admina
 

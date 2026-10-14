@@ -103,6 +103,11 @@ export class IngredientDetailPage implements OnInit {
     return `https://fdc.nal.usda.gov/food-details/${i.sourceRef}/nutrients`;
   }
 
+  /** Karta produktu w tabeli Ciqual (ANSES) */
+  protected ciqualUrl(i: Ingredient): string {
+    return `https://ciqual.anses.fr/#/aliments/${i.sourceRef}`;
+  }
+
   /** Alergeny z listy użytkownika obecne w składniku (nazwy po przecinku) */
   protected readonly myAllergenNames = computed(() => {
     const i = this.ingredient();

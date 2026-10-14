@@ -673,7 +673,7 @@
     "count": "Znaleziono: {{count}}",
     "empty": "Nie znaleźliśmy takiego składnika.",
     "loadMore": "Pokaż więcej ({{shown}} z {{total}})",
-    "sourceNote": "Wartości odżywcze składników podstawowych: USDA FoodData Central (domena publiczna), przeliczone na standard etykiety UE.",
+    "sourceNote": "Wartości odżywcze składników podstawowych: USDA FoodData Central (domena publiczna) oraz ANSES Ciqual 2025 (Licence Ouverte 2.0), w standardzie etykiety UE.",
     "allergens": "Alergeny",
     "noAllergens": "Nie zawiera żadnego z 14 alergenów wymaganych w UE.",
     "filters": {
@@ -727,7 +727,9 @@
       "density": "Gęstość",
       "densityHint": "Woda = 1, mleko ≈ 1,03, olej ≈ 0,92",
       "submit": "Zapisz składnik"
-    }
+    },
+    "sourceCiqual": "ANSES, tabela składu żywności Ciqual 2025 (aktualizacja: 3.11.2025),",
+    "ciqualLicence": "Dane wykorzystane na licencji"
   },
   "profile": {
     "lead": "Na podstawie tych danych wyliczymy Twoje dzienne zapotrzebowanie na kalorie i makroskładniki.",

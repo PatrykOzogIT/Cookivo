@@ -673,7 +673,7 @@
     "count": "Results: {{count}}",
     "empty": "We couldn't find that ingredient.",
     "loadMore": "Show more ({{shown}} of {{total}})",
-    "sourceNote": "Nutrition data for basic ingredients: USDA FoodData Central (public domain), converted to the EU label standard.",
+    "sourceNote": "Nutrition values of basic ingredients: USDA FoodData Central (public domain) and ANSES Ciqual 2025 (Licence Ouverte 2.0), in the EU label standard.",
     "allergens": "Allergens",
     "noAllergens": "Doesn't contain any of the 14 allergens regulated in the EU.",
     "filters": {
@@ -727,7 +727,9 @@
       "density": "Density",
       "densityHint": "Water = 1, milk ≈ 1.03, oil ≈ 0.92",
       "submit": "Save ingredient"
-    }
+    },
+    "sourceCiqual": "ANSES, Ciqual food composition table 2025 (updated 3 Nov 2025),",
+    "ciqualLicence": "Data used under the"
   },
   "profile": {
     "lead": "We use these details to calculate your daily calorie and macronutrient needs.",

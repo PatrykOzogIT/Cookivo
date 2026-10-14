@@ -44,7 +44,7 @@ export interface Ingredient extends Localized {
   id: string;
   category: Category;
   status: IngredientStatus;
-  source: 'USDA' | 'USER';
+  source: 'USDA' | 'CIQUAL' | 'USER';
   sourceRef: string | null;
   nutrition: Nutrition;
   density: number | null;

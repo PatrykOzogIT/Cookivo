@@ -143,6 +143,24 @@
                 <span class="visually-hidden">({{ t('common.opensInNewTab') }})</span>
               </a>
             </p>
+          } @else if (i.source === 'CIQUAL') {
+            <!-- Licence Ouverte 2.0: źródło, data aktualizacji danych i licencja -->
+            <p>
+              {{ t('ingredients.sourceCiqual') }}
+              <a [href]="ciqualUrl(i)" target="_blank" rel="noopener noreferrer">
+                Ciqual #{{ i.sourceRef }}
+                <span class="visually-hidden">({{ t('common.opensInNewTab') }})</span>
+              </a>
+            </p>
+            <p class="muted small">
+              {{ t('ingredients.ciqualLicence') }}
+              <a
+                href="https://www.etalab.gouv.fr/licence-ouverte-open-licence/"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Licence Ouverte 2.0<span class="visually-hidden"> ({{ t('common.opensInNewTab') }})</span></a
+              >.
+            </p>
           } @else {
             <p>{{ t('ingredients.sourceUser', { username: i.createdBy?.username ?? '—' }) }}</p>
           }

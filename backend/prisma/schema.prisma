@@ -143,6 +143,8 @@ enum IngredientStatus {
 
 enum IngredientSource {
   USDA
+  /// ANSES Ciqual (Licence Ouverte 2.0) - wymaga podania źródła
+  CIQUAL
   USER
 }
 
@@ -158,7 +160,7 @@ model Ingredient {
   category   IngredientCategory @relation(fields: [categoryId], references: [id])
   status     IngredientStatus   @default(PENDING)
   source     IngredientSource   @default(USER)
-  /// Id w źródle (np. FDC ID z USDA)
+  /// Id w źródle (FDC ID z USDA, kod produktu z Ciqual)
   sourceRef  String?            @map("source_ref") @db.VarChar(40)
   /// Stały klucz składników z seeda - pozwala bezpiecznie powtarzać seed
   seedKey    String?            @unique @map("seed_key") @db.VarChar(160)

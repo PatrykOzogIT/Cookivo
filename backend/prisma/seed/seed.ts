@@ -1,16 +1,17 @@
 /**
- * Dane startowe: alergeny, kategorie, jednostki i składniki z USDA.
+ * Dane startowe: alergeny, kategorie, jednostki i składniki z USDA oraz ANSES Ciqual.
  * Idempotentny - można uruchamiać wielokrotnie, aktualizuje istniejące wpisy.
  * Uruchamianie: `npm run db:seed` (run-seed.ts); używany też w testach e2e.
  */
 import type { PrismaClient } from '../../src/generated/prisma/client.js';
 import { normalizeSearch } from '../../src/common/text.js';
+import ciqualData from './ciqual.data.json' with { type: 'json' };
 import { INGREDIENT_CATALOG } from './ingredients.catalog.js';
+import { CIQUAL_CATALOG } from './ingredients.ciqual.js';
 import usdaData from './ingredients.data.json' with { type: 'json' };
 import { ALLERGENS, CATEGORIES, MEAL_TYPES, UNITS } from './reference-data.js';
 
-interface UsdaValues {
-  fdcId: number;
+export interface NutritionValues {
   kcal: number;
   protein: number;
   fat: number;
@@ -21,7 +22,51 @@ interface UsdaValues {
   salt: number | null;
 }
 
-const usda = usdaData as Record<string, UsdaValues>;
+const usda = usdaData as Record<string, NutritionValues & { fdcId: number }>;
+const ciqual = ciqualData as Record<string, NutritionValues & { nameFr: string; nameEn: string }>;
+
+/** Wpis do zapisania - wspólny kształt dla obu źródeł */
+export interface SeedItem {
+  seedKey: string;
+  source: 'USDA' | 'CIQUAL';
+  sourceRef: string;
+  pl: string;
+  en: string;
+  category: string;
+  allergens?: readonly string[];
+  units?: Partial<Record<string, number>>;
+  density?: number;
+  nutrition: NutritionValues;
+}
+
+/** Oba katalogi jako jedna lista. Klucz seeda z nazwy - zmiana źródła wartości nie dubluje składnika. */
+export function seedItems(): SeedItem[] {
+  const fromUsda = INGREDIENT_CATALOG.map((item): SeedItem => {
+    const values = usda[item.usda];
+    if (!values) throw new Error(`Brak danych USDA dla "${item.pl}" - uruchom tools/usda-extract.ts`);
+    const { fdcId, ...nutrition } = values;
+    return {
+      ...item,
+      seedKey: `usda:${normalizeSearch(item.pl)}`,
+      source: 'USDA',
+      sourceRef: String(fdcId),
+      nutrition,
+    };
+  });
+  const fromCiqual = CIQUAL_CATALOG.map((item): SeedItem => {
+    const values = ciqual[String(item.ciqual)];
+    if (!values) throw new Error(`Brak danych Ciqual dla "${item.pl}" - uruchom tools/ciqual-extract.ts`);
+    const { nameFr: _fr, nameEn: _en, ...nutrition } = values;
+    return {
+      ...item,
+      seedKey: `ciqual:${normalizeSearch(item.pl)}`,
+      source: 'CIQUAL',
+      sourceRef: String(item.ciqual),
+      nutrition,
+    };
+  });
+  return [...fromUsda, ...fromCiqual];
+}
 
 export async function seed(prisma: PrismaClient): Promise<{ ingredients: number }> {
   for (const [i, a] of ALLERGENS.entries()) {
@@ -57,22 +102,19 @@ export async function seed(prisma: PrismaClient): Promise<{ ingredients: number 
   const allergenIds = new Map((await prisma.allergen.findMany()).map((a) => [a.code, a.id]));
   const categoryIds = new Map((await prisma.ingredientCategory.findMany()).map((c) => [c.code, c.id]));
 
-  for (const item of INGREDIENT_CATALOG) {
-    const values = usda[item.usda];
-    if (!values) throw new Error(`Brak danych USDA dla "${item.pl}" - uruchom tools/usda-extract.ts`);
-    const { fdcId, ...nutrition } = values;
-    const seedKey = `usda:${normalizeSearch(item.pl)}`;
-
+  const items = seedItems();
+  for (const item of items) {
+    const { seedKey } = item;
     const data = {
       namePl: item.pl,
       nameEn: item.en,
       searchText: normalizeSearch(`${item.pl} ${item.en}`),
       categoryId: categoryIds.get(item.category)!,
       status: 'APPROVED' as const,
-      source: 'USDA' as const,
-      sourceRef: String(fdcId),
+      source: item.source,
+      sourceRef: item.sourceRef,
       density: item.density ?? null,
-      ...nutrition,
+      ...item.nutrition,
     };
 
     await prisma.$transaction(async (tx) => {
@@ -94,11 +136,11 @@ export async function seed(prisma: PrismaClient): Promise<{ ingredients: number 
       const units = Object.entries(item.units ?? {});
       if (units.length) {
         await tx.ingredientUnit.createMany({
-          data: units.map(([unitCode, grams]) => ({ ingredientId: ingredient.id, unitCode, grams })),
+          data: units.map(([unitCode, grams]) => ({ ingredientId: ingredient.id, unitCode, grams: grams! })),
         });
       }
     });
   }
 
-  return { ingredients: INGREDIENT_CATALOG.length };
+  return { ingredients: items.length };
 }

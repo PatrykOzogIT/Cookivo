@@ -3,8 +3,8 @@ import { createTestApp } from './support/app.js';
 type TestApp = Awaited<ReturnType<typeof createTestApp>>;
 
 const NEW_INGREDIENT = {
-  namePl: 'Twaróg półtłusty',
-  nameEn: 'Semi-skimmed quark',
+  namePl: 'Oscypek',
+  nameEn: 'Oscypek (smoked sheep cheese)',
   categoryCode: 'DAIRY',
   kcal: 133,
   protein: 18.7,
@@ -125,13 +125,13 @@ describe('Składniki (e2e)', () => {
       const id = created.body.id as string;
 
       // Autor widzi go w wyszukiwarce i w "moich"
-      const own = await t.api().get('/api/ingredients?q=twarog').set(bearer(kasia)).expect(200);
+      const own = await t.api().get('/api/ingredients?q=oscypek').set(bearer(kasia)).expect(200);
       expect(own.body.items.map((i: { id: string }) => i.id)).toContain(id);
       const mine = await t.api().get('/api/ingredients?mine=true').set(bearer(kasia)).expect(200);
       expect(mine.body.total).toBe(1);
 
       // Inni - nie, a bezpośredni link udaje, że składnik nie istnieje
-      const other = await t.api().get('/api/ingredients?q=twarog').set(bearer(ola)).expect(200);
+      const other = await t.api().get('/api/ingredients?q=oscypek').set(bearer(ola)).expect(200);
       expect(other.body.items.map((i: { id: string }) => i.id)).not.toContain(id);
       await t.api().get(`/api/ingredients/${id}`).expect(404);
       await t.api().get(`/api/ingredients/${id}`).set(bearer(ola)).expect(404);
