@@ -15,6 +15,7 @@ const PAGES = [
   '/auth/register',
   '/auth/forgot-password',
   '/legal/privacy',
+  '/legal/terms',
   '/nie-ma',
 ];
 

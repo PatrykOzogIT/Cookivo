@@ -225,8 +225,8 @@ html {
         theme-type: color-scheme,
       ),
       typography: (
-        plain-family: 'Plus Jakarta Sans, system-ui, sans-serif',
-        brand-family: 'Plus Jakarta Sans, system-ui, sans-serif',
+        plain-family: 'Plus Jakarta Sans Variable, system-ui, sans-serif',
+        brand-family: 'Plus Jakarta Sans Variable, system-ui, sans-serif',
       ),
       density: 0,
     )
@@ -371,7 +371,7 @@ body {
   background: var(--ck-bg);
   color: var(--ck-text);
   transition: var(--ck-theme-transition);
-  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  font-family: 'Plus Jakarta Sans Variable', system-ui, sans-serif;
   font-size: 16px;
   line-height: 1.55;
   -webkit-font-smoothing: antialiased;
@@ -427,10 +427,32 @@ a {
   border: 0;
 }
 
-// Ikony Material Symbols.
-// Stały kwadrat 1em: zanim font się wczyta, nazwa ikony (np. "restaurant_menu")
+// Ikony Material Symbols - font z naszego serwera, okrojony do używanych ikon
+// (scripts/icons.mjs, lista w core/icons.json). Bez zapytań do Google = bez przekazywania IP.
+@font-face {
+  font-family: 'Material Symbols Rounded';
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: block;
+  src: url('/fonts/material-symbols-rounded.woff2') format('woff2');
+}
+
+// Stały kwadrat 1em: zanim font się wczyta, nazwa ikony (np. "shopping_basket")
 // jest zwykłym tekstem i bez tego rozpychała układ na telefonach.
 .material-symbols-rounded {
+  font-family: 'Material Symbols Rounded';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  letter-spacing: normal;
+  text-transform: none;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: 'liga';
   display: inline-block;
   width: 1em;
   height: 1em;

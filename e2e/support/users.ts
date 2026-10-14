@@ -55,3 +55,12 @@ export async function loginUi(page: Page, user: TestUser): Promise<void> {
   await page.getByRole('button', { name: 'Zaloguj się' }).click();
   await expect(page).toHaveURL('/');
 }
+
+/** Symuluje zmianę regulaminu: zaakceptowana wersja staje się nieaktualna */
+export async function outdateTermsConsent(user: TestUser): Promise<void> {
+  await sql(
+    `UPDATE consents SET version = '2000-01-01'
+     WHERE type = 'TERMS' AND user_id = (SELECT id FROM users WHERE email = $1)`,
+    [user.email],
+  );
+}

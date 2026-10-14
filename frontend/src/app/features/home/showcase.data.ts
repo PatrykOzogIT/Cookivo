@@ -13,7 +13,7 @@ export interface ShowcaseSlide {
 
 /** Kolejność: od podstaw (bez konta) do funkcji zaawansowanych */
 export const SLIDES: readonly ShowcaseSlide[] = [
-  { key: 'recipes', icon: 'restaurant_menu', access: 'public', optional: false, path: '/recipes' },
+  { key: 'recipes', icon: 'fork_spoon', access: 'public', optional: false, path: '/recipes' },
   { key: 'ingredients', icon: 'nutrition', access: 'public', optional: false, path: '/ingredients' },
   { key: 'planner', icon: 'calendar_month', access: 'account', optional: false, path: '/planner' },
   { key: 'shopping', icon: 'shopping_cart', access: 'account', optional: false, path: '/shopping' },

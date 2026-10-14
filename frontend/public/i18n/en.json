@@ -77,7 +77,7 @@
     "PASSWORD_LENGTH": "Password must be 12 to 128 characters long",
     "PASSWORD_WEAK": "This password is too easy to guess - add more words or use the generator",
     "PASSWORD_PWNED": "This password has appeared in a data breach. Choose another one",
-    "TERMS_REQUIRED": "Please accept the terms and the privacy policy",
+    "TERMS_REQUIRED": "Confirm your age and accept the terms of service and privacy policy",
     "TOKEN_INVALID": "The link has expired or was already used.",
     "SESSION_EXPIRED": "Your session has expired. Please log in again.",
     "UNAUTHENTICATED": "Log in to continue.",
@@ -175,7 +175,7 @@
       "checking": "Checking availability…",
       "usernameFree": "Username available",
       "usernameHint": "Shown publicly next to your recipes",
-      "consentPrefix": "I accept the",
+      "consentPrefix": "I am at least 16 years old and accept the",
       "submit": "Create account",
       "haveAccount": "Already have an account?",
       "loginLink": "Log in"
@@ -607,53 +607,258 @@
     "terms": "Terms of service",
     "privacyAcc": "privacy policy",
     "termsAcc": "terms of service",
+    "effective": "Effective from {{date}}",
+    "print": "Print or save as PDF",
+    "update": {
+      "title": "We have updated our documents",
+      "body": "Please read the new version and accept it:",
+      "accept": "I accept",
+      "decline": "If you do not agree, you can delete your account in the settings."
+    },
+    "consents": {
+      "title": "My consents",
+      "intro": "History of your consents and document acceptances. Change the health data consent in your profile and sharing with household members in the household.",
+      "granted": "given {{date}}",
+      "revoked": "withdrawn {{date}}",
+      "version": "version {{version}}",
+      "empty": "No consents recorded.",
+      "types": {
+        "TERMS": "Terms of service",
+        "PRIVACY_POLICY": "Privacy policy",
+        "HEALTH_DATA": "Processing of health data",
+        "HOUSEHOLD_ALLERGIES": "Sharing allergies with household members",
+        "HOUSEHOLD_TARGETS": "Sharing calorie target with household members"
+      }
+    },
+    "footer": {
+      "admin": "Data controller: Patryk Ożóg",
+      "contact": "Contact"
+    },
     "privacyDoc": {
       "title": "Privacy policy",
-      "draft": "Draft - before public launch this text will be prepared or reviewed by a lawyer.",
-      "s1": {
-        "title": "Data controller",
-        "body": "The data controller is the owner of Cookivo. Contact details will be added before the public launch."
-      },
-      "s2": {
-        "title": "What we collect",
-        "body": "Your username, email address and a password hash (we never store the password itself). Optionally - with your explicit consent - health data: weight, height, allergies and intolerances, used to calculate your needs and filter recipes."
-      },
-      "s3": {
-        "title": "Legal basis and purpose",
-        "body": "We run your account under a contract (Art. 6(1)(b) GDPR). Health data is processed only with your explicit consent (Art. 9(2)(a) GDPR), which you can withdraw at any time."
-      },
-      "s4": {
-        "title": "Your rights",
-        "body": "You have the right to access, rectify, erase, restrict and export your data, and to lodge a complaint with a supervisory authority."
-      },
-      "s5": {
-        "title": "Security",
-        "body": "Passwords are hashed with Argon2id, connections are encrypted and your session lives in a secure cookie that scripts can't read. We don't sell data or use advertising cookies."
-      }
+      "intro": "This policy explains what personal data we process on Cookivo (cookivo.pl), why, for how long, and what your rights are. We try to keep it simple - if anything is unclear, write to us. The Polish version is the binding one.",
+      "sections": [
+        {
+          "title": "Data controller",
+          "body": [
+            "The controller of your personal data is Patryk Ożóg, who runs Cookivo as a private individual (\"controller\", \"we\").",
+            "For any matter concerning personal data, write to kontakt@cookivo.pl. We have not appointed a data protection officer - we are not required to."
+          ]
+        },
+        {
+          "title": "What data we process, why and on what legal basis",
+          "body": [
+            [
+              "Account: username, email address, password hash (Argon2id - we never know the password itself), language and account creation date. Purpose: creating and running your account, signing in, account-related emails (address confirmation, password reset, moderation notices). Legal basis: the service contract (Art. 6(1)(b) GDPR).",
+              "Content you create: recipes, photos, ratings and comments, meal plans, pantry, shopping lists and price lists. Purpose: providing the service. Legal basis: contract (Art. 6(1)(b) GDPR). Public content is visible to all visitors, household content to its members, private content only to you.",
+              "Health data (optional): sex, date of birth, height, weight, activity, goal, allergies and intolerances. Purpose: calculating energy and macronutrient needs and filtering recipes. Legal basis: your explicit consent (Art. 9(2)(a) GDPR). You can withdraw it at any time in your profile - withdrawal deletes this data.",
+              "Household: membership, invitations (including the invitee email address if you provide it) and people without an account. Household members see your allergies and calorie target only with your separate consent. Legal basis: contract (Art. 6(1)(b) GDPR) and, for health data, consent (Art. 9(2)(a) GDPR).",
+              "Security: IP address and browser information for sign-in sessions, number of failed sign-ins and the consent history with IP address. Purpose: protecting accounts against takeover, detecting abuse and demonstrating consent. Legal basis: our legitimate interest (Art. 6(1)(f) GDPR) and the duty to demonstrate consent (Art. 7(1) GDPR).",
+              "Moderation: reports about content and users, moderator decisions and account blocks with reasons. Purpose: countering illegal content and content that breaks the terms, and obligations under the Digital Services Act (DSA). Legal basis: legal obligation and legitimate interest (Art. 6(1)(c) and (f) GDPR).",
+              "Correspondence: when you write to us - your email address and the message, so we can reply. Legal basis: legitimate interest (Art. 6(1)(f) GDPR)."
+            ],
+            "Providing data is voluntary, but you cannot create an account without an email address and a password. Health data is entirely optional - the service works without it, just without health-based calculations and filters."
+          ]
+        },
+        {
+          "title": "Data of people without an account",
+          "body": [
+            "In a household you can add a person without an account (e.g. a child) so they are included when portions are split: a name or nickname, year of birth, sex and an optional calorie target. Do this only as a parent or guardian or with that person’s consent - a nickname is enough. Only household members see this data and you can delete it at any time."
+          ]
+        },
+        {
+          "title": "Personalisation",
+          "body": [
+            "We tailor recipe lists to your allergies, preferences and ratings (the \"For me\" filter and \"For you\" sorting). These are simple rules inside the service - we make no decisions based on them that produce legal effects for you. You can turn the filter off with a single switch."
+          ]
+        },
+        {
+          "title": "Who receives the data",
+          "body": [
+            "We do not sell data or share it with advertisers. We only entrust it to providers without whom the service cannot run, under data processing agreements (Art. 28 GDPR):",
+            [
+              "JCHost (jchost.pl) - Polish hosting provider: application server, photos and email.",
+              "Neon Inc. - cloud database stored in the EU region (Frankfurt, Germany; Amazon Web Services infrastructure). Neon is based in the USA - any access from outside the European Economic Area is safeguarded by the standard contractual clauses approved by the European Commission (Art. 46 GDPR)."
+            ],
+            "When checking whether a new password has appeared in known breaches, we send the Have I Been Pwned service only the first 5 characters of the password’s SHA-1 hash - this cannot be used to recover the password or identify you.",
+            "We may also disclose data to public authorities when required by law."
+          ]
+        },
+        {
+          "title": "How long we keep data",
+          "body": [
+            [
+              "Account and your content - until you delete the account. On deletion we erase your data, private recipes with their photos, and your ratings. Public recipes stay on the site anonymously (not linked to you) - as described in the terms.",
+              "Health data - until you withdraw consent or delete the account.",
+              "Sign-in sessions (IP address, browser) - a session expires after 30 days; its data is deleted no later than 30 days after it expires or you sign out.",
+              "Links from emails (address confirmation, password reset) - one day after use or expiry.",
+              "Photos not attached to a recipe - one day.",
+              "Consent history - for as long as the account exists.",
+              "Reports and moderation decisions - until the reported content or the reporter’s account is deleted.",
+              "Database backups at our provider - up to a few days, after which the data also disappears from backups."
+            ]
+          ]
+        },
+        {
+          "title": "Your rights",
+          "body": [
+            "You have the right to:",
+            [
+              "access your data and obtain a copy - download it in the settings (JSON export);",
+              "rectification - you can correct most data yourself in the settings and profile;",
+              "erasure - delete your account in the settings;",
+              "restriction of processing;",
+              "data portability (the same JSON export);",
+              "object to processing based on legitimate interest;",
+              "withdraw consent at any time - without affecting the lawfulness of processing before withdrawal;",
+              "lodge a complaint with the President of the Personal Data Protection Office (UODO, ul. Stawki 2, 00-193 Warsaw, Poland, https://uodo.gov.pl)."
+            ],
+            "For other requests write to kontakt@cookivo.pl. We reply without undue delay, at the latest within one month."
+          ]
+        },
+        {
+          "title": "Cookies and browser storage",
+          "body": [
+            "We only use technologies that are strictly necessary for the service:",
+            [
+              "a session cookie (secure, not accessible to scripts, valid for up to 30 days) - keeps you signed in;",
+              "browser storage (localStorage) - remembers your theme, language and the page to return to after sign-up."
+            ],
+            "We use no analytics or advertising cookies and load no third-party scripts - fonts and icons are served from our own server. That is why we do not ask for cookie consent: strictly necessary technologies do not require it."
+          ]
+        },
+        {
+          "title": "Security",
+          "body": [
+            "Passwords are stored as Argon2id hashes, connections are encrypted (HTTPS), the session is kept in a cookie scripts cannot read, and after several failed sign-in attempts the account is temporarily locked. We never ask for your password by email.",
+            "If a personal data breach occurs that may put your rights at risk, we will notify the President of UODO within 72 hours and - where required - inform you without undue delay."
+          ]
+        },
+        {
+          "title": "Age",
+          "body": [
+            "You must be at least 16 to create an account. Younger people can be included in a household as people without an account, added by a parent or guardian."
+          ]
+        },
+        {
+          "title": "Changes to this policy",
+          "body": [
+            "We will tell you about significant changes in the service after you sign in. The current version and its effective date are at the top of this page; your consent history is in the settings."
+          ]
+        }
+      ]
     },
     "termsDoc": {
       "title": "Terms of service",
-      "draft": "Draft - before public launch this text will be prepared or reviewed by a lawyer.",
-      "s1": {
-        "title": "General",
-        "body": "Cookivo is a service for planning meals, creating recipes and shopping lists."
-      },
-      "s2": {
-        "title": "Account",
-        "body": "Full features require an account. You are responsible for keeping your password safe."
-      },
-      "s3": {
-        "title": "User content",
-        "body": "By publishing recipes and photos you confirm you hold the rights to them. Offensive or unlawful content may be removed by moderators."
-      },
-      "s4": {
-        "title": "Not medical advice",
-        "body": "Calorie and macro calculations are estimates and do not replace advice from a doctor or dietitian."
-      },
-      "s5": {
-        "title": "Deleting your account",
-        "body": "You can delete your account together with your data at any time."
-      }
+      "intro": "These terms set out the rules for using Cookivo at cookivo.pl - services provided electronically within the meaning of the Polish Act of 18 July 2002 on providing services by electronic means. The Polish version is the binding one.",
+      "sections": [
+        {
+          "title": "Service provider and contact",
+          "body": [
+            "The service provider is Patryk Ożóg, running the service as a private individual. Contact: kontakt@cookivo.pl.",
+            "The same address is the point of contact for users and authorities within the meaning of Articles 11 and 12 of the Digital Services Act (DSA). We communicate in Polish and English.",
+            "The service charges no fees for its use."
+          ]
+        },
+        {
+          "title": "Services",
+          "body": [
+            [
+              "without an account: browsing public recipes and the ingredient database;",
+              "with an account: creating recipes (private, household or public) with photos, ratings and comments, a nutrition profile with a needs calculator, a meal planner, pantry, shopping lists, price lists and cost estimates, households and reporting content."
+            ],
+            "Ingredient nutrition values come from USDA FoodData Central and the ANSES Ciqual 2025 table (Licence Ouverte 2.0) - the source is shown for each ingredient."
+          ]
+        },
+        {
+          "title": "Technical requirements and risks",
+          "body": [
+            "You need a device with internet access, an up-to-date browser (e.g. Chrome, Firefox, Safari or Edge) with JavaScript and cookies enabled and - to create an account - an active email address.",
+            "Using the internet carries common risks such as malware or phishing. We never ask for your password by email - sign in only at cookivo.pl."
+          ]
+        },
+        {
+          "title": "Account",
+          "body": [
+            [
+              "You must be at least 16 to create an account.",
+              "The contract for the account is concluded when the account is created, for an indefinite period.",
+              "The account is personal - do not share it and keep your password confidential.",
+              "You can terminate the contract at any time by deleting your account in the settings.",
+              "We may terminate the contract or block the account for a serious or repeated breach of these terms - under the rules in \"Reports and moderation\"."
+            ]
+          ]
+        },
+        {
+          "title": "Rules of use",
+          "body": [
+            "It is prohibited to publish content that is:",
+            [
+              "illegal, including content infringing copyright or image rights;",
+              "offensive, vulgar, or inciting hatred or violence;",
+              "advertising or spam;",
+              "containing other people’s personal data without their consent;",
+              "presented as medical advice or encouraging behaviour that endangers health."
+            ],
+            "It is also prohibited to bypass security measures, scrape the service on a large scale or disrupt its operation."
+          ]
+        },
+        {
+          "title": "Your content and licence",
+          "body": [
+            "You keep the rights to your recipes and photos. By publishing content you confirm that you hold the rights to it (e.g. you took the photo yourself) and that people shown in photos agreed to publication.",
+            "By making a recipe public (with photos, a rating or a comment) you grant the service provider a free, non-exclusive, worldwide licence to store, reproduce and make that content available in the service to the extent needed for it to operate (including backups). Other users may create their own private variants based on a public recipe.",
+            "The licence for public recipes continues after you delete your account - the recipe stays on the site without your name (anonymously) so that other people’s plans and variants keep working. If you do not want that, make the recipe private or delete it before deleting your account. Private content and ratings are deleted with the account."
+          ]
+        },
+        {
+          "title": "Reports and moderation",
+          "body": [
+            "You can report content you consider illegal or contrary to these terms with the \"Report\" button on a recipe, review or profile, or by email to kontakt@cookivo.pl (identify the content, explain why and give your contact details). We handle reports without undue delay, and you can see the status of your reports in the settings.",
+            [
+              "After reports from 3 different people, content is automatically hidden until a moderator decides.",
+              "Possible decisions: keeping the content, hiding it, hiding the username, or a temporary or permanent account block.",
+              "The author receives a statement of reasons: what we did, why, on what basis and whether the decision was automated.",
+              "You can appeal a decision within 6 months by writing to kontakt@cookivo.pl. Appeals are reviewed by a person, not an automated system.",
+              "You may also use a certified out-of-court dispute settlement body (Art. 21 DSA) or go to court.",
+              "Persistently sending manifestly unfounded reports breaches these terms and may lead to an account block."
+            ]
+          ]
+        },
+        {
+          "title": "Health and nutrition values",
+          "body": [
+            "Calculations of calories, macronutrients, portions and costs are indicative and do not replace advice from a doctor or dietitian. User recipes are not reviewed by professionals.",
+            "We mark allergens of database ingredients to the best of our knowledge, but product composition differs between manufacturers - if you have an allergy, always check the label."
+          ]
+        },
+        {
+          "title": "Liability",
+          "body": [
+            "We take care to keep the service running, but technical interruptions are possible, especially during updates. Users are responsible for the content they publish; once we receive credible information that content is illegal, we block it promptly.",
+            "Nothing in these terms limits the rights consumers have under mandatory law."
+          ]
+        },
+        {
+          "title": "Complaints",
+          "body": [
+            "Send complaints about how the service works to kontakt@cookivo.pl - describe the problem and give your account email address. We will reply within 14 days.",
+            "As a consumer in Poland you can also get free help from a municipal or district consumer ombudsman or the Voivodeship Inspectorate of Trade Inspection."
+          ]
+        },
+        {
+          "title": "Changes to the terms",
+          "body": [
+            "We may change these terms for important reasons: changes in law, new features or security. We will inform you in the service after you sign in - at least 14 days before the change takes effect, unless it results from law or concerns security. If you do not accept the changes, you can delete your account at any time."
+          ]
+        },
+        {
+          "title": "Final provisions",
+          "body": [
+            "These terms are governed by Polish law; this does not deprive consumers of the protection given by the mandatory laws of their country of residence. The terms are available free of charge on this page - you can save or print them."
+          ]
+        }
+      ]
     }
   },
   "catalog": {

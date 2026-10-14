@@ -65,7 +65,7 @@
             >
               <span class="avatar" aria-hidden="true">{{ initials() }}</span>
               <span class="username">{{ user.username }}</span>
-              <span class="material-symbols-rounded caret" aria-hidden="true">expand_more</span>
+              <span class="material-symbols-rounded caret" aria-hidden="true">keyboard_arrow_down</span>
             </button>
 
             <mat-menu #userMenuRef="matMenu" xPosition="before">
@@ -127,15 +127,17 @@
   </header>
 
   <main id="main" tabindex="-1">
+    <app-legal-update-banner />
     <router-outlet />
   </main>
 
   <footer class="site-footer">
     <div class="container footer-inner">
-      <span>© {{ year }} Cookivo</span>
+      <span>© {{ year }} Cookivo · {{ t('legal.footer.admin') }}</span>
       <nav [attr.aria-label]="t('a11y.footerNav')">
         <a routerLink="/legal/privacy">{{ t('legal.privacy') }}</a>
         <a routerLink="/legal/terms">{{ t('legal.terms') }}</a>
+        <a [href]="'mailto:' + contactEmail">{{ t('legal.footer.contact') }}: {{ contactEmail }}</a>
       </nav>
     </div>
   </footer>

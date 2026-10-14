@@ -157,6 +157,7 @@ Produkcja: **https://cookivo.pl** - każdy push do `main` po zielonych testach a
 - Sesja: access token JWT (15 min) w pamięci + refresh token w ciasteczku `httpOnly; SameSite=Strict`, rotowany, z wykrywaniem ponownego użycia.
 - Blokada konta po 5 nieudanych logowaniach, limity żądań na IP, `helmet`, walidacja DTO (odrzucanie nieznanych pól).
 - Odpowiedzi nie zdradzają, czy konto o danym mailu istnieje.
+- Regulamin i polityka prywatności (PL/EN) z wersjonowaniem: po zmianie zalogowani akceptują nową wersję, historia zgód w ustawieniach. Bez zewnętrznych skryptów i fontów (czcionki i okrojony font ikon z własnego serwera), tylko niezbędne ciasteczka. Dokumentacja wewnętrzna (rejestr czynności, podmioty przetwarzające, procedura naruszeń): [docs/RODO.md](docs/RODO.md).
 - Dane o zdrowiu (waga, cel, alergie) tylko po wyraźnej zgodzie; jej wycofanie usuwa te dane. Eksport wszystkich danych (JSON) i usunięcie konta w ustawieniach - publiczne przepisy zostają jako anonimowe.
 - Role: gość → `USER` → `ADMIN` → `SUPER_ADMIN` (globalny guard, endpointy publiczne oznaczone `@Public()`). Rolę ADMIN nadaje i odbiera tylko super admin.
 - Blokady kont przez admina (czasowe lub stałe, z powodem): unieważniają sesje, a przy zapisach i na endpointach admina konto jest sprawdzane w bazie - blokada i zmiana roli działają od razu, bez czekania na wygaśnięcie tokenu.

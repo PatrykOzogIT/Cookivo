@@ -9,7 +9,7 @@ import { TranslocoDirective } from '@jsverse/transloco';
   template: `
     <nav class="tabs" *transloco="let t" [attr.aria-label]="t('catalog.label')">
       <a routerLink="/recipes" routerLinkActive="active" ariaCurrentWhenActive="page">
-        <span class="material-symbols-rounded" aria-hidden="true">restaurant_menu</span>
+        <span class="material-symbols-rounded" aria-hidden="true">fork_spoon</span>
         {{ t('nav.recipes') }}
       </a>
       <a routerLink="/ingredients" routerLinkActive="active" ariaCurrentWhenActive="page">

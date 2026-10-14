@@ -17,6 +17,8 @@ import { activeBlock, blockedError } from '../common/account-block.js';
 export const MAX_FAILED_LOGINS = 5;
 export const LOCK_MINUTES = 15;
 const VERIFY_TTL_MS = 24 * 60 * 60 * 1000;
+const DAY_MS = 24 * 60 * 60 * 1000;
+const STALE_SESSION_MS = 30 * DAY_MS;
 const RESET_TTL_MS = 60 * 60 * 1000;
 
 /** Parametry argon2id wg rekomendacji OWASP. */
@@ -310,7 +312,27 @@ export class AuthService {
         userAgent: meta.userAgent?.slice(0, 512),
       },
     });
+    void this.purgeStale();
     return this.buildResult(user, session.id, refreshToken, expiresAt);
+  }
+
+  /**
+   * Retencja (polityka prywatności): wygasłe i unieważnione sesje (IP, urządzenie) usuwamy 30 dni
+   * po końcu ważności, zużyte i wygasłe tokeny z maili - po dobie. Sprzątamy przy logowaniu.
+   */
+  private async purgeStale(): Promise<void> {
+    const sessionCutoff = new Date(Date.now() - STALE_SESSION_MS);
+    const tokenCutoff = new Date(Date.now() - DAY_MS);
+    try {
+      await this.prisma.session.deleteMany({
+        where: { OR: [{ expiresAt: { lt: sessionCutoff } }, { revokedAt: { lt: sessionCutoff } }] },
+      });
+      await this.prisma.emailToken.deleteMany({
+        where: { OR: [{ expiresAt: { lt: tokenCutoff } }, { usedAt: { lt: tokenCutoff } }] },
+      });
+    } catch {
+      // sprzątanie nie może blokować logowania
+    }
   }
 
   private async buildResult(

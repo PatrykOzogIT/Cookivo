@@ -8,6 +8,8 @@ import { TranslocoDirective } from '@jsverse/transloco';
 import { AuthService } from './core/auth/auth.service';
 import { LanguageService } from './core/i18n/language.service';
 import { THEMES, ThemeService, type ThemePreference } from './core/theme/theme.service';
+import { LegalUpdateBanner } from './features/legal/legal-update-banner';
+import { CONTACT_EMAIL } from './features/legal/legal';
 import { LogoComponent } from './layout/logo';
 import { GUEST_BOTTOM_NAV, GUEST_NAV, USER_BOTTOM_NAV, USER_MENU, USER_NAV } from './layout/navigation';
 
@@ -23,6 +25,7 @@ import { GUEST_BOTTOM_NAV, GUEST_NAV, USER_BOTTOM_NAV, USER_MENU, USER_NAV } fro
     MatDividerModule,
     MatTooltipModule,
     LogoComponent,
+    LegalUpdateBanner,
   ],
   templateUrl: './app.html',
   styleUrl: './app.scss',
@@ -39,6 +42,7 @@ export class App {
   );
   protected readonly userMenu = USER_MENU;
   protected readonly year = new Date().getFullYear();
+  protected readonly contactEmail = CONTACT_EMAIL;
 
   protected readonly themes = THEMES;
   /** Podgląd kolorów w menu motywu (tło, kolor główny, akcent) - stały, niezależny od bieżącego motywu */

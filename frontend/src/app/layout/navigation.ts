@@ -9,7 +9,7 @@ export interface NavItem {
 }
 
 export const GUEST_NAV: NavItem[] = [
-  { path: '/recipes', label: 'nav.recipes', icon: 'restaurant_menu' },
+  { path: '/recipes', label: 'nav.recipes', icon: 'fork_spoon' },
   { path: '/ingredients', label: 'nav.ingredients', icon: 'nutrition' },
   {
     path: '/how-it-works',
@@ -20,7 +20,7 @@ export const GUEST_NAV: NavItem[] = [
 ];
 
 export const USER_NAV: NavItem[] = [
-  { path: '/recipes', label: 'nav.recipes', icon: 'restaurant_menu' },
+  { path: '/recipes', label: 'nav.recipes', icon: 'fork_spoon' },
   { path: '/ingredients', label: 'nav.ingredients', icon: 'nutrition' },
   { path: '/planner', label: 'nav.planner', icon: 'calendar_month' },
   { path: '/shopping', label: 'nav.shopping', shortLabel: 'nav.shoppingShort', icon: 'shopping_cart' },

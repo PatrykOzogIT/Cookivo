@@ -109,7 +109,7 @@ describe('RegisterPage', () => {
     await fixture.whenStable();
 
     backend.expectNone('/api/auth/register');
-    expect(el.querySelector('[role=alert]')?.textContent).toContain('Zaakceptuj regulamin');
+    expect(el.querySelector('[role=alert]')?.textContent).toContain('zaakceptuj regulamin');
   });
 
   it('pokazuje błąd serwera przy właściwym polu', async () => {

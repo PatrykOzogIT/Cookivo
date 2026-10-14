@@ -43,6 +43,10 @@ DirectoryIndex index.html
   <FilesMatch "\.(html|json)$">
     Header set Cache-Control "no-cache"
   </FilesMatch>
+  # Font ikon bez hasha w nazwie (scripts/icons.mjs) - zawsze sprawdzany (ETag → 304), żeby nowe ikony działały od razu
+  <FilesMatch "^material-symbols-rounded\.woff2$">
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
 </IfModule>
 
 <IfModule mod_deflate.c>

@@ -10,6 +10,7 @@ import { PhotosModule } from './photos/photos.module.js';
 import { RecipesModule } from './recipes/recipes.module.js';
 import { ProfileModule } from './profile/profile.module.js';
 import { AccountModule } from './account/account.module.js';
+import { LegalModule } from './legal/legal.module.js';
 import { HouseholdModule } from './household/household.module.js';
 import { PlannerModule } from './planner/planner.module.js';
 import { PantryModule } from './pantry/pantry.module.js';
@@ -56,6 +57,7 @@ import { PrismaModule } from './prisma/prisma.module.js';
     RecipesModule,
     ProfileModule,
     AccountModule,
+    LegalModule,
     HouseholdModule,
     PlannerModule,
     PantryModule,

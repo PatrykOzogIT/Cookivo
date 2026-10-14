@@ -12,6 +12,7 @@ import { AuthService } from '../../core/auth/auth.service';
 import { LanguageService, type Language } from '../../core/i18n/language.service';
 import { PasswordFieldComponent } from '../auth/password/password-field';
 import { MyReportsCard } from '../moderation/my-reports-card';
+import { MyConsentsCard } from '../legal/my-consents-card';
 import { PasswordStrengthService } from '../auth/password/password-strength.service';
 import { passwordPolicyValidator } from '../auth/password/password-validators';
 import { ProfileApi, type SessionInfo } from './profile.api';
@@ -50,6 +51,7 @@ export function describeDevice(ua: string | null): string | null {
   selector: 'app-settings-page',
   imports: [
     MyReportsCard,
+    MyConsentsCard,
     NgTemplateOutlet,
     ReactiveFormsModule,
     MatButtonModule,
