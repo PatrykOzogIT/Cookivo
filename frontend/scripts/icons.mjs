@@ -15,6 +15,12 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const SOURCES = [join(ROOT, 'src/app'), join(ROOT, '../backend/prisma/seed/reference-data.ts')];
 const LIST = join(ROOT, 'src/app/core/icons.json');
 const FONT = join(ROOT, 'public/fonts/material-symbols-rounded.woff2');
+/**
+ * Słowa, które w kodzie są kluczami/parametrami, a przypadkiem są też nazwami ikon
+ * (np. 'groups' = slajd i filtr grup znajomych). Ikona użyta wprost w <span> lub icon: '...'
+ * i tak trafi do fontu.
+ */
+const NOT_ICONS = new Set(['groups']);
 
 export function allIconNames() {
   const dts = readFileSync(join(ROOT, 'node_modules/material-symbols/index.d.ts'), 'utf8');
@@ -26,7 +32,8 @@ function files(path) {
   return readdirSync(path, { withFileTypes: true }).flatMap((e) =>
     e.isDirectory()
       ? files(join(path, e.name))
-      : /\.(ts|html)$/.test(e.name) && !e.name.endsWith('.spec.ts')
+      : // pomijamy testy i trasy (ścieżki typu 'groups' to nie ikony)
+        /\.(ts|html)$/.test(e.name) && !/\.(spec|routes)\.ts$/.test(e.name)
         ? [join(path, e.name)]
         : [],
   );
@@ -49,7 +56,9 @@ export function usedIcons() {
       found.add(m[1]);
     }
     // Pozostałe literały w '...' / "..." i tekst między znacznikami - tylko znane nazwy ikon
-    for (const m of text.matchAll(/['">]\s*([a-z][a-z0-9_]*)\s*['"<]/g)) if (known.has(m[1])) found.add(m[1]);
+    for (const m of text.matchAll(/['">]\s*([a-z][a-z0-9_]*)\s*['"<]/g)) {
+      if (known.has(m[1]) && !NOT_ICONS.has(m[1])) found.add(m[1]);
+    }
   }
   if (unknown.size) {
     console.error(

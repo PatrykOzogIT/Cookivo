@@ -1,0 +1,104 @@
+<div class="page" *transloco="let t">
+  <h1>{{ t('nav.groups') }}</h1>
+  <p class="lead">{{ t('groups.lead') }}</p>
+
+  @if (error(); as code) {
+    <div class="alert" role="alert">{{ t('errors.' + code) }}</div>
+  }
+
+  @if (loading()) {
+    <mat-progress-bar mode="indeterminate" [attr.aria-label]="t('common.loading')" />
+  } @else {
+    @if (groups()?.length) {
+      <ul class="group-list">
+        @for (g of groups(); track g.id) {
+          <li>
+            <a class="ck-card group-card" [routerLink]="['/groups', g.id]">
+              <span class="material-symbols-rounded icon" aria-hidden="true">diversity_3</span>
+              <span class="body">
+                <strong class="name">{{ g.name }}</strong>
+                @if (g.description) {
+                  <span class="desc">{{ g.description }}</span>
+                }
+                <span class="meta">
+                  {{ t('groups.membersCount', { count: g.memberCount }) }}
+                  @if (g.recipeCount !== null) {
+                    · {{ t('groups.recipesCount', { count: g.recipeCount }) }}
+                  }
+                </span>
+              </span>
+              <span class="badges">
+                @if (g.status === 'PENDING') {
+                  <span class="badge pending">{{ t('groups.pendingMe') }}</span>
+                }
+                @if (g.role === 'OWNER') {
+                  <span class="badge">{{ t('groups.owner') }}</span>
+                }
+                @if (g.pendingCount) {
+                  <span class="badge attention">{{ t('groups.waiting', { count: g.pendingCount }) }}</span>
+                }
+              </span>
+            </a>
+          </li>
+        }
+      </ul>
+    } @else {
+      <section class="ck-card box start" aria-labelledby="groups-empty">
+        <span class="material-symbols-rounded icon" aria-hidden="true">diversity_3</span>
+        <h2 id="groups-empty">{{ t('groups.emptyTitle') }}</h2>
+        <ul class="benefits">
+          <li>{{ t('groups.benefits.share') }}</li>
+          <li>{{ t('groups.benefits.private') }}</li>
+          <li>{{ t('groups.benefits.approve') }}</li>
+        </ul>
+        <p class="muted">{{ t('groups.haveInvite') }}</p>
+      </section>
+    }
+
+    <section class="ck-card box" aria-labelledby="create-group">
+      <h2 id="create-group">{{ t('groups.createTitle') }}</h2>
+      @if (canCreate()) {
+        @if (creating() || !groups()?.length) {
+          <form class="group-form" [formGroup]="form" (ngSubmit)="create()" novalidate>
+            <mat-form-field subscriptSizing="dynamic">
+              <mat-label>{{ t('groups.name') }}</mat-label>
+              <input
+                matInput
+                formControlName="name"
+                maxlength="60"
+                autocomplete="off"
+                [placeholder]="t('groups.namePlaceholder')"
+                required
+              />
+            </mat-form-field>
+            <mat-form-field subscriptSizing="dynamic">
+              <mat-label>{{ t('groups.description') }}</mat-label>
+              <textarea matInput formControlName="description" maxlength="300" rows="2"></textarea>
+            </mat-form-field>
+            <div class="row">
+              <button mat-flat-button class="ck-cta" type="submit" [disabled]="busy()">
+                {{ t('groups.create') }}
+              </button>
+              @if (groups()?.length) {
+                <button mat-button type="button" (click)="creating.set(false)">
+                  {{ t('common.cancel') }}
+                </button>
+              }
+            </div>
+          </form>
+        } @else {
+          <button mat-stroked-button type="button" (click)="creating.set(true)">
+            <span class="material-symbols-rounded" aria-hidden="true">add</span>{{ t('groups.new') }}
+          </button>
+        }
+      } @else {
+        <p class="muted">{{ t('groups.limitReached') }}</p>
+      }
+      @if (limits(); as l) {
+        <p class="muted small">
+          {{ t('groups.limits', { groups: l.groups, owned: l.owned, members: l.members }) }}
+        </p>
+      }
+    </section>
+  }
+</div>

@@ -73,6 +73,10 @@ model User {
   householdMember  HouseholdMember?
   householdInvites HouseholdInvite[]
 
+  friendGroups       FriendGroupMember[] @relation("FriendGroupMember")
+  friendGroupInvited FriendGroupMember[] @relation("FriendGroupInvitedBy")
+  friendGroupInvites FriendGroupInvite[]
+
   plannerSettings PlannerSettings?
   customSlots     CustomMealSlot[]
   planCooks       PlanCook[]       @relation("PlanCookOwner")
@@ -309,6 +313,8 @@ enum RecipeVisibility {
   PRIVATE
   /// Widoczny dla członków gospodarstwa autora
   HOUSEHOLD
+  /// Widoczny dla wybranych grup znajomych autora (recipe_friend_groups) i jego domowników
+  GROUPS
   PUBLIC
 }
 
@@ -349,10 +355,12 @@ model Recipe {
   variantNote String?  @map("variant_note") @db.VarChar(200)
 
   /// Oceny zapisane w przepisie, żeby szybko sortować (przeliczane po każdej ocenie)
-  ratingAvg   Float?         @map("rating_avg")
-  ratingCount Int            @default(0) @map("rating_count")
+  ratingAvg   Float?              @map("rating_avg")
+  ratingCount Int                 @default(0) @map("rating_count")
   ratings     RecipeRating[]
   reports     Report[]
+  /// Grupy znajomych, którym udostępniono przepis (tylko przy visibility = GROUPS)
+  groups      RecipeFriendGroup[]
 
   /// Opcjonalna waga gotowej potrawy - jeśli podana, wartości na 100 g są dokładne
   /// (gotowanie odparowuje albo wchłania wodę); jeśli nie, przybliżamy sumą składników.
@@ -900,4 +908,79 @@ model Report {
   @@index([targetUserId])
   @@index([reporterId])
   @@map("reports")
+}
+
+// --- Grupy znajomych -------------------------------------------------------------------
+// Dzielenie się przepisami w gronie większym niż gospodarstwo, mniejszym niż publiczne.
+// Bez planów, zakupów i danych o zdrowiu - tylko przepisy. Zaprasza każdy członek,
+// osoba zaproszona przez nie-właściciela czeka na akceptację właściciela (PENDING).
+
+enum FriendGroupRole {
+  OWNER
+  MEMBER
+}
+
+enum FriendGroupMemberStatus {
+  /// Dołączył z zaproszenia, czeka na akceptację właściciela - nie widzi przepisów grupy
+  PENDING
+  ACTIVE
+}
+
+model FriendGroup {
+  id          String              @id @default(uuid(7)) @db.Uuid
+  name        String              @db.VarChar(60)
+  description String?             @db.VarChar(300)
+  createdAt   DateTime            @default(now()) @map("created_at")
+  members     FriendGroupMember[]
+  invites     FriendGroupInvite[]
+  recipes     RecipeFriendGroup[]
+
+  @@map("friend_groups")
+}
+
+model FriendGroupMember {
+  groupId     String                  @map("group_id") @db.Uuid
+  group       FriendGroup             @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  userId      String                  @map("user_id") @db.Uuid
+  user        User                    @relation("FriendGroupMember", fields: [userId], references: [id], onDelete: Cascade)
+  role        FriendGroupRole         @default(MEMBER)
+  status      FriendGroupMemberStatus @default(ACTIVE)
+  /// Kto zaprosił (do informacji dla właściciela przy akceptacji)
+  invitedById String?                 @map("invited_by_id") @db.Uuid
+  invitedBy   User?                   @relation("FriendGroupInvitedBy", fields: [invitedById], references: [id], onDelete: SetNull)
+  joinedAt    DateTime                @default(now()) @map("joined_at")
+  approvedAt  DateTime?               @map("approved_at")
+
+  @@id([groupId, userId])
+  @@index([userId])
+  @@map("friend_group_members")
+}
+
+/// Zaproszenie: jednorazowy link (hash tokenu), opcjonalnie wysłany mailem
+model FriendGroupInvite {
+  id          String      @id @default(uuid(7)) @db.Uuid
+  groupId     String      @map("group_id") @db.Uuid
+  group       FriendGroup @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  tokenHash   String      @unique @map("token_hash")
+  email       String?     @db.VarChar(254)
+  createdById String?     @map("created_by_id") @db.Uuid
+  createdBy   User?       @relation(fields: [createdById], references: [id], onDelete: SetNull)
+  expiresAt   DateTime    @map("expires_at")
+  usedAt      DateTime?   @map("used_at")
+  revokedAt   DateTime?   @map("revoked_at")
+  createdAt   DateTime    @default(now()) @map("created_at")
+
+  @@index([groupId])
+  @@map("friend_group_invites")
+}
+
+model RecipeFriendGroup {
+  recipeId String      @map("recipe_id") @db.Uuid
+  recipe   Recipe      @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+  groupId  String      @map("group_id") @db.Uuid
+  group    FriendGroup @relation(fields: [groupId], references: [id], onDelete: Cascade)
+
+  @@id([recipeId, groupId])
+  @@index([groupId])
+  @@map("recipe_friend_groups")
 }

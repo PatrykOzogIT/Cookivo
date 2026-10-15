@@ -42,7 +42,8 @@
     "login": "Log in",
     "register": "Sign up",
     "ingredients": "Ingredients",
-    "reviewIngredients": "Ingredients to review"
+    "reviewIngredients": "Ingredients to review",
+    "groups": "Friend groups"
   },
   "common": {
     "close": "Close",
@@ -135,7 +136,15 @@
     "OWN_CONTENT": "You cannot report your own content.",
     "REPORT_INVALID": "This content cannot be reported.",
     "ACCOUNT_BLOCKED": "Your account is blocked.",
-    "CANNOT_MODIFY_SELF": "You cannot change your own account this way."
+    "CANNOT_MODIFY_SELF": "You cannot change your own account this way.",
+    "GROUP_LIMIT": "You're already in the maximum number of groups.",
+    "GROUP_OWNED_LIMIT": "The maximum number of groups has already been created.",
+    "GROUP_FULL": "The group already has the maximum number of people.",
+    "ALREADY_IN_GROUP": "You're already in this group.",
+    "NOT_IN_GROUP": "You're not in this group.",
+    "GROUP_PENDING": "You're still waiting for the group owner's approval.",
+    "GROUPS_REQUIRED": "Choose at least one group.",
+    "GROUP_UNKNOWN": "You can only share with groups you belong to."
   },
   "auth": {
     "fields": {
@@ -323,6 +332,15 @@
           "need": "nothing – open to everyone.",
           "cta": "Browse ingredients",
           "ctaGuest": "Browse ingredients"
+        },
+        "groups": {
+          "tab": "Groups",
+          "title": "Recipes among friends",
+          "body": "Share recipes with selected groups – wider than your home, without publishing to everyone. The group owner approves new people.",
+          "where": "Account menu → Friend groups",
+          "need": "optional – create a group or join with an invitation.",
+          "cta": "Open groups",
+          "ctaGuest": "Sign up and join your friends"
         }
       },
       "p": {
@@ -407,7 +425,19 @@
         "proteinShort": "g protein",
         "carbsShort": "g carbs",
         "fatShort": "g fat",
-        "portionCalc": "50 g → 168 kcal"
+        "portionCalc": "50 g → 168 kcal",
+        "g1": {
+          "name": "Work kitchen",
+          "meta": "8 people · 24 recipes"
+        },
+        "g2": {
+          "name": "Fit friends",
+          "meta": "5 people · 11 recipes"
+        },
+        "g3": {
+          "name": "Neighbours",
+          "meta": "12 people · 37 recipes"
+        }
       },
       "scale": {
         "basic": "Basics",
@@ -499,7 +529,10 @@
       "upToMinutes": "up to {{minutes}} min",
       "other": "Other",
       "canBeIngredient": "Can be an ingredient",
-      "household": "Our household recipes"
+      "household": "Our household recipes",
+      "groups": "From my groups",
+      "group": "Group",
+      "allGroups": "All my groups"
     },
     "units": {
       "serving": "serving"
@@ -568,7 +601,10 @@
       "cookedGrams": "Cooked weight (optional)",
       "cookedGramsHint": "Weigh the finished dish - values per 100 g will be more accurate.",
       "submit": "Save recipe",
-      "household": "My household"
+      "household": "My household",
+      "groups": "Selected friend groups (and household)",
+      "groupsPick": "Share with groups",
+      "groupsHint": "Members of the selected groups and your household will see the recipe."
     },
     "cook": {
       "title": "Cooking mode",
@@ -592,7 +628,10 @@
       "screenOn": "The screen will stay on while cooking",
       "screenMayDim": "Your browser does not allow keeping the screen on"
     },
-    "householdBadge": "Household"
+    "householdBadge": "Household",
+    "groupsBadge": "Groups",
+    "inGroup": "Group: {{name}}",
+    "toGroup": "Go to group"
   },
   "placeholder": {
     "body": "This section is under construction - it arrives in stage {{stage}}."
@@ -653,6 +692,7 @@
               "Content you create: recipes, photos, ratings and comments, meal plans, pantry, shopping lists and price lists. Purpose: providing the service. Legal basis: contract (Art. 6(1)(b) GDPR). Public content is visible to all visitors, household content to its members, private content only to you.",
               "Health data (optional): sex, date of birth, height, weight, activity, goal, allergies and intolerances. Purpose: calculating energy and macronutrient needs and filtering recipes. Legal basis: your explicit consent (Art. 9(2)(a) GDPR). You can withdraw it at any time in your profile - withdrawal deletes this data.",
               "Household: membership, invitations (including the invitee email address if you provide it) and people without an account. Household members see your allergies and calorie target only with your separate consent. Legal basis: contract (Art. 6(1)(b) GDPR) and, for health data, consent (Art. 9(2)(a) GDPR).",
+              "Friend groups (optional): membership, role, approval status, who invited you, invitations (including the invitee's email address if you provide it) and recipes shared with the group. Group members see your username and shared recipes; a person waiting for approval is visible only to the group owner. Groups give no access to health data, plans or shopping. Legal basis: contract (Art. 6(1)(b) GDPR).",
               "Security: IP address and browser information for sign-in sessions, number of failed sign-ins and the consent history with IP address. Purpose: protecting accounts against takeover, detecting abuse and demonstrating consent. Legal basis: our legitimate interest (Art. 6(1)(f) GDPR) and the duty to demonstrate consent (Art. 7(1) GDPR).",
               "Moderation: reports about content and users, moderator decisions and account blocks with reasons. Purpose: countering illegal content and content that breaks the terms, and obligations under the Digital Services Act (DSA). Legal basis: legal obligation and legitimate interest (Art. 6(1)(c) and (f) GDPR).",
               "Correspondence: when you write to us - your email address and the message, so we can reply. Legal basis: legitimate interest (Art. 6(1)(f) GDPR)."
@@ -690,6 +730,7 @@
             [
               "Account and your content - until you delete the account. On deletion we erase your data, private recipes with their photos, and your ratings. Public recipes stay on the site anonymously (not linked to you) - as described in the terms.",
               "Health data - until you withdraw consent or delete the account.",
+              "Friend group membership - until you leave the group or delete the account; after leaving, your recipes are no longer shared with the group.",
               "Sign-in sessions (IP address, browser) - a session expires after 30 days; its data is deleted no later than 30 days after it expires or you sign out.",
               "Links from emails (address confirmation, password reset) - one day after use or expiry.",
               "Photos not attached to a recipe - one day.",
@@ -765,7 +806,7 @@
           "body": [
             [
               "without an account: browsing public recipes and the ingredient database;",
-              "with an account: creating recipes (private, household or public) with photos, ratings and comments, a nutrition profile with a needs calculator, a meal planner, pantry, shopping lists, price lists and cost estimates, households and reporting content."
+              "with an account: creating recipes (private, household or public) with photos, ratings and comments, a nutrition profile with a needs calculator, a meal planner, pantry, shopping lists, price lists and cost estimates, households, friend groups (shared recipes; the group owner approves new people) and reporting content."
             ],
             "Ingredient nutrition values come from USDA FoodData Central and the ANSES Ciqual 2025 table (Licence Ouverte 2.0) - the source is shown for each ingredient."
           ]
@@ -808,7 +849,7 @@
           "body": [
             "You keep the rights to your recipes and photos. By publishing content you confirm that you hold the rights to it (e.g. you took the photo yourself) and that people shown in photos agreed to publication.",
             "By making a recipe public (with photos, a rating or a comment) you grant the service provider a free, non-exclusive, worldwide licence to store, reproduce and make that content available in the service to the extent needed for it to operate (including backups). Other users may create their own private variants based on a public recipe.",
-            "The licence for public recipes continues after you delete your account - the recipe stays on the site without your name (anonymously) so that other people’s plans and variants keep working. If you do not want that, make the recipe private or delete it before deleting your account. Private content and ratings are deleted with the account."
+            "The licence for public recipes continues after you delete your account - the recipe stays on the site without your name (anonymously) so that other people’s plans and variants keep working. If you do not want that, make the recipe private or delete it before deleting your account. Private content, household and group recipes and ratings are deleted with the account - a household or group recipe stays (without your name) only if others use it as an ingredient of their recipes."
           ]
         },
         {
@@ -1505,6 +1546,68 @@
       "permanent": "Permanently",
       "reason": "Reason (shown to the user)",
       "blockHint": "The user will be signed out on all devices and receive an email with the reason."
+    }
+  },
+  "groups": {
+    "lead": "Share recipes with friends - wider than your household, without publishing to everyone. Groups are only about recipes: plans, shopping and health data stay with you.",
+    "membersCount": "Members: {{count}}",
+    "recipesCount": "Recipes: {{count}}",
+    "pendingMe": "Waiting for approval",
+    "owner": "Owner",
+    "waiting": "To approve: {{count}}",
+    "emptyTitle": "You're not in any group yet",
+    "benefits": {
+      "share": "Share selected recipes with selected groups - e.g. \"Work lunch crew\" or \"Fit friends\".",
+      "private": "Group recipes are seen only by its members (and your household), not the whole internet.",
+      "approve": "Anyone can invite, but the group owner approves new people."
+    },
+    "haveInvite": "Got an invitation? Open the link your friends sent you.",
+    "createTitle": "New group",
+    "name": "Group name",
+    "namePlaceholder": "e.g. Work kitchen",
+    "description": "Description (optional)",
+    "create": "Create group",
+    "new": "Create a new group",
+    "limitReached": "Group limit reached. Leave a group to create a new one.",
+    "limits": "You can be in {{groups}} groups and create {{owned}} of them. A group can have up to {{members}} people.",
+    "edit": "Edit",
+    "pendingTitle": "Waiting for approval",
+    "pendingLead": "The group owner has been notified. Once accepted, you will see the group recipes and members.",
+    "cancelRequest": "Withdraw request",
+    "recipes": "Group recipes",
+    "pendingListTitle": "Waiting for approval: {{count}}",
+    "pendingListLead": "These people joined with another member's invitation. They will see recipes only after you approve them.",
+    "invitedBy": "invited by {{username}} · {{date}}",
+    "approve": "Accept",
+    "reject": "Decline",
+    "membersTitle": "Members",
+    "membersOf": "Members: {{count}} of {{max}}",
+    "makeOwner": "Hand over group",
+    "remove": "Remove from group",
+    "inviteTitle": "Invite friends",
+    "inviteLeadOwner": "People you invite join right away.",
+    "inviteLeadMember": "People you invite join after the group owner approves them.",
+    "linkHint": "The link works once and is valid for 7 days - send it to one person.",
+    "leaveTitle": "Leave group",
+    "leaveLead": "Your recipes will no longer be visible in this group. Others' recipes will disappear from your list.",
+    "leave": "Leave group",
+    "delete": "Delete group",
+    "confirm": "Confirm",
+    "leaveConfirm": "Are you sure you want to leave the group?",
+    "leaveOwnerConfirm": "You're the owner - the longest-standing member will take over the group. Leave?",
+    "deleteConfirm": "Delete the group? All members will lose access and recipes will no longer be shared in it. The recipes themselves are not deleted.",
+    "removeConfirm": "Remove {{username}} from the group? Their recipes will no longer be visible in the group.",
+    "rejectConfirm": "Decline {{username}}'s request?",
+    "makeOwnerConfirm": "Hand the group over to {{username}}? You will lose owner rights.",
+    "join": {
+      "pageTitle": "Group invitation",
+      "title": "Invitation to the group “{{name}}”",
+      "invitedBy": "{{username}} invites you to share recipes. Members: {{count}}.",
+      "members": "Members: {{count}}.",
+      "needsApproval": "After joining, the group owner still needs to approve you.",
+      "accept": "Join the group",
+      "toMine": "Go to my groups",
+      "loginFirst": "Sign in to join. Don't have an account? Create one - we'll bring you back to this invitation."
     }
   }
 }

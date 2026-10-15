@@ -96,6 +96,16 @@ export class ListRecipesQuery {
   @IsBoolean()
   household?: boolean;
 
+  /** Tylko przepisy udostępnione w moich grupach znajomych (wszystkich albo jednej) */
+  @IsOptional()
+  @Transform(toBool)
+  @IsBoolean()
+  groups?: boolean;
+
+  @IsOptional()
+  @IsUUID()
+  groupId?: string;
+
   @IsOptional()
   @IsIn(['newest', 'kcal', 'time', 'name', 'forYou', 'fromPantry', 'rating'])
   sort: 'newest' | 'kcal' | 'time' | 'name' | 'forYou' | 'fromPantry' | 'rating' = 'newest';
@@ -203,8 +213,16 @@ export class SaveRecipeDto {
   @IsIn(DIFFICULTIES)
   difficulty?: (typeof DIFFICULTIES)[number] | null;
 
-  @IsIn(['PRIVATE', 'HOUSEHOLD', 'PUBLIC'])
-  visibility!: 'PRIVATE' | 'HOUSEHOLD' | 'PUBLIC';
+  @IsIn(['PRIVATE', 'HOUSEHOLD', 'GROUPS', 'PUBLIC'])
+  visibility!: 'PRIVATE' | 'HOUSEHOLD' | 'GROUPS' | 'PUBLIC';
+
+  /** Grupy znajomych, którym udostępniamy przepis (tylko przy visibility = GROUPS) */
+  @IsOptional()
+  @IsArray()
+  @ArrayMaxSize(10)
+  @ArrayUnique()
+  @IsUUID('all', { each: true })
+  groupIds: string[] = [];
 
   @IsBoolean()
   canBeIngredient = false;

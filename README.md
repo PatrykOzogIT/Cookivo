@@ -13,6 +13,7 @@ Angular and NestJS.
 - 🛒 Automatic shopping lists
 - 💰 Food budget planning
 - 🏠 Household meal planning
+- 👥 Friend groups for sharing recipes (owner approves new members)
 - 🥕 Pantry management
 - ⚠️ Allergies & food intolerances
 - ⭐ Recipe ratings and variants
@@ -128,6 +129,7 @@ backend/
   src/photos/        zdjęcia: WebP w 3 rozmiarach (sharp), bez metadanych GPS
   src/profile/       profil żywieniowy, kalkulator kcal/makro, alergie, preferencje, dopasowanie list
   src/household/     gospodarstwa domowe: zaproszenia, członkowie, udostępnianie alergii
+  src/groups/        grupy znajomych: zaproszenia z akceptacją właściciela, przepisy "dla grup"
   src/planner/       planer: gotowania (partie) i posiłki, zapasy, bilans dnia, kopiowanie
   src/pantry/        lodówka i spiżarnia (ilość opcjonalna, daty ważności)
   src/shopping/      lista zakupów: z planu i z przepisu (z podprzepisami), minus lodówka

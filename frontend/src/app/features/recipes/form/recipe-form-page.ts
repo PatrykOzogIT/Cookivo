@@ -22,6 +22,7 @@ import { apiErrorCode } from '../../../core/api-error';
 import { AuthService } from '../../../core/auth/auth.service';
 import { LocalizedPipe, NumberPipe, formatNumber, parseDecimal } from '../../../core/i18n/format.pipes';
 import { LanguageService } from '../../../core/i18n/language.service';
+import { GroupsApi } from '../../groups/groups.api';
 import { HouseholdApi } from '../../household/household.api';
 import { IngredientsApi } from '../../ingredients/ingredients.api';
 import { decimalValidator } from '../../ingredients/form/nutrition-validators';
@@ -74,6 +75,8 @@ export class RecipeFormPage implements OnInit {
   private readonly fb = inject(NonNullableFormBuilder);
   protected readonly auth = inject(AuthService);
   protected readonly household = inject(HouseholdApi);
+  /** Grupy, którym mogę udostępnić przepis */
+  protected readonly myGroups = inject(GroupsApi).active;
   protected readonly lang = inject(LanguageService).current;
   protected readonly dictionaries = toSignal(inject(IngredientsApi).dictionaries$);
 
@@ -97,6 +100,7 @@ export class RecipeFormPage implements OnInit {
     cookMinutes: this.fb.control('', [Validators.pattern(/^\d*$/), decimalValidator(0, 4320)]),
     difficulty: this.fb.control<Difficulty | ''>(''),
     visibility: this.fb.control<Visibility>('PRIVATE'),
+    groupIds: this.fb.control<string[]>([]),
     canBeIngredient: this.fb.control(false),
     cookedGrams: this.fb.control('', [decimalValidator(1, 100000)]),
     variantNote: this.fb.control('', [Validators.maxLength(200)]),
@@ -286,6 +290,12 @@ export class RecipeFormPage implements OnInit {
     }
   }
 
+  /** Zaznaczenie / odznaczenie grupy przy widoczności "Dla grup" */
+  protected toggleGroup(id: string, on: boolean): void {
+    const current = this.form.controls.groupIds.value;
+    this.form.controls.groupIds.setValue(on ? [...current, id] : current.filter((g) => g !== id));
+  }
+
   private payload(): SaveRecipe {
     const v = this.form.getRawValue();
     const int = (s: string) => (s.trim() ? parseInt(s, 10) : null);
@@ -297,6 +307,7 @@ export class RecipeFormPage implements OnInit {
       cookMinutes: int(v.cookMinutes),
       difficulty: v.difficulty || null,
       visibility: v.visibility,
+      groupIds: v.visibility === 'GROUPS' ? v.groupIds : [],
       canBeIngredient: v.canBeIngredient,
       cookedGrams: parseDecimal(v.cookedGrams),
       variantNote: v.variantNote.trim() || null,
@@ -329,6 +340,7 @@ export class RecipeFormPage implements OnInit {
       cookMinutes: text(r.cookMinutes),
       difficulty: r.difficulty ?? '',
       visibility: r.visibility,
+      groupIds: r.groups.map((g) => g.id),
       canBeIngredient: r.canBeIngredient,
       cookedGrams: r.cookedGrams === null ? '' : decimal(r.cookedGrams),
       variantNote: r.variantNote ?? '',

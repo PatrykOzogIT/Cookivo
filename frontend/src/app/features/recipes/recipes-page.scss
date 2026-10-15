@@ -263,3 +263,21 @@ mat-slide-toggle {
     font-size: 1.1em;
   }
 }
+
+.group-select {
+  width: 100%;
+  margin-top: 8px;
+}
+
+.group-filter {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
+  margin: 4px 0 0;
+  font-weight: 600;
+  a {
+    color: var(--ck-link);
+    min-height: 24px;
+  }
+}

@@ -8,6 +8,7 @@ import type { Env } from '../config/env.js';
 import type { User } from '../generated/prisma/client.js';
 import { MailService } from '../mail/mail.service.js';
 import { photoUrls, PhotosService } from '../photos/photos.service.js';
+import { GroupsService } from '../groups/groups.service.js';
 import { HouseholdService } from '../household/household.service.js';
 import { PrismaService } from '../prisma/prisma.service.js';
 import { ProfileService } from '../profile/profile.service.js';
@@ -25,6 +26,7 @@ export class AccountService {
     private readonly photos: PhotosService,
     private readonly profile: ProfileService,
     private readonly household: HouseholdService,
+    private readonly groups: GroupsService,
     private readonly config: ConfigService<Env, true>,
   ) {}
 
@@ -138,6 +140,7 @@ export class AccountService {
         shoppingItems: { include: { ingredient: { select: { namePl: true } } } },
         priceLists: { include: { entries: { include: { ingredient: { select: { namePl: true } } } } } },
         sessions: { orderBy: { createdAt: 'asc' } },
+        friendGroups: { include: { group: { select: { name: true } } }, orderBy: { joinedAt: 'asc' } },
         ingredientsCreated: { include: { category: true } },
         recipes: {
           include: {
@@ -239,6 +242,13 @@ export class AccountService {
             })),
           }
         : null,
+      friendGroups: user.friendGroups.map((m) => ({
+        name: m.group.name,
+        role: m.role,
+        status: m.status,
+        joinedAt: m.joinedAt,
+        approvedAt: m.approvedAt,
+      })),
       sessions: user.sessions.map((s) => ({
         createdAt: s.createdAt,
         lastUsedAt: s.lastUsedAt,
@@ -283,7 +293,7 @@ export class AccountService {
   async deleteAccount(userId: string, password: string): Promise<void> {
     const user = await this.verifyPassword(userId, password);
 
-    // Usuwamy prywatne i "dla gospodarstwa" - te drugie zostają (bez autora) tylko,
+    // Usuwamy prywatne, "dla gospodarstwa" i "dla grup" - te dwa ostatnie zostają (bez autora) tylko,
     // gdy są podprzepisem w przepisach innych osób, żeby nie zepsuć im wyliczeń
     const privateRecipes = await this.prisma.recipe.findMany({
       where: {
@@ -291,7 +301,7 @@ export class AccountService {
         OR: [
           { visibility: 'PRIVATE' },
           {
-            visibility: 'HOUSEHOLD',
+            visibility: { in: ['HOUSEHOLD', 'GROUPS'] },
             usedIn: { none: { recipe: { OR: [{ authorId: null }, { authorId: { not: userId } }] } } },
           },
         ],
@@ -307,6 +317,8 @@ export class AccountService {
     await this.prisma.$transaction(async (tx) => {
       // Gospodarstwo: przekazanie roli właściciela albo zamknięcie, gdy byłem sam
       if (inHousehold) await this.household.leave(userId, tx);
+      // Grupy znajomych: własność przechodzi na najstarszego członka, puste grupy znikają
+      await this.groups.leaveAll(userId, tx);
       // Prywatne przepisy mogą używać się nawzajem jako składników - najpierw pozycje, potem przepisy
       await tx.recipeIngredient.deleteMany({ where: { recipeId: { in: privateIds } } });
       await tx.recipe.deleteMany({ where: { id: { in: privateIds } } });

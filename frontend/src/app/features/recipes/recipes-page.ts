@@ -17,6 +17,7 @@ import { LocalizedPipe, NumberPipe } from '../../core/i18n/format.pipes';
 import { LanguageService } from '../../core/i18n/language.service';
 import { PageLayoutComponent } from '../../layout/page-layout/page-layout';
 import { CatalogTabsComponent } from '../../shared/catalog-tabs';
+import { GroupsApi } from '../groups/groups.api';
 import { HouseholdApi } from '../household/household.api';
 import { IngredientsApi } from '../ingredients/ingredients.api';
 import { StarsComponent } from './detail/stars';
@@ -72,6 +73,13 @@ export class RecipesPage {
   readonly forUs = input<string>();
   readonly shared = input<string>();
   protected readonly household = inject(HouseholdApi).current;
+  /** Przepisy z grup znajomych: wszystkich moich (groups=1) albo jednej (groupId) */
+  readonly groups = input<string>();
+  readonly groupId = input<string>();
+  protected readonly myGroups = inject(GroupsApi).active;
+  protected readonly selectedGroup = computed(
+    () => this.myGroups().find((g) => g.id === this.groupId()) ?? null,
+  );
   protected readonly usOn = computed(
     () => this.auth.isLoggedIn() && !!this.household() && this.forUs() === '1',
   );
@@ -102,7 +110,8 @@ export class RecipesPage {
       (this.time() ? 1 : 0) +
       (this.asIngredient() ? 1 : 0) +
       (this.mine() ? 1 : 0) +
-      (this.shared() ? 1 : 0),
+      (this.shared() ? 1 : 0) +
+      (this.groups() || this.groupId() ? 1 : 0),
   );
   protected readonly hasMore = computed(() => this.items().length < this.total());
 
@@ -117,6 +126,8 @@ export class RecipesPage {
     forMe: this.personalOn(),
     forUs: this.usOn(),
     household: this.shared() === '1' && !!this.household(),
+    groups: this.auth.isLoggedIn() && this.groups() === '1' && !this.groupId(),
+    groupId: this.auth.isLoggedIn() ? this.groupId() : undefined,
     sort: this.sort() ?? 'newest',
     lang: this.lang(),
     pageSize: PAGE_SIZE,
@@ -155,6 +166,8 @@ export class RecipesPage {
       asIngredient: null,
       mine: null,
       shared: null,
+      groups: null,
+      groupId: null,
     });
   }
 

@@ -1,0 +1,310 @@
+<div class="page" *transloco="let t">
+  <a class="back" routerLink="/groups">
+    <span class="material-symbols-rounded" aria-hidden="true">arrow_back</span>{{ t('nav.groups') }}
+  </a>
+
+  <ng-template #confirmBox let-c>
+    <div class="confirm" role="alert">
+      <p>
+        @switch (c.kind) {
+          @case ('leave') {
+            {{
+              t(
+                isOwner() && (group()?.memberCount ?? 0) > 1
+                  ? 'groups.leaveOwnerConfirm'
+                  : 'groups.leaveConfirm'
+              )
+            }}
+          }
+          @case ('delete') {
+            {{ t('groups.deleteConfirm') }}
+          }
+          @case ('remove') {
+            {{ t('groups.removeConfirm', { username: c.member.username }) }}
+          }
+          @case ('reject') {
+            {{ t('groups.rejectConfirm', { username: c.member.username }) }}
+          }
+          @case ('owner') {
+            {{ t('groups.makeOwnerConfirm', { username: c.member.username }) }}
+          }
+        }
+      </p>
+      <div class="row">
+        <button
+          mat-flat-button
+          type="button"
+          [class.danger-fill]="c.kind !== 'owner'"
+          [class.ck-cta]="c.kind === 'owner'"
+          (click)="confirmAction()"
+          [disabled]="busy()"
+        >
+          {{ t('groups.confirm') }}
+        </button>
+        <button mat-button type="button" (click)="confirm.set(null)">{{ t('common.cancel') }}</button>
+      </div>
+    </div>
+  </ng-template>
+
+  @if (error(); as code) {
+    <div class="alert" role="alert">{{ t('errors.' + code) }}</div>
+  }
+
+  @if (loading()) {
+    <mat-progress-bar mode="indeterminate" [attr.aria-label]="t('common.loading')" />
+  } @else if (group(); as g) {
+    <!-- Nazwa i opis -->
+    @if (editing()) {
+      <section class="ck-card box">
+        <form class="group-form" [formGroup]="editForm" (ngSubmit)="save()" novalidate>
+          <mat-form-field subscriptSizing="dynamic">
+            <mat-label>{{ t('groups.name') }}</mat-label>
+            <input matInput formControlName="name" maxlength="60" autocomplete="off" required />
+          </mat-form-field>
+          <mat-form-field subscriptSizing="dynamic">
+            <mat-label>{{ t('groups.description') }}</mat-label>
+            <textarea matInput formControlName="description" maxlength="300" rows="2"></textarea>
+          </mat-form-field>
+          <div class="row">
+            <button mat-flat-button class="ck-cta" type="submit" [disabled]="busy()">
+              {{ t('common.save') }}
+            </button>
+            <button mat-button type="button" (click)="editing.set(false)">{{ t('common.cancel') }}</button>
+          </div>
+        </form>
+      </section>
+    } @else {
+      <div class="title-row">
+        <h1><span class="material-symbols-rounded" aria-hidden="true">diversity_3</span>{{ g.name }}</h1>
+        @if (isOwner()) {
+          <button mat-button type="button" (click)="startEdit()">
+            <span class="material-symbols-rounded" aria-hidden="true">edit</span>{{ t('groups.edit') }}
+          </button>
+        }
+      </div>
+      @if (g.description) {
+        <p class="lead">{{ g.description }}</p>
+      }
+    }
+
+    @if (!active()) {
+      <!-- Czekam na akceptację -->
+      <section class="ck-card box start" aria-labelledby="pending-me">
+        <span class="material-symbols-rounded icon" aria-hidden="true">hourglass_top</span>
+        <h2 id="pending-me">{{ t('groups.pendingTitle') }}</h2>
+        <p>{{ t('groups.pendingLead') }}</p>
+        @if (confirm()?.kind === 'leave') {
+          <ng-container *ngTemplateOutlet="confirmBox; context: { $implicit: confirm() }" />
+        } @else {
+          <button mat-stroked-button type="button" class="danger" (click)="confirm.set({ kind: 'leave' })">
+            {{ t('groups.cancelRequest') }}
+          </button>
+        }
+      </section>
+    } @else {
+      <a
+        mat-flat-button
+        class="ck-cta recipes-link"
+        [routerLink]="['/recipes']"
+        [queryParams]="{ groupId: g.id }"
+      >
+        <span class="material-symbols-rounded" aria-hidden="true">menu_book</span>{{ t('groups.recipes') }}
+      </a>
+
+      <!-- Do akceptacji (właściciel) -->
+      @if (isOwner() && g.pending.length) {
+        <section class="ck-card box attention-box" aria-labelledby="pending-title">
+          <h2 id="pending-title">{{ t('groups.pendingListTitle', { count: g.pending.length }) }}</h2>
+          <p class="muted">{{ t('groups.pendingListLead') }}</p>
+          <ul class="members">
+            @for (p of g.pending; track p.userId) {
+              <li>
+                <span class="avatar" aria-hidden="true">{{ p.username.slice(0, 2).toUpperCase() }}</span>
+                <div class="who">
+                  <strong>{{ p.username }}</strong>
+                  <div class="muted small">
+                    {{
+                      p.invitedBy
+                        ? t('groups.invitedBy', { username: p.invitedBy, date: formatDate(p.requestedAt) })
+                        : formatDate(p.requestedAt)
+                    }}
+                  </div>
+                </div>
+                <div class="member-actions">
+                  <button
+                    mat-flat-button
+                    class="ck-cta"
+                    type="button"
+                    (click)="approve(p)"
+                    [disabled]="busy()"
+                  >
+                    {{ t('groups.approve') }}
+                  </button>
+                  <button
+                    mat-button
+                    type="button"
+                    class="danger"
+                    (click)="confirm.set({ kind: 'reject', member: p })"
+                  >
+                    {{ t('groups.reject') }}
+                  </button>
+                </div>
+              </li>
+            }
+          </ul>
+          @if (confirm()?.kind === 'reject') {
+            <ng-container *ngTemplateOutlet="confirmBox; context: { $implicit: confirm() }" />
+          }
+        </section>
+      }
+
+      <!-- Członkowie -->
+      <section class="ck-card box" aria-labelledby="members-title">
+        <h2 id="members-title">{{ t('groups.membersTitle') }}</h2>
+        <p class="muted">{{ t('groups.membersOf', { count: g.memberCount, max: g.maxMembers }) }}</p>
+        <ul class="members">
+          @for (m of g.members; track m.userId) {
+            <li>
+              <span class="avatar" aria-hidden="true">{{ m.username.slice(0, 2).toUpperCase() }}</span>
+              <div class="who">
+                <strong>{{ m.username }}</strong>
+                @if (m.isMe) {
+                  <span class="muted"> ({{ t('household.you') }})</span>
+                }
+                @if (m.role === 'OWNER') {
+                  <span class="role">{{ t('groups.owner') }}</span>
+                }
+              </div>
+              @if (isOwner() && !m.isMe) {
+                <div class="member-actions">
+                  <button mat-button type="button" (click)="confirm.set({ kind: 'owner', member: m })">
+                    {{ t('groups.makeOwner') }}
+                  </button>
+                  <button
+                    mat-button
+                    type="button"
+                    class="danger"
+                    (click)="confirm.set({ kind: 'remove', member: m })"
+                  >
+                    {{ t('groups.remove') }}
+                  </button>
+                </div>
+              }
+            </li>
+          }
+        </ul>
+        @if (confirm(); as c) {
+          @if (c.kind === 'owner' || c.kind === 'remove') {
+            <ng-container *ngTemplateOutlet="confirmBox; context: { $implicit: c }" />
+          }
+        }
+      </section>
+
+      <!-- Zaproszenia (każdy członek) -->
+      <section class="ck-card box" aria-labelledby="invite-title">
+        <h2 id="invite-title">{{ t('groups.inviteTitle') }}</h2>
+        <p class="muted">{{ t(isOwner() ? 'groups.inviteLeadOwner' : 'groups.inviteLeadMember') }}</p>
+        @if (full()) {
+          <p class="muted">{{ t('errors.GROUP_FULL') }}</p>
+        } @else {
+          <form class="invite" [formGroup]="inviteForm" (ngSubmit)="sendInvite()" novalidate>
+            <mat-form-field subscriptSizing="dynamic">
+              <mat-label>{{ t('household.inviteEmail') }}</mat-label>
+              <input
+                matInput
+                type="email"
+                inputmode="email"
+                formControlName="email"
+                autocomplete="off"
+                required
+              />
+            </mat-form-field>
+            <button mat-flat-button class="ck-cta" type="submit" [disabled]="busy()">
+              <span class="material-symbols-rounded" aria-hidden="true">send</span
+              >{{ t('household.sendInvite') }}
+            </button>
+          </form>
+          @if (emailSent(); as email) {
+            <p class="ok" role="status">
+              <span class="material-symbols-rounded" aria-hidden="true">check_circle</span
+              >{{ t('household.inviteSent', { email }) }}
+            </p>
+          }
+
+          <p class="or">{{ t('household.orLink') }}</p>
+          @if (createdLink(); as link) {
+            <div class="link-box">
+              <mat-form-field subscriptSizing="dynamic">
+                <mat-label>{{ t('household.linkLabel') }}</mat-label>
+                <input matInput [value]="link.url" readonly (focus)="$any($event.target).select()" />
+              </mat-form-field>
+              <div class="row">
+                <button mat-flat-button class="ck-cta" type="button" (click)="copyLink(link.url)">
+                  <span class="material-symbols-rounded" aria-hidden="true">content_copy</span
+                  >{{ t('household.copy') }}
+                </button>
+                @if (canShare()) {
+                  <button mat-stroked-button type="button" (click)="shareLink(link.url, g.name)">
+                    <span class="material-symbols-rounded" aria-hidden="true">share</span
+                    >{{ t('household.share') }}
+                  </button>
+                }
+                @if (copied()) {
+                  <span class="ok" role="status">{{ t('household.copied') }}</span>
+                }
+              </div>
+              <p class="muted small">{{ t('groups.linkHint') }}</p>
+            </div>
+          } @else {
+            <button mat-stroked-button type="button" (click)="createLink()" [disabled]="busy()">
+              <span class="material-symbols-rounded" aria-hidden="true">link</span
+              >{{ t('household.createLink') }}
+            </button>
+          }
+        }
+
+        @if (g.invites.length) {
+          <h3>{{ t('household.activeInvites') }}</h3>
+          <ul class="invites">
+            @for (i of g.invites; track i.id) {
+              <li>
+                <div>
+                  <strong>{{ i.email ?? t('household.linkInvite') }}</strong>
+                  <small class="muted">{{ t('household.expires', { date: formatDate(i.expiresAt) }) }}</small>
+                </div>
+                <button mat-button type="button" (click)="revokeInvite(i.id)" [disabled]="busy()">
+                  {{ t('household.revoke') }}
+                </button>
+              </li>
+            }
+          </ul>
+        }
+      </section>
+
+      <!-- Wyjście / usunięcie -->
+      <section class="ck-card box" aria-labelledby="leave-title">
+        <h2 id="leave-title">{{ t('groups.leaveTitle') }}</h2>
+        <p class="muted">{{ t('groups.leaveLead') }}</p>
+        @if (confirm()?.kind === 'leave' || confirm()?.kind === 'delete') {
+          <ng-container *ngTemplateOutlet="confirmBox; context: { $implicit: confirm() }" />
+        } @else {
+          <div class="row">
+            <button mat-stroked-button type="button" class="danger" (click)="confirm.set({ kind: 'leave' })">
+              {{ t('groups.leave') }}
+            </button>
+            @if (isOwner()) {
+              <button
+                mat-stroked-button
+                type="button"
+                class="danger"
+                (click)="confirm.set({ kind: 'delete' })"
+              >
+                {{ t('groups.delete') }}
+              </button>
+            }
+          </div>
+        }
+      </section>
+    }
+  }
+</div>

@@ -124,6 +124,28 @@ export const routes: Routes = [
       },
     ],
   },
+  {
+    path: 'groups',
+    children: [
+      {
+        path: 'join',
+        data: { titleKey: 'groups.join.pageTitle' },
+        loadComponent: () => import('./features/groups/group-join-page').then((m) => m.GroupJoinPage),
+      },
+      {
+        path: ':id',
+        canMatch: [authGuard],
+        data: { titleKey: 'nav.groups' },
+        loadComponent: () => import('./features/groups/group-page').then((m) => m.GroupPage),
+      },
+      {
+        path: '',
+        canMatch: [authGuard],
+        data: { titleKey: 'nav.groups' },
+        loadComponent: () => import('./features/groups/groups-page').then((m) => m.GroupsPage),
+      },
+    ],
+  },
   { path: 'my-recipes', redirectTo: '/recipes?mine=1' },
   {
     path: 'admin',

@@ -155,6 +155,17 @@
                 }
               </ul>
             }
+            @case ('groups') {
+              <ul class="rows people" aria-hidden="true">
+                @for (r of ['g1', 'g2', 'g3']; track r) {
+                  <li>
+                    <span class="avatar">{{ t('p.' + r + '.name').charAt(0) }}</span>
+                    <span class="grow">{{ t('p.' + r + '.name') }}</span>
+                    <span class="muted">{{ t('p.' + r + '.meta') }}</span>
+                  </li>
+                }
+              </ul>
+            }
             @case ('ingredients') {
               <div class="ingredient" aria-hidden="true">
                 <strong>{{ t('p.ingName') }}</strong>

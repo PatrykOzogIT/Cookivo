@@ -120,6 +120,11 @@ export class RecipeDetailPage implements OnInit {
     this.recipe.update((r) => (r ? { ...r, ...summary } : r));
   }
 
+  /** Grupy znajomych, w których przepis jest udostępniony (czytający widzi swoje) */
+  protected groupNames(r: RecipeDetail): string {
+    return r.groups.map((g) => g.name).join(', ');
+  }
+
   protected money(cents: number, currency: string): string {
     return formatMoney(cents, currency, this.lang());
   }

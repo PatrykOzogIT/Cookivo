@@ -52,5 +52,6 @@ export const USER_MENU: NavItem[] = [
   { path: '/preferences', label: 'nav.preferences', icon: 'tune' },
   { path: '/my-recipes', label: 'nav.myRecipes', icon: 'menu_book' },
   { path: '/household', label: 'nav.household', icon: 'group' },
+  { path: '/groups', label: 'nav.groups', icon: 'diversity_3' },
   { path: '/settings', label: 'nav.settings', icon: 'settings' },
 ];

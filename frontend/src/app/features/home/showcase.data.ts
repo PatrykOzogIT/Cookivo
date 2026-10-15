@@ -21,6 +21,7 @@ export const SLIDES: readonly ShowcaseSlide[] = [
   { key: 'pantry', icon: 'kitchen', access: 'account', optional: true, path: '/pantry' },
   { key: 'budget', icon: 'sell', access: 'account', optional: true, path: '/prices' },
   { key: 'household', icon: 'group', access: 'account', optional: true, path: '/household' },
+  { key: 'groups', icon: 'diversity_3', access: 'account', optional: true, path: '/groups' },
 ];
 
 /** Na start pokazujemy wykres kalorii - najlepiej oddaje charakter aplikacji */

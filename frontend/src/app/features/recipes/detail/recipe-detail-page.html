@@ -28,6 +28,11 @@
                 ><span class="material-symbols-rounded" aria-hidden="true">cottage</span
                 >{{ t('recipes.householdBadge') }}</span
               >
+            } @else if (r.visibility === 'GROUPS') {
+              <span class="badge"
+                ><span class="material-symbols-rounded" aria-hidden="true">diversity_3</span
+                >{{ r.groups.length ? groupNames(r) : t('recipes.groupsBadge') }}</span
+              >
             }
           </p>
           @if (auth.isLoggedIn() && !r.isOwn) {

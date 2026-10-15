@@ -300,9 +300,26 @@
             @if (household.current() || form.controls.visibility.value === 'HOUSEHOLD') {
               <mat-radio-button value="HOUSEHOLD">{{ t('recipes.form.household') }}</mat-radio-button>
             }
+            @if (myGroups().length || form.controls.visibility.value === 'GROUPS') {
+              <mat-radio-button value="GROUPS">{{ t('recipes.form.groups') }}</mat-radio-button>
+            }
             <mat-radio-button value="PUBLIC">{{ t('recipes.form.public') }}</mat-radio-button>
           </mat-radio-group>
         </fieldset>
+        @if (form.controls.visibility.value === 'GROUPS') {
+          <fieldset class="group-picks">
+            <legend>{{ t('recipes.form.groupsPick') }}</legend>
+            @for (g of myGroups(); track g.id) {
+              <mat-checkbox
+                [checked]="form.controls.groupIds.value.includes(g.id)"
+                (change)="toggleGroup(g.id, $event.checked)"
+              >
+                {{ g.name }}
+              </mat-checkbox>
+            }
+            <p class="muted small">{{ t('recipes.form.groupsHint') }}</p>
+          </fieldset>
+        }
         <mat-slide-toggle formControlName="canBeIngredient" class="toggle">
           {{ t('recipes.form.canBeIngredient') }}
         </mat-slide-toggle>

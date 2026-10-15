@@ -15,7 +15,7 @@ export interface Photo {
 }
 
 export type Difficulty = 'EASY' | 'MEDIUM' | 'HARD';
-export type Visibility = 'PRIVATE' | 'HOUSEHOLD' | 'PUBLIC';
+export type Visibility = 'PRIVATE' | 'HOUSEHOLD' | 'GROUPS' | 'PUBLIC';
 
 export interface RecipeSummary {
   id: string;
@@ -39,6 +39,8 @@ export interface RecipeSummary {
   ratingAvg: number | null;
   ratingCount: number;
   isVariant: boolean;
+  /** Grupy znajomych, w których przepis jest udostępniony (autor widzi wszystkie, inni - swoje) */
+  groups: { id: string; name: string }[];
 }
 
 export interface MyRating {
@@ -124,6 +126,8 @@ export interface RecipeQuery {
   forMe?: boolean;
   forUs?: boolean;
   household?: boolean;
+  groups?: boolean;
+  groupId?: string;
   sort?: 'newest' | 'kcal' | 'time' | 'name' | 'forYou' | 'fromPantry' | 'rating';
   lang?: string;
   page?: number;
@@ -139,6 +143,8 @@ export interface SaveRecipe {
   cookMinutes: number | null;
   difficulty: Difficulty | null;
   visibility: Visibility;
+  /** Tylko przy visibility = GROUPS */
+  groupIds: string[];
   canBeIngredient: boolean;
   cookedGrams: number | null;
   mealTypes: string[];

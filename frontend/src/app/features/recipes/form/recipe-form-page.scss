@@ -84,6 +84,15 @@ legend {
   flex-direction: column;
 }
 
+// Wybór grup znajomych przy widoczności "Dla grup"
+.group-picks {
+  display: flex;
+  flex-direction: column;
+  margin-left: 32px;
+  padding-left: 12px;
+  border-left: 2px solid var(--ck-border);
+}
+
 .toggle {
   display: flex;
   align-items: center;

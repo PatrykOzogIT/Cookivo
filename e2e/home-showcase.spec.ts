@@ -2,7 +2,17 @@ import AxeBuilder from '@axe-core/playwright';
 import { expect, test } from '@playwright/test';
 import { createUser, loginUi, TEST_PASSWORD } from './support/users';
 
-const TABS = ['Przepisy', 'Składniki', 'Planer', 'Zakupy', 'Kalorie', 'Lodówka', 'Budżet', 'Rodzina'];
+const TABS = [
+  'Przepisy',
+  'Składniki',
+  'Planer',
+  'Zakupy',
+  'Kalorie',
+  'Lodówka',
+  'Budżet',
+  'Rodzina',
+  'Grupy',
+];
 
 test.describe('Strona główna: prezentacja funkcji', () => {
   test('gość: zakładki, strzałki, klawiatura i etykiety dostępu', async ({ page }) => {
@@ -36,7 +46,7 @@ test.describe('Strona główna: prezentacja funkcji', () => {
     // Strzałki pod slajdem zawijają: z pierwszego do ostatniego
     await page.getByRole('tab', { name: 'Przepisy' }).click();
     await panel.getByRole('button', { name: 'Poprzednia funkcja' }).click();
-    await expect(page.getByRole('tab', { name: 'Rodzina' })).toHaveAttribute('aria-selected', 'true');
+    await expect(page.getByRole('tab', { name: 'Grupy' })).toHaveAttribute('aria-selected', 'true');
 
     // Ścieżka startu i karty-skróty z etykietami
     await expect(page.getByText('Start w 3 krokach')).toBeVisible();

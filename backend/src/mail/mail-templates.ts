@@ -179,6 +179,54 @@ const COPY = {
       footer: "If you don't know this person, ignore this email.",
     },
   },
+  groupInvite: {
+    pl: {
+      subject: 'Zaproszenie do grupy znajomych w Cookivo',
+      heading: 'Cześć!',
+      body: '{inviter} zaprasza Cię do grupy „{group}” w Cookivo - będziecie dzielić się przepisami. Link jest ważny 7 dni.',
+      cta: 'Dołącz do grupy',
+      footer: 'Jeśli nie znasz tej osoby, zignoruj tę wiadomość.',
+    },
+    en: {
+      subject: 'Invitation to a friends group on Cookivo',
+      heading: 'Hi!',
+      body: '{inviter} invites you to the group “{group}” on Cookivo - you will share recipes with each other. The link is valid for 7 days.',
+      cta: 'Join the group',
+      footer: "If you don't know this person, ignore this email.",
+    },
+  },
+  groupJoinRequest: {
+    pl: {
+      subject: 'Nowa osoba czeka na akceptację w grupie',
+      heading: 'Cześć {username}!',
+      body: '{member} dołączył(a) do grupy „{group}” z zaproszenia od {inviter} i czeka na Twoją akceptację. Dopóki jej nie udzielisz, nie widzi przepisów grupy.',
+      cta: 'Przejdź do grupy',
+      footer: 'Dostajesz tę wiadomość jako właściciel grupy.',
+    },
+    en: {
+      subject: 'Someone is waiting for approval in your group',
+      heading: 'Hi {username}!',
+      body: '{member} joined the group “{group}” with an invitation from {inviter} and is waiting for your approval. Until then they cannot see the group recipes.',
+      cta: 'Go to the group',
+      footer: 'You receive this email as the group owner.',
+    },
+  },
+  groupApproved: {
+    pl: {
+      subject: 'Witamy w grupie',
+      heading: 'Cześć {username}!',
+      body: 'Właściciel przyjął Cię do grupy „{group}” - widzisz już przepisy udostępnione w grupie.',
+      cta: 'Przejdź do grupy',
+      footer: 'Z grupy możesz w każdej chwili wyjść.',
+    },
+    en: {
+      subject: 'Welcome to the group',
+      heading: 'Hi {username}!',
+      body: 'The owner accepted you to the group “{group}” - you can now see the recipes shared in the group.',
+      cta: 'Go to the group',
+      footer: 'You can leave the group at any time.',
+    },
+  },
 } satisfies Record<string, Record<Locale, Copy>>;
 
 export type MailKind = keyof typeof COPY;
@@ -189,6 +237,9 @@ export interface MailVars {
   /** Zaproszenie do gospodarstwa: kto zaprasza i dokąd */
   inviter?: string;
   household?: string;
+  /** Grupy znajomych: nazwa grupy i osoba czekająca na akceptację */
+  group?: string;
+  member?: string;
   /** Moderacja: czego dotyczy i dlaczego */
   title?: string;
   reason?: string;
@@ -210,6 +261,8 @@ export function renderMail(kind: MailKind, locale: Locale, vars: MailVars): Mail
       .replaceAll('{username}', vars.username)
       .replaceAll('{inviter}', vars.inviter ?? '')
       .replaceAll('{household}', vars.household ?? '')
+      .replaceAll('{group}', vars.group ?? '')
+      .replaceAll('{member}', vars.member ?? '')
       .replaceAll('{title}', vars.title ?? '')
       .replaceAll('{reason}', vars.reason ?? '')
       .replaceAll('{until}', vars.until ? UNTIL[locale].replace('{date}', vars.until) : PERMANENT[locale]);

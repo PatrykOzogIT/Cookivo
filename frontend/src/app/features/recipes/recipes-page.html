@@ -18,6 +18,28 @@
               {{ t('recipes.filters.household') }}
             </mat-slide-toggle>
           }
+          @if (myGroups().length || groupId()) {
+            <mat-slide-toggle
+              [checked]="groups() === '1' || !!groupId()"
+              (change)="setParams({ groups: $event.checked ? '1' : null, groupId: null })"
+            >
+              {{ t('recipes.filters.groups') }}
+            </mat-slide-toggle>
+            @if ((groups() === '1' || groupId()) && myGroups().length > 1) {
+              <mat-form-field class="group-select" subscriptSizing="dynamic">
+                <mat-label>{{ t('recipes.filters.group') }}</mat-label>
+                <mat-select
+                  [value]="groupId() ?? ''"
+                  (valueChange)="setParams({ groupId: $event || null, groups: $event ? null : '1' })"
+                >
+                  <mat-option value="">{{ t('recipes.filters.allGroups') }}</mat-option>
+                  @for (g of myGroups(); track g.id) {
+                    <mat-option [value]="g.id">{{ g.name }}</mat-option>
+                  }
+                </mat-select>
+              </mat-form-field>
+            }
+          }
           <mat-slide-toggle
             [checked]="personalOn() || usOn()"
             [disabled]="usOn()"
@@ -121,6 +143,13 @@
     <div>
       <h1>{{ t('nav.recipes') }}</h1>
       <p class="lead">{{ t('recipes.lead') }}</p>
+      @if (selectedGroup(); as g) {
+        <p class="group-filter">
+          <span class="material-symbols-rounded" aria-hidden="true">diversity_3</span>
+          {{ t('recipes.inGroup', { name: g.name }) }}
+          <a [routerLink]="['/groups', g.id]">{{ t('recipes.toGroup') }}</a>
+        </p>
+      }
     </div>
     @if (auth.isLoggedIn()) {
       <a mat-flat-button class="ck-cta" routerLink="/recipes/new">
@@ -209,6 +238,11 @@
                 <span class="badge">
                   <span class="material-symbols-rounded" aria-hidden="true">cottage</span
                   >{{ t('recipes.householdBadge') }}
+                </span>
+              } @else if (r.visibility === 'GROUPS') {
+                <span class="badge">
+                  <span class="material-symbols-rounded" aria-hidden="true">diversity_3</span
+                  >{{ r.groups.length === 1 ? r.groups[0].name : t('recipes.groupsBadge') }}
                 </span>
               }
               @if (r.hidden) {

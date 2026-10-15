@@ -86,6 +86,7 @@ const USER_PAGES = [
   '/settings',
   '/recipes/new',
   '/household',
+  '/groups',
   '/prices',
 ];
 

@@ -42,7 +42,8 @@
     "login": "Zaloguj",
     "register": "Załóż konto",
     "ingredients": "Składniki",
-    "reviewIngredients": "Składniki do akceptacji"
+    "reviewIngredients": "Składniki do akceptacji",
+    "groups": "Grupy znajomych"
   },
   "common": {
     "close": "Zamknij",
@@ -135,7 +136,15 @@
     "OWN_CONTENT": "Nie możesz zgłosić własnej treści.",
     "REPORT_INVALID": "Nie można zgłosić tej treści.",
     "ACCOUNT_BLOCKED": "Twoje konto jest zablokowane.",
-    "CANNOT_MODIFY_SELF": "Nie możesz zmienić własnego konta w ten sposób."
+    "CANNOT_MODIFY_SELF": "Nie możesz zmienić własnego konta w ten sposób.",
+    "GROUP_LIMIT": "Należysz już do maksymalnej liczby grup.",
+    "GROUP_OWNED_LIMIT": "Założono już maksymalną liczbę grup.",
+    "GROUP_FULL": "Grupa ma już maksymalną liczbę osób.",
+    "ALREADY_IN_GROUP": "Już należysz do tej grupy.",
+    "NOT_IN_GROUP": "Nie należysz do tej grupy.",
+    "GROUP_PENDING": "Czekasz jeszcze na akceptację właściciela grupy.",
+    "GROUPS_REQUIRED": "Wybierz co najmniej jedną grupę.",
+    "GROUP_UNKNOWN": "Możesz udostępniać tylko grupom, do których należysz."
   },
   "auth": {
     "fields": {
@@ -323,6 +332,15 @@
           "need": "nic – dostępna dla każdego.",
           "cta": "Przeglądaj składniki",
           "ctaGuest": "Przeglądaj składniki"
+        },
+        "groups": {
+          "tab": "Grupy",
+          "title": "Przepisy w gronie znajomych",
+          "body": "Udostępniaj przepisy wybranym grupom – szerzej niż w domu, ale bez publikowania dla wszystkich. Nowe osoby zatwierdza właściciel grupy.",
+          "where": "Menu konta → Grupy znajomych",
+          "need": "opcjonalnie – zakładasz grupę albo dołączasz z zaproszenia.",
+          "cta": "Otwórz grupy",
+          "ctaGuest": "Załóż konto i dołącz do znajomych"
         }
       },
       "p": {
@@ -407,7 +425,19 @@
         "proteinShort": "g białka",
         "carbsShort": "g węgl.",
         "fatShort": "g tłuszczu",
-        "portionCalc": "50 g → 168 kcal"
+        "portionCalc": "50 g → 168 kcal",
+        "g1": {
+          "name": "Kuchnia z pracy",
+          "meta": "8 osób · 24 przepisy"
+        },
+        "g2": {
+          "name": "Fit ekipa",
+          "meta": "5 osób · 11 przepisów"
+        },
+        "g3": {
+          "name": "Sąsiedzi",
+          "meta": "12 osób · 37 przepisów"
+        }
       },
       "scale": {
         "basic": "Podstawy",
@@ -499,7 +529,10 @@
       "upToMinutes": "do {{minutes}} min",
       "other": "Inne",
       "canBeIngredient": "Może być składnikiem",
-      "household": "Przepisy naszego gospodarstwa"
+      "household": "Przepisy naszego gospodarstwa",
+      "groups": "Z moich grup",
+      "group": "Grupa",
+      "allGroups": "Wszystkie moje grupy"
     },
     "units": {
       "serving": "porcja"
@@ -568,7 +601,10 @@
       "cookedGrams": "Waga po ugotowaniu (opcjonalnie)",
       "cookedGramsHint": "Zważ gotową potrawę - wartości na 100 g będą dokładniejsze.",
       "submit": "Zapisz przepis",
-      "household": "Moje gospodarstwo"
+      "household": "Moje gospodarstwo",
+      "groups": "Dla wybranych grup znajomych (i domowników)",
+      "groupsPick": "Udostępnij grupom",
+      "groupsHint": "Przepis zobaczą członkowie zaznaczonych grup i Twoi domownicy."
     },
     "cook": {
       "title": "Tryb gotowania",
@@ -592,7 +628,10 @@
       "screenOn": "Ekran nie zgaśnie podczas gotowania",
       "screenMayDim": "Przeglądarka nie pozwala utrzymać włączonego ekranu"
     },
-    "householdBadge": "Dla gospodarstwa"
+    "householdBadge": "Dla gospodarstwa",
+    "groupsBadge": "Dla grup",
+    "inGroup": "Grupa: {{name}}",
+    "toGroup": "Przejdź do grupy"
   },
   "placeholder": {
     "body": "Ta sekcja powstaje - pojawi się w etapie {{stage}}."
@@ -653,6 +692,7 @@
               "Treści, które tworzysz: przepisy, zdjęcia, oceny i komentarze, plany posiłków, lodówka, listy zakupów i cenniki. Cel: świadczenie usług serwisu. Podstawa: umowa (art. 6 ust. 1 lit. b RODO). Treści publiczne widzą wszyscy odwiedzający, treści gospodarstwa - jego członkowie, prywatne - tylko Ty.",
               "Dane o zdrowiu (opcjonalne): płeć, data urodzenia, wzrost, waga, aktywność, cel, alergie i nietolerancje. Cel: wyliczenie zapotrzebowania na energię i makroskładniki oraz filtrowanie przepisów. Podstawa: Twoja wyraźna zgoda (art. 9 ust. 2 lit. a RODO). Zgodę wycofasz w każdej chwili w profilu - wycofanie usuwa te dane.",
               "Gospodarstwo domowe: członkostwo, zaproszenia (z adresem e-mail osoby zapraszanej, jeśli go podasz) i osoby bez konta. Twoje alergie i cel kaloryczny widzą domownicy tylko za Twoją osobną zgodą. Podstawa: umowa (art. 6 ust. 1 lit. b RODO), a dla danych o zdrowiu - zgoda (art. 9 ust. 2 lit. a RODO).",
+              "Grupy znajomych (opcjonalne): członkostwo, rola, status akceptacji, kto Cię zaprosił, zaproszenia (z adresem e-mail osoby zapraszanej, jeśli go podasz) i przepisy udostępnione grupie. Członkowie grupy widzą Twoją nazwę użytkownika i udostępnione przepisy; osobę czekającą na akceptację widzi tylko właściciel grupy. Grupy nie dają dostępu do danych o zdrowiu, planów ani zakupów. Podstawa: umowa (art. 6 ust. 1 lit. b RODO).",
               "Bezpieczeństwo: adres IP i informacja o przeglądarce przy sesjach logowania, liczba nieudanych logowań oraz historia zgód z adresem IP. Cel: ochrona kont przed przejęciem, wykrywanie nadużyć i wykazanie udzielonych zgód. Podstawa: nasz prawnie uzasadniony interes (art. 6 ust. 1 lit. f RODO) i obowiązek wykazania zgody (art. 7 ust. 1 RODO).",
               "Moderacja: zgłoszenia treści i użytkowników, decyzje moderatorów oraz blokady kont z uzasadnieniem. Cel: przeciwdziałanie treściom bezprawnym i niezgodnym z regulaminem oraz obowiązki z aktu o usługach cyfrowych (DSA). Podstawa: obowiązek prawny i prawnie uzasadniony interes (art. 6 ust. 1 lit. c i f RODO).",
               "Korespondencja: gdy do nas piszesz - Twój adres e-mail i treść wiadomości, żeby odpowiedzieć. Podstawa: prawnie uzasadniony interes (art. 6 ust. 1 lit. f RODO)."
@@ -690,6 +730,7 @@
             [
               "Konto i Twoje treści - do usunięcia konta. Po usunięciu konta kasujemy Twoje dane, prywatne przepisy, zdjęcia do nich i oceny. Przepisy publiczne zostają w serwisie jako anonimowe (bez powiązania z Tobą) - zgodnie z regulaminem.",
               "Dane o zdrowiu - do wycofania zgody albo usunięcia konta.",
+              "Członkostwo w grupach znajomych - do wyjścia z grupy albo usunięcia konta; po wyjściu Twoje przepisy przestają być w grupie udostępnione.",
               "Sesje logowania (adres IP, przeglądarka) - sesja wygasa po 30 dniach, jej dane usuwamy najpóźniej 30 dni po wygaśnięciu lub wylogowaniu.",
               "Linki z wiadomości e-mail (potwierdzenie adresu, reset hasła) - do doby po wykorzystaniu lub wygaśnięciu.",
               "Zdjęcia, które nie zostały dołączone do przepisu - doba.",
@@ -765,7 +806,7 @@
           "body": [
             [
               "bez konta: przeglądanie publicznych przepisów i bazy składników;",
-              "z kontem: tworzenie przepisów (prywatnych, dla gospodarstwa lub publicznych) ze zdjęciami, oceny i komentarze, profil żywieniowy z kalkulatorem zapotrzebowania, planer posiłków, lodówka, listy zakupów, cenniki i szacowanie kosztów, gospodarstwa domowe oraz zgłaszanie treści."
+              "z kontem: tworzenie przepisów (prywatnych, dla gospodarstwa lub publicznych) ze zdjęciami, oceny i komentarze, profil żywieniowy z kalkulatorem zapotrzebowania, planer posiłków, lodówka, listy zakupów, cenniki i szacowanie kosztów, gospodarstwa domowe, grupy znajomych (wspólne przepisy; nowe osoby zatwierdza właściciel grupy) oraz zgłaszanie treści."
             ],
             "Wartości odżywcze składników pochodzą z USDA FoodData Central i z tabeli ANSES Ciqual 2025 (Licence Ouverte 2.0) - źródło jest podane przy każdym składniku."
           ]
@@ -808,7 +849,7 @@
           "body": [
             "Prawa do Twoich przepisów i zdjęć zostają przy Tobie. Publikując treść, oświadczasz, że masz do niej prawa (np. sam zrobiłeś zdjęcie), a osoby na zdjęciach zgodziły się na publikację.",
             "Udostępniając przepis publicznie (wraz ze zdjęciami, oceną lub komentarzem), udzielasz usługodawcy nieodpłatnej, niewyłącznej, nieograniczonej terytorialnie licencji na przechowywanie, zwielokrotnianie i publiczne udostępnianie tej treści w serwisie w zakresie potrzebnym do jego działania (także w kopiach zapasowych). Inni użytkownicy mogą na podstawie publicznego przepisu tworzyć własne, prywatne warianty.",
-            "Licencja na przepisy publiczne trwa także po usunięciu konta - przepis zostaje w serwisie bez Twojej nazwy (jako anonimowy), żeby nie psuć planów i wariantów innych osób. Jeśli tego nie chcesz, przed usunięciem konta zmień przepis na prywatny albo go usuń. Treści prywatne i oceny usuwamy razem z kontem."
+            "Licencja na przepisy publiczne trwa także po usunięciu konta - przepis zostaje w serwisie bez Twojej nazwy (jako anonimowy), żeby nie psuć planów i wariantów innych osób. Jeśli tego nie chcesz, przed usunięciem konta zmień przepis na prywatny albo go usuń. Treści prywatne, przepisy dla gospodarstwa i dla grup oraz oceny usuwamy razem z kontem - przepis dla gospodarstwa lub grup zostaje (bez Twojej nazwy) tylko wtedy, gdy inni używają go jako składnika swoich przepisów."
           ]
         },
         {
@@ -1505,6 +1546,68 @@
       "permanent": "Na stałe",
       "reason": "Powód (zobaczy go użytkownik)",
       "blockHint": "Użytkownik zostanie wylogowany ze wszystkich urządzeń i dostanie maila z powodem."
+    }
+  },
+  "groups": {
+    "lead": "Dzielcie się przepisami w gronie znajomych - szerzej niż w gospodarstwie, ale bez publikowania dla wszystkich. Grupy dotyczą tylko przepisów: plany, zakupy i dane o zdrowiu zostają u Was.",
+    "membersCount": "Osoby: {{count}}",
+    "recipesCount": "Przepisy: {{count}}",
+    "pendingMe": "Czekasz na akceptację",
+    "owner": "Właściciel",
+    "waiting": "Do akceptacji: {{count}}",
+    "emptyTitle": "Nie należysz jeszcze do żadnej grupy",
+    "benefits": {
+      "share": "Udostępniasz wybrane przepisy wybranym grupom - np. „Dziewczyny z pracy” albo „Fit ekipa”.",
+      "private": "Przepisy grupy widzą tylko jej członkowie (i Twoi domownicy), nie cały internet.",
+      "approve": "Zapraszać może każdy, ale nowe osoby zatwierdza właściciel grupy."
+    },
+    "haveInvite": "Masz zaproszenie? Otwórz link, który dostałeś od znajomych.",
+    "createTitle": "Nowa grupa",
+    "name": "Nazwa grupy",
+    "namePlaceholder": "np. Kuchnia z pracy",
+    "description": "Opis (opcjonalnie)",
+    "create": "Załóż grupę",
+    "new": "Załóż nową grupę",
+    "limitReached": "Osiągnięto limit grup. Wyjdź z którejś grupy, żeby założyć nową.",
+    "limits": "Możesz należeć do {{groups}} grup, w tym założyć {{owned}}. W grupie może być do {{members}} osób.",
+    "edit": "Edytuj",
+    "pendingTitle": "Czekasz na akceptację",
+    "pendingLead": "Właściciel grupy dostał powiadomienie. Gdy Cię przyjmie, zobaczysz przepisy grupy i jej członków.",
+    "cancelRequest": "Wycofaj prośbę",
+    "recipes": "Przepisy grupy",
+    "pendingListTitle": "Czekają na akceptację: {{count}}",
+    "pendingListLead": "Te osoby dołączyły z zaproszenia innego członka. Zobaczą przepisy dopiero po Twojej akceptacji.",
+    "invitedBy": "zaprosił(a) {{username}} · {{date}}",
+    "approve": "Przyjmij",
+    "reject": "Odrzuć",
+    "membersTitle": "Członkowie",
+    "membersOf": "Osoby: {{count}} z {{max}}",
+    "makeOwner": "Przekaż grupę",
+    "remove": "Usuń z grupy",
+    "inviteTitle": "Zaproś znajomych",
+    "inviteLeadOwner": "Osoby zaproszone przez Ciebie dołączają od razu.",
+    "inviteLeadMember": "Osoby zaproszone przez Ciebie dołączą po akceptacji właściciela grupy.",
+    "linkHint": "Link jest jednorazowy i ważny 7 dni - wyślij go jednej osobie.",
+    "leaveTitle": "Wyjście z grupy",
+    "leaveLead": "Twoje przepisy przestaną być widoczne w tej grupie. Przepisy innych znikną z Twojej listy.",
+    "leave": "Wyjdź z grupy",
+    "delete": "Usuń grupę",
+    "confirm": "Potwierdź",
+    "leaveConfirm": "Na pewno chcesz wyjść z grupy?",
+    "leaveOwnerConfirm": "Jesteś właścicielem - grupę przejmie osoba, która jest w niej najdłużej. Wyjść?",
+    "deleteConfirm": "Usunąć grupę? Wszyscy członkowie stracą do niej dostęp, a przepisy przestaną być w niej udostępnione. Samych przepisów nie usuwamy.",
+    "removeConfirm": "Usunąć {{username}} z grupy? Jej/jego przepisy przestaną być widoczne w grupie.",
+    "rejectConfirm": "Odrzucić prośbę {{username}}?",
+    "makeOwnerConfirm": "Przekazać grupę {{username}}? Stracisz uprawnienia właściciela.",
+    "join": {
+      "pageTitle": "Zaproszenie do grupy",
+      "title": "Zaproszenie do grupy „{{name}}”",
+      "invitedBy": "{{username}} zaprasza Cię do dzielenia się przepisami. Osoby w grupie: {{count}}.",
+      "members": "Osoby w grupie: {{count}}.",
+      "needsApproval": "Po dołączeniu właściciel grupy musi Cię jeszcze zaakceptować.",
+      "accept": "Dołącz do grupy",
+      "toMine": "Przejdź do moich grup",
+      "loginFirst": "Zaloguj się, aby dołączyć. Nie masz konta? Załóż je - wrócimy do tego zaproszenia."
     }
   }
 }
