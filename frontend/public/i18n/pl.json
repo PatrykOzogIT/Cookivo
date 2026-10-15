@@ -678,7 +678,7 @@
             "Nie sprzedajemy danych i nie przekazujemy ich reklamodawcom. Powierzamy je tylko dostawcom, bez których serwis nie może działać, na podstawie umów powierzenia (art. 28 RODO):",
             [
               "JCHost (jchost.pl) - polski dostawca hostingu: serwer aplikacji, zdjęcia i poczta e-mail.",
-              "Neon Inc. - baza danych w chmurze, przechowywana w regionie UE (Frankfurt, Niemcy; infrastruktura Amazon Web Services). Neon ma siedzibę w USA - ewentualny dostęp spoza Europejskiego Obszaru Gospodarczego zabezpieczają standardowe klauzule umowne zatwierdzone przez Komisję Europejską (art. 46 RODO)."
+              "Databricks, Inc. (właściciel usługi Neon) - baza danych w chmurze, przechowywana w regionie UE (Frankfurt, Niemcy; infrastruktura Amazon Web Services); dostawca może korzystać z dalszych podmiotów przetwarzających na warunkach swojej umowy powierzenia. Databricks ma siedzibę w USA - ewentualny dostęp spoza Europejskiego Obszaru Gospodarczego zabezpieczają standardowe klauzule umowne zatwierdzone przez Komisję Europejską (art. 46 RODO)."
             ],
             "Sprawdzając, czy nowe hasło nie wyciekło w znanych incydentach, wysyłamy do serwisu Have I Been Pwned tylko 5 pierwszych znaków skrótu SHA-1 hasła - nie da się z tego odtworzyć hasła ani Cię zidentyfikować.",
             "Dane możemy też ujawnić uprawnionym organom publicznym, gdy wymaga tego prawo."

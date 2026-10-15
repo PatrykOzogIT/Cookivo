@@ -13,12 +13,13 @@
 
 ## Do zrobienia przez administratora (poza kodem)
 
-- [ ] Założyć skrzynkę **kontakt@cookivo.pl** w DirectAdmin (albo alias na istniejącą skrzynkę) i ją czytać.
-- [ ] **JCHost** – zaakceptować / pobrać umowę powierzenia przetwarzania (zwykle w regulaminie hostingu
-      lub panelu klienta); zapisać, gdzie leży.
-- [ ] **Neon** – zaakceptować DPA (https://neon.tech/dpa lub w ustawieniach organizacji) i potwierdzić:
-      region projektu `aws-eu-central-1` (Frankfurt) oraz mechanizm transferu (SCC / Data Privacy Framework).
-      Jeśli DPA mówi inaczej – poprawić akapit „Komu przekazujemy dane” w polityce.
+- [x] Skrzynka **kontakt@cookivo.pl** założona (2026-10-15) – czytać regularnie.
+- [x] **JCHost** – umowa powierzenia to załącznik nr 1 do regulaminu (rozdz. 24), zawarta z zamówieniem
+      hostingu: https://jchost.pl/regulamin/. Usługodawca: Marcin Ćwiertnia JC HOST.PL, NIP 5130232935. - [ ] Zapisać PDF regulaminu („Pobierz regulamin”) jako dowód brzmienia umowy.
+- [ ] **Neon = Databricks, Inc.** (USA, właściciel Neon, LLC) – DPA wchodzi automatycznie przez Master Cloud
+      Services Agreement (https://neon.com/platform-terms → databricks.com/legal/mcsa → databricks.com/legal/dpa).
+      Opcjonalnie podpisać elektronicznie: https://www.databricks.com/legal/databricks-data-processing-addendum. - [ ] W PDF DPA potwierdzić mechanizm transferu (szukać „Standard Contractual Clauses” / „Data Privacy Framework”);
+      jeśli inny niż SCC – poprawić akapit „Komu przekazujemy dane” w polityce (PL i EN). - [ ] W konsoli Neon (projekt → Settings → General) potwierdzić region AWS Europe Central 1 (Frankfurt).
 - [ ] Sprawdzić retencję kopii zapasowych w planie Neon (polityka mówi „do kilku dni”).
 - [ ] Przy zmianie dokumentów: nowa data w obu stałych + w treści, po zalogowaniu użytkownicy zobaczą
       prośbę o akceptację (`GET /api/me/legal` → `pending`). Zmianę regulaminu ogłaszać ≥ 14 dni wcześniej.
@@ -43,10 +44,10 @@ zdjęcia bez metadanych, eksport i usuwanie danych w ustawieniach, sekrety tylko
 
 ## Podmioty przetwarzające
 
-| Podmiot   | Rola                             | Lokalizacja danych   | Umowa powierzenia | Transfer poza EOG                             |
-| --------- | -------------------------------- | -------------------- | ----------------- | --------------------------------------------- |
-| JCHost    | hosting aplikacji, zdjęć, poczta | Polska               | do potwierdzenia  | nie                                           |
-| Neon Inc. | baza PostgreSQL                  | UE – Frankfurt (AWS) | do potwierdzenia  | możliwy dostęp z USA – SCC (do potwierdzenia) |
+| Podmiot                 | Rola                             | Lokalizacja danych   | Umowa powierzenia          | Transfer poza EOG                             |
+| ----------------------- | -------------------------------- | -------------------- | -------------------------- | --------------------------------------------- |
+| JCHost                  | hosting aplikacji, zdjęć, poczta | Polska               | zał. 1 do regulaminu       | nie                                           |
+| Databricks, Inc. (Neon) | baza PostgreSQL                  | UE – Frankfurt (AWS) | DPA w MCSA (automatycznie) | możliwy dostęp z USA – SCC (do potwierdzenia) |
 
 Nie są podmiotami przetwarzającymi: Have I Been Pwned (dostaje tylko 5 znaków skrótu SHA-1 hasła),
 GitHub (kod i CI – bez danych użytkowników). Fonty i ikony serwujemy sami (`scripts/icons.mjs`) –

@@ -678,7 +678,7 @@
             "We do not sell data or share it with advertisers. We only entrust it to providers without whom the service cannot run, under data processing agreements (Art. 28 GDPR):",
             [
               "JCHost (jchost.pl) - Polish hosting provider: application server, photos and email.",
-              "Neon Inc. - cloud database stored in the EU region (Frankfurt, Germany; Amazon Web Services infrastructure). Neon is based in the USA - any access from outside the European Economic Area is safeguarded by the standard contractual clauses approved by the European Commission (Art. 46 GDPR)."
+              "Databricks, Inc. (owner of the Neon service) - cloud database stored in the EU region (Frankfurt, Germany; Amazon Web Services infrastructure); the provider may use further sub-processors under its data processing agreement. Databricks is based in the USA - any access from outside the European Economic Area is safeguarded by the standard contractual clauses approved by the European Commission (Art. 46 GDPR)."
             ],
             "When checking whether a new password has appeared in known breaches, we send the Have I Been Pwned service only the first 5 characters of the password’s SHA-1 hash - this cannot be used to recover the password or identify you.",
             "We may also disclose data to public authorities when required by law."
