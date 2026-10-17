@@ -1546,7 +1546,8 @@
       "permanent": "Na stałe",
       "reason": "Powód (zobaczy go użytkownik)",
       "blockHint": "Użytkownik zostanie wylogowany ze wszystkich urządzeń i dostanie maila z powodem."
-    }
+    },
+    "todo": "sprawy do załatwienia: {{count}}"
   },
   "groups": {
     "lead": "Dzielcie się przepisami w gronie znajomych - szerzej niż w gospodarstwie, ale bez publikowania dla wszystkich. Grupy dotyczą tylko przepisów: plany, zakupy i dane o zdrowiu zostają u Was.",

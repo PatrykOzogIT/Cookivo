@@ -5,6 +5,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { TranslocoDirective } from '@jsverse/transloco';
+import { AdminSummaryService } from './core/admin/admin-summary.service';
 import { AuthService } from './core/auth/auth.service';
 import { LanguageService } from './core/i18n/language.service';
 import { THEMES, ThemeService, type ThemePreference } from './core/theme/theme.service';
@@ -32,6 +33,8 @@ import { GUEST_BOTTOM_NAV, GUEST_NAV, USER_BOTTOM_NAV, USER_MENU, USER_NAV } fro
 })
 export class App {
   protected readonly auth = inject(AuthService);
+  /** Sprawy do załatwienia przez admina (null dla zwykłych użytkowników) */
+  protected readonly adminTodo = inject(AdminSummaryService).summary;
   protected readonly language = inject(LanguageService);
   protected readonly theme = inject(ThemeService);
   private readonly document = inject(DOCUMENT);

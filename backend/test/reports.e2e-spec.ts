@@ -94,6 +94,28 @@ describe('Zgłoszenia i moderacja (e2e)', () => {
     expect(t.mails.filter((m) => m.kind === 'contentHidden')).toHaveLength(0);
   });
 
+  it('licznik admina: sprawy liczone po celu + składniki do akceptacji', async () => {
+    const pending = await t.prisma.ingredient.count({ where: { status: 'PENDING' } });
+    const summary = async () => (await api().get('/api/admin/summary').set(bearer(admin)).expect(200)).body;
+    expect(await summary()).toEqual({ openReports: 0, pendingIngredients: pending, total: pending });
+
+    // Dwa zgłoszenia tego samego przepisu = jedna sprawa; zgłoszenie użytkownika = druga
+    await report(r1, { targetType: 'RECIPE', recipeId, reason: 'SPAM' }).expect(201);
+    await report(r2, { targetType: 'RECIPE', recipeId, reason: 'SPAM' }).expect(201);
+    await report(r1, { targetType: 'USER', userId: await userId('autorka'), reason: 'SPAM' }).expect(201);
+    expect(await summary()).toMatchObject({ openReports: 2, total: pending + 2 });
+
+    await api()
+      .post('/api/admin/reports/resolve')
+      .set(bearer(admin))
+      .send({ targetType: 'RECIPE', recipeId, action: 'RESTORE' })
+      .expect(200);
+    expect((await summary()).openReports).toBe(1);
+
+    // Zwykły użytkownik nie widzi licznika
+    await api().get('/api/admin/summary').set(bearer(r1)).expect(403);
+  });
+
   it('admin ukrywa przepis z powodem - autor dostaje maila', async () => {
     await report(r1, { targetType: 'RECIPE', recipeId, reason: 'DANGEROUS' }).expect(201);
     await api()

@@ -99,6 +99,20 @@ export class ReportsService {
     };
   }
 
+  /**
+   * Sprawy do załatwienia przez admina. Zgłoszenia liczymy jak w kolejce - po celu
+   * (kilka zgłoszeń tego samego przepisu = jedna sprawa).
+   */
+  async summary() {
+    const [[{ count }], pendingIngredients] = await Promise.all([
+      this.prisma.$queryRaw<{ count: bigint }[]>`SELECT count(*) FROM (
+        SELECT DISTINCT target_type, recipe_id, target_user_id FROM reports WHERE status = 'OPEN') t`,
+      this.prisma.ingredient.count({ where: { status: 'PENDING' } }),
+    ]);
+    const openReports = Number(count);
+    return { openReports, pendingIngredients, total: openReports + pendingIngredients };
+  }
+
   /** Kolejka admina: zgłoszenia pogrupowane po celu, najwięcej zgłoszeń na górze */
   async queue(status: 'OPEN' | 'ACCEPTED' | 'REJECTED') {
     const rows = await this.prisma.report.findMany({

@@ -11,6 +11,7 @@ import { apiErrorCode } from '../../core/api-error';
 import { LanguageService } from '../../core/i18n/language.service';
 import { AdminUsersPanel } from './admin-users-panel';
 import { ReportsApi, type QueueItem, type ReportStatus } from '../moderation/reports.api';
+import { AdminSummaryService } from '../../core/admin/admin-summary.service';
 
 /** Panel administracyjny: kolejka zgłoszeń (pogrupowanych po celu) i skróty */
 @Component({
@@ -32,6 +33,7 @@ import { ReportsApi, type QueueItem, type ReportStatus } from '../moderation/rep
 export class AdminPage {
   private readonly api = inject(ReportsApi);
   private readonly language = inject(LanguageService);
+  private readonly adminSummary = inject(AdminSummaryService);
 
   protected readonly status = signal<ReportStatus>('OPEN');
   protected readonly items = signal<QueueItem[]>([]);
@@ -60,6 +62,7 @@ export class AdminPage {
         note: this.notes[item.key]?.trim() || undefined,
       });
       this.items.update((list) => list.filter((i) => i.key !== item.key));
+      void this.adminSummary.refresh(true);
     } catch (err) {
       this.error.set(apiErrorCode(err));
     } finally {

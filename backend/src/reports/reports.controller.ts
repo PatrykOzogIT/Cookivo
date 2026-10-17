@@ -19,6 +19,13 @@ export class ReportsController {
     return this.reports.mine(user.id);
   }
 
+  /** Licznik dla admina przy nicku: otwarte sprawy w kolejce + składniki do akceptacji */
+  @Roles('ADMIN')
+  @Get('admin/summary')
+  summary() {
+    return this.reports.summary();
+  }
+
   @Roles('ADMIN')
   @Get('admin/reports')
   queue(@Query() q: QueueQueryDto) {

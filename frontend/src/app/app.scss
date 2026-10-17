@@ -77,12 +77,33 @@
   &[aria-expanded='true'] {
     background: var(--ck-surface-2);
   }
+  // Awatar z cyfrą spraw do załatwienia (tylko admin)
+  .avatar-wrap {
+    position: relative;
+    display: inline-flex;
+    margin-right: 8px;
+  }
+  .todo-badge {
+    position: absolute;
+    top: -6px;
+    right: -8px;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 5px;
+    border-radius: 10px;
+    border: 2px solid var(--ck-bg);
+    background: var(--ck-danger);
+    color: var(--ck-on-danger);
+    font-size: 0.7rem;
+    font-weight: 800;
+    line-height: 16px;
+    text-align: center;
+  }
   .avatar {
     display: inline-grid;
     place-items: center;
     width: 32px;
     height: 32px;
-    margin-right: 8px;
     border-radius: 50%;
     background: linear-gradient(135deg, var(--ck-cta-from), var(--ck-cta-to));
     color: var(--ck-cta-text);
@@ -230,7 +251,7 @@ main {
   .user-button {
     min-width: 44px;
     padding: 0;
-    .avatar {
+    .avatar-wrap {
       margin: 0;
     }
   }

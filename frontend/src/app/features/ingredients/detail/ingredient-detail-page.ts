@@ -18,6 +18,7 @@ import { ProfileApi, type PreferenceLevel } from '../../profile/profile.api';
 import { IngredientsApi } from '../ingredients.api';
 import type { Ingredient } from '../ingredients.models';
 import { portionGrams, portionUnits } from '../portion';
+import { AdminSummaryService } from '../../../core/admin/admin-summary.service';
 
 @Component({
   selector: 'app-ingredient-detail-page',
@@ -43,6 +44,7 @@ export class IngredientDetailPage implements OnInit {
   private readonly router = inject(Router);
   private readonly title = inject(Title);
   protected readonly auth = inject(AuthService);
+  private readonly adminSummary = inject(AdminSummaryService);
   protected readonly lang = inject(LanguageService).current;
 
   /** Parametr trasy :id */
@@ -144,6 +146,7 @@ export class IngredientDetailPage implements OnInit {
     this.busy.set(true);
     try {
       await this.api.remove(this.id());
+      void this.adminSummary.refresh(true);
       await this.router.navigate(['/ingredients'], {
         queryParams: { mine: this.auth.isAdmin() ? null : '1' },
       });
@@ -158,6 +161,7 @@ export class IngredientDetailPage implements OnInit {
     this.actionError.set(null);
     try {
       this.ingredient.set(await fn());
+      void this.adminSummary.refresh(true);
     } catch (err) {
       this.actionError.set(apiErrorCode(err));
     } finally {

@@ -1546,7 +1546,8 @@
       "permanent": "Permanently",
       "reason": "Reason (shown to the user)",
       "blockHint": "The user will be signed out on all devices and receive an email with the reason."
-    }
+    },
+    "todo": "items to handle: {{count}}"
   },
   "groups": {
     "lead": "Share recipes with friends - wider than your household, without publishing to everyone. Groups are only about recipes: plans, shopping and health data stay with you.",

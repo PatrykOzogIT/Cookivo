@@ -124,3 +124,36 @@ test.describe('Zgłoszenia i moderacja', () => {
     await expect(page.getByRole('button', { name: 'Zgłoś' })).toHaveCount(0);
   });
 });
+
+test('licznik spraw przy nicku: widzi go admin, zwykły użytkownik nie', async ({
+  page,
+  request,
+  browser,
+}) => {
+  const author = await createUser(request, 'licz_aut');
+  const reporter = await createUser(request, 'licz_zgl');
+  const admin = await createUser(request, 'licz_adm', 'ADMIN');
+  const recipe = await publicRecipe(request, author);
+  const res = await request.post('/api/reports', {
+    headers: await authHeaders(request, reporter),
+    data: { targetType: 'RECIPE', recipeId: recipe.id, reason: 'SPAM' },
+  });
+  expect(res.status()).toBe(201);
+
+  // Admin: cyfra na awatarze, nazwa przycisku mówi o sprawach, liczby w menu
+  await loginUi(page, admin);
+  const userButton = page.getByRole('button', { name: /sprawy do załatwienia: \d+/ });
+  await expect(userButton).toBeVisible();
+  await expect(userButton.locator('.todo-badge')).toHaveText(/^\d+\+?$/);
+  await userButton.click();
+  await expect(
+    page.getByRole('menuitem', { name: /Panel administracyjny\s*, sprawy do załatwienia: \d+/ }),
+  ).toBeVisible();
+  await expectNoA11yViolations(page);
+  await page.keyboard.press('Escape');
+
+  // Zwykły użytkownik: bez licznika
+  const other = await (await browser.newContext()).newPage();
+  await loginUi(other, reporter);
+  await expect(other.locator('.todo-badge')).toHaveCount(0);
+});

@@ -61,9 +61,20 @@
               type="button"
               class="user-button"
               [matMenuTriggerFor]="userMenuRef"
-              [attr.aria-label]="t('a11y.userMenu', { name: user.username })"
+              [attr.aria-label]="
+                adminTodo()?.total
+                  ? t('a11y.userMenu', { name: user.username }) +
+                    ' - ' +
+                    t('admin.todo', { count: adminTodo()!.total })
+                  : t('a11y.userMenu', { name: user.username })
+              "
             >
-              <span class="avatar" aria-hidden="true">{{ initials() }}</span>
+              <span class="avatar-wrap" aria-hidden="true">
+                <span class="avatar">{{ initials() }}</span>
+                @if (adminTodo()?.total; as total) {
+                  <span class="todo-badge">{{ total > 99 ? '99+' : total }}</span>
+                }
+              </span>
               <span class="username">{{ user.username }}</span>
               <span class="material-symbols-rounded caret" aria-hidden="true">keyboard_arrow_down</span>
             </button>
@@ -85,12 +96,20 @@
                 <a mat-menu-item routerLink="/ingredients" [queryParams]="{ status: 'PENDING' }">
                   <span class="material-symbols-rounded menu-icon" aria-hidden="true">fact_check</span>
                   <span>{{ t('nav.reviewIngredients') }}</span>
+                  @if (adminTodo()?.pendingIngredients; as n) {
+                    <span class="menu-count" aria-hidden="true">{{ n }}</span>
+                    <span class="visually-hidden">, {{ t('admin.todo', { count: n }) }}</span>
+                  }
                 </a>
                 <a mat-menu-item routerLink="/admin">
                   <span class="material-symbols-rounded menu-icon" aria-hidden="true"
                     >admin_panel_settings</span
                   >
                   <span>{{ t('nav.admin') }}</span>
+                  @if (adminTodo()?.openReports; as n) {
+                    <span class="menu-count" aria-hidden="true">{{ n }}</span>
+                    <span class="visually-hidden">, {{ t('admin.todo', { count: n }) }}</span>
+                  }
                 </a>
               }
               <mat-divider />

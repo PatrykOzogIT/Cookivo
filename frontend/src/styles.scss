@@ -595,3 +595,17 @@ a {
     color: var(--ck-link);
   }
 }
+
+// Liczba spraw przy pozycji menu konta (admin) - menu renderuje się w nakładce, poza App
+.menu-count {
+  margin-left: 8px;
+  min-width: 22px;
+  padding: 0 7px;
+  border-radius: 11px;
+  background: var(--ck-danger);
+  color: var(--ck-on-danger);
+  font-size: 0.75rem;
+  font-weight: 800;
+  line-height: 20px;
+  text-align: center;
+}
