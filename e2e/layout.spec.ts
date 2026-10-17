@@ -87,3 +87,13 @@ test.describe('Układ i nawigacja', () => {
     expect(small).toEqual([]);
   });
 });
+
+test('logo wraca na stronę główną (też z "ogranicz ruch")', async ({ page }) => {
+  for (const reducedMotion of ['no-preference', 'reduce'] as const) {
+    await page.emulateMedia({ reducedMotion });
+    await page.goto('/recipes');
+    await page.getByRole('link', { name: 'Cookivo - strona główna' }).click();
+    await expect(page).toHaveURL(/\/$/);
+    await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
+  }
+});

@@ -30,7 +30,28 @@ export const appConfig: ApplicationConfig = {
     provideRouter(
       routes,
       withComponentInputBinding(),
-      withViewTransitions({ skipInitialTransition: true }),
+      withViewTransitions({
+        skipInitialTransition: true,
+        // Przeglądarka, która nie renderuje strony (ukryta / zminimalizowana karta, osadzony podgląd),
+        // może nigdy nie zacząć przejścia - router czekałby na nie bez końca i linki (np. logo)
+        // nic by nie robiły. Pomijamy animację: w ukrytej karcie, przy "ogranicz ruch"
+        // i gdy przejście nie wystartuje w pół sekundy.
+        onViewTransitionCreated: ({ transition }) => {
+          const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+          if (document.visibilityState !== 'visible' || reduced) {
+            transition.skipTransition();
+            return;
+          }
+          let started = false;
+          transition.ready.then(
+            () => (started = true),
+            () => (started = true),
+          );
+          setTimeout(() => {
+            if (!started) transition.skipTransition();
+          }, 500);
+        },
+      }),
       withInMemoryScrolling({ scrollPositionRestoration: 'top', anchorScrolling: 'enabled' }),
     ),
     provideHttpClient(withFetch(), withInterceptors([authInterceptor])),
