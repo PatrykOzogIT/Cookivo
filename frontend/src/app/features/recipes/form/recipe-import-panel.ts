@@ -103,6 +103,14 @@ interface Picked {
     }
   `,
   styles: `
+    /* Odstęp jak między sekcjami formularza */
+    :host {
+      display: block;
+      margin-bottom: 20px;
+    }
+    :host:empty {
+      display: none;
+    }
     .import {
       padding: 16px 20px;
       border-style: dashed;
