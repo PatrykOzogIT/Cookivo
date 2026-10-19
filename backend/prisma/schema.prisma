@@ -73,6 +73,7 @@ model User {
   householdMember  HouseholdMember?
   householdInvites HouseholdInvite[]
 
+  recipeImports      RecipeImport[]
   friendGroups       FriendGroupMember[] @relation("FriendGroupMember")
   friendGroupInvited FriendGroupMember[] @relation("FriendGroupInvitedBy")
   friendGroupInvites FriendGroupInvite[]
@@ -983,4 +984,23 @@ model RecipeFriendGroup {
   @@id([recipeId, groupId])
   @@index([groupId])
   @@map("recipe_friend_groups")
+}
+
+/**
+ * Import przepisu ze zdjęć (odczyt przez model językowy). Zdjęć nie przechowujemy -
+ * tylko licznik użycia do limitów i kosztów (tokeny). Rekordy starsze niż 90 dni są usuwane.
+ */
+model RecipeImport {
+  id           String   @id @default(uuid(7)) @db.Uuid
+  userId       String   @map("user_id") @db.Uuid
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  photos       Int
+  success      Boolean  @default(false)
+  inputTokens  Int?     @map("input_tokens")
+  outputTokens Int?     @map("output_tokens")
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  @@index([userId, createdAt])
+  @@index([createdAt])
+  @@map("recipe_imports")
 }

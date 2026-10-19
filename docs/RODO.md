@@ -20,6 +20,7 @@
       Services Agreement (https://neon.com/platform-terms → databricks.com/legal/mcsa → databricks.com/legal/dpa).
       Opcjonalnie podpisać elektronicznie: https://www.databricks.com/legal/databricks-data-processing-addendum. - [ ] W PDF DPA potwierdzić mechanizm transferu (szukać „Standard Contractual Clauses” / „Data Privacy Framework”);
       jeśli inny niż SCC – poprawić akapit „Komu przekazujemy dane” w polityce (PL i EN). - [ ] W konsoli Neon (projekt → Settings → General) potwierdzić region AWS Europe Central 1 (Frankfurt).
+- [ ] **Anthropic** (gdy włączysz import ze zdjęć): założyć konto w console.anthropic.com, ustawić **limit wydatków** (Settings → Limits), zaakceptować DPA i wpisać klucz jako sekret `ANTHROPIC_API_KEY` (GitHub Secrets → .env na hostingu). Bez klucza funkcja jest ukryta.
 - [ ] Sprawdzić retencję kopii zapasowych w planie Neon (polityka mówi „do kilku dni”).
 - [ ] Przy zmianie dokumentów: nowa data w obu stałych + w treści, po zalogowaniu użytkownicy zobaczą
       prośbę o akceptację (`GET /api/me/legal` → `pending`). Zmianę regulaminu ogłaszać ≥ 14 dni wcześniej.
@@ -35,6 +36,7 @@ Obowiązkowy mimo małej skali – przetwarzamy dane szczególnej kategorii (zdr
 | Profil żywieniowy i alergie | kalkulator, filtrowanie przepisów                       | 9(2)(a) – zgoda HEALTH_DATA  | użytkownicy                  | płeć, data urodzenia, wzrost, waga, aktywność, cel, alergie                                     | Neon                | do wycofania zgody / usunięcia konta                                   |
 | Gospodarstwo                | wspólne plany, podział porcji                           | 6(1)(b); 9(2)(a) dla zdrowia | użytkownicy, osoby bez konta | członkostwo, zaproszenia (e-mail), osoby bez konta: imię/pseudonim, rok ur., płeć, kcal         | Neon, JCHost (mail) | do usunięcia gospodarstwa / osoby                                      |
 | Grupy znajomych             | dzielenie się przepisami w grupie                       | 6(1)(b)                      | użytkownicy                  | członkostwo, rola, status akceptacji, kto zaprosił, zaproszenia (e-mail), udostępnione przepisy | Neon, JCHost (mail) | do wyjścia z grupy / usunięcia konta; wyjście cofa udostępnienie       |
+| Odczyt przepisu ze zdjęć    | wypełnienie formularza przepisu                         | 6(1)(b)                      | użytkownicy                  | zdjęcia przepisu (tylko w trakcie odczytu), licznik użycia (data, liczba zdjęć, wynik, tokeny)  | Anthropic PBC       | zdjęcia: nie przechowujemy; licznik: 90 dni                            |
 | Bezpieczeństwo              | ochrona kont, wykazanie zgód                            | 6(1)(f), 7(1)                | użytkownicy                  | IP i przeglądarka sesji, nieudane logowania, historia zgód z IP                                 | Neon                | sesje: 30 dni po wygaśnięciu (`purgeStale`); zgody: do usunięcia konta |
 | Moderacja                   | zgłoszenia, decyzje, blokady (DSA)                      | 6(1)(c), 6(1)(f)             | użytkownicy, zgłaszający     | zgłoszenia, powody, decyzje, blokady                                                            | Neon, JCHost (mail) | do usunięcia treści / konta zgłaszającego                              |
 | Korespondencja              | odpowiedzi na wiadomości                                | 6(1)(f)                      | osoby piszące                | e-mail, treść                                                                                   | JCHost              | do zakończenia sprawy + okres przedawnienia roszczeń                   |
@@ -45,10 +47,11 @@ zdjęcia bez metadanych, eksport i usuwanie danych w ustawieniach, sekrety tylko
 
 ## Podmioty przetwarzające
 
-| Podmiot                 | Rola                             | Lokalizacja danych   | Umowa powierzenia          | Transfer poza EOG                             |
-| ----------------------- | -------------------------------- | -------------------- | -------------------------- | --------------------------------------------- |
-| JCHost                  | hosting aplikacji, zdjęć, poczta | Polska               | zał. 1 do regulaminu       | nie                                           |
-| Databricks, Inc. (Neon) | baza PostgreSQL                  | UE – Frankfurt (AWS) | DPA w MCSA (automatycznie) | możliwy dostęp z USA – SCC (do potwierdzenia) |
+| Podmiot                 | Rola                                   | Lokalizacja danych   | Umowa powierzenia                                | Transfer poza EOG                                             |
+| ----------------------- | -------------------------------------- | -------------------- | ------------------------------------------------ | ------------------------------------------------------------- |
+| JCHost                  | hosting aplikacji, zdjęć, poczta       | Polska               | zał. 1 do regulaminu                             | nie                                                           |
+| Databricks, Inc. (Neon) | baza PostgreSQL                        | UE – Frankfurt (AWS) | DPA w MCSA (automatycznie)                       | możliwy dostęp z USA – SCC (do potwierdzenia)                 |
+| Anthropic PBC           | odczyt przepisów ze zdjęć (Claude API) | USA                  | do akceptacji (Commercial Terms + DPA w konsoli) | tak - SCC (do potwierdzenia w DPA); API nie trenuje na danych |
 
 Nie są podmiotami przetwarzającymi: Have I Been Pwned (dostaje tylko 5 znaków skrótu SHA-1 hasła),
 GitHub (kod i CI – bez danych użytkowników). Fonty i ikony serwujemy sami (`scripts/icons.mjs`) –

@@ -13,6 +13,25 @@
   } @else if (loading()) {
     <div class="skeleton ck-card" aria-hidden="true"></div>
   } @else {
+    @if (!id()) {
+      <app-recipe-import-panel (imported)="applyDraft($event)" />
+    }
+    @if (importSummary(); as s) {
+      <div class="alert info import-summary" role="status">
+        <span class="material-symbols-rounded" aria-hidden="true">fact_check</span>
+        <div>
+          <strong>{{ t('recipes.import.done') }}</strong>
+          {{ s.toCheck ? t('recipes.import.toCheck', { count: s.toCheck }) : t('recipes.import.allMatched') }}
+          @if (s.warnings.length) {
+            <ul>
+              @for (w of s.warnings; track $index) {
+                <li>{{ w }}</li>
+              }
+            </ul>
+          }
+        </div>
+      </div>
+    }
     <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
       <!-- Podstawy -->
       <section class="ck-card box">
@@ -189,6 +208,34 @@
                   </button>
                 </div>
               </div>
+              @if (noteFor(row); as n) {
+                @if ((n.missing && !row.controls.item.value) || n.unit || n.amount || n.uncertain) {
+                  <div class="import-note">
+                    <span class="material-symbols-rounded" aria-hidden="true">warning</span>
+                    <div>
+                      <span class="from">{{ t('recipes.import.fromPhoto') }} „{{ n.text }}”</span>
+                      @if (n.missing && !row.controls.item.value) {
+                        <span>{{ t('recipes.import.missing') }}</span>
+                        @if (n.suggestions.length) {
+                          <span class="suggestions">
+                            @for (s of n.suggestions; track s.id) {
+                              <button mat-stroked-button type="button" (click)="pickSuggestion(row, s)">
+                                {{ s.name | localized: lang() }}
+                              </button>
+                            }
+                          </span>
+                        }
+                      } @else if (n.unit) {
+                        <span>{{ t('recipes.import.unit') }}</span>
+                      } @else if (n.amount) {
+                        <span>{{ t('recipes.import.amount') }}</span>
+                      } @else {
+                        <span>{{ t('recipes.import.uncertain') }}</span>
+                      }
+                    </div>
+                  </div>
+                }
+              }
               @if (lineError()?.index === i) {
                 <p class="alert" role="alert">{{ t('errors.' + lineError()!.code) }}</p>
               }

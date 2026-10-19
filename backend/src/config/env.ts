@@ -26,6 +26,14 @@ export const envSchema = z.object({
   HIBP_ENABLED: bool,
   /** Katalog na zdjęcia (WebP). W produkcji zamienimy na magazyn S3. */
   UPLOADS_DIR: z.string().default('uploads'),
+  /**
+   * Import przepisu ze zdjęć przez Claude. Bez klucza funkcja jest wyłączona (i nic nie kosztuje).
+   * Limity: na osobę na dobę i dla całego serwisu na miesiąc kalendarzowy - górna granica kosztów.
+   */
+  ANTHROPIC_API_KEY: z.string().optional(),
+  RECIPE_IMPORT_MODEL: z.string().default('claude-haiku-5-5'),
+  RECIPE_IMPORT_DAILY_LIMIT: z.coerce.number().int().min(0).default(5),
+  RECIPE_IMPORT_MONTHLY_LIMIT: z.coerce.number().int().min(0).default(300),
   /** Limity żądań (ochrona przed zgadywaniem haseł). Wyłączamy tylko w testach E2E. */
   THROTTLE_ENABLED: z
     .enum(['true', 'false', '1', '0'])

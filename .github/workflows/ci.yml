@@ -186,6 +186,8 @@ jobs:
           SMTP_PORT: ${{ secrets.SMTP_PORT }}
           SMTP_USER: ${{ secrets.SMTP_USER }}
           SMTP_PASS: ${{ secrets.SMTP_PASS }}
+          # Opcjonalne: bez klucza import przepisów ze zdjęć jest wyłączony
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: |
           set -euo pipefail
           umask 077
@@ -211,6 +213,10 @@ jobs:
             echo "UPLOADS_DIR='$UPLOADS_DIR'"
             echo "HIBP_ENABLED='true'"
             echo "THROTTLE_ENABLED='true'"
+            if [ -n "${ANTHROPIC_API_KEY:-}" ]; then
+              case "$ANTHROPIC_API_KEY" in *"'"*) echo "::error::ANTHROPIC_API_KEY nie może zawierać apostrofu" >&2; exit 1;; esac
+              echo "ANTHROPIC_API_KEY='$ANTHROPIC_API_KEY'"
+            fi
           } > backend/deploy/.env
 
       # Akcja z zewnątrz dostaje hasło FTP - przypięta do konkretnego commita (v4.4.0).

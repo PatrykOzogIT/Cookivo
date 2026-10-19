@@ -59,13 +59,14 @@ Projekt `cookivo`, region AWS Europe Central 1 (Frankfurt). Potrzebne dwa adresy
 
 **Secrets**
 
-| Nazwa                                              | Wartość                                                                                                 |
-| -------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
-| `DATABASE_URL`                                     | adres Neon z `-pooler`                                                                                  |
-| `DATABASE_URL_DIRECT`                              | adres Neon bez `-pooler`                                                                                |
-| `JWT_ACCESS_SECRET`                                | losowy, min. 32 znaki: `node -e "console.log(require('crypto').randomBytes(48).toString('base64url'))"` |
-| `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS` | dane skrzynki (465 = SSL, 587 = STARTTLS)                                                               |
-| `FTP_SERVER`, `FTP_USERNAME`, `FTP_PASSWORD`       | konto FTP                                                                                               |
+| Nazwa                                              | Wartość                                                                                                                     |
+| -------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| `DATABASE_URL`                                     | adres Neon z `-pooler`                                                                                                      |
+| `DATABASE_URL_DIRECT`                              | adres Neon bez `-pooler`                                                                                                    |
+| `JWT_ACCESS_SECRET`                                | losowy, min. 32 znaki: `node -e "console.log(require('crypto').randomBytes(48).toString('base64url'))"`                     |
+| `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS` | dane skrzynki (465 = SSL, 587 = STARTTLS)                                                                                   |
+| `ANTHROPIC_API_KEY` (opcjonalny)                   | klucz Claude API do odczytu przepisów ze zdjęć; bez niego funkcja jest ukryta. Ustaw limit wydatków w console.anthropic.com |
+| `FTP_SERVER`, `FTP_USERNAME`, `FTP_PASSWORD`       | konto FTP                                                                                                                   |
 
 **Variables**
 

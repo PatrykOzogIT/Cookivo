@@ -315,3 +315,43 @@ legend {
   width: 100%;
   margin-bottom: 12px;
 }
+
+// --- Import ze zdjęć: podsumowanie i pozycje do sprawdzenia -------------------
+.import-summary {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+  ul {
+    margin: 6px 0 0;
+    padding-left: 18px;
+  }
+}
+
+.import-note {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+  padding: 8px 10px;
+  border-left: 3px solid var(--ck-danger);
+  border-radius: var(--ck-radius-sm);
+  background: var(--ck-surface-2);
+  font-size: 0.875rem;
+  > .material-symbols-rounded {
+    color: var(--ck-danger);
+    font-size: 20px;
+  }
+  > div {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .from {
+    font-weight: 600;
+    overflow-wrap: anywhere;
+  }
+  .suggestions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+}

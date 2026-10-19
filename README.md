@@ -14,6 +14,7 @@ Angular and NestJS.
 - 💰 Food budget planning
 - 🏠 Household meal planning
 - 👥 Friend groups for sharing recipes (owner approves new members)
+- 📸 Recipe import from photos (Claude API, structured outputs, ingredient matching)
 - 🥕 Pantry management
 - ⚠️ Allergies & food intolerances
 - ⭐ Recipe ratings and variants
@@ -129,6 +130,7 @@ backend/
   src/photos/        zdjęcia: WebP w 3 rozmiarach (sharp), bez metadanych GPS
   src/profile/       profil żywieniowy, kalkulator kcal/makro, alergie, preferencje, dopasowanie list
   src/household/     gospodarstwa domowe: zaproszenia, członkowie, udostępnianie alergii
+  src/recipe-import/ odczyt przepisu ze zdjęć (Claude API) i dopasowanie składników
   src/groups/        grupy znajomych: zaproszenia z akceptacją właściciela, przepisy "dla grup"
   src/planner/       planer: gotowania (partie) i posiłki, zapasy, bilans dnia, kopiowanie
   src/pantry/        lodówka i spiżarnia (ilość opcjonalna, daty ważności)

@@ -13,6 +13,7 @@ import { AccountModule } from './account/account.module.js';
 import { LegalModule } from './legal/legal.module.js';
 import { HouseholdModule } from './household/household.module.js';
 import { GroupsModule } from './groups/groups.module.js';
+import { RecipeImportModule } from './recipe-import/recipe-import.module.js';
 import { PlannerModule } from './planner/planner.module.js';
 import { PantryModule } from './pantry/pantry.module.js';
 import { ShoppingModule } from './shopping/shopping.module.js';
@@ -61,6 +62,7 @@ import { PrismaModule } from './prisma/prisma.module.js';
     LegalModule,
     HouseholdModule,
     GroupsModule,
+    RecipeImportModule,
     PlannerModule,
     PantryModule,
     ShoppingModule,

@@ -144,7 +144,12 @@
     "NOT_IN_GROUP": "You're not in this group.",
     "GROUP_PENDING": "You're still waiting for the group owner's approval.",
     "GROUPS_REQUIRED": "Choose at least one group.",
-    "GROUP_UNKNOWN": "You can only share with groups you belong to."
+    "GROUP_UNKNOWN": "You can only share with groups you belong to.",
+    "IMPORT_DISABLED": "Reading recipes from photos is currently unavailable.",
+    "IMPORT_LIMIT": "Today's reading limit is used up. Try again tomorrow.",
+    "IMPORT_BUSY": "The site's monthly reading limit is used up. Try again next month.",
+    "IMPORT_FAILED": "We couldn't read the recipe. Try again or use a clearer photo.",
+    "IMPORT_NOT_RECIPE": "The photos don't seem to show a recipe."
   },
   "auth": {
     "fields": {
@@ -631,7 +636,28 @@
     "householdBadge": "Household",
     "groupsBadge": "Groups",
     "inGroup": "Group: {{name}}",
-    "toGroup": "Go to group"
+    "toGroup": "Go to group",
+    "import": {
+      "title": "Got a recipe on paper or in a book?",
+      "lead": "Take up to {{max}} photos - we'll read the recipe and fill in the form. You check everything before saving.",
+      "pick": "Add photos",
+      "addMore": "Add more",
+      "photoAlt": "Recipe photo {{n}}",
+      "removePhoto": "Remove photo {{n}}",
+      "read": "Read recipe",
+      "reading": "Reading the recipe… this usually takes a few seconds.",
+      "remaining": "Left for today: {{count}} of {{limit}}",
+      "limitReached": "Today's reading limit ({{limit}}) is used up. Come back tomorrow or type the recipe in.",
+      "privacy": "Photos are read by an AI model (Anthropic) and are not stored - see the privacy policy.",
+      "done": "We have read the recipe.",
+      "toCheck": "Check the marked ingredients: {{count}}.",
+      "allMatched": "All ingredients were matched to the database - still check amounts and steps.",
+      "fromPhoto": "From the photo:",
+      "missing": "We couldn't find this in the database - pick an ingredient from the list or a suggestion.",
+      "unit": "This unit doesn't fit the ingredient - choose another one.",
+      "amount": "No amount - enter it (e.g. a pinch, 1 teaspoon).",
+      "uncertain": "Uncertain reading - check the name and amount."
+    }
   },
   "placeholder": {
     "body": "This section is under construction - it arrives in stage {{stage}}."
@@ -693,6 +719,7 @@
               "Health data (optional): sex, date of birth, height, weight, activity, goal, allergies and intolerances. Purpose: calculating energy and macronutrient needs and filtering recipes. Legal basis: your explicit consent (Art. 9(2)(a) GDPR). You can withdraw it at any time in your profile - withdrawal deletes this data.",
               "Household: membership, invitations (including the invitee email address if you provide it) and people without an account. Household members see your allergies and calorie target only with your separate consent. Legal basis: contract (Art. 6(1)(b) GDPR) and, for health data, consent (Art. 9(2)(a) GDPR).",
               "Friend groups (optional): membership, role, approval status, who invited you, invitations (including the invitee's email address if you provide it) and recipes shared with the group. Group members see your username and shared recipes; a person waiting for approval is visible only to the group owner. Groups give no access to health data, plans or shopping. Legal basis: contract (Art. 6(1)(b) GDPR).",
+              "Reading a recipe from photos (optional): the photos you choose in the recipe form. Purpose: reading the recipe text and filling in the form for you to check. Photos are not saved - they are deleted after reading; we only keep a usage counter (date, number of photos, result) needed for daily limits. Do not send photos containing other people’s personal data. Legal basis: contract (Art. 6(1)(b) GDPR).",
               "Security: IP address and browser information for sign-in sessions, number of failed sign-ins and the consent history with IP address. Purpose: protecting accounts against takeover, detecting abuse and demonstrating consent. Legal basis: our legitimate interest (Art. 6(1)(f) GDPR) and the duty to demonstrate consent (Art. 7(1) GDPR).",
               "Moderation: reports about content and users, moderator decisions and account blocks with reasons. Purpose: countering illegal content and content that breaks the terms, and obligations under the Digital Services Act (DSA). Legal basis: legal obligation and legitimate interest (Art. 6(1)(c) and (f) GDPR).",
               "Correspondence: when you write to us - your email address and the message, so we can reply. Legal basis: legitimate interest (Art. 6(1)(f) GDPR)."
@@ -718,7 +745,8 @@
             "We do not sell data or share it with advertisers. We only entrust it to providers without whom the service cannot run, under data processing agreements (Art. 28 GDPR):",
             [
               "JCHost (jchost.pl) - Polish hosting provider: application server, photos and email.",
-              "Databricks, Inc. (owner of the Neon service) - cloud database stored in the EU region (Frankfurt, Germany; Amazon Web Services infrastructure); the provider may use further sub-processors under its data processing agreement. Databricks is based in the USA - any access from outside the European Economic Area is safeguarded by the standard contractual clauses approved by the European Commission (Art. 46 GDPR)."
+              "Databricks, Inc. (owner of the Neon service) - cloud database stored in the EU region (Frankfurt, Germany; Amazon Web Services infrastructure); the provider may use further sub-processors under its data processing agreement. Databricks is based in the USA - any access from outside the European Economic Area is safeguarded by the standard contractual clauses approved by the European Commission (Art. 46 GDPR).",
+              "Anthropic PBC - the AI model that reads recipes from photos (only when you use this feature). Anthropic is based in the USA; the transfer is safeguarded by the standard contractual clauses in the data processing agreement (Art. 46 GDPR). Under Anthropic’s terms, data sent through the API is not used to train models."
             ],
             "When checking whether a new password has appeared in known breaches, we send the Have I Been Pwned service only the first 5 characters of the password’s SHA-1 hash - this cannot be used to recover the password or identify you.",
             "We may also disclose data to public authorities when required by law."
@@ -734,6 +762,7 @@
               "Sign-in sessions (IP address, browser) - a session expires after 30 days; its data is deleted no later than 30 days after it expires or you sign out.",
               "Links from emails (address confirmation, password reset) - one day after use or expiry.",
               "Photos not attached to a recipe - one day.",
+              "Photos for recipe reading - not kept after reading; usage counter - 90 days.",
               "Consent history - for as long as the account exists.",
               "Reports and moderation decisions - until the reported content or the reporter’s account is deleted.",
               "Database backups at our provider - up to a few days, after which the data also disappears from backups."
@@ -870,7 +899,7 @@
           "title": "Health and nutrition values",
           "body": [
             "Calculations of calories, macronutrients, portions and costs are indicative and do not replace advice from a doctor or dietitian. User recipes are not reviewed by professionals.",
-            "We mark allergens of database ingredients to the best of our knowledge, but product composition differs between manufacturers - if you have an allergy, always check the label."
+            "We mark allergens of database ingredients to the best of our knowledge, but product composition differs between manufacturers - if you have an allergy, always check the label. Reading a recipe from photos is done by an AI model and may contain mistakes - check the draft before saving, especially amounts and ingredients."
           ]
         },
         {

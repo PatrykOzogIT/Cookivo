@@ -31,6 +31,8 @@ import { RecipesApi } from '../recipes.api';
 import type { Difficulty, Photo, RecipeDetail, SaveRecipe, Visibility } from '../recipes.models';
 import { LineItemPickerComponent } from './line-item-picker';
 import { PhotoPickerComponent } from './photo-picker';
+import { RecipeImportPanel } from './recipe-import-panel';
+import { toLineItem, type RecipeDraft } from '../recipe-import.api';
 
 type LineGroup = FormGroup<{
   item: FormControl<LineItem | null>;
@@ -39,6 +41,17 @@ type LineGroup = FormGroup<{
   groupName: FormControl<string>;
   note: FormControl<string>;
 }>;
+
+/** Co sprawdzić w pozycji odczytanej ze zdjęcia */
+interface ImportNote {
+  /** Linia tak, jak na zdjęciu */
+  text: string;
+  missing: boolean;
+  unit: boolean;
+  amount: boolean;
+  uncertain: boolean;
+  suggestions: LineItem[];
+}
 
 type StepGroup = FormGroup<{
   text: FormControl<string>;
@@ -65,6 +78,7 @@ export const MAX_GALLERY = 10;
     NumberPipe,
     LineItemPickerComponent,
     PhotoPickerComponent,
+    RecipeImportPanel,
   ],
   templateUrl: './recipe-form-page.html',
   styleUrl: './recipe-form-page.scss',
@@ -113,6 +127,9 @@ export class RecipeFormPage implements OnInit {
   protected readonly loading = signal(false);
   protected readonly saving = signal(false);
   protected readonly error = signal<string | null>(null);
+  /** Pozycje odczytane ze zdjęć, które trzeba sprawdzić (klucz = wiersz formularza) */
+  protected readonly importNotes = signal(new Map<LineGroup, ImportNote>());
+  protected readonly importSummary = signal<{ toCheck: number; warnings: string[] } | null>(null);
   /** Błąd serwera wskazujący konkretną pozycję (np. zła jednostka) */
   protected readonly lineError = signal<{ index: number; code: string } | null>(null);
 
@@ -146,6 +163,54 @@ export class RecipeFormPage implements OnInit {
     } finally {
       this.loading.set(false);
     }
+  }
+
+  // --- Import ze zdjęć ----------------------------------------------------------
+
+  /** Wypełnia formularz szkicem odczytanym ze zdjęć - nic nie zapisujemy, użytkownik sprawdza */
+  protected applyDraft(d: RecipeDraft): void {
+    const text = (n: number | null) => (n === null ? '' : String(n));
+    this.form.patchValue({
+      title: d.title,
+      description: d.description ?? '',
+      servings: d.servings ? String(d.servings) : this.form.controls.servings.value,
+      prepMinutes: text(d.prepMinutes),
+      cookMinutes: text(d.cookMinutes),
+    });
+    this.lines.clear();
+    const notes = new Map<LineGroup, ImportNote>();
+    for (const l of d.ingredients) {
+      const item = l.match ? toLineItem(l.match) : null;
+      this.addLine({
+        ...(item ? { item } : {}),
+        amount: l.amount === null ? '' : formatNumber(l.amount, this.lang(), 3).replace(/\s/g, ''),
+        unitCode: l.unitCode ?? (item ? defaultUnit(item) : 'g'),
+        note: (l.note ?? '').slice(0, 120),
+      });
+      const note: ImportNote = {
+        text: l.text,
+        missing: !item,
+        unit: l.unitProblem,
+        amount: l.amount === null,
+        uncertain: l.uncertain,
+        suggestions: l.suggestions.map(toLineItem),
+      };
+      if (note.missing || note.unit || note.amount || note.uncertain) notes.set(this.lines.at(-1), note);
+    }
+    if (!this.lines.length) this.addLine();
+    this.steps.clear();
+    for (const s of d.steps) this.addStep({ text: s.slice(0, 2000) });
+    if (!this.steps.length) this.addStep();
+    this.importNotes.set(notes);
+    this.importSummary.set({ toCheck: notes.size, warnings: d.warnings });
+  }
+
+  protected noteFor(row: LineGroup): ImportNote | undefined {
+    return this.importNotes().get(row);
+  }
+
+  protected pickSuggestion(row: LineGroup, item: LineItem): void {
+    row.controls.item.setValue(item);
   }
 
   // --- Typy posiłków ---------------------------------------------------------

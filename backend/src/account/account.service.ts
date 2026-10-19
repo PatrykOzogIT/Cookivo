@@ -141,6 +141,7 @@ export class AccountService {
         priceLists: { include: { entries: { include: { ingredient: { select: { namePl: true } } } } } },
         sessions: { orderBy: { createdAt: 'asc' } },
         friendGroups: { include: { group: { select: { name: true } } }, orderBy: { joinedAt: 'asc' } },
+        recipeImports: { orderBy: { createdAt: 'asc' } },
         ingredientsCreated: { include: { category: true } },
         recipes: {
           include: {
@@ -248,6 +249,12 @@ export class AccountService {
         status: m.status,
         joinedAt: m.joinedAt,
         approvedAt: m.approvedAt,
+      })),
+      // Importy przepisów ze zdjęć - same liczniki (zdjęć nie przechowujemy)
+      recipeImports: user.recipeImports.map((i) => ({
+        createdAt: i.createdAt,
+        photos: i.photos,
+        success: i.success,
       })),
       sessions: user.sessions.map((s) => ({
         createdAt: s.createdAt,
