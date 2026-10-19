@@ -141,7 +141,11 @@ export class AccountService {
         priceLists: { include: { entries: { include: { ingredient: { select: { namePl: true } } } } } },
         sessions: { orderBy: { createdAt: 'asc' } },
         friendGroups: { include: { group: { select: { name: true } } }, orderBy: { joinedAt: 'asc' } },
-        recipeImports: { orderBy: { createdAt: 'asc' } },
+        aiImports: { orderBy: { createdAt: 'asc' } },
+        priceObservations: {
+          include: { ingredient: { select: { namePl: true } } },
+          orderBy: { createdAt: 'asc' },
+        },
         ingredientsCreated: { include: { category: true } },
         recipes: {
           include: {
@@ -252,11 +256,23 @@ export class AccountService {
         joinedAt: m.joinedAt,
         approvedAt: m.approvedAt,
       })),
-      // Importy przepisów ze zdjęć - same liczniki (zdjęć nie przechowujemy)
-      recipeImports: user.recipeImports.map((i) => ({
+      // Odczyty zdjęć przez AI (przepisy, paragony) - same liczniki (zdjęć nie przechowujemy)
+      aiImports: user.aiImports.map((i) => ({
+        kind: i.kind,
         createdAt: i.createdAt,
         photos: i.photos,
         success: i.success,
+        committedAt: i.committedAt,
+      })),
+      // Historia cen z paragonów (konto bez gospodarstwa; ceny gospodarstwa są wspólne)
+      priceHistory: user.priceObservations.map((o) => ({
+        ingredient: o.ingredient.namePl,
+        store: o.storeName,
+        purchasedOn: o.purchasedOn?.toISOString().slice(0, 10) ?? null,
+        currency: o.currency,
+        package: `${o.packageAmount} ${o.packageUnitCode}`,
+        packages: o.packages,
+        priceCents: o.priceCents,
       })),
       sessions: user.sessions.map((s) => ({
         createdAt: s.createdAt,

@@ -1,34 +1,12 @@
 <div class="page" *transloco="let t">
   <ng-template #newListForm>
-    <form class="ck-card box new-list" (ngSubmit)="createList()" novalidate>
-      <h2>{{ t(lists().length ? 'prices.newList' : 'prices.firstList') }}</h2>
-      <div class="fields">
-        <mat-form-field subscriptSizing="dynamic">
-          <mat-label>{{ t('prices.name') }}</mat-label>
-          <input
-            matInput
-            name="name"
-            [(ngModel)]="newName"
-            maxlength="60"
-            autocomplete="off"
-            [placeholder]="t('prices.namePlaceholder')"
-          />
-        </mat-form-field>
-        <mat-form-field subscriptSizing="dynamic">
-          <mat-label>{{ t('prices.currency') }}</mat-label>
-          <mat-select name="currency" [(ngModel)]="newCurrency">
-            @for (c of currencies; track c) {
-              <mat-option [value]="c">{{ c }}</mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <div class="row">
-        <button mat-stroked-button type="submit" [disabled]="busy() || !newName.trim()">
-          <span class="material-symbols-rounded" aria-hidden="true">add</span>{{ t('prices.create') }}
-        </button>
-      </div>
-    </form>
+    <app-price-list-form
+      [heading]="t(lists().length ? 'prices.newList' : 'prices.firstList')"
+      [busy]="busy()"
+      [(name)]="newName"
+      [(currency)]="newCurrency"
+      (submitted)="createList()"
+    />
   </ng-template>
 
   <header class="head">
@@ -36,6 +14,7 @@
     <p class="lead">
       {{ t(household() ? 'prices.leadHousehold' : 'prices.lead', { name: household()?.name ?? '' }) }}
     </p>
+    <app-receipt-import-link class="import-link" from="prices" />
   </header>
 
   @if (error(); as code) {

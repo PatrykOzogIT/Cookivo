@@ -20,7 +20,7 @@ const FONT = join(ROOT, 'public/fonts/material-symbols-rounded.woff2');
  * (np. 'groups' = slajd i filtr grup znajomych). Ikona użyta wprost w <span> lub icon: '...'
  * i tak trafi do fontu.
  */
-const NOT_ICONS = new Set(['groups']);
+const NOT_ICONS = new Set(['groups', 'problem', 'store']);
 
 export function allIconNames() {
   const dts = readFileSync(join(ROOT, 'node_modules/material-symbols/index.d.ts'), 'utf8');

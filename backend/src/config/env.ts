@@ -33,6 +33,7 @@ export const envSchema = z.object({
   ANTHROPIC_API_KEY: z.string().optional(),
   RECIPE_IMPORT_MODEL: z.string().default('claude-haiku-5-5'),
   RECIPE_IMPORT_DAILY_LIMIT: z.coerce.number().int().min(0).default(5),
+  RECEIPT_IMPORT_DAILY_LIMIT: z.coerce.number().int().min(0).default(5),
   RECIPE_IMPORT_MONTHLY_LIMIT: z.coerce.number().int().min(0).default(300),
   /** Limity żądań (ochrona przed zgadywaniem haseł). Wyłączamy tylko w testach E2E. */
   THROTTLE_ENABLED: z

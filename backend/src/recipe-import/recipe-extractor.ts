@@ -1,9 +1,6 @@
-import Anthropic from '@anthropic-ai/sdk';
-import { zodOutputFormat } from '@anthropic-ai/sdk/helpers/zod';
-import { Injectable, Logger } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
+import { Injectable } from '@nestjs/common';
 import { z } from 'zod';
-import type { Env } from '../config/env.js';
+import { VisionService, type ModelImage } from '../ai/vision.service.js';
 
 /** Jednostki, które model może zwrócić - te same kody co w przepisach (kg/l przelicza na g/ml) */
 export const IMPORT_UNITS = [
@@ -57,10 +54,7 @@ export interface ExtractionResult {
   outputTokens: number;
 }
 
-export interface ImportImage {
-  mediaType: 'image/jpeg';
-  base64: string;
-}
+export type ImportImage = ModelImage;
 
 const SYSTEM = `Odczytujesz przepisy kulinarne ze zdjęć (strona książki, kartka, zrzut ekranu) dla aplikacji Cookivo.
 
@@ -82,48 +76,20 @@ Zasady:
  */
 @Injectable()
 export class RecipeExtractor {
-  private readonly logger = new Logger(RecipeExtractor.name);
-  private readonly client: Anthropic | null;
-  private readonly model: string;
-  /** Funkcja działa tylko z kluczem API */
+  /** Funkcja działa tylko z kluczem API (w testach ustawiane ręcznie) */
   enabled: boolean;
 
-  constructor(config: ConfigService<Env, true>) {
-    const apiKey = config.get('ANTHROPIC_API_KEY', { infer: true });
-    this.model = config.get('RECIPE_IMPORT_MODEL', { infer: true });
-    this.client = apiKey ? new Anthropic({ apiKey, maxRetries: 1, timeout: 90_000 }) : null;
-    this.enabled = !!this.client;
+  constructor(private readonly vision: VisionService) {
+    this.enabled = vision.enabled;
   }
 
   async extract(images: ImportImage[], lang: 'pl' | 'en'): Promise<ExtractionResult> {
-    if (!this.client) throw new Error('Import przepisów wyłączony (brak ANTHROPIC_API_KEY)');
-    const response = await this.client.messages.parse({
-      model: this.model,
-      max_tokens: 8000,
+    const { output, inputTokens, outputTokens } = await this.vision.parse(ExtractionSchema, {
       system: SYSTEM.replace('{LANG}', lang === 'en' ? 'angielskim' : 'polskim'),
-      // Proste odczytanie tekstu - niski wysiłek wystarcza i obniża koszt
-      output_config: { effort: 'low', format: zodOutputFormat(ExtractionSchema) },
-      messages: [
-        {
-          role: 'user',
-          content: [
-            ...images.map((img) => ({
-              type: 'image' as const,
-              source: { type: 'base64' as const, media_type: img.mediaType, data: img.base64 },
-            })),
-            { type: 'text' as const, text: 'Odczytaj przepis z tych zdjęć.' },
-          ],
-        },
-      ],
+      images,
+      prompt: 'Odczytaj przepis z tych zdjęć.',
+      maxTokens: 8000,
     });
-    if (response.stop_reason === 'refusal' || !response.parsed_output) {
-      this.logger.warn(`Odczyt przepisu nieudany: stop_reason=${response.stop_reason}`);
-      throw new Error('IMPORT_FAILED');
-    }
-    return {
-      extraction: response.parsed_output,
-      inputTokens: response.usage.input_tokens,
-      outputTokens: response.usage.output_tokens,
-    };
+    return { extraction: output, inputTokens, outputTokens };
   }
 }

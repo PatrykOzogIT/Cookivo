@@ -12,7 +12,8 @@ import { gramsFor } from '../recipes/recipe-math.js';
 import { RecipesService } from '../recipes/recipes.service.js';
 import { loadRecipesForExpansion } from './recipe-loader.js';
 import type { AddItemDto, UpdateItemDto } from './shopping.dto.js';
-import { expandRecipe, LIQUID_CATEGORIES, shoppingAmount, toRecipeUnit } from './shopping-math.js';
+import { expandRecipe, LIQUID_CATEGORIES, shoppingAmount } from './shopping-math.js';
+import { normalizePackageUnit } from '../prices/cost-math.js';
 
 const MAX_RANGE_DAYS = 42;
 const DAY_MS = 24 * 60 * 60 * 1000;
@@ -233,7 +234,7 @@ export class ShoppingService {
     ingredient: Parameters<typeof ingredientForMath>[0],
     manual: Manual,
   ): Promise<number> {
-    const { amount, unitCode } = toRecipeUnit(manual.amount, manual.unitCode);
+    const { amount, unitCode } = normalizePackageUnit(manual.amount, manual.unitCode);
     const g = gramsFor(
       amount,
       unitCode,

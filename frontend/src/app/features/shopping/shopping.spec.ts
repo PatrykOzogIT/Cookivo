@@ -1,9 +1,5 @@
-import {
-  defaultShoppingUnit,
-  formatShoppingAmount,
-  groupByCategory,
-  shoppingUnitOptions,
-} from './shopping-format';
+import { defaultShoppingUnit, formatShoppingAmount, groupByCategory } from './shopping-format';
+import { unitOptionsWithBulk } from '../recipes/recipe-units';
 
 describe('ilości na liście zakupów', () => {
   it('sztuki z gramami, kg i ml z polskim przecinkiem', () => {
@@ -63,9 +59,9 @@ describe('ilość wpisana ręcznie', () => {
 
   it('jednostki: kg po g, l po ml (tylko z gęstością); domyślnie sztuki albo kg', () => {
     const rice = { kind: 'ingredient' as const, id: 'r', name: { namePl: 'Ryż', nameEn: 'Rice' } };
-    expect(shoppingUnitOptions(rice, []).map((u) => u.code)).toEqual(['g', 'kg']);
+    expect(unitOptionsWithBulk(rice, []).map((u) => u.code)).toEqual(['g', 'kg']);
     const milk = { ...rice, density: 1.03 };
-    expect(shoppingUnitOptions(milk, []).map((u) => u.code)).toEqual(['g', 'kg', 'ml', 'l']);
+    expect(unitOptionsWithBulk(milk, []).map((u) => u.code)).toEqual(['g', 'kg', 'ml', 'l']);
     expect(defaultShoppingUnit(rice)).toBe('kg');
     const banana = { ...rice, units: [{ code: 'PIECE', grams: 120, namePl: 'sztuka', nameEn: 'piece' }] };
     expect(defaultShoppingUnit(banana)).toBe('PIECE');

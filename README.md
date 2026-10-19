@@ -15,6 +15,7 @@ Angular and NestJS.
 - 🏠 Household meal planning
 - 👥 Friend groups for sharing recipes (owner approves new members)
 - 📸 Recipe import from photos (Claude API, structured outputs, ingredient matching)
+- 🧾 Receipt import: one AI reading fills the pantry and the price list (review before saving, idempotent commit, price history)
 - 🥕 Pantry management
 - ⚠️ Allergies & food intolerances
 - ⭐ Recipe ratings and variants
@@ -130,12 +131,14 @@ backend/
   src/photos/        zdjęcia: WebP w 3 rozmiarach (sharp), bez metadanych GPS
   src/profile/       profil żywieniowy, kalkulator kcal/makro, alergie, preferencje, dopasowanie list
   src/household/     gospodarstwa domowe: zaproszenia, członkowie, udostępnianie alergii
-  src/recipe-import/ odczyt przepisu ze zdjęć (Claude API) i dopasowanie składników
+  src/ai/            wspólny odczyt zdjęć przez Claude (structured outputs), limity użycia, dopasowanie składników
+  src/recipe-import/ odczyt przepisu ze zdjęć i szkic do formularza
+  src/receipt-import/ odczyt paragonu → szkic → zatwierdzenie (lodówka, cennik, historia cen) w jednej transakcji
   src/groups/        grupy znajomych: zaproszenia z akceptacją właściciela, przepisy "dla grup"
   src/planner/       planer: gotowania (partie) i posiłki, zapasy, bilans dnia, kopiowanie
-  src/pantry/        lodówka i spiżarnia (ilość opcjonalna, daty ważności)
+  src/pantry/        lodówka i spiżarnia (ilość opcjonalna, także kg i l, daty ważności)
   src/shopping/      lista zakupów: z planu i z przepisu (z podprzepisami), minus lodówka; ręcznie z ilością (kg, l, sztuki...)
-  src/prices/        cenniki (ceny za opakowanie) i szacowane koszty przepisów, listy i tygodnia
+  src/prices/        cenniki (ceny za opakowanie), historia cen z paragonów i szacowane koszty przepisów, listy i tygodnia
   src/ratings/       oceny 1-5 z komentarzami, średnia zapisana w przepisie
   src/account/       ustawienia konta, urządzenia, eksport danych i usunięcie konta (RODO)
   src/moderation/    filtr wulgaryzmów

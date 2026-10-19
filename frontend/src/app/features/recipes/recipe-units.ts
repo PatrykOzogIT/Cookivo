@@ -41,6 +41,20 @@ export function unitOptions(item: LineItem | null, dictionary: Unit[]): LineUnit
   return options;
 }
 
+/**
+ * Jednostki przy zakupach (lista, lodówka, cennik, paragon): jak w przepisach plus kg i l
+ * (backend przelicza je przez `normalizePackageUnit`).
+ */
+export function unitOptionsWithBulk(item: LineItem, dictionary: Unit[]): LineUnitOption[] {
+  const options: LineUnitOption[] = [];
+  for (const o of unitOptions(item, dictionary)) {
+    options.push(o);
+    if (o.code === 'g') options.push({ code: 'kg', key: 'units.kgShort', grams: 1000 });
+    if (o.code === 'ml' && o.grams) options.push({ code: 'l', key: 'units.lShort', grams: o.grams * 1000 });
+  }
+  return options;
+}
+
 /** Domyślna jednostka po wybraniu pozycji: porcja dla podprzepisu, pierwsza "kuchenna" dla składnika. */
 export function defaultUnit(item: LineItem): string {
   if (item.kind === 'recipe') return 'SERVING';

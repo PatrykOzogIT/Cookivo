@@ -6,6 +6,7 @@ import { toDate } from '../planner/planner.service.js';
 import { PrismaService } from '../prisma/prisma.service.js';
 import { ingredientForMath, RecipeCalculatorService } from '../recipes/recipe-calculator.service.js';
 import { gramsFor } from '../recipes/recipe-math.js';
+import { normalizePackageUnit } from '../prices/cost-math.js';
 import type { PantryItemDto, PantryUpdateDto } from './pantry.dto.js';
 
 /** Ile dni przed końcem ważności pokazujemy "zużyj wkrótce" */
@@ -95,18 +96,38 @@ export class PantryService {
     return new Map(rows.map((r) => [r.ingredientId, r.grams]));
   }
 
-  /** Dodanie kupionych gramów (z listy zakupów). Wpis bez ilości zostaje "mam". */
-  async addGrams(scope: OwnerScope, ingredientId: string, grams: number | null): Promise<void> {
-    const existing = await this.prisma.pantryItem.findFirst({ where: { ...scope, ingredientId } });
+  /**
+   * Dodanie kupionych gramów (lista zakupów, paragon) - stan rośnie, nigdy nie jest zastępowany.
+   * Z podaną jednostką (np. 3 l z paragonu) sumujemy w niej, gdy wpis ma tę samą (2 l + 3 l = 5 l);
+   * inaczej w gramach. Wpis bez ilości zostaje "mam" (nie wiemy, ile było).
+   * `db` pozwala wykonać to w transakcji importu.
+   */
+  async addGrams(
+    scope: OwnerScope,
+    ingredientId: string,
+    grams: number | null,
+    as: { amount: number; unitCode: string } | null = null,
+    db: Prisma.TransactionClient = this.prisma,
+  ): Promise<void> {
+    const existing = await db.pantryItem.findFirst({ where: { ...scope, ingredientId } });
     if (!existing) {
-      await this.prisma.pantryItem.create({
-        data: { ...scope, ingredientId, grams, amount: grams, unitCode: grams === null ? null : 'g' },
+      await db.pantryItem.create({
+        data: {
+          ...scope,
+          ingredientId,
+          grams,
+          amount: as && grams !== null ? as.amount : grams,
+          unitCode: grams === null ? null : (as?.unitCode ?? 'g'),
+        },
       });
     } else if (existing.grams !== null && grams !== null) {
-      const total = existing.grams + grams;
-      await this.prisma.pantryItem.update({
+      // Przyrosty liczone w bazie - równoległa zmiana domownika nie przepada
+      const sameUnit = as && existing.amount !== null && existing.unitCode === as.unitCode;
+      await db.pantryItem.update({
         where: { id: existing.id },
-        data: { grams: total, amount: total, unitCode: 'g' },
+        data: sameUnit
+          ? { grams: { increment: grams }, amount: { increment: as.amount } }
+          : { grams: { increment: grams }, amount: existing.grams + grams, unitCode: 'g' },
       });
     }
   }
@@ -127,9 +148,11 @@ export class PantryService {
     const expiresOn = dto.expiresOn === undefined ? undefined : dto.expiresOn ? toDate(dto.expiresOn) : null;
     if (!dto.amount) return { amount: null, unitCode: null, grams: null, expiresOn };
     const unitCode = dto.unitCode ?? 'g';
+    // kg i l - przez g i ml, które zna gramsFor
+    const base = normalizePackageUnit(dto.amount, unitCode);
     const grams = gramsFor(
-      dto.amount,
-      unitCode,
+      base.amount,
+      base.unitCode,
       { ingredient: ingredientForMath(ingredient) },
       await this.calculator.unitMl(),
     );

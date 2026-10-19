@@ -28,13 +28,8 @@ import type { Ingredient, Localized } from '../ingredients/ingredients.models';
 import { IngredientPickerComponent } from '../pantry/ingredient-picker';
 import { addDays, isoDay, mondayOf } from '../planner/plan-math';
 import { AmountLabelPipe } from '../recipes/amount-label.pipe';
-import type { LineItem } from '../recipes/recipe-units';
-import {
-  defaultShoppingUnit,
-  formatShoppingAmount,
-  groupByCategory,
-  shoppingUnitOptions,
-} from './shopping-format';
+import { unitOptionsWithBulk, type LineItem } from '../recipes/recipe-units';
+import { defaultShoppingUnit, formatShoppingAmount, groupByCategory } from './shopping-format';
 import { formatMoney } from '../prices/prices.api';
 import { ShoppingApi, type AddResult, type ShoppingCost, type ShoppingItem } from './shopping.api';
 
@@ -110,7 +105,7 @@ export class ShoppingPage implements OnInit {
       density: d.ingredient.density,
       units: d.ingredient.units,
     };
-    return shoppingUnitOptions(item, this.dictionaries()?.units ?? []);
+    return unitOptionsWithBulk(item, this.dictionaries()?.units ?? []);
   });
   /** Wpisano coś, co nie jest liczbą dodatnią */
   protected readonly amountInvalid = computed(() => {

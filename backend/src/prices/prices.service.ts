@@ -1,6 +1,7 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import type { AuthUser } from '../common/auth.decorators.js';
 import { ownerScope, type OwnerScope } from '../common/owner-scope.js';
+import type { Prisma } from '../generated/prisma/client.js';
 import { containsProfanity } from '../moderation/profanity.js';
 import { PrismaService } from '../prisma/prisma.service.js';
 import { ingredientForMath, RecipeCalculatorService } from '../recipes/recipe-calculator.service.js';
@@ -52,13 +53,17 @@ export class PricesService {
 
   async create(userId: string, dto: PriceListDto) {
     const scope = await ownerScope(this.prisma, userId);
+    await this.createList(scope, dto);
+    return this.lists(userId);
+  }
+
+  /** Nowy cennik (także w transakcji importu paragonu). Pierwszy od razu domyślny. */
+  async createList(scope: OwnerScope, dto: PriceListDto, db: Prisma.TransactionClient = this.prisma) {
     this.assertName(dto.name);
-    // Pierwszy cennik od razu domyślny
-    const hasDefault = await this.prisma.priceList.count({ where: { ...scope, isDefault: true } });
-    await this.prisma.priceList.create({
+    const hasDefault = await db.priceList.count({ where: { ...scope, isDefault: true } });
+    return db.priceList.create({
       data: { ...scope, name: dto.name, currency: dto.currency ?? 'PLN', isDefault: !hasDefault },
     });
-    return this.lists(userId);
   }
 
   async update(userId: string, id: string, dto: UpdatePriceListDto) {
@@ -138,7 +143,21 @@ export class PricesService {
     if (!ingredient || (ingredient.status !== 'APPROVED' && ingredient.createdById !== user.id)) {
       throw new NotFoundException({ code: 'INGREDIENT_UNKNOWN' });
     }
-    const pkg = normalizePackageUnit(dto.packageAmount, dto.packageUnitCode);
+    await this.upsertEntry(list.id, ingredient, {
+      packageAmount: dto.packageAmount,
+      packageUnitCode: dto.packageUnitCode,
+      priceCents: Math.round(dto.price * 100),
+    });
+    return this.entries(user.id, list.id);
+  }
+
+  /** Waga opakowania w gramach (np. 1 l mleka, 10 PIECE jajek); rzuca UNIT_NOT_ALLOWED */
+  async packageGrams(
+    ingredient: Parameters<typeof ingredientForMath>[0],
+    packageAmount: number,
+    packageUnitCode: string,
+  ): Promise<number> {
+    const pkg = normalizePackageUnit(packageAmount, packageUnitCode);
     const grams = gramsFor(
       pkg.amount,
       pkg.unitCode,
@@ -146,18 +165,24 @@ export class PricesService {
       await this.calculator.unitMl(),
     );
     if (typeof grams !== 'number' || grams <= 0) throw new BadRequestException({ code: 'UNIT_NOT_ALLOWED' });
-    const data = {
-      packageAmount: dto.packageAmount,
-      packageUnitCode: dto.packageUnitCode,
-      packageGrams: grams,
-      priceCents: Math.round(dto.price * 100),
-    };
-    await this.prisma.priceEntry.upsert({
-      where: { listId_ingredientId: { listId: list.id, ingredientId: ingredient.id } },
-      create: { listId: list.id, ingredientId: ingredient.id, ...data },
+    return grams;
+  }
+
+  /** Aktualna cena składnika w cenniku (nadpisuje poprzednią); zwraca wagę opakowania */
+  async upsertEntry(
+    listId: string,
+    ingredient: Parameters<typeof ingredientForMath>[0] & { id: string },
+    entry: { packageAmount: number; packageUnitCode: string; priceCents: number },
+    db: Prisma.TransactionClient = this.prisma,
+  ): Promise<number> {
+    const packageGrams = await this.packageGrams(ingredient, entry.packageAmount, entry.packageUnitCode);
+    const data = { ...entry, packageGrams };
+    await db.priceEntry.upsert({
+      where: { listId_ingredientId: { listId, ingredientId: ingredient.id } },
+      create: { listId, ingredientId: ingredient.id, ...data },
       update: data,
     });
-    return this.entries(user.id, list.id);
+    return packageGrams;
   }
 
   async removeEntry(userId: string, listId: string, entryId: string) {
@@ -217,8 +242,8 @@ export class PricesService {
 
   // ---------------------------------------------------------------------------
 
-  private async findList(scope: OwnerScope, id: string) {
-    const list = await this.prisma.priceList.findFirst({ where: { id, ...scope } });
+  async findList(scope: OwnerScope, id: string, db: Prisma.TransactionClient = this.prisma) {
+    const list = await db.priceList.findFirst({ where: { id, ...scope } });
     if (!list) throw new NotFoundException({ code: 'NOT_FOUND' });
     return list;
   }

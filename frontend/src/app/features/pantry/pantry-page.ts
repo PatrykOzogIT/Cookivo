@@ -15,7 +15,8 @@ import { IngredientsApi } from '../ingredients/ingredients.api';
 import type { Ingredient } from '../ingredients/ingredients.models';
 import { AmountLabelPipe } from '../recipes/amount-label.pipe';
 import { pluralForm } from '../recipes/unit-plural';
-import { unitOptions, type LineItem } from '../recipes/recipe-units';
+import { unitOptionsWithBulk, type LineItem } from '../recipes/recipe-units';
+import { ReceiptImportLink } from '../receipt-import/receipt-import-link';
 import { IngredientPickerComponent } from './ingredient-picker';
 import { PantryApi, type PantryIngredient, type PantryItem } from './pantry.api';
 
@@ -42,6 +43,7 @@ interface Draft {
     LocalizedPipe,
     AmountLabelPipe,
     IngredientPickerComponent,
+    ReceiptImportLink,
   ],
   templateUrl: './pantry-page.html',
   styleUrl: './pantry-page.scss',
@@ -67,7 +69,7 @@ export class PantryPage implements OnInit {
     }
     return [...map.values()];
   });
-  /** Jednostki dla wybranego składnika: g, ml (płyny), jednostki kuchenne */
+  /** Jednostki dla wybranego składnika: g, kg, ml i l (płyny), jednostki kuchenne */
   protected readonly units = computed(() => {
     const d = this.draft();
     if (!d) return [];
@@ -78,7 +80,7 @@ export class PantryPage implements OnInit {
       density: d.ingredient.density,
       units: 'units' in d.ingredient ? d.ingredient.units : [],
     };
-    return unitOptions(item, this.dictionaries()?.units ?? []);
+    return unitOptionsWithBulk(item, this.dictionaries()?.units ?? []);
   });
 
   async ngOnInit(): Promise<void> {

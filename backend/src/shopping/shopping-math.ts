@@ -80,15 +80,5 @@ export function shoppingAmount(
     : { amount: roundUp(g, g < 100 ? 5 : 10), unit: 'g', grams: Math.round(g) };
 }
 
-/**
- * Na liście zakupów wpisuje się też kg i l (w przepisach ich nie ma) -
- * sprowadzamy je do g / ml, które zna `gramsFor`.
- */
-export function toRecipeUnit(amount: number, unitCode: string): { amount: number; unitCode: string } {
-  if (unitCode === 'kg') return { amount: amount * 1000, unitCode: 'g' };
-  if (unitCode === 'l') return { amount: amount * 1000, unitCode: 'ml' };
-  return { amount, unitCode };
-}
-
 /** Kategorie, w których podajemy objętość (napoje, mleko, oleje) - reszta z gęstością to np. miód */
 export const LIQUID_CATEGORIES = new Set(['BEVERAGES', 'DAIRY', 'FATS', 'SAUCES']);

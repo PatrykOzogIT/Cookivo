@@ -73,20 +73,21 @@ model User {
   householdMember  HouseholdMember?
   householdInvites HouseholdInvite[]
 
-  recipeImports      RecipeImport[]
+  aiImports          AiImport[]
   friendGroups       FriendGroupMember[] @relation("FriendGroupMember")
   friendGroupInvited FriendGroupMember[] @relation("FriendGroupInvitedBy")
   friendGroupInvites FriendGroupInvite[]
 
-  plannerSettings PlannerSettings?
-  customSlots     CustomMealSlot[]
-  planCooks       PlanCook[]       @relation("PlanCookOwner")
-  planMeals       PlanMeal[]
-  planCooksAdded  PlanCook[]       @relation("PlanCookCreatedBy")
-  pantryItems     PantryItem[]
-  shoppingItems   ShoppingItem[]   @relation("ShoppingOwner")
-  shoppingChecked ShoppingItem[]   @relation("ShoppingCheckedBy")
-  priceLists      PriceList[]
+  plannerSettings   PlannerSettings?
+  customSlots       CustomMealSlot[]
+  planCooks         PlanCook[]         @relation("PlanCookOwner")
+  planMeals         PlanMeal[]
+  planCooksAdded    PlanCook[]         @relation("PlanCookCreatedBy")
+  pantryItems       PantryItem[]
+  shoppingItems     ShoppingItem[]     @relation("ShoppingOwner")
+  shoppingChecked   ShoppingItem[]     @relation("ShoppingCheckedBy")
+  priceLists        PriceList[]
+  priceObservations PriceObservation[]
 
   @@map("users")
 }
@@ -190,13 +191,14 @@ model Ingredient {
   createdAt       DateTime  @default(now()) @map("created_at")
   updatedAt       DateTime  @updatedAt @map("updated_at")
 
-  allergens     IngredientAllergen[]
-  units         IngredientUnit[]
-  pantryItems   PantryItem[]
-  shoppingItems ShoppingItem[]
-  prices        PriceEntry[]
-  usedIn        RecipeIngredient[]
-  preferences   IngredientPreference[]
+  allergens         IngredientAllergen[]
+  units             IngredientUnit[]
+  pantryItems       PantryItem[]
+  shoppingItems     ShoppingItem[]
+  priceObservations PriceObservation[]
+  prices            PriceEntry[]
+  usedIn            RecipeIngredient[]
+  preferences       IngredientPreference[]
 
   @@index([status, categoryId])
   @@index([createdById])
@@ -600,14 +602,15 @@ model Household {
   members   HouseholdMember[]
   invites   HouseholdInvite[]
 
-  plannerSettings PlannerSettings?
-  customSlots     CustomMealSlot[]
-  planCooks       PlanCook[]
-  planMeals       PlanMeal[]
-  dependents      HouseholdDependent[]
-  pantryItems     PantryItem[]
-  shoppingItems   ShoppingItem[]
-  priceLists      PriceList[]
+  plannerSettings   PlannerSettings?
+  customSlots       CustomMealSlot[]
+  planCooks         PlanCook[]
+  planMeals         PlanMeal[]
+  dependents        HouseholdDependent[]
+  pantryItems       PantryItem[]
+  shoppingItems     ShoppingItem[]
+  priceLists        PriceList[]
+  priceObservations PriceObservation[]
 
   @@map("households")
 }
@@ -806,17 +809,18 @@ model ShoppingItem {
 
 /// Cennik (np. sklep). Należy do gospodarstwa albo użytkownika; jeden domyślny liczy koszty.
 model PriceList {
-  id          String       @id @default(uuid(7)) @db.Uuid
-  userId      String?      @map("user_id") @db.Uuid
-  user        User?        @relation(fields: [userId], references: [id], onDelete: Cascade)
-  householdId String?      @map("household_id") @db.Uuid
-  household   Household?   @relation(fields: [householdId], references: [id], onDelete: Cascade)
-  name        String       @db.VarChar(60)
+  id           String             @id @default(uuid(7)) @db.Uuid
+  userId       String?            @map("user_id") @db.Uuid
+  user         User?              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  householdId  String?            @map("household_id") @db.Uuid
+  household    Household?         @relation(fields: [householdId], references: [id], onDelete: Cascade)
+  name         String             @db.VarChar(60)
   /// Kod ISO 4217 (PLN, EUR...)
-  currency    String       @default("PLN") @db.VarChar(3)
-  isDefault   Boolean      @default(false) @map("is_default")
-  createdAt   DateTime     @default(now()) @map("created_at")
-  entries     PriceEntry[]
+  currency     String             @default("PLN") @db.VarChar(3)
+  isDefault    Boolean            @default(false) @map("is_default")
+  createdAt    DateTime           @default(now()) @map("created_at")
+  entries      PriceEntry[]
+  observations PriceObservation[]
 
   @@index([userId])
   @@index([householdId])
@@ -989,21 +993,80 @@ model RecipeFriendGroup {
   @@map("recipe_friend_groups")
 }
 
+enum AiImportKind {
+  RECIPE
+  RECEIPT
+}
+
 /**
- * Import przepisu ze zdjęć (odczyt przez model językowy). Zdjęć nie przechowujemy -
- * tylko licznik użycia do limitów i kosztów (tokeny). Rekordy starsze niż 90 dni są usuwane.
+ * Odczyt zdjęć przez model językowy (przepis, paragon). Zdjęć nie przechowujemy - tylko licznik
+ * użycia do limitów i kosztów (tokeny). Rekordy starsze niż 90 dni są usuwane.
+ * Paragon: `scopeKey` = właściciel lodówki/cenników z chwili analizy, `committedAt` + `result`
+ * pilnują, żeby ponowne zatwierdzenie niczego nie zdublowało.
  */
-model RecipeImport {
-  id           String   @id @default(uuid(7)) @db.Uuid
-  userId       String   @map("user_id") @db.Uuid
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+model AiImport {
+  id           String             @id @default(uuid(7)) @db.Uuid
+  userId       String             @map("user_id") @db.Uuid
+  user         User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  kind         AiImportKind       @default(RECIPE)
   photos       Int
-  success      Boolean  @default(false)
-  inputTokens  Int?     @map("input_tokens")
-  outputTokens Int?     @map("output_tokens")
-  createdAt    DateTime @default(now()) @map("created_at")
+  success      Boolean            @default(false)
+  inputTokens  Int?               @map("input_tokens")
+  outputTokens Int?               @map("output_tokens")
+  /// "h:<id gospodarstwa>" albo "u:<id osoby>"
+  scopeKey     String?            @map("scope_key") @db.VarChar(40)
+  committedAt  DateTime?          @map("committed_at")
+  /// Wynik zatwierdzenia (same liczby) - zwracany przy ponownym zatwierdzeniu
+  result       Json?
+  createdAt    DateTime           @default(now()) @map("created_at")
+  observations PriceObservation[]
 
   @@index([userId, createdAt])
   @@index([createdAt])
-  @@map("recipe_imports")
+  @@map("ai_imports")
+}
+
+enum PriceSource {
+  RECEIPT
+  MANUAL
+}
+
+/**
+ * Historia cen: każdy zatwierdzony odczyt ceny (np. z paragonu) to osobny wpis. PriceEntry trzyma
+ * aktualną cenę w cenniku; tu zostaje sklep, data i opakowanie - do porównań sklepów i zmian w czasie.
+ * Właściciel jak przy cennikach (gospodarstwo albo osoba).
+ */
+model PriceObservation {
+  id              String      @id @default(uuid(7)) @db.Uuid
+  userId          String?     @map("user_id") @db.Uuid
+  user            User?       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  householdId     String?     @map("household_id") @db.Uuid
+  household       Household?  @relation(fields: [householdId], references: [id], onDelete: Cascade)
+  /// Cennik, do którego trafiła cena - usunięcie cennika usuwa też jego historię
+  listId          String      @map("list_id") @db.Uuid
+  list            PriceList   @relation(fields: [listId], references: [id], onDelete: Cascade)
+  ingredientId    String      @map("ingredient_id") @db.Uuid
+  ingredient      Ingredient  @relation(fields: [ingredientId], references: [id], onDelete: Cascade)
+  importId        String?     @map("import_id") @db.Uuid
+  import          AiImport?   @relation(fields: [importId], references: [id], onDelete: SetNull)
+  source          PriceSource
+  /// Sklep tak, jak na paragonie
+  storeName       String?     @map("store_name") @db.VarChar(80)
+  purchasedOn     DateTime?   @map("purchased_on") @db.Date
+  currency        String      @db.VarChar(3)
+  packageAmount   Float       @map("package_amount")
+  packageUnitCode String      @map("package_unit_code") @db.VarChar(32)
+  packageGrams    Float       @map("package_grams")
+  /// Ile opakowań kupiono (przy towarze na wagę: ułamek opakowania, np. 0,734 × 1 kg)
+  packages        Float
+  /// Cena regularna za opakowanie w groszach (bez rabatów)
+  priceCents      Int         @map("price_cents")
+  createdAt       DateTime    @default(now()) @map("created_at")
+
+  @@index([ingredientId, purchasedOn])
+  @@index([userId])
+  @@index([householdId])
+  @@index([listId])
+  @@index([importId])
+  @@map("price_observations")
 }

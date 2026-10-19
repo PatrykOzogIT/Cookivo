@@ -2,6 +2,7 @@
   <header class="head">
     <h1>{{ t('nav.pantry') }}</h1>
     <p class="lead">{{ t('pantry.lead') }}</p>
+    <app-receipt-import-link class="import-link" from="pantry" />
   </header>
 
   @if (error(); as code) {

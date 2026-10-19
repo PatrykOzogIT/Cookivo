@@ -143,6 +143,20 @@
                 </li>
               </ul>
             }
+            @case ('receipts') {
+              <ul class="rows" aria-hidden="true">
+                @for (r of ['rc1', 'rc2', 'rc3']; track r) {
+                  <li>
+                    <span class="dot material-symbols-rounded">check_circle</span>
+                    <span class="grow">{{ t('p.' + r + '.name') }}</span>
+                    <span class="muted">{{ t('p.' + r + '.amount') }}</span>
+                  </li>
+                }
+              </ul>
+              <p class="note" aria-hidden="true">
+                <span class="material-symbols-rounded">sell</span>{{ t('p.receiptHint') }}
+              </p>
+            }
             @case ('household') {
               <ul class="rows people" aria-hidden="true">
                 @for (r of ['h1', 'h2', 'h3']; track r; let i = $index) {

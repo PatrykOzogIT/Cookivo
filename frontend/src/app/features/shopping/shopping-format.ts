@@ -1,5 +1,4 @@
-import type { Unit } from '../ingredients/ingredients.models';
-import { unitOptions, type LineItem, type LineUnitOption } from '../recipes/recipe-units';
+import type { LineItem } from '../recipes/recipe-units';
 import type { ShoppingAmount } from './shopping.api';
 
 const METRIC = new Set(['g', 'kg', 'ml', 'l']);
@@ -22,17 +21,6 @@ export function formatShoppingAmount(
     return a.manual ? `${fmt(a.amount)} ${piece}` : `${fmt(a.amount)} ${piece} (${about} ${fmt(a.grams)} g)`;
   if (METRIC.has(a.unit) || !unitLabel) return `${fmt(a.amount)} ${a.unit}`;
   return unitLabel(a.unit, a.amount);
-}
-
-/** Jednostki przy dodawaniu do listy: jak w przepisach (g, ml, sztuki, łyżki...) plus kg i l */
-export function shoppingUnitOptions(item: LineItem, dictionary: Unit[]): LineUnitOption[] {
-  const options: LineUnitOption[] = [];
-  for (const o of unitOptions(item, dictionary)) {
-    options.push(o);
-    if (o.code === 'g') options.push({ code: 'kg', key: 'units.kgShort', grams: 1000 });
-    if (o.code === 'ml' && o.grams) options.push({ code: 'l', key: 'units.lShort', grams: o.grams * 1000 });
-  }
-  return options;
 }
 
 /** Domyślnie sztuki (banany, jajka), w pozostałych przypadkach kilogramy (ryż, mąka) */

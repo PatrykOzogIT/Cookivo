@@ -145,11 +145,18 @@
     "GROUP_PENDING": "You're still waiting for the group owner's approval.",
     "GROUPS_REQUIRED": "Choose at least one group.",
     "GROUP_UNKNOWN": "You can only share with groups you belong to.",
-    "IMPORT_DISABLED": "Reading recipes from photos is currently unavailable.",
+    "IMPORT_DISABLED": "Reading photos with AI is currently unavailable.",
     "IMPORT_LIMIT": "Today's reading limit is used up. Try again tomorrow.",
     "IMPORT_BUSY": "The site's monthly reading limit is used up. Try again next month.",
-    "IMPORT_FAILED": "We couldn't read the recipe. Try again or use a clearer photo.",
-    "IMPORT_NOT_RECIPE": "The photos don't seem to show a recipe."
+    "IMPORT_FAILED": "We couldn't read the photos. Try again or use a clearer photo.",
+    "IMPORT_NOT_RECIPE": "The photos don't seem to show a recipe.",
+    "RECEIPT_NOT_RECEIPT": "The photos don't seem to show a receipt.",
+    "RECEIPT_NOTHING_SELECTED": "Nothing selected to save - tick the pantry or the price list.",
+    "IMPORT_EXPIRED": "The receipt reading has expired (over a day ago). Please start again.",
+    "HOUSEHOLD_CHANGED": "Your household changed after the receipt was read. Start again so the shopping goes to the right place.",
+    "CURRENCY_MISMATCH": "The receipt's currency differs from the price list's currency.",
+    "PRICE_LIST_REQUIRED": "Choose or create a price list.",
+    "PRICE_LIST_CONFLICT": "Someone in your household just changed the price lists. Confirm the import again."
   },
   "auth": {
     "fields": {
@@ -346,6 +353,15 @@
           "need": "optional – create a group or join with an invitation.",
           "cta": "Open groups",
           "ctaGuest": "Sign up and join your friends"
+        },
+        "receipts": {
+          "tab": "Receipts",
+          "title": "Shopping from a receipt in one photo",
+          "body": "Take a photo of a receipt – AI reads the products and prices, you check them and add them to the pantry and price list in one click.",
+          "where": "Pantry or Price lists → Import a receipt",
+          "need": "optional – just a receipt photo; you check everything before saving.",
+          "cta": "Import a receipt",
+          "ctaGuest": "Create an account and import a receipt"
         }
       },
       "p": {
@@ -442,7 +458,20 @@
         "g3": {
           "name": "Neighbours",
           "meta": "12 people · 37 recipes"
-        }
+        },
+        "rc1": {
+          "name": "Milk 3.2%",
+          "amount": "2 × 1 l · 4.29 zł"
+        },
+        "rc2": {
+          "name": "Egg",
+          "amount": "10 pcs · 12.99 zł"
+        },
+        "rc3": {
+          "name": "Banana",
+          "amount": "1.25 kg · 5.99 zł/kg"
+        },
+        "receiptHint": "3 products to the pantry, prices to the \"Biedronka\" list"
       },
       "scale": {
         "basic": "Basics",
@@ -722,6 +751,7 @@
               "Household: membership, invitations (including the invitee email address if you provide it) and people without an account. Household members see your allergies and calorie target only with your separate consent. Legal basis: contract (Art. 6(1)(b) GDPR) and, for health data, consent (Art. 9(2)(a) GDPR).",
               "Friend groups (optional): membership, role, approval status, who invited you, invitations (including the invitee's email address if you provide it) and recipes shared with the group. Group members see your username and shared recipes; a person waiting for approval is visible only to the group owner. Groups give no access to health data, plans or shopping. Legal basis: contract (Art. 6(1)(b) GDPR).",
               "Reading a recipe from photos (optional): the photos you choose in the recipe form. Purpose: reading the recipe text and filling in the form for you to check. Photos are not saved - they are deleted after reading; we only keep a usage counter (date, number of photos, result) needed for daily limits. Do not send photos containing other people’s personal data. Legal basis: contract (Art. 6(1)(b) GDPR).",
+              "Reading a receipt from photos (optional): the receipt photos you choose in the pantry or price lists. Purpose: reading the purchased products, quantities and prices for you to check before saving. Photos are not saved - they are deleted after reading; we only keep a usage counter (as for recipes). After you confirm, we save the selected products in the pantry and the prices in the price list and the price history (product, regular price, package size, shop and purchase date); in a household, its members see them. We do not save the full receipt, payment amounts or card details. Legal basis: contract (Art. 6(1)(b) GDPR).",
               "Security: IP address and browser information for sign-in sessions, number of failed sign-ins and the consent history with IP address. Purpose: protecting accounts against takeover, detecting abuse and demonstrating consent. Legal basis: our legitimate interest (Art. 6(1)(f) GDPR) and the duty to demonstrate consent (Art. 7(1) GDPR).",
               "Moderation: reports about content and users, moderator decisions and account blocks with reasons. Purpose: countering illegal content and content that breaks the terms, and obligations under the Digital Services Act (DSA). Legal basis: legal obligation and legitimate interest (Art. 6(1)(c) and (f) GDPR).",
               "Correspondence: when you write to us - your email address and the message, so we can reply. Legal basis: legitimate interest (Art. 6(1)(f) GDPR)."
@@ -748,7 +778,7 @@
             [
               "JCHost (jchost.pl) - Polish hosting provider: application server, photos and email.",
               "Databricks, Inc. (owner of the Neon service) - cloud database stored in the EU region (Frankfurt, Germany; Amazon Web Services infrastructure); the provider may use further sub-processors under its data processing agreement. Databricks is based in the USA - any access from outside the European Economic Area is safeguarded by the standard contractual clauses approved by the European Commission (Art. 46 GDPR).",
-              "Anthropic PBC - the AI model that reads recipes from photos (only when you use this feature). Anthropic is based in the USA; the transfer is safeguarded by the standard contractual clauses in the data processing agreement (Art. 46 GDPR). Under Anthropic’s terms, data sent through the API is not used to train models."
+              "Anthropic PBC - the AI model that reads recipes and receipts from photos (only when you use these features). Anthropic is based in the USA; the transfer is safeguarded by the standard contractual clauses in the data processing agreement (Art. 46 GDPR). Under Anthropic’s terms, data sent through the API is not used to train models."
             ],
             "When checking whether a new password has appeared in known breaches, we send the Have I Been Pwned service only the first 5 characters of the password’s SHA-1 hash - this cannot be used to recover the password or identify you.",
             "We may also disclose data to public authorities when required by law."
@@ -764,7 +794,8 @@
               "Sign-in sessions (IP address, browser) - a session expires after 30 days; its data is deleted no later than 30 days after it expires or you sign out.",
               "Links from emails (address confirmation, password reset) - one day after use or expiry.",
               "Photos not attached to a recipe - one day.",
-              "Photos for recipe reading - not kept after reading; usage counter - 90 days.",
+              "Photos for reading a recipe or receipt - not kept after reading; usage counter - 90 days.",
+              "Price history from receipts - until the price list it belongs to or the account (in a household - the household) is deleted.",
               "Consent history - for as long as the account exists.",
               "Reports and moderation decisions - until the reported content or the reporter’s account is deleted.",
               "Database backups at our provider - up to a few days, after which the data also disappears from backups."
@@ -901,7 +932,7 @@
           "title": "Health and nutrition values",
           "body": [
             "Calculations of calories, macronutrients, portions and costs are indicative and do not replace advice from a doctor or dietitian. User recipes are not reviewed by professionals.",
-            "We mark allergens of database ingredients to the best of our knowledge, but product composition differs between manufacturers - if you have an allergy, always check the label. Reading a recipe from photos is done by an AI model and may contain mistakes - check the draft before saving, especially amounts and ingredients."
+            "We mark allergens of database ingredients to the best of our knowledge, but product composition differs between manufacturers - if you have an allergy, always check the label. Reading a recipe or receipt from photos is done by an AI model and may contain mistakes - check the draft before saving, especially amounts, ingredients and prices."
           ]
         },
         {
@@ -1650,5 +1681,99 @@
       "toMine": "Go to my groups",
       "loginFirst": "Sign in to join. Don't have an account? Create one - we'll bring you back to this invitation."
     }
+  },
+  "receiptImport": {
+    "title": "Receipt import",
+    "open": "Import a receipt",
+    "lead": "Take a photo of a receipt - we'll read the products and prices, and you check them before they go to the pantry and price list.",
+    "disabled": "Receipt import is currently unavailable.",
+    "photosTitle": "Receipt photos",
+    "photosHint": "Up to {{max}} photos of one receipt - photograph a long one in parts (they may overlap).",
+    "pick": "Take a photo or choose a file",
+    "addMore": "Add another photo",
+    "photoAlt": "Receipt photo {{n}}",
+    "removePhoto": "Remove photo {{n}}",
+    "privacyTitle": "We care about your privacy",
+    "privacy": "Photograph mainly the part of the receipt with products and prices. Leave out the card number, loyalty card and tax ID. The photo is sent to an AI service for analysis and is not stored permanently in Cookivo.",
+    "targets": "What to do with the shopping?",
+    "toPantry": "Add to the pantry",
+    "toPrices": "Update the price list",
+    "noTarget": "Tick at least one: the pantry or the price list.",
+    "noListYet": "You don't have a price list yet - you'll create one before confirming. It doesn't block reading.",
+    "read": "Read the receipt",
+    "reading": "Reading the receipt… this usually takes a few seconds.",
+    "saving": "Saving",
+    "remaining": "Left today: {{count}} of {{limit}}.",
+    "limitReached": "Today's limit ({{limit}}) is used up. Try again tomorrow.",
+    "receiptTitle": "Receipt",
+    "store": "Shop",
+    "date": "Purchase date",
+    "currency": "Currency",
+    "currencyMissing": "We couldn't read the currency - check the selected one is right.",
+    "currencyUnsupported": "The currency \"{{read}}\" isn't supported in price lists - choose the right one or save to the pantry only.",
+    "list": "Price list",
+    "newListOption": "New price list…",
+    "noListTitle": "Create a price list for the receipt prices",
+    "newListHint": "The price list is created only when you confirm the import. The recognised items and your corrections stay as they are.",
+    "rememberList": "Use this",
+    "newListPending": "New price list \"{{name}}\" ({{currency}}) - created when you confirm.",
+    "newListCancelled": "Without a price list the prices won't be saved. You can save the shopping to the pantry only.",
+    "pantryOnly": "Save to the pantry only",
+    "createAnyway": "Create a price list after all",
+    "currencyMismatch": "The receipt is in {{receipt}} but the price list \"{{list}}\" is in {{listCurrency}} - prices won't be saved, products will go to the pantry. You can also choose a new price list in {{receipt}}.",
+    "change": "Change",
+    "search": "Search",
+    "linesTitle": "Items ({{count}})",
+    "noLines": "We didn't find any food products on the receipt.",
+    "status": {
+      "MATCHED": "Matched",
+      "CONFIRM": "Check",
+      "NOT_FOUND": "Not found"
+    },
+    "removeLine": "Remove item: {{name}}",
+    "pickIngredient": "Choose an ingredient for: {{name}}",
+    "suggestions": "Suggestions",
+    "searchLabel": "Search ingredients",
+    "packages": "Quantity",
+    "packageSize": "Package",
+    "unit": "Unit",
+    "price": "Price per package ({{currency}})",
+    "lineTotal": "Total: {{total}}",
+    "lineToPantry": "to the pantry",
+    "lineToPrices": "to the price list",
+    "problem": {
+      "NO_INGREDIENT": "Choose an ingredient from the database.",
+      "PACKAGES": "Enter a quantity greater than zero.",
+      "PACKAGE": "Enter the package size and unit.",
+      "PRICE": "Enter the price per package."
+    },
+    "warn": {
+      "PRICE_MISMATCH": "Quantity × price doesn't match the amount on the receipt - please check.",
+      "NO_PRICE": "We couldn't read the price.",
+      "NO_PACKAGE_SIZE": "The receipt doesn't show the package size - please enter it.",
+      "UNIT_NOT_ALLOWED": "The unit on the receipt doesn't fit this ingredient - choose another.",
+      "UNCERTAIN": "Uncertain reading - please check this item."
+    },
+    "summaryTitle": "Summary",
+    "sumLines": "Items",
+    "sumPantry": "To the pantry",
+    "sumPrices": "To the price list",
+    "sumAttention": "Needs attention",
+    "sumTotal": "Value (regular prices)",
+    "sumList": "Price list",
+    "sumListNew": "new: {{name}}",
+    "sumListMissing": "to be created",
+    "totalHint": "We count regular prices without discounts - the total may differ from the receipt.",
+    "blockedList": "Create or choose a price list (or untick \"Update the price list\") to confirm.",
+    "blockedEmpty": "No item will go to the pantry or the price list.",
+    "blockedLines": "Complete the marked items or remove them.",
+    "commit": "Confirm import",
+    "restart": "Start again",
+    "doneTitle": "Shopping from the receipt saved",
+    "donePantry": "Pantry: {{count}} items.",
+    "donePrices": "Price list \"{{name}}\": {{count}} prices saved.",
+    "donePricesNew": "Created the price list \"{{name}}\" with {{count}} prices.",
+    "another": "Import another receipt",
+    "defaultListName": "Home price list"
   }
 }

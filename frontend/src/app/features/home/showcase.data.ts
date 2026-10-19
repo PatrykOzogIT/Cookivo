@@ -20,6 +20,7 @@ export const SLIDES: readonly ShowcaseSlide[] = [
   { key: 'goals', icon: 'monitoring', access: 'account', optional: true, path: '/profile' },
   { key: 'pantry', icon: 'kitchen', access: 'account', optional: true, path: '/pantry' },
   { key: 'budget', icon: 'sell', access: 'account', optional: true, path: '/prices' },
+  { key: 'receipts', icon: 'photo_camera', access: 'account', optional: true, path: '/receipt-import' },
   { key: 'household', icon: 'group', access: 'account', optional: true, path: '/household' },
   { key: 'groups', icon: 'diversity_3', access: 'account', optional: true, path: '/groups' },
 ];

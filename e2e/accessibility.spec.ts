@@ -88,6 +88,7 @@ const USER_PAGES = [
   '/household',
   '/groups',
   '/prices',
+  '/receipt-import',
 ];
 
 for (const stored of ['citrus', 'midnight', 'apricot', 'cinnamon', 'contrast'] as const) {

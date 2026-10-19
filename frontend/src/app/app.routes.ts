@@ -109,6 +109,14 @@ export const routes: Routes = [
     loadComponent: () => import('./features/pantry/pantry-page').then((m) => m.PantryPage),
   },
   {
+    // Import paragonu - wspólny dla lodówki i cenników (?from= tylko do powrotu)
+    path: 'receipt-import',
+    canMatch: [authGuard],
+    data: { titleKey: 'receiptImport.title' },
+    loadComponent: () =>
+      import('./features/receipt-import/receipt-import-page').then((m) => m.ReceiptImportPage),
+  },
+  {
     path: 'household',
     children: [
       {

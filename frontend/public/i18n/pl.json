@@ -145,11 +145,18 @@
     "GROUP_PENDING": "Czekasz jeszcze na akceptację właściciela grupy.",
     "GROUPS_REQUIRED": "Wybierz co najmniej jedną grupę.",
     "GROUP_UNKNOWN": "Możesz udostępniać tylko grupom, do których należysz.",
-    "IMPORT_DISABLED": "Odczyt przepisów ze zdjęć jest teraz niedostępny.",
+    "IMPORT_DISABLED": "Odczyt zdjęć przez AI jest teraz niedostępny.",
     "IMPORT_LIMIT": "Wykorzystano dzisiejszy limit odczytów. Spróbuj jutro.",
     "IMPORT_BUSY": "Wykorzystano miesięczny limit odczytów w serwisie. Spróbuj w przyszłym miesiącu.",
-    "IMPORT_FAILED": "Nie udało się odczytać przepisu. Spróbuj ponownie albo z wyraźniejszym zdjęciem.",
-    "IMPORT_NOT_RECIPE": "Na zdjęciach nie widać przepisu."
+    "IMPORT_FAILED": "Nie udało się odczytać zdjęć. Spróbuj ponownie albo z wyraźniejszym zdjęciem.",
+    "IMPORT_NOT_RECIPE": "Na zdjęciach nie widać przepisu.",
+    "RECEIPT_NOT_RECEIPT": "Na zdjęciach nie widać paragonu.",
+    "RECEIPT_NOTHING_SELECTED": "Nie wybrano nic do zapisania - zaznacz lodówkę albo cennik.",
+    "IMPORT_EXPIRED": "Odczyt paragonu wygasł (minęła ponad doba). Zacznij od nowa.",
+    "HOUSEHOLD_CHANGED": "Od odczytu paragonu zmieniło się Twoje gospodarstwo. Zacznij od nowa, żeby zakupy trafiły we właściwe miejsce.",
+    "CURRENCY_MISMATCH": "Waluta paragonu różni się od waluty cennika.",
+    "PRICE_LIST_REQUIRED": "Wybierz albo załóż cennik.",
+    "PRICE_LIST_CONFLICT": "Ktoś z domowników właśnie zmienił cenniki. Zatwierdź import jeszcze raz."
   },
   "auth": {
     "fields": {
@@ -346,6 +353,15 @@
           "need": "opcjonalnie – zakładasz grupę albo dołączasz z zaproszenia.",
           "cta": "Otwórz grupy",
           "ctaGuest": "Załóż konto i dołącz do znajomych"
+        },
+        "receipts": {
+          "tab": "Paragony",
+          "title": "Zakupy z paragonu jednym zdjęciem",
+          "body": "Zrób zdjęcie paragonu – AI odczyta produkty i ceny, a Ty sprawdzisz je i jednym kliknięciem dodasz do lodówki i cennika.",
+          "where": "Lodówka albo Cenniki → Importuj paragon",
+          "need": "opcjonalnie – tylko zdjęcie paragonu; wszystko sprawdzasz przed zapisem.",
+          "cta": "Importuj paragon",
+          "ctaGuest": "Załóż konto i zaimportuj paragon"
         }
       },
       "p": {
@@ -442,7 +458,20 @@
         "g3": {
           "name": "Sąsiedzi",
           "meta": "12 osób · 37 przepisów"
-        }
+        },
+        "rc1": {
+          "name": "Mleko 3,2%",
+          "amount": "2 × 1 l · 4,29 zł"
+        },
+        "rc2": {
+          "name": "Jajko",
+          "amount": "10 szt. · 12,99 zł"
+        },
+        "rc3": {
+          "name": "Banan",
+          "amount": "1,25 kg · 5,99 zł/kg"
+        },
+        "receiptHint": "3 produkty do lodówki, ceny do cennika „Biedronka”"
       },
       "scale": {
         "basic": "Podstawy",
@@ -722,6 +751,7 @@
               "Gospodarstwo domowe: członkostwo, zaproszenia (z adresem e-mail osoby zapraszanej, jeśli go podasz) i osoby bez konta. Twoje alergie i cel kaloryczny widzą domownicy tylko za Twoją osobną zgodą. Podstawa: umowa (art. 6 ust. 1 lit. b RODO), a dla danych o zdrowiu - zgoda (art. 9 ust. 2 lit. a RODO).",
               "Grupy znajomych (opcjonalne): członkostwo, rola, status akceptacji, kto Cię zaprosił, zaproszenia (z adresem e-mail osoby zapraszanej, jeśli go podasz) i przepisy udostępnione grupie. Członkowie grupy widzą Twoją nazwę użytkownika i udostępnione przepisy; osobę czekającą na akceptację widzi tylko właściciel grupy. Grupy nie dają dostępu do danych o zdrowiu, planów ani zakupów. Podstawa: umowa (art. 6 ust. 1 lit. b RODO).",
               "Odczyt przepisu ze zdjęć (opcjonalny): zdjęcia, które wybierzesz w formularzu przepisu. Cel: odczytanie tekstu przepisu i wypełnienie formularza do Twojego sprawdzenia. Zdjęć nie zapisujemy - po odczycie są usuwane; przechowujemy tylko licznik użycia (data, liczba zdjęć, wynik) potrzebny do dziennych limitów. Nie wysyłaj zdjęć z danymi osobowymi innych osób. Podstawa: umowa (art. 6 ust. 1 lit. b RODO).",
+              "Odczyt paragonu ze zdjęć (opcjonalny): zdjęcia paragonu, które wybierzesz w lodówce albo w cennikach. Cel: odczytanie kupionych produktów, ilości i cen do Twojego sprawdzenia przed zapisem. Zdjęć nie zapisujemy - po odczycie są usuwane; przechowujemy tylko licznik użycia (jak przy przepisach). Po zatwierdzeniu zapisujemy wybrane produkty w lodówce, a ceny - w cenniku i w historii cen (produkt, cena regularna, wielkość opakowania, sklep i data zakupu); w gospodarstwie widzą je domownicy. Nie zapisujemy treści całego paragonu, kwot płatności ani danych karty. Podstawa: umowa (art. 6 ust. 1 lit. b RODO).",
               "Bezpieczeństwo: adres IP i informacja o przeglądarce przy sesjach logowania, liczba nieudanych logowań oraz historia zgód z adresem IP. Cel: ochrona kont przed przejęciem, wykrywanie nadużyć i wykazanie udzielonych zgód. Podstawa: nasz prawnie uzasadniony interes (art. 6 ust. 1 lit. f RODO) i obowiązek wykazania zgody (art. 7 ust. 1 RODO).",
               "Moderacja: zgłoszenia treści i użytkowników, decyzje moderatorów oraz blokady kont z uzasadnieniem. Cel: przeciwdziałanie treściom bezprawnym i niezgodnym z regulaminem oraz obowiązki z aktu o usługach cyfrowych (DSA). Podstawa: obowiązek prawny i prawnie uzasadniony interes (art. 6 ust. 1 lit. c i f RODO).",
               "Korespondencja: gdy do nas piszesz - Twój adres e-mail i treść wiadomości, żeby odpowiedzieć. Podstawa: prawnie uzasadniony interes (art. 6 ust. 1 lit. f RODO)."
@@ -748,7 +778,7 @@
             [
               "JCHost (jchost.pl) - polski dostawca hostingu: serwer aplikacji, zdjęcia i poczta e-mail.",
               "Databricks, Inc. (właściciel usługi Neon) - baza danych w chmurze, przechowywana w regionie UE (Frankfurt, Niemcy; infrastruktura Amazon Web Services); dostawca może korzystać z dalszych podmiotów przetwarzających na warunkach swojej umowy powierzenia. Databricks ma siedzibę w USA - ewentualny dostęp spoza Europejskiego Obszaru Gospodarczego zabezpieczają standardowe klauzule umowne zatwierdzone przez Komisję Europejską (art. 46 RODO).",
-              "Anthropic PBC - model AI odczytujący przepisy ze zdjęć (tylko gdy użyjesz tej funkcji). Anthropic ma siedzibę w USA; przekazanie zabezpieczają standardowe klauzule umowne w umowie powierzenia (art. 46 RODO). Według warunków Anthropic dane przesyłane przez API nie służą do trenowania modeli."
+              "Anthropic PBC - model AI odczytujący przepisy i paragony ze zdjęć (tylko gdy użyjesz tych funkcji). Anthropic ma siedzibę w USA; przekazanie zabezpieczają standardowe klauzule umowne w umowie powierzenia (art. 46 RODO). Według warunków Anthropic dane przesyłane przez API nie służą do trenowania modeli."
             ],
             "Sprawdzając, czy nowe hasło nie wyciekło w znanych incydentach, wysyłamy do serwisu Have I Been Pwned tylko 5 pierwszych znaków skrótu SHA-1 hasła - nie da się z tego odtworzyć hasła ani Cię zidentyfikować.",
             "Dane możemy też ujawnić uprawnionym organom publicznym, gdy wymaga tego prawo."
@@ -764,7 +794,8 @@
               "Sesje logowania (adres IP, przeglądarka) - sesja wygasa po 30 dniach, jej dane usuwamy najpóźniej 30 dni po wygaśnięciu lub wylogowaniu.",
               "Linki z wiadomości e-mail (potwierdzenie adresu, reset hasła) - do doby po wykorzystaniu lub wygaśnięciu.",
               "Zdjęcia, które nie zostały dołączone do przepisu - doba.",
-              "Zdjęcia do odczytu przepisu - nie przechowujemy ich po odczycie; licznik użycia - 90 dni.",
+              "Zdjęcia do odczytu przepisu lub paragonu - nie przechowujemy ich po odczycie; licznik użycia - 90 dni.",
+              "Historia cen z paragonów - do usunięcia cennika, do którego trafiła, albo konta (w gospodarstwie - gospodarstwa).",
               "Historia zgód - przez czas istnienia konta.",
               "Zgłoszenia i decyzje moderacji - do usunięcia zgłoszonej treści albo konta osoby zgłaszającej.",
               "Kopie zapasowe bazy danych u dostawcy - do kilku dni, potem dane znikają także z kopii."
@@ -901,7 +932,7 @@
           "title": "Zdrowie i wartości odżywcze",
           "body": [
             "Wyliczenia kalorii, makroskładników, porcji i kosztów mają charakter orientacyjny i nie zastępują porady lekarza ani dietetyka. Przepisy użytkowników nie są weryfikowane przez specjalistów.",
-            "Alergeny składników z bazy oznaczamy według najlepszej wiedzy, ale skład produktów różni się między producentami - przy alergii zawsze sprawdzaj etykietę. Odczyt przepisu ze zdjęć wykonuje model AI i może zawierać błędy - przed zapisem sprawdź szkic, zwłaszcza ilości i składniki."
+            "Alergeny składników z bazy oznaczamy według najlepszej wiedzy, ale skład produktów różni się między producentami - przy alergii zawsze sprawdzaj etykietę. Odczyt przepisu i paragonu ze zdjęć wykonuje model AI i może zawierać błędy - przed zapisem sprawdź szkic, zwłaszcza ilości, składniki i ceny."
           ]
         },
         {
@@ -1650,5 +1681,99 @@
       "toMine": "Przejdź do moich grup",
       "loginFirst": "Zaloguj się, aby dołączyć. Nie masz konta? Załóż je - wrócimy do tego zaproszenia."
     }
+  },
+  "receiptImport": {
+    "title": "Import paragonu",
+    "open": "Importuj paragon",
+    "lead": "Zrób zdjęcie paragonu - odczytamy produkty i ceny, a Ty sprawdzisz je przed zapisem do lodówki i cennika.",
+    "disabled": "Import paragonów jest teraz niedostępny.",
+    "photosTitle": "Zdjęcia paragonu",
+    "photosHint": "Do {{max}} zdjęć jednego paragonu - długi możesz sfotografować w częściach (fragmenty mogą na siebie zachodzić).",
+    "pick": "Zrób zdjęcie albo wybierz plik",
+    "addMore": "Dodaj kolejne zdjęcie",
+    "photoAlt": "Zdjęcie paragonu {{n}}",
+    "removePhoto": "Usuń zdjęcie {{n}}",
+    "privacyTitle": "Dbamy o Twoją prywatność",
+    "privacy": "Fotografuj przede wszystkim część paragonu z produktami i cenami. Pomiń fragment z numerem karty, kartą lojalnościową i NIP-em. Zdjęcie zostanie przesłane do usługi AI w celu analizy i nie będzie trwale zapisywane w Cookivo.",
+    "targets": "Co zrobić z zakupami?",
+    "toPantry": "Uzupełnij lodówkę",
+    "toPrices": "Zaktualizuj cennik",
+    "noTarget": "Zaznacz co najmniej jedno: lodówkę albo cennik.",
+    "noListYet": "Nie masz jeszcze cennika - założysz go przed zatwierdzeniem importu. Odczytu to nie blokuje.",
+    "read": "Odczytaj paragon",
+    "reading": "Odczytujemy paragon… to zwykle kilkanaście sekund.",
+    "saving": "Zapisywanie",
+    "remaining": "Pozostało dziś: {{count}} z {{limit}}.",
+    "limitReached": "Wykorzystano dzisiejszy limit ({{limit}}). Spróbuj jutro.",
+    "receiptTitle": "Paragon",
+    "store": "Sklep",
+    "date": "Data zakupu",
+    "currency": "Waluta",
+    "currencyMissing": "Nie odczytaliśmy waluty - sprawdź, czy wybrana jest właściwa.",
+    "currencyUnsupported": "Waluta „{{read}}” nie jest obsługiwana w cennikach - wybierz właściwą albo zapisz zakupy tylko do lodówki.",
+    "list": "Cennik",
+    "newListOption": "Nowy cennik…",
+    "noListTitle": "Załóż cennik na ceny z paragonu",
+    "newListHint": "Cennik powstanie dopiero po zatwierdzeniu importu. Rozpoznane pozycje i Twoje poprawki zostaną bez zmian.",
+    "rememberList": "Zapamiętaj",
+    "newListPending": "Nowy cennik „{{name}}” ({{currency}}) - utworzymy go przy zatwierdzeniu.",
+    "newListCancelled": "Bez cennika ceny nie zostaną zapisane. Możesz zapisać zakupy tylko do lodówki.",
+    "pantryOnly": "Zapisz tylko do lodówki",
+    "createAnyway": "Jednak załóż cennik",
+    "currencyMismatch": "Paragon jest w {{receipt}}, a cennik „{{list}}” w {{listCurrency}} - ceny nie zostaną zapisane, produkty dodamy do lodówki. Możesz też wybrać nowy cennik w {{receipt}}.",
+    "change": "Zmień",
+    "search": "Wyszukaj",
+    "linesTitle": "Pozycje ({{count}})",
+    "noLines": "Nie znaleźliśmy na paragonie produktów spożywczych.",
+    "status": {
+      "MATCHED": "Dopasowano",
+      "CONFIRM": "Sprawdź",
+      "NOT_FOUND": "Nie znaleziono"
+    },
+    "removeLine": "Usuń pozycję: {{name}}",
+    "pickIngredient": "Wybierz składnik dla: {{name}}",
+    "suggestions": "Podpowiedzi",
+    "searchLabel": "Szukaj składnika",
+    "packages": "Ilość",
+    "packageSize": "Opakowanie",
+    "unit": "Jednostka",
+    "price": "Cena za opakowanie ({{currency}})",
+    "lineTotal": "Razem: {{total}}",
+    "lineToPantry": "do lodówki",
+    "lineToPrices": "do cennika",
+    "problem": {
+      "NO_INGREDIENT": "Wybierz składnik z bazy.",
+      "PACKAGES": "Podaj ilość większą od zera.",
+      "PACKAGE": "Podaj wielkość opakowania i jednostkę.",
+      "PRICE": "Podaj cenę za opakowanie."
+    },
+    "warn": {
+      "PRICE_MISMATCH": "Ilość × cena nie zgadza się z kwotą na paragonie - sprawdź.",
+      "NO_PRICE": "Nie odczytaliśmy ceny.",
+      "NO_PACKAGE_SIZE": "Na paragonie nie ma wielkości opakowania - podaj ją.",
+      "UNIT_NOT_ALLOWED": "Jednostka z paragonu nie pasuje do tego składnika - wybierz inną.",
+      "UNCERTAIN": "Odczyt niepewny - sprawdź pozycję."
+    },
+    "summaryTitle": "Podsumowanie",
+    "sumLines": "Pozycje",
+    "sumPantry": "Do lodówki",
+    "sumPrices": "Do cennika",
+    "sumAttention": "Wymaga uwagi",
+    "sumTotal": "Wartość (ceny regularne)",
+    "sumList": "Cennik",
+    "sumListNew": "nowy: {{name}}",
+    "sumListMissing": "do założenia",
+    "totalHint": "Liczymy ceny regularne, bez rabatów - suma może się różnić od kwoty na paragonie.",
+    "blockedList": "Załóż albo wybierz cennik (albo odznacz „Zaktualizuj cennik”), żeby zatwierdzić.",
+    "blockedEmpty": "Żadna pozycja nie trafi ani do lodówki, ani do cennika.",
+    "blockedLines": "Uzupełnij oznaczone pozycje albo je usuń.",
+    "commit": "Zatwierdź import",
+    "restart": "Zacznij od nowa",
+    "doneTitle": "Zapisano zakupy z paragonu",
+    "donePantry": "Do lodówki: {{count}} poz.",
+    "donePrices": "Cennik „{{name}}”: zapisano {{count}} cen.",
+    "donePricesNew": "Utworzono cennik „{{name}}” i zapisano w nim {{count}} cen.",
+    "another": "Importuj kolejny paragon",
+    "defaultListName": "Cennik domowy"
   }
 }

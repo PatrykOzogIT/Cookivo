@@ -92,7 +92,7 @@ describe('Import przepisu ze zdjęć (e2e)', () => {
 
     const status = await t.api().get('/api/recipe-import/status').set(bearer(me)).expect(200);
     expect(status.body).toMatchObject({ enabled: true, remaining: 4, dailyLimit: 5, maxPhotos: 3 });
-    const row = await t.prisma.recipeImport.findFirstOrThrow();
+    const row = await t.prisma.aiImport.findFirstOrThrow();
     expect(row).toMatchObject({ photos: 2, success: true, inputTokens: 1000, outputTokens: 500 });
   });
 
@@ -121,7 +121,7 @@ describe('Import przepisu ze zdjęć (e2e)', () => {
     const failed = await upload(me).expect(502);
     expect(failed.body.code).toBe('IMPORT_FAILED');
     // Nieudane próby też liczą się do limitu (kosztują)
-    expect(await t.prisma.recipeImport.count()).toBe(2);
+    expect(await t.prisma.aiImport.count()).toBe(2);
   });
 
   it('wymaga potwierdzonego adresu e-mail', async () => {

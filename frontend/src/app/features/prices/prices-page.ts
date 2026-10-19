@@ -17,7 +17,7 @@ import { IngredientsApi } from '../ingredients/ingredients.api';
 import type { Ingredient, Localized } from '../ingredients/ingredients.models';
 import { IngredientPickerComponent } from '../pantry/ingredient-picker';
 import { AmountLabelPipe } from '../recipes/amount-label.pipe';
-import { unitOptions } from '../recipes/recipe-units';
+import { unitOptionsWithBulk } from '../recipes/recipe-units';
 import {
   CURRENCIES,
   formatMoney,
@@ -27,6 +27,8 @@ import {
   type PriceEntry,
   type PriceList,
 } from './prices.api';
+import { ReceiptImportLink } from '../receipt-import/receipt-import-link';
+import { PriceListForm } from './price-list-form';
 
 interface Draft {
   ingredient: Localized & {
@@ -53,6 +55,8 @@ interface Draft {
     LocalizedPipe,
     AmountLabelPipe,
     IngredientPickerComponent,
+    PriceListForm,
+    ReceiptImportLink,
   ],
   templateUrl: './prices-page.html',
   styleUrls: ['../pantry/pantry-page.scss', './prices-page.scss'],
@@ -66,10 +70,11 @@ export class PricesPage implements OnInit {
   private readonly ingredientsApi = inject(IngredientsApi);
   private readonly dictionaries = toSignal(this.ingredientsApi.dictionaries$);
 
+  protected readonly currencies = CURRENCIES;
+
   /** Wybrany cennik z adresu (?list=...) */
   readonly list = input<string>();
 
-  protected readonly currencies = CURRENCIES;
   protected readonly lists = signal<PriceList[]>([]);
   protected readonly data = signal<PriceEntries | null>(null);
   protected readonly loading = signal(true);
@@ -92,7 +97,7 @@ export class PricesPage implements OnInit {
   protected readonly units = computed(() => {
     const d = this.draft();
     if (!d) return [];
-    const kitchen = unitOptions(
+    return unitOptionsWithBulk(
       {
         kind: 'ingredient',
         id: d.ingredient.id,
@@ -101,20 +106,10 @@ export class PricesPage implements OnInit {
         units: d.ingredient.units ?? [],
       },
       this.dictionaries()?.units ?? [],
-    )
-      .filter((u) => u.code !== 'g' && u.code !== 'ml')
-      .map((u) => ({ code: u.code, label: this.unitLabel(u.code, u.key, u.name) }));
-    const weight = [
-      { code: 'g', label: 'g' },
-      { code: 'kg', label: 'kg' },
-    ];
-    const volume = d.ingredient.density
-      ? [
-          { code: 'ml', label: 'ml' },
-          { code: 'l', label: 'l' },
-        ]
-      : [];
-    return [...weight, ...volume, ...kitchen];
+    ).map((u) => ({
+      code: u.code,
+      label: ['g', 'kg', 'ml', 'l'].includes(u.code) ? u.code : this.unitLabel(u.code, u.key, u.name),
+    }));
   });
 
   async ngOnInit(): Promise<void> {

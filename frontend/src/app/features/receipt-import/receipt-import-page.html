@@ -1,0 +1,493 @@
+<div class="page" *transloco="let t">
+  <header class="head">
+    <a mat-button class="back" [routerLink]="backLink()">
+      <span class="material-symbols-rounded" aria-hidden="true">arrow_back</span
+      >{{ t(from() === 'prices' ? 'nav.prices' : 'nav.pantry') }}
+    </a>
+    <h1>{{ t('receiptImport.title') }}</h1>
+    <p class="lead">{{ t('receiptImport.lead') }}</p>
+  </header>
+
+  @if (error(); as code) {
+    <div class="alert" role="alert">
+      {{ t('errors.' + code) }}
+      @for (w of errorWarnings(); track $index) {
+        <br />{{ w }}
+      }
+    </div>
+  }
+
+  @switch (s.step()) {
+    <!-- Krok 1: zdjęcia i cele -->
+    @case ('photos') {
+      @if (status(); as st) {
+        @if (!st.enabled) {
+          <p class="ck-card box">{{ t('receiptImport.disabled') }}</p>
+        } @else {
+          <section class="ck-card box" aria-labelledby="photos-title">
+            <h2 id="photos-title">
+              <span class="material-symbols-rounded" aria-hidden="true">photo_camera</span
+              >{{ t('receiptImport.photosTitle') }}
+            </h2>
+            <p class="hint top-hint">{{ t('receiptImport.photosHint', { max: st.maxPhotos }) }}</p>
+            <app-photo-picker
+              prefix="receiptImport"
+              [max]="st.maxPhotos"
+              [disabled]="busy()"
+              [(photos)]="s.photos"
+            />
+
+            <aside class="privacy" aria-labelledby="privacy-title">
+              <span class="material-symbols-rounded" aria-hidden="true">lock</span>
+              <div>
+                <h3 id="privacy-title">{{ t('receiptImport.privacyTitle') }}</h3>
+                <p>{{ t('receiptImport.privacy') }}</p>
+              </div>
+            </aside>
+
+            <fieldset class="targets">
+              <legend>{{ t('receiptImport.targets') }}</legend>
+              <mat-checkbox [checked]="s.toPantry()" (change)="s.toPantry.set($event.checked)">
+                {{ t('receiptImport.toPantry') }}
+              </mat-checkbox>
+              <mat-checkbox [checked]="s.toPrices()" (change)="s.toPrices.set($event.checked)">
+                {{ t('receiptImport.toPrices') }}
+              </mat-checkbox>
+            </fieldset>
+            @if (noTarget()) {
+              <p class="field-error" role="alert">{{ t('receiptImport.noTarget') }}</p>
+            } @else if (s.toPrices() && !lists().length) {
+              <p class="hint">{{ t('receiptImport.noListYet') }}</p>
+            }
+
+            @if (st.remaining > 0) {
+              <div class="row">
+                <button
+                  mat-flat-button
+                  class="ck-cta"
+                  type="button"
+                  (click)="analyze()"
+                  [disabled]="!s.photos().length || noTarget() || busy()"
+                >
+                  <span class="material-symbols-rounded" aria-hidden="true">star_shine</span
+                  >{{ t('receiptImport.read') }}
+                </button>
+              </div>
+              <p class="hint">
+                {{ t('receiptImport.remaining', { count: st.remaining, limit: st.dailyLimit }) }}
+              </p>
+            } @else {
+              <p class="hint">{{ t('receiptImport.limitReached', { limit: st.dailyLimit }) }}</p>
+            }
+            <div aria-live="polite">
+              @if (busy()) {
+                <mat-progress-bar mode="indeterminate" [attr.aria-label]="t('receiptImport.reading')" />
+                <p class="hint">{{ t('receiptImport.reading') }}</p>
+              }
+            </div>
+          </section>
+        }
+      } @else if (!error()) {
+        <mat-progress-bar mode="indeterminate" [attr.aria-label]="t('common.loading')" />
+      }
+    }
+
+    <!-- Krok 2: sprawdzenie -->
+    @case ('review') {
+      @if (s.draft(); as d) {
+        @if ((household()?.id ?? null) !== s.householdId()) {
+          <div class="alert" role="alert">{{ t('errors.HOUSEHOLD_CHANGED') }}</div>
+        }
+        <section class="ck-card box" aria-labelledby="receipt-title">
+          <h2 id="receipt-title">
+            <span class="material-symbols-rounded" aria-hidden="true">description</span
+            >{{ t('receiptImport.receiptTitle') }}
+          </h2>
+          @for (w of d.warnings; track $index) {
+            <p class="note"><span class="material-symbols-rounded" aria-hidden="true">info</span>{{ w }}</p>
+          }
+          <div class="fields">
+            <mat-form-field subscriptSizing="dynamic">
+              <mat-label>{{ t('receiptImport.store') }}</mat-label>
+              <input
+                matInput
+                name="store"
+                maxlength="80"
+                autocomplete="off"
+                [ngModel]="s.store()"
+                (ngModelChange)="s.store.set($event)"
+              />
+            </mat-form-field>
+            <mat-form-field subscriptSizing="dynamic">
+              <mat-label>{{ t('receiptImport.date') }}</mat-label>
+              <input
+                matInput
+                name="date"
+                type="date"
+                [ngModel]="s.purchasedOn()"
+                (ngModelChange)="s.purchasedOn.set($event)"
+              />
+            </mat-form-field>
+            <mat-form-field subscriptSizing="dynamic">
+              <mat-label>{{ t('receiptImport.currency') }}</mat-label>
+              <mat-select name="currency" [ngModel]="s.currency()" (ngModelChange)="s.currency.set($event)">
+                @for (c of currencies; track c) {
+                  <mat-option [value]="c">{{ c }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+          </div>
+          @if (!d.currency) {
+            <p class="note warn">
+              <span class="material-symbols-rounded" aria-hidden="true">warning</span
+              >{{
+                d.currencyRead
+                  ? t('receiptImport.currencyUnsupported', { read: d.currencyRead })
+                  : t('receiptImport.currencyMissing')
+              }}
+            </p>
+          }
+
+          <fieldset class="targets">
+            <legend>{{ t('receiptImport.targets') }}</legend>
+            <mat-checkbox [checked]="s.toPantry()" (change)="s.toPantry.set($event.checked)">
+              {{ t('receiptImport.toPantry') }}
+            </mat-checkbox>
+            <mat-checkbox [checked]="s.toPrices()" (change)="s.toPrices.set($event.checked)">
+              {{ t('receiptImport.toPrices') }}
+            </mat-checkbox>
+          </fieldset>
+          @if (noTarget()) {
+            <p class="field-error" role="alert">{{ t('receiptImport.noTarget') }}</p>
+          }
+
+          <!-- Cennik docelowy -->
+          @if (s.toPrices()) {
+            <div class="list-choice">
+              @if (lists().length) {
+                <mat-form-field subscriptSizing="dynamic">
+                  <mat-label>{{ t('receiptImport.list') }}</mat-label>
+                  <mat-select name="list" [ngModel]="s.listChoice()" (ngModelChange)="chooseList($event)">
+                    @for (l of lists(); track l.id) {
+                      <mat-option [value]="l.id">{{ l.name }} ({{ l.currency }})</mat-option>
+                    }
+                    <mat-option value="NEW">{{ t('receiptImport.newListOption') }}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              }
+              @if (s.listChoice() === 'NEW') {
+                @if (s.newList(); as n) {
+                  <p class="note">
+                    <span class="material-symbols-rounded" aria-hidden="true">sell</span>
+                    <span>{{
+                      t('receiptImport.newListPending', { name: n.name, currency: n.currency })
+                    }}</span>
+                    <button mat-button type="button" (click)="editNewList()">
+                      {{ t('receiptImport.change') }}
+                    </button>
+                  </p>
+                } @else if (newListCancelled() && !lists().length) {
+                  <div class="note warn" role="status">
+                    <span class="material-symbols-rounded" aria-hidden="true">info</span>
+                    <div>
+                      <p>{{ t('receiptImport.newListCancelled') }}</p>
+                      <div class="row">
+                        <button mat-stroked-button type="button" (click)="pantryOnly()">
+                          {{ t('receiptImport.pantryOnly') }}
+                        </button>
+                        <button mat-button type="button" (click)="newListCancelled.set(false)">
+                          {{ t('receiptImport.createAnyway') }}
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                } @else {
+                  <app-price-list-form
+                    [heading]="t(lists().length ? 'prices.newList' : 'receiptImport.noListTitle')"
+                    [hint]="t('receiptImport.newListHint')"
+                    [submitLabel]="t('receiptImport.rememberList')"
+                    [cancellable]="true"
+                    [(name)]="newListName"
+                    [(currency)]="newListCurrency"
+                    (submitted)="rememberNewList($event)"
+                    (cancelled)="cancelNewList()"
+                  />
+                }
+              }
+              @if (currencyMismatch()) {
+                <p class="note warn" role="status">
+                  <span class="material-symbols-rounded" aria-hidden="true">warning</span
+                  >{{
+                    t('receiptImport.currencyMismatch', {
+                      receipt: s.currency(),
+                      list:
+                        s.listChoice() === 'NEW' ? (s.newList()?.name ?? '') : (selectedList()?.name ?? ''),
+                      listCurrency: listCurrency(),
+                    })
+                  }}
+                </p>
+              }
+            </div>
+          }
+        </section>
+
+        <!-- Pozycje -->
+        <section aria-labelledby="lines-title">
+          <h2 id="lines-title" class="section-title">
+            {{ t('receiptImport.linesTitle', { count: s.lines().length }) }}
+          </h2>
+          @if (!s.lines().length) {
+            <p class="ck-card box">{{ t('receiptImport.noLines') }}</p>
+          }
+          <ul class="lines">
+            @for (l of s.lines(); track l.key) {
+              @let issues = problems().get(l.key) ?? [];
+              <li class="ck-card line" [class.attention]="issues.length">
+                <div class="line-head">
+                  <span class="receipt-text">{{ l.text }}</span>
+                  <span class="status" [attr.data-status]="l.status">
+                    <span class="material-symbols-rounded" aria-hidden="true">{{
+                      l.status === 'MATCHED' ? 'check_circle' : l.status === 'CONFIRM' ? 'info' : 'search_off'
+                    }}</span
+                    >{{ t('receiptImport.status.' + l.status) }}
+                  </span>
+                  <button
+                    mat-icon-button
+                    type="button"
+                    (click)="s.removeLine(l.key)"
+                    [attr.aria-label]="t('receiptImport.removeLine', { name: l.text })"
+                  >
+                    <span class="material-symbols-rounded" aria-hidden="true">delete</span>
+                  </button>
+                </div>
+
+                <!-- Składnik -->
+                <div class="ingredient">
+                  @if (l.ingredient; as ing) {
+                    <span class="material-symbols-rounded" aria-hidden="true">{{ ing.category.icon }}</span>
+                    <strong>{{ ing | localized: lang() }}</strong>
+                  } @else {
+                    <span class="muted">{{ t('receiptImport.pickIngredient', { name: l.name }) }}</span>
+                  }
+                  @if (picking() !== l.key) {
+                    <button mat-button type="button" (click)="picking.set(l.key)">
+                      {{ t(l.ingredient ? 'receiptImport.change' : 'receiptImport.search') }}
+                    </button>
+                  }
+                </div>
+                @if (!l.ingredient && l.suggestions.length) {
+                  <div class="suggestions" role="group" [attr.aria-label]="t('receiptImport.suggestions')">
+                    @for (sg of l.suggestions; track sg.id) {
+                      <button mat-stroked-button type="button" (click)="chooseIngredient(l, sg)">
+                        {{ sg | localized: lang() }}
+                      </button>
+                    }
+                  </div>
+                }
+                @if (picking() === l.key) {
+                  <div class="picker">
+                    <app-ingredient-picker
+                      [label]="t('receiptImport.searchLabel')"
+                      (picked)="chooseIngredient(l, $event)"
+                    />
+                    <button mat-button type="button" (click)="picking.set(null)">
+                      {{ t('common.cancel') }}
+                    </button>
+                  </div>
+                }
+
+                <!-- Ilość × opakowanie, cena -->
+                <div class="fields qty">
+                  <mat-form-field subscriptSizing="dynamic">
+                    <mat-label>{{ t('receiptImport.packages') }}</mat-label>
+                    <input
+                      matInput
+                      type="text"
+                      inputmode="decimal"
+                      autocomplete="off"
+                      [ngModel]="l.packages"
+                      (ngModelChange)="patch(l, { packages: $event })"
+                      [attr.aria-invalid]="issues.includes('PACKAGES')"
+                    />
+                  </mat-form-field>
+                  <mat-form-field subscriptSizing="dynamic">
+                    <mat-label>{{ t('receiptImport.packageSize') }}</mat-label>
+                    <input
+                      matInput
+                      type="text"
+                      inputmode="decimal"
+                      autocomplete="off"
+                      [ngModel]="l.packageAmount"
+                      (ngModelChange)="patch(l, { packageAmount: $event })"
+                      [attr.aria-invalid]="issues.includes('PACKAGE')"
+                    />
+                  </mat-form-field>
+                  <mat-form-field subscriptSizing="dynamic">
+                    <mat-label>{{ t('receiptImport.unit') }}</mat-label>
+                    <mat-select
+                      [ngModel]="l.packageUnitCode"
+                      (ngModelChange)="patch(l, { packageUnitCode: $event })"
+                      [disabled]="!l.ingredient"
+                    >
+                      @for (u of unitsFor(l.ingredient); track u.code) {
+                        <mat-option [value]="u.code">{{ unitLabel(l.ingredient, u.code) }}</mat-option>
+                      }
+                    </mat-select>
+                  </mat-form-field>
+                  <mat-form-field class="price" subscriptSizing="dynamic">
+                    <mat-label>{{ t('receiptImport.price', { currency: s.currency() }) }}</mat-label>
+                    <input
+                      matInput
+                      type="text"
+                      inputmode="decimal"
+                      autocomplete="off"
+                      [ngModel]="l.price"
+                      (ngModelChange)="patch(l, { price: $event })"
+                      [attr.aria-invalid]="issues.includes('PRICE')"
+                    />
+                  </mat-form-field>
+                </div>
+                @if (lineTotal(l); as total) {
+                  <p class="hint">{{ t('receiptImport.lineTotal', { total }) }}</p>
+                }
+
+                <div class="line-targets">
+                  @if (s.toPantry()) {
+                    <mat-checkbox [checked]="l.toPantry" (change)="patch(l, { toPantry: $event.checked })">
+                      {{ t('receiptImport.lineToPantry') }}
+                    </mat-checkbox>
+                  }
+                  @if (s.toPrices()) {
+                    <mat-checkbox [checked]="l.toPrices" (change)="patch(l, { toPrices: $event.checked })">
+                      {{ t('receiptImport.lineToPrices') }}
+                    </mat-checkbox>
+                  }
+                </div>
+
+                @if (issues.length || l.warnings.length || l.uncertain) {
+                  <ul class="issues">
+                    @for (p of issues; track p) {
+                      <li class="problem">{{ t('receiptImport.problem.' + p) }}</li>
+                    }
+                    @for (w of l.warnings; track w) {
+                      <li>{{ t('receiptImport.warn.' + w) }}</li>
+                    }
+                    @if (l.uncertain) {
+                      <li>{{ t('receiptImport.warn.UNCERTAIN') }}</li>
+                    }
+                  </ul>
+                }
+              </li>
+            }
+          </ul>
+        </section>
+
+        <!-- Podsumowanie -->
+        <section class="ck-card box summary" aria-labelledby="summary-title">
+          <h2 id="summary-title">{{ t('receiptImport.summaryTitle') }}</h2>
+          @let sum = summary();
+          <dl>
+            <div>
+              <dt>{{ t('receiptImport.sumLines') }}</dt>
+              <dd>{{ sum.lines }}</dd>
+            </div>
+            <div>
+              <dt>{{ t('receiptImport.sumPantry') }}</dt>
+              <dd>{{ sum.pantry }}</dd>
+            </div>
+            <div>
+              <dt>{{ t('receiptImport.sumPrices') }}</dt>
+              <dd>{{ sum.prices }}</dd>
+            </div>
+            <div>
+              <dt>{{ t('receiptImport.sumAttention') }}</dt>
+              <dd>{{ sum.attention }}</dd>
+            </div>
+            <div>
+              <dt>{{ t('receiptImport.sumTotal') }}</dt>
+              <dd>{{ money(sum.totalCents) }}</dd>
+            </div>
+            @if (s.toPrices()) {
+              <div>
+                <dt>{{ t('receiptImport.sumList') }}</dt>
+                <dd>
+                  @if (s.listChoice() === 'NEW') {
+                    {{
+                      s.newList()
+                        ? t('receiptImport.sumListNew', { name: s.newList()!.name })
+                        : t('receiptImport.sumListMissing')
+                    }}
+                  } @else {
+                    {{ selectedList()?.name }}
+                  }
+                </dd>
+              </div>
+            }
+          </dl>
+          <p class="hint">{{ t('receiptImport.totalHint') }}</p>
+          @if (!canCommit() && !busy()) {
+            <p class="field-error">
+              {{
+                needsNewListForm()
+                  ? t('receiptImport.blockedList')
+                  : sum.pantry + sum.prices === 0
+                    ? t('receiptImport.blockedEmpty')
+                    : t('receiptImport.blockedLines')
+              }}
+            </p>
+          }
+          <div class="row">
+            <button mat-flat-button class="ck-cta" type="button" (click)="commit()" [disabled]="!canCommit()">
+              <span class="material-symbols-rounded" aria-hidden="true">check</span
+              >{{ t('receiptImport.commit') }}
+            </button>
+            <button mat-button type="button" (click)="restart()" [disabled]="busy()">
+              {{ t('receiptImport.restart') }}
+            </button>
+          </div>
+          <div aria-live="polite">
+            @if (busy()) {
+              <mat-progress-bar mode="indeterminate" [attr.aria-label]="t('receiptImport.saving')" />
+            }
+          </div>
+        </section>
+      }
+    }
+
+    <!-- Krok 3: gotowe -->
+    @case ('done') {
+      @if (s.result(); as r) {
+        <section class="ck-card box done" aria-labelledby="done-title" role="status">
+          <h2 id="done-title">
+            <span class="material-symbols-rounded" aria-hidden="true">task_alt</span
+            >{{ t('receiptImport.doneTitle') }}
+          </h2>
+          <ul>
+            @if (r.pantry) {
+              <li>{{ t('receiptImport.donePantry', { count: r.pantry }) }}</li>
+            }
+            @if (r.list; as list) {
+              <li>
+                {{
+                  t(list.created ? 'receiptImport.donePricesNew' : 'receiptImport.donePrices', {
+                    count: r.prices,
+                    name: list.name,
+                  })
+                }}
+              </li>
+            }
+          </ul>
+          <div class="row">
+            @if (r.pantry) {
+              <a mat-stroked-button routerLink="/pantry">{{ t('nav.pantry') }}</a>
+            }
+            @if (r.list; as list) {
+              <a mat-stroked-button routerLink="/prices" [queryParams]="{ list: list.id }">{{ list.name }}</a>
+            }
+            <button mat-button type="button" (click)="restart()">{{ t('receiptImport.another') }}</button>
+          </div>
+        </section>
+      }
+    }
+  }
+</div>

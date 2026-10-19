@@ -12,10 +12,10 @@ export class AmountLabelPipe implements PipeTransform {
   private readonly transloco = inject(TranslocoService);
 
   transform(amount: number, unitCode: string, lang: string): string {
-    if (unitCode === 'g' || unitCode === 'ml') {
-      const n = new Intl.NumberFormat(lang === 'en' ? 'en-GB' : 'pl-PL', { maximumFractionDigits: 1 }).format(
-        amount,
-      );
+    if (unitCode === 'g' || unitCode === 'ml' || unitCode === 'kg' || unitCode === 'l') {
+      const n = new Intl.NumberFormat(lang === 'en' ? 'en-GB' : 'pl-PL', {
+        maximumFractionDigits: unitCode === 'kg' || unitCode === 'l' ? 3 : 1,
+      }).format(amount);
       return `${n} ${unitCode}`;
     }
     const forms = this.transloco.translate(`recipes.unitForms.${unitCode}`, {}, lang);
