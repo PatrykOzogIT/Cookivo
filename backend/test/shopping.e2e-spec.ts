@@ -164,6 +164,44 @@ describe('Lodówka i lista zakupów (e2e)', () => {
     expect(await list()).toEqual([]);
   });
 
+  it('ilość wpisana ręcznie zostaje w swojej jednostce (kg, sztuki), zmiana ilości pozycji', async () => {
+    const add = (body: object, status = 201) =>
+      api().post('/api/shopping/items').set(bearer(me)).send(body).expect(status);
+    const flour = (await add({ ingredientId: ids.flour, amount: 2, unitCode: 'kg' })).body as Item;
+    expect(flour.amount).toEqual({ amount: 2, unit: 'kg', grams: 2000, manual: true });
+    // Ta sama jednostka sumuje się w niej
+    await add({ ingredientId: ids.flour, amount: 0.5, unitCode: 'kg' });
+    expect(byIngredient(await list(), ids.flour)?.amount).toMatchObject({
+      amount: 2.5,
+      unit: 'kg',
+      manual: true,
+    });
+    // Inna jednostka (albo ilość z planu) - wracamy do automatycznej
+    await add({ ingredientId: ids.flour, amount: 100, unitCode: 'g' });
+    expect(byIngredient(await list(), ids.flour)?.amount).toMatchObject({
+      amount: 2.6,
+      unit: 'kg',
+      grams: 2600,
+      manual: false,
+    });
+
+    const carrot = (await add({ ingredientId: ids.carrot, amount: 5, unitCode: 'PIECE' })).body as Item;
+    expect(carrot.amount).toMatchObject({ amount: 5, unit: 'PIECE', manual: true });
+    const patch = (id: string, body: object, status = 200) =>
+      api().patch(`/api/shopping/items/${id}`).set(bearer(me)).send(body).expect(status);
+    expect((await patch(carrot.id, { amount: 1, unitCode: 'kg' })).body.amount).toEqual({
+      amount: 1,
+      unit: 'kg',
+      grams: 1000,
+      manual: true,
+    });
+    expect((await patch(carrot.id, { amount: 2, unitCode: 'CAN' }, 400)).body.code).toBe('UNIT_NOT_ALLOWED');
+    expect((await patch(carrot.id, { amount: null })).body).toMatchObject({ amount: null, grams: null });
+
+    const own = (await add({ name: 'Folia', note: '1 rolka' })).body as Item;
+    expect((await patch(own.id, { amount: 2, unitCode: 'PIECE' }, 400)).body.code).toBe('ITEM_INVALID');
+  });
+
   it('lodówka: ilość w jednostkach kuchennych, ważność, "zużyj wkrótce"', async () => {
     const soon = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
     const item = (

@@ -940,7 +940,9 @@
     "g": "grams (g)",
     "ml": "millilitres (ml)",
     "gShort": "g",
-    "mlShort": "ml"
+    "mlShort": "ml",
+    "kgShort": "kg",
+    "lShort": "l"
   },
   "ingredients": {
     "lead": "Nutrition per 100 g, allergens and kitchen conversions.",
@@ -1425,7 +1427,14 @@
     "pieces": "pcs",
     "about": "approx.",
     "fromRecipe": "Add to shopping list ({{count}} portions)",
-    "open": "Open the list"
+    "open": "Open the list",
+    "amount": "Amount (optional)",
+    "unit": "Unit",
+    "noteShort": "Note (optional)",
+    "amountHint": "E.g. 2 kg of rice or 5 bananas. Without an amount we add just the ingredient.",
+    "amountEditHint": "Clear the amount to keep just the ingredient.",
+    "amountInvalid": "Enter a number greater than zero, e.g. 1.5.",
+    "editAmount": "Change amount: {{name}}"
   },
   "prices": {
     "lead": "Your shop prices. Enter them as on the shelf - per package. The default price list calculates the cost of recipes, the shopping list and the week.",

@@ -11,8 +11,8 @@ import { ingredientForMath, RecipeCalculatorService } from '../recipes/recipe-ca
 import { gramsFor } from '../recipes/recipe-math.js';
 import { RecipesService } from '../recipes/recipes.service.js';
 import { loadRecipesForExpansion } from './recipe-loader.js';
-import type { AddItemDto } from './shopping.dto.js';
-import { expandRecipe, LIQUID_CATEGORIES, shoppingAmount } from './shopping-math.js';
+import type { AddItemDto, UpdateItemDto } from './shopping.dto.js';
+import { expandRecipe, LIQUID_CATEGORIES, shoppingAmount, toRecipeUnit } from './shopping-math.js';
 
 const MAX_RANGE_DAYS = 42;
 const DAY_MS = 24 * 60 * 60 * 1000;
@@ -20,11 +20,17 @@ const DAY_MS = 24 * 60 * 60 * 1000;
 const MIN_GRAMS = 1;
 
 const ITEM_INCLUDE = {
-  ingredient: { include: { category: true, units: true } },
+  ingredient: { include: { category: true, units: { include: { unit: true } } } },
   checkedBy: { select: { username: true } },
 } satisfies Prisma.ShoppingItemInclude;
 
 type Row = Prisma.ShoppingItemGetPayload<{ include: typeof ITEM_INCLUDE }>;
+
+/** Ilość wpisana ręcznie - pokazujemy ją w tej jednostce (np. 5 kg zamiast 5000 g) */
+interface Manual {
+  amount: number;
+  unitCode: string;
+}
 
 export interface AddResult {
   added: number;
@@ -130,28 +136,32 @@ export class ShoppingService {
     if (!ingredient || (ingredient.status !== 'APPROVED' && ingredient.createdById !== user.id)) {
       throw new NotFoundException({ code: 'INGREDIENT_UNKNOWN' });
     }
-    let grams: number | null = null;
-    if (dto.amount) {
-      const g = gramsFor(
-        dto.amount,
-        dto.unitCode ?? 'g',
-        { ingredient: ingredientForMath(ingredient) },
-        await this.calculator.unitMl(),
-      );
-      if (typeof g !== 'number') throw new BadRequestException({ code: 'UNIT_NOT_ALLOWED' });
-      grams = g;
-    }
-    const id = await this.addGrams(scope, ingredient.id, grams, dto.note || null);
+    const manual = dto.amount ? { amount: dto.amount, unitCode: dto.unitCode ?? 'g' } : null;
+    const grams = manual ? await this.gramsOf(ingredient, manual) : null;
+    const id = await this.addGrams(scope, ingredient.id, grams, dto.note || null, manual);
     return toDto(await this.prisma.shoppingItem.findUniqueOrThrow({ where: { id }, include: ITEM_INCLUDE }));
   }
 
-  async update(userId: string, id: string, dto: { checked?: boolean; note?: string }) {
+  async update(userId: string, id: string, dto: UpdateItemDto) {
     const scope = await ownerScope(this.prisma, userId);
-    const item = await this.prisma.shoppingItem.findFirst({ where: { id, ...scope } });
+    const item = await this.prisma.shoppingItem.findFirst({
+      where: { id, ...scope },
+      include: { ingredient: { include: { units: true } } },
+    });
     if (!item) throw new NotFoundException({ code: 'NOT_FOUND' });
+    // Ilość zmienia się tylko przy składnikach z bazy (własne pozycje mają opis w notatce)
+    let quantity: { grams?: number | null; amount?: number | null; unitCode?: string | null } = {};
+    if (dto.amount !== undefined) {
+      if (!item.ingredient) throw new BadRequestException({ code: 'ITEM_INVALID' });
+      const manual = dto.amount ? { amount: dto.amount, unitCode: dto.unitCode ?? 'g' } : null;
+      quantity = manual
+        ? { grams: await this.gramsOf(item.ingredient, manual), ...manual }
+        : { grams: null, amount: null, unitCode: null };
+    }
     const row = await this.prisma.shoppingItem.update({
       where: { id },
       data: {
+        ...quantity,
         ...(dto.note !== undefined ? { note: dto.note || null } : {}),
         ...(dto.checked !== undefined
           ? {
@@ -218,21 +228,59 @@ export class ShoppingService {
     return { added, inPantry };
   }
 
-  /** Dopisuje gramy do nieodhaczonej pozycji tego składnika albo tworzy nową */
-  private async addGrams(scope: OwnerScope, ingredientId: string, grams: number | null, note: string | null) {
+  /** Gramy z ilości wpisanej ręcznie (także kg i l) */
+  private async gramsOf(
+    ingredient: Parameters<typeof ingredientForMath>[0],
+    manual: Manual,
+  ): Promise<number> {
+    const { amount, unitCode } = toRecipeUnit(manual.amount, manual.unitCode);
+    const g = gramsFor(
+      amount,
+      unitCode,
+      { ingredient: ingredientForMath(ingredient) },
+      await this.calculator.unitMl(),
+    );
+    if (typeof g !== 'number') throw new BadRequestException({ code: 'UNIT_NOT_ALLOWED' });
+    return g;
+  }
+
+  /**
+   * Dopisuje gramy do nieodhaczonej pozycji tego składnika albo tworzy nową.
+   * Jednostka wpisana ręcznie zostaje, dopóki dochodzi ilość w tej samej jednostce;
+   * ilość z planu albo w innej jednostce wraca do automatycznej (sztuki / l / kg).
+   */
+  private async addGrams(
+    scope: OwnerScope,
+    ingredientId: string,
+    grams: number | null,
+    note: string | null,
+    manual: Manual | null = null,
+  ) {
     const existing = await this.prisma.shoppingItem.findFirst({
       where: { ...scope, ingredientId, checked: false },
     });
     if (existing) {
       const total =
         existing.grams === null || grams === null ? (existing.grams ?? grams) : existing.grams + grams;
+      let unit: { amount: number | null; unitCode: string | null } = {
+        amount: existing.amount,
+        unitCode: existing.unitCode,
+      };
+      if (grams !== null) {
+        if (manual && existing.grams === null) unit = manual;
+        else if (manual && existing.unitCode === manual.unitCode && existing.amount !== null)
+          unit = { amount: existing.amount + manual.amount, unitCode: manual.unitCode };
+        else unit = { amount: null, unitCode: null };
+      }
       await this.prisma.shoppingItem.update({
         where: { id: existing.id },
-        data: { grams: total, ...(note ? { note } : {}) },
+        data: { grams: total, ...unit, ...(note ? { note } : {}) },
       });
       return existing.id;
     }
-    const row = await this.prisma.shoppingItem.create({ data: { ...scope, ingredientId, grams, note } });
+    const row = await this.prisma.shoppingItem.create({
+      data: { ...scope, ingredientId, grams, note, amount: manual?.amount, unitCode: manual?.unitCode },
+    });
     return row.id;
   }
 }
@@ -246,6 +294,14 @@ function toDto(r: Row) {
           id: ing.id,
           namePl: ing.namePl,
           nameEn: ing.nameEn,
+          /** Do wyboru jednostek przy zmianie ilości */
+          density: ing.density,
+          units: ing.units.map((u) => ({
+            code: u.unitCode,
+            namePl: u.unit.namePl,
+            nameEn: u.unit.nameEn,
+            grams: u.grams,
+          })),
           category: {
             code: ing.category.code,
             namePl: ing.category.namePl,
@@ -258,15 +314,23 @@ function toDto(r: Row) {
     name: r.name,
     note: r.note,
     grams: r.grams,
-    /** Ilość do kupienia w czytelnej formie (sztuki / ml / g) */
+    /**
+     * Ilość do kupienia: tak, jak ją wpisano (manual - unit to kod jednostki: PIECE, kg, CAN...),
+     * albo w czytelnej formie (sztuki / l / ml / kg / g).
+     */
     amount:
-      ing && r.grams !== null
-        ? shoppingAmount(r.grams, {
-            pieceGrams: ing.units.find((u) => u.unitCode === 'PIECE')?.grams ?? null,
-            density: ing.density,
-            liquid: LIQUID_CATEGORIES.has(ing.category.code),
-          })
-        : null,
+      !ing || r.grams === null
+        ? null
+        : r.amount !== null && r.unitCode
+          ? { amount: r.amount, unit: r.unitCode, grams: Math.round(r.grams), manual: true }
+          : {
+              ...shoppingAmount(r.grams, {
+                pieceGrams: ing.units.find((u) => u.unitCode === 'PIECE')?.grams ?? null,
+                density: ing.density,
+                liquid: LIQUID_CATEGORIES.has(ing.category.code),
+              }),
+              manual: false,
+            },
     checked: r.checked,
     checkedBy: r.checkedBy?.username ?? null,
     updatedAt: r.updatedAt,

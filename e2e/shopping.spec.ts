@@ -104,6 +104,50 @@ test.describe('Lodówka i lista zakupów', () => {
     await expect(page.locator('.group li').filter({ hasText: 'Jajko' })).toBeVisible();
   });
 
+  test('ilość i jednostka przy dodawaniu (kg, sztuki) i zmiana ilości pozycji', async ({ page, request }) => {
+    const user = await createUser(request, 'jednostki');
+    await loginUi(page, user);
+    await page.goto('/shopping');
+    const picker = page.getByRole('combobox', { name: 'Dodaj składnik albo własną pozycję' });
+
+    // Mąka: domyślnie kg
+    await picker.fill('maka pszenna');
+    await page.getByRole('option', { name: /^.*Mąka pszenna$/ }).click();
+    const amount = page.getByLabel('Ilość (opcjonalnie)');
+    await expect(amount).toBeFocused();
+    await expect(page.getByRole('combobox', { name: 'Jednostka' })).toContainText('kg');
+    await amount.fill('2,5');
+    await expectNoA11yViolations(page);
+    await page.getByRole('button', { name: 'Dodaj', exact: true }).click();
+    await expect(page.getByRole('checkbox', { name: /Mąka pszenna.*2,5 kg/ })).toBeVisible();
+
+    // Jajka: domyślnie sztuki, bez przeliczania na gramy
+    await picker.fill('jajko');
+    await page
+      .getByRole('option', { name: /^.*Jajko$/ })
+      .first()
+      .click();
+    await expect(page.getByRole('combobox', { name: 'Jednostka' })).toContainText('sztuka');
+    await page.getByLabel('Ilość (opcjonalnie)').fill('10');
+    await page.getByRole('button', { name: 'Dodaj', exact: true }).click();
+    const egg = page.getByRole('checkbox', { name: /Jajko/ });
+    await expect(egg).toHaveAccessibleName(/10 szt\./);
+    await expect(egg).not.toHaveAccessibleName(/ok\./);
+
+    // Zmiana ilości na liście
+    await page.getByRole('button', { name: 'Zmień ilość: Mąka pszenna' }).click();
+    const edit = page.getByLabel('Ilość (opcjonalnie)');
+    await expect(edit).toHaveValue('2,5');
+    await edit.fill('abc');
+    await expect(page.getByText('Wpisz liczbę większą od zera')).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Zapisz' })).toBeDisabled();
+    await expectNoA11yViolations(page);
+    await edit.fill('5');
+    await page.getByRole('button', { name: 'Zapisz' }).click();
+    await expect(page.getByRole('checkbox', { name: /Mąka pszenna.*5 kg/ })).toBeVisible();
+    await expect(page.getByLabel('Ilość (opcjonalnie)')).toHaveCount(0);
+  });
+
   test('przepis: składniki na wybraną liczbę porcji trafiają na listę', async ({ page, request }) => {
     const user = await createUser(request, 'przepis');
     const { id } = await setup(request, user, '2026-12-01');

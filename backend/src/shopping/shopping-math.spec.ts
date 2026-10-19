@@ -1,4 +1,4 @@
-import { expandRecipe, shoppingAmount, type RecipeForShopping } from './shopping-math.js';
+import { expandRecipe, shoppingAmount, toRecipeUnit, type RecipeForShopping } from './shopping-math.js';
 
 describe('rozwijanie przepisu do składników', () => {
   const recipes = new Map<string, RecipeForShopping>([
@@ -74,5 +74,13 @@ describe('ilości na liście zakupów', () => {
     expect(shoppingAmount(73, plain)).toMatchObject({ amount: 75, unit: 'g' });
     expect(shoppingAmount(431, plain)).toMatchObject({ amount: 440, unit: 'g' });
     expect(shoppingAmount(1210, plain)).toMatchObject({ amount: 1.25, unit: 'kg' });
+  });
+});
+
+describe('kg i l wpisane na liście', () => {
+  it('sprowadzamy do g / ml, resztę zostawiamy', () => {
+    expect(toRecipeUnit(2.5, 'kg')).toEqual({ amount: 2500, unitCode: 'g' });
+    expect(toRecipeUnit(1.5, 'l')).toEqual({ amount: 1500, unitCode: 'ml' });
+    expect(toRecipeUnit(5, 'PIECE')).toEqual({ amount: 5, unitCode: 'PIECE' });
   });
 });

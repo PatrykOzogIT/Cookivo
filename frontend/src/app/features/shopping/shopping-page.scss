@@ -90,3 +90,22 @@
 .price {
   white-space: nowrap;
 }
+
+// Pozycja z otwartą zmianą ilości: formularz pod nazwą, na całą szerokość
+.group li:has(.item-edit) {
+  flex-wrap: wrap;
+}
+.item-edit {
+  flex-basis: 100%;
+  padding-bottom: 8px;
+  .draft {
+    margin-top: 0;
+  }
+}
+
+.field-error {
+  margin: 8px 0 0;
+  color: var(--ck-danger);
+  font-size: 0.85rem;
+  font-weight: 600;
+}

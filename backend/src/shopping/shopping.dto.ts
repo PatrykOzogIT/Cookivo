@@ -69,6 +69,19 @@ export class UpdateItemDto {
   @IsBoolean()
   checked?: boolean;
 
+  /** Zmiana ilości składnika z bazy (null = bez ilości). Pomijamy = bez zmian. */
+  @IsOptional()
+  @Type(() => Number)
+  @IsNumber({ maxDecimalPlaces: 2 })
+  @Min(0.01)
+  @Max(100000)
+  amount?: number | null;
+
+  @IsOptional()
+  @IsString()
+  @Length(1, 32)
+  unitCode?: string | null;
+
   @IsOptional()
   @Transform(trim)
   @IsString()

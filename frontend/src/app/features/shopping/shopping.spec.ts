@@ -1,4 +1,9 @@
-import { formatShoppingAmount, groupByCategory } from './shopping-format';
+import {
+  defaultShoppingUnit,
+  formatShoppingAmount,
+  groupByCategory,
+  shoppingUnitOptions,
+} from './shopping-format';
 
 describe('ilości na liście zakupów', () => {
   it('sztuki z gramami, kg i ml z polskim przecinkiem', () => {
@@ -26,5 +31,43 @@ describe('grupowanie działami sklepu', () => {
       ['DAIRY', 2],
       ['CUSTOM', 1],
     ]);
+  });
+});
+
+describe('ilość wpisana ręcznie', () => {
+  const label = (code: string, n: number) => `${n} ${code === 'CAN' ? 'puszki' : code}`;
+
+  it('zostaje w swojej jednostce: sztuki bez gramów, kg, puszki z odmianą', () => {
+    expect(
+      formatShoppingAmount(
+        { amount: 5, unit: 'PIECE', grams: 600, manual: true },
+        'pl',
+        'szt.',
+        'ok.',
+        label,
+      ),
+    ).toBe('5 szt.');
+    expect(
+      formatShoppingAmount(
+        { amount: 2.5, unit: 'kg', grams: 2500, manual: true },
+        'pl',
+        'szt.',
+        'ok.',
+        label,
+      ),
+    ).toBe('2,5 kg');
+    expect(
+      formatShoppingAmount({ amount: 2, unit: 'CAN', grams: 800, manual: true }, 'pl', 'szt.', 'ok.', label),
+    ).toBe('2 puszki');
+  });
+
+  it('jednostki: kg po g, l po ml (tylko z gęstością); domyślnie sztuki albo kg', () => {
+    const rice = { kind: 'ingredient' as const, id: 'r', name: { namePl: 'Ryż', nameEn: 'Rice' } };
+    expect(shoppingUnitOptions(rice, []).map((u) => u.code)).toEqual(['g', 'kg']);
+    const milk = { ...rice, density: 1.03 };
+    expect(shoppingUnitOptions(milk, []).map((u) => u.code)).toEqual(['g', 'kg', 'ml', 'l']);
+    expect(defaultShoppingUnit(rice)).toBe('kg');
+    const banana = { ...rice, units: [{ code: 'PIECE', grams: 120, namePl: 'sztuka', nameEn: 'piece' }] };
+    expect(defaultShoppingUnit(banana)).toBe('PIECE');
   });
 });

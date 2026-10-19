@@ -3,18 +3,24 @@ import { Injectable, inject } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import type { Localized } from '../ingredients/ingredients.models';
 
-export type ShoppingUnit = 'PIECE' | 'g' | 'kg' | 'ml' | 'l';
-
 export interface ShoppingAmount {
   amount: number;
-  unit: ShoppingUnit;
+  /** PIECE / g / kg / ml / l, a przy ilości wpisanej ręcznie także np. CAN, TABLESPOON */
+  unit: string;
   grams: number;
+  /** true = ilość tak, jak ją wpisano; false = przeliczona automatycznie */
+  manual?: boolean;
 }
 
 export interface ShoppingItem {
   id: string;
   ingredient:
-    | (Localized & { id: string; category: Localized & { code: string; icon: string; sortOrder: number } })
+    | (Localized & {
+        id: string;
+        density: number | null;
+        units: (Localized & { code: string; grams: number })[];
+        category: Localized & { code: string; icon: string; sortOrder: number };
+      })
     | null;
   name: string | null;
   note: string | null;
@@ -71,7 +77,10 @@ export class ShoppingApi {
     return firstValueFrom(this.http.post<ShoppingItem>('/api/shopping/items', body));
   }
 
-  update(id: string, body: { checked?: boolean; note?: string }): Promise<ShoppingItem> {
+  update(
+    id: string,
+    body: { checked?: boolean; note?: string; amount?: number | null; unitCode?: string | null },
+  ): Promise<ShoppingItem> {
     return firstValueFrom(this.http.patch<ShoppingItem>(`/api/shopping/items/${id}`, body));
   }
 

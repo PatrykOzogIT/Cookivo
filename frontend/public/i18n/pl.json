@@ -940,7 +940,9 @@
     "g": "gramy (g)",
     "ml": "mililitry (ml)",
     "gShort": "g",
-    "mlShort": "ml"
+    "mlShort": "ml",
+    "kgShort": "kg",
+    "lShort": "l"
   },
   "ingredients": {
     "lead": "Wartości odżywcze na 100 g, alergeny i przeliczniki kuchenne.",
@@ -1425,7 +1427,14 @@
     "pieces": "szt.",
     "about": "ok.",
     "fromRecipe": "Do listy zakupów ({{count}} porcji)",
-    "open": "Otwórz listę"
+    "open": "Otwórz listę",
+    "amount": "Ilość (opcjonalnie)",
+    "unit": "Jednostka",
+    "noteShort": "Uwaga (opcjonalnie)",
+    "amountHint": "Np. 2 kg ryżu albo 5 sztuk bananów. Bez ilości dodamy sam składnik.",
+    "amountEditHint": "Wyczyść ilość, jeśli ma zostać sam składnik.",
+    "amountInvalid": "Wpisz liczbę większą od zera, np. 1,5.",
+    "editAmount": "Zmień ilość: {{name}}"
   },
   "prices": {
     "lead": "Twoje ceny ze sklepów. Wpisuj je tak, jak na półce - za opakowanie. Domyślny cennik liczy koszt przepisów, listy zakupów i tygodnia.",

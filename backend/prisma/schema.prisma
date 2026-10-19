@@ -785,6 +785,9 @@ model ShoppingItem {
   ingredient   Ingredient? @relation(fields: [ingredientId], references: [id], onDelete: Cascade)
   name         String?     @db.VarChar(80)
   grams        Float?
+  /// Ilość wpisana ręcznie (np. 5 kg) - w tej jednostce pokazujemy pozycję, dopóki nie dojdzie ilość z planu
+  amount       Float?
+  unitCode     String?     @map("unit_code") @db.VarChar(32)
   /// Ilość opisowa dla własnych pozycji, np. "2 rolki"
   note         String?     @db.VarChar(80)
   checked      Boolean     @default(false)

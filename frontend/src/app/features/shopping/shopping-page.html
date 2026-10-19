@@ -57,9 +57,14 @@
       [label]="t('shopping.addItem')"
       [allowText]="true"
       (picked)="addIngredient($event)"
-      (text)="customName.set($event)"
+      (text)="customName.set($event); draft.set(null)"
     />
     <p class="hint">{{ t('shopping.addItemHint') }}</p>
+    @if (draft(); as d) {
+      @if (!d.id) {
+        <ng-container *ngTemplateOutlet="draftForm; context: { $implicit: d }" />
+      }
+    }
     @if (customName(); as name) {
       <form class="custom" (ngSubmit)="addCustom()" novalidate>
         <p>
@@ -127,6 +132,17 @@
                   }
                 </span>
               </mat-checkbox>
+              @if (i.ingredient) {
+                <button
+                  mat-icon-button
+                  type="button"
+                  (click)="edit(i)"
+                  [attr.aria-label]="t('shopping.editAmount', { name: label(i) })"
+                  [attr.aria-expanded]="draft()?.id === i.id"
+                >
+                  <span class="material-symbols-rounded" aria-hidden="true">edit</span>
+                </button>
+              }
               <button
                 mat-icon-button
                 type="button"
@@ -135,6 +151,13 @@
               >
                 <span class="material-symbols-rounded" aria-hidden="true">close</span>
               </button>
+              @if (draft(); as d) {
+                @if (d.id === i.id) {
+                  <div class="item-edit">
+                    <ng-container *ngTemplateOutlet="draftForm; context: { $implicit: d }" />
+                  </div>
+                }
+              }
             </li>
           }
         </ul>
@@ -180,4 +203,63 @@
       </button>
     </div>
   }
+
+  <!-- Ilość i jednostka składnika z bazy: przy dodawaniu i przy zmianie pozycji z listy -->
+  <ng-template #draftForm let-d>
+    <form class="draft" (ngSubmit)="saveDraft()" novalidate>
+      <!-- Przy zmianie pozycji nazwa jest tuż nad formularzem -->
+      @if (!d.id) {
+        <p class="draft-name">
+          <span class="material-symbols-rounded" aria-hidden="true">{{ d.ingredient.category.icon }}</span>
+          <strong>{{ d.ingredient | localized: lang() }}</strong>
+        </p>
+      }
+      <div class="fields">
+        <mat-form-field subscriptSizing="dynamic">
+          <mat-label>{{ t('shopping.amount') }}</mat-label>
+          <input
+            matInput
+            id="draft-amount"
+            name="amount"
+            type="text"
+            inputmode="decimal"
+            autocomplete="off"
+            [ngModel]="d.amount"
+            (ngModelChange)="patchDraft({ amount: $event })"
+            [attr.aria-invalid]="amountInvalid()"
+            [attr.aria-describedby]="amountInvalid() ? 'draft-amount-error' : null"
+          />
+        </mat-form-field>
+        <mat-form-field subscriptSizing="dynamic">
+          <mat-label>{{ t('shopping.unit') }}</mat-label>
+          <mat-select name="unit" [ngModel]="d.unitCode" (ngModelChange)="patchDraft({ unitCode: $event })">
+            @for (u of units(); track u.code) {
+              <mat-option [value]="u.code">{{ unitName(u.code) }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field subscriptSizing="dynamic">
+          <mat-label>{{ t('shopping.noteShort') }}</mat-label>
+          <input
+            matInput
+            name="note"
+            maxlength="80"
+            autocomplete="off"
+            [ngModel]="d.note"
+            (ngModelChange)="patchDraft({ note: $event })"
+          />
+        </mat-form-field>
+      </div>
+      @if (amountInvalid()) {
+        <p class="field-error" id="draft-amount-error">{{ t('shopping.amountInvalid') }}</p>
+      }
+      <p class="hint">{{ t(d.id ? 'shopping.amountEditHint' : 'shopping.amountHint') }}</p>
+      <div class="row">
+        <button mat-flat-button class="ck-cta" type="submit" [disabled]="busy() || amountInvalid()">
+          {{ t(d.id ? 'common.save' : 'shopping.add') }}
+        </button>
+        <button mat-button type="button" (click)="draft.set(null)">{{ t('common.cancel') }}</button>
+      </div>
+    </form>
+  </ng-template>
 </div>

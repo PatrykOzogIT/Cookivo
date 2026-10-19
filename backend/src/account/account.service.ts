@@ -208,6 +208,8 @@ export class AccountService {
       shoppingList: user.shoppingItems.map((i) => ({
         item: i.ingredient?.namePl ?? i.name,
         grams: i.grams,
+        amount: i.amount,
+        unit: i.unitCode,
         note: i.note,
         checked: i.checked,
       })),
