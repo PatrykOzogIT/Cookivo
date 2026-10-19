@@ -84,6 +84,19 @@ legend {
   flex-direction: column;
 }
 
+// Podpowiedź pod wyłączoną opcją widoczności (brak gospodarstwa / grupy)
+.option-hint {
+  margin: 0 0 6px 40px;
+  font-size: 0.8rem;
+  color: var(--ck-text-muted);
+  a {
+    display: inline-block;
+    min-height: 24px;
+    color: var(--ck-link);
+    font-weight: 600;
+  }
+}
+
 // Wybór grup znajomych przy widoczności "Dla grup"
 .group-picks {
   display: flex;

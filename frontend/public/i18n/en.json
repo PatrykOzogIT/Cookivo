@@ -609,7 +609,9 @@
       "household": "My household",
       "groups": "Selected friend groups (and household)",
       "groupsPick": "Share with groups",
-      "groupsHint": "Members of the selected groups and your household will see the recipe."
+      "groupsHint": "Members of the selected groups and your household will see the recipe.",
+      "householdNeeded": "First create a household or join one:",
+      "groupsNeeded": "First create a friend group or join one:"
     },
     "cook": {
       "title": "Cooking mode",

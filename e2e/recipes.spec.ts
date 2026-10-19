@@ -145,3 +145,17 @@ test.describe('Przepisy', () => {
     await guestContext.close();
   });
 });
+
+test('widoczność: gospodarstwo i grupy widoczne, bez nich wyłączone z linkiem', async ({ page, request }) => {
+  const user = await createUser(request, 'widocz');
+  await loginUi(page, user);
+  await page.goto('/recipes/new');
+  const household = page.getByRole('radio', { name: 'Moje gospodarstwo' });
+  const groups = page.getByRole('radio', { name: /Dla wybranych grup znajomych/ });
+  await expect(household).toBeDisabled();
+  await expect(groups).toBeDisabled();
+  await expect(page.getByRole('link', { name: 'Gospodarstwo domowe' })).toHaveAttribute('href', '/household');
+  await expect(page.getByRole('link', { name: 'Grupy znajomych' }).last()).toHaveAttribute('href', '/groups');
+  await expect(page.getByRole('radio', { name: 'Tylko ja' })).toBeChecked();
+  await expectNoA11yViolations(page);
+});

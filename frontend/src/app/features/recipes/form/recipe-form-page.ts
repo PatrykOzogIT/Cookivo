@@ -89,8 +89,17 @@ export class RecipeFormPage implements OnInit {
   private readonly fb = inject(NonNullableFormBuilder);
   protected readonly auth = inject(AuthService);
   protected readonly household = inject(HouseholdApi);
+  private readonly groupsApi = inject(GroupsApi);
   /** Grupy, którym mogę udostępnić przepis */
-  protected readonly myGroups = inject(GroupsApi).active;
+  protected readonly myGroups = this.groupsApi.active;
+  /**
+   * Opcje "gospodarstwo" i "grupy" są zawsze widoczne (żeby było wiadomo, że istnieją);
+   * bez gospodarstwa / grupy są wyłączone z linkiem do założenia. Podczas wczytywania - aktywne.
+   */
+  protected readonly noHousehold = computed(() => this.household.current() === null);
+  protected readonly noGroups = computed(
+    () => this.groupsApi.mine() !== undefined && this.myGroups().length === 0,
+  );
   protected readonly lang = inject(LanguageService).current;
   protected readonly dictionaries = toSignal(inject(IngredientsApi).dictionaries$);
 

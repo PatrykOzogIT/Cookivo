@@ -609,7 +609,9 @@
       "household": "Moje gospodarstwo",
       "groups": "Dla wybranych grup znajomych (i domowników)",
       "groupsPick": "Udostępnij grupom",
-      "groupsHint": "Przepis zobaczą członkowie zaznaczonych grup i Twoi domownicy."
+      "groupsHint": "Przepis zobaczą członkowie zaznaczonych grup i Twoi domownicy.",
+      "householdNeeded": "Najpierw załóż gospodarstwo albo dołącz do niego:",
+      "groupsNeeded": "Najpierw załóż grupę znajomych albo dołącz do niej:"
     },
     "cook": {
       "title": "Tryb gotowania",

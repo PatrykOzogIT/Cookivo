@@ -344,11 +344,29 @@
           <legend>{{ t('recipes.form.visibility') }}</legend>
           <mat-radio-group formControlName="visibility" class="radios">
             <mat-radio-button value="PRIVATE">{{ t('recipes.form.private') }}</mat-radio-button>
-            @if (household.current() || form.controls.visibility.value === 'HOUSEHOLD') {
-              <mat-radio-button value="HOUSEHOLD">{{ t('recipes.form.household') }}</mat-radio-button>
+            <mat-radio-button
+              value="HOUSEHOLD"
+              [disabled]="noHousehold() && form.controls.visibility.value !== 'HOUSEHOLD'"
+              [attr.aria-describedby]="noHousehold() ? 'household-needed' : null"
+              >{{ t('recipes.form.household') }}</mat-radio-button
+            >
+            @if (noHousehold()) {
+              <p class="option-hint" id="household-needed">
+                {{ t('recipes.form.householdNeeded') }}
+                <a routerLink="/household">{{ t('nav.household') }}</a>
+              </p>
             }
-            @if (myGroups().length || form.controls.visibility.value === 'GROUPS') {
-              <mat-radio-button value="GROUPS">{{ t('recipes.form.groups') }}</mat-radio-button>
+            <mat-radio-button
+              value="GROUPS"
+              [disabled]="noGroups() && form.controls.visibility.value !== 'GROUPS'"
+              [attr.aria-describedby]="noGroups() ? 'groups-needed' : null"
+              >{{ t('recipes.form.groups') }}</mat-radio-button
+            >
+            @if (noGroups()) {
+              <p class="option-hint" id="groups-needed">
+                {{ t('recipes.form.groupsNeeded') }}
+                <a routerLink="/groups">{{ t('nav.groups') }}</a>
+              </p>
             }
             <mat-radio-button value="PUBLIC">{{ t('recipes.form.public') }}</mat-radio-button>
           </mat-radio-group>
