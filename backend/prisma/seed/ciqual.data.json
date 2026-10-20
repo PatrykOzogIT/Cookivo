@@ -1,4 +1,16 @@
 {
+  "2073": {
+    "nameFr": "Jus d'ananas, pur jus",
+    "nameEn": "Pineapple juice, pure juice",
+    "kcal": 52.9,
+    "protein": 0.41,
+    "fat": 0.07,
+    "saturatedFat": 0.03,
+    "carbs": 12.1,
+    "sugars": 12.1,
+    "fiber": 0.22,
+    "salt": 0.01
+  },
   "4000": {
     "nameFr": "Tapioca ou perles du Japon, cru",
     "nameEn": "Tapioca, raw",
@@ -106,6 +118,18 @@
     "sugars": 2.51,
     "fiber": 3.7,
     "salt": 1.2
+  },
+  "7352": {
+    "nameFr": "Galette de riz complet soufflé",
+    "nameEn": "Puffed rice textured bread, whole grain",
+    "kcal": 381,
+    "protein": 8.39,
+    "fat": 3,
+    "saturatedFat": 0.75,
+    "carbs": 77.9,
+    "sugars": 0.55,
+    "fiber": 3.4,
+    "salt": 0.22
   },
   "9001": {
     "nameFr": "Épeautre, cru",
@@ -959,6 +983,18 @@
     "fiber": 11.8,
     "salt": 0.91
   },
+  "13187": {
+    "nameFr": "Purée de pommes, type \"compote sans sucres ajoutés\", rayon ambiant",
+    "nameEn": "Stewed fruits, apple, no added sugars, (pulp or mixed fruits), room temperature",
+    "kcal": 56.4,
+    "protein": 1.13,
+    "fat": 0.28,
+    "saturatedFat": 0.08,
+    "carbs": 11.6,
+    "sugars": 11.6,
+    "fiber": 1.7,
+    "salt": 0
+  },
   "13614": {
     "nameFr": "Pamplemousse chinois, chair sans peau, sans pépins, cru",
     "nameEn": "Pummelo, flesh without skin, without seeds, raw",
@@ -993,6 +1029,18 @@
     "carbs": 13.5,
     "sugars": 13.1,
     "fiber": 1.5,
+    "salt": 0
+  },
+  "13734": {
+    "nameFr": "Poire au sirop léger, appertisée, égouttée",
+    "nameEn": "Pear, canned in light syrup, drained",
+    "kcal": 63.9,
+    "protein": 0.25,
+    "fat": 0.4,
+    "saturatedFat": null,
+    "carbs": 13.9,
+    "sugars": 11.5,
+    "fiber": 2.6,
     "salt": 0
   },
   "13742": {
@@ -1222,6 +1270,30 @@
     "sugars": 0,
     "fiber": 0,
     "salt": null
+  },
+  "18022": {
+    "nameFr": "Tisane infusée ou infusion, sans sucres ajoutés",
+    "nameEn": "Infusion, brewed, no added sugars",
+    "kcal": 0.8,
+    "protein": 0,
+    "fat": 0,
+    "saturatedFat": 0,
+    "carbs": 0.2,
+    "sugars": 0,
+    "fiber": 0,
+    "salt": 0
+  },
+  "18155": {
+    "nameFr": "Thé vert, infusé, sans sucres ajoutés",
+    "nameEn": "Green tea, brewed, no added sugars",
+    "kcal": 5.1,
+    "protein": 0,
+    "fat": 0,
+    "saturatedFat": null,
+    "carbs": 1.09,
+    "sugars": null,
+    "fiber": 0,
+    "salt": 0.01
   },
   "18899": {
     "nameFr": "Boisson à l'avoine, nature, sans sucres ajoutés, non enrichie, préemballée",
@@ -1463,6 +1535,18 @@
     "fiber": 0.5,
     "salt": 0.1
   },
+  "20036": {
+    "nameFr": "Petits pois, appertisés, égouttés",
+    "nameEn": "Garden peas, canned, drained",
+    "kcal": 92.5,
+    "protein": 4.87,
+    "fat": 0.8,
+    "saturatedFat": 0.15,
+    "carbs": 13.7,
+    "sugars": 3.59,
+    "fiber": 5.75,
+    "salt": 0.65
+  },
   "20038": {
     "nameFr": "Pissenlit, cru",
     "nameEn": "Dandelion, raw",
@@ -1474,6 +1558,54 @@
     "sugars": 0.71,
     "fiber": 3.5,
     "salt": 0.22
+  },
+  "20062": {
+    "nameFr": "Haricot vert, appertisé, égoutté",
+    "nameEn": "French bean, canned, drained",
+    "kcal": 23.2,
+    "protein": 1.34,
+    "fat": 0.32,
+    "saturatedFat": 0.08,
+    "carbs": 2.07,
+    "sugars": 0.77,
+    "fiber": 3.36,
+    "salt": 0.65
+  },
+  "20066": {
+    "nameFr": "Maïs doux, appertisé, égoutté",
+    "nameEn": "Corn, sweet, canned, drained",
+    "kcal": 105,
+    "protein": 2.66,
+    "fat": 1.68,
+    "saturatedFat": 0.26,
+    "carbs": 18.3,
+    "sugars": 2.37,
+    "fiber": 3.1,
+    "salt": 0.59
+  },
+  "20076": {
+    "nameFr": "Asperge, appertisée, égouttée",
+    "nameEn": "Asparagus, canned, drained",
+    "kcal": 20.3,
+    "protein": 1.57,
+    "fat": 0.65,
+    "saturatedFat": 0.15,
+    "carbs": 1.2,
+    "sugars": 1.03,
+    "fiber": 1.55,
+    "salt": 0.72
+  },
+  "20079": {
+    "nameFr": "Champignon de Paris ou champignon de couche, appertisé, égoutté",
+    "nameEn": "Button mushroom or cultivated mushroom, canned, drained",
+    "kcal": 18.3,
+    "protein": 2,
+    "fat": 0.37,
+    "saturatedFat": 0.07,
+    "carbs": 0.64,
+    "sugars": 0,
+    "fiber": 2.5,
+    "salt": 0.63
   },
   "20089": {
     "nameFr": "Radis noir, cru",
@@ -1727,6 +1859,18 @@
     "fiber": 1,
     "salt": 0.16
   },
+  "20360": {
+    "nameFr": "Lentille, bouillie/cuite à l'eau (aliment moyen)",
+    "nameEn": "Lentil, boiled/cooked in water (average)",
+    "kcal": 125,
+    "protein": 10.1,
+    "fat": 0.57,
+    "saturatedFat": 0.09,
+    "carbs": 16.2,
+    "sugars": 0.2,
+    "fiber": 8.45,
+    "salt": 0.02
+  },
   "20515": {
     "nameFr": "Pois cassé, sec",
     "nameEn": "Split pea, dried",
@@ -1979,6 +2123,18 @@
     "fiber": 0,
     "salt": 0.19
   },
+  "26035": {
+    "nameFr": "Sardine, sauce tomate, appertisée, égouttée",
+    "nameEn": "European pilchard or sardine, in tomato sauce, canned, drained",
+    "kcal": 194,
+    "protein": 20.2,
+    "fat": 11.6,
+    "saturatedFat": 3.04,
+    "carbs": 1.83,
+    "sugars": 0.5,
+    "fiber": 1,
+    "salt": 0.7
+  },
   "26055": {
     "nameFr": "Carrelet ou plie ou plie commune, cru",
     "nameEn": "European plaice, raw",
@@ -2050,6 +2206,18 @@
     "sugars": 0,
     "fiber": 0,
     "salt": 0.28
+  },
+  "26086": {
+    "nameFr": "Maquereau, filet sauce tomate, appertisé, égoutté",
+    "nameEn": "Mackerel, fillet, in tomato sauce, canned, drained",
+    "kcal": 240,
+    "protein": 17.7,
+    "fat": 16.3,
+    "saturatedFat": 3.37,
+    "carbs": 5.5,
+    "sugars": 1.9,
+    "fiber": 0.1,
+    "salt": 0.58
   },
   "26087": {
     "nameFr": "Maquereau, fumé",

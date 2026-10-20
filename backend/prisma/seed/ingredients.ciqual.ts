@@ -1557,4 +1557,112 @@ export const CIQUAL_CATALOG: CiqualItem[] = [
     category: 'VEGETABLES',
     units: { TABLESPOON: 3 },
   },
+  // --- Paczka 7: przetwory ze słoików i puszek, herbaty (pod import paragonów) -------
+  // Warzywa i grzyby z puszki / słoika (odsączone)
+  {
+    pl: 'Kukurydza konserwowa',
+    en: 'Canned sweet corn',
+    ciqual: 20066,
+    category: 'VEGETABLES',
+    units: { CAN: 285, TABLESPOON: 15 },
+  },
+  {
+    pl: 'Groszek konserwowy',
+    en: 'Canned green peas',
+    ciqual: 20036,
+    category: 'VEGETABLES',
+    units: { CAN: 260, TABLESPOON: 15 },
+  },
+  {
+    pl: 'Fasolka szparagowa konserwowa',
+    en: 'Canned green beans',
+    ciqual: 20062,
+    category: 'VEGETABLES',
+    units: { CAN: 230 },
+  },
+  {
+    pl: 'Szparagi konserwowe',
+    en: 'Canned asparagus',
+    ciqual: 20076,
+    category: 'VEGETABLES',
+    units: { CAN: 205, PIECE: 15 },
+  },
+  {
+    pl: 'Pieczarki konserwowe',
+    en: 'Canned button mushrooms',
+    ciqual: 20079,
+    category: 'MUSHROOMS',
+    units: { CAN: 175, TABLESPOON: 15 },
+  },
+  {
+    pl: 'Soczewica gotowana',
+    en: 'Cooked lentils',
+    ciqual: 20360,
+    category: 'LEGUMES',
+    units: { CAN: 265, GLASS: 200, TABLESPOON: 15 },
+  },
+  // Owoce i soki
+  {
+    pl: 'Mus jabłkowy bez dodatku cukru',
+    en: 'Unsweetened apple purée',
+    ciqual: 13187,
+    category: 'FRUITS',
+    units: { TABLESPOON: 20, GLASS: 250, PACKAGE: 360 },
+  },
+  {
+    pl: 'Gruszki w lekkim syropie (odsączone)',
+    en: 'Pears in light syrup, drained',
+    ciqual: 13734,
+    category: 'FRUITS',
+    units: { CAN: 230 },
+  },
+  {
+    pl: 'Sok ananasowy',
+    en: 'Pineapple juice',
+    ciqual: 2073,
+    category: 'BEVERAGES',
+    density: 1.05,
+  },
+  // Ryby z puszki
+  {
+    pl: 'Makrela w sosie pomidorowym',
+    en: 'Mackerel in tomato sauce',
+    ciqual: 26086,
+    category: 'FISH',
+    allergens: ['FISH'],
+    units: { CAN: 170 },
+  },
+  {
+    pl: 'Sardynki w sosie pomidorowym',
+    en: 'Sardines in tomato sauce',
+    ciqual: 26035,
+    category: 'FISH',
+    allergens: ['FISH'],
+    units: { CAN: 125 },
+  },
+  // Herbaty: kupuje się torebki, w kuchni liczy napar - 1 torebka = 1 kubek naparu
+  {
+    pl: 'Herbata zielona (napar)',
+    en: 'Brewed green tea',
+    ciqual: 18155,
+    category: 'BEVERAGES',
+    density: 1.0,
+    units: { PIECE: 250, GLASS: 250 },
+  },
+  {
+    pl: 'Herbata ziołowa lub owocowa (napar)',
+    en: 'Brewed herbal or fruit tea',
+    ciqual: 18022,
+    category: 'BEVERAGES',
+    density: 1.0,
+    units: { PIECE: 250, GLASS: 250 },
+  },
+  // Przekąski zbożowe
+  {
+    pl: 'Wafle ryżowe (naturalne)',
+    en: 'Plain rice cakes',
+    ciqual: 7352,
+    category: 'GRAINS',
+    units: { PIECE: 9, PACKAGE: 130 },
+  },
 ];

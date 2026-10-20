@@ -2255,6 +2255,8 @@ export const INGREDIENT_CATALOG: CatalogItem[] = [
     usda: 'Beverages, tea, black, brewed, prepared with tap water',
     category: 'BEVERAGES',
     density: 1.0,
+    // 1 torebka = 1 kubek naparu (na paragonie kupuje się opakowania torebek)
+    units: { PIECE: 250, GLASS: 250 },
   },
   {
     pl: 'Sok pomarańczowy',
