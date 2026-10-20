@@ -146,6 +146,21 @@
                 />
               </mat-form-field>
             </div>
+            @if (suggestion(); as g) {
+              <p class="global-hint">
+                <span class="material-symbols-rounded" aria-hidden="true">sell</span>
+                <span>{{
+                  t(g.sameStore ? 'prices.globalHintStore' : 'prices.globalHint', {
+                    price: money(g.priceCents),
+                    per: perLabel(g.packageUnitCode),
+                    store: s.name,
+                  })
+                }}</span>
+                <button mat-button type="button" (click)="useSuggestion(g)">
+                  {{ t('prices.useGlobal') }}
+                </button>
+              </p>
+            }
             <p class="hint">{{ t('prices.packageHint') }}</p>
             <div class="row">
               <button mat-flat-button class="ck-cta" type="submit" [disabled]="busy()">
@@ -173,6 +188,31 @@
                     <span class="unit-price"
                       >{{ money(e.unitPrice.cents) }} {{ perLabel(e.unitPrice.per) }}</span
                     >
+                    @if (e.stale && e.global && e.suggestedPriceCents !== null) {
+                      <span class="stale">
+                        {{
+                          t('prices.staleHint', {
+                            date: formatDate(e.updatedAt),
+                            price: money(e.global.unitPrice.cents),
+                            per: perLabel(e.global.unitPrice.per),
+                          })
+                        }}
+                        <button
+                          mat-stroked-button
+                          type="button"
+                          (click)="updateFromGlobal(e)"
+                          [disabled]="busy()"
+                          [attr.aria-label]="
+                            t('prices.updateFrom', {
+                              name: (e.ingredient | localized: lang()),
+                              price: money(e.suggestedPriceCents),
+                            })
+                          "
+                        >
+                          {{ t('prices.update') }}
+                        </button>
+                      </span>
+                    }
                   </div>
                   <div class="actions">
                     <button

@@ -100,7 +100,14 @@
     @if (cost(); as c) {
       <p class="total" aria-live="polite">
         <span class="material-symbols-rounded" aria-hidden="true">payments</span>
-        {{ t('prices.shoppingCost', { total: money(c.cents), list: c.listName }) }}
+        {{
+          c.listName
+            ? t('prices.shoppingCost', { total: money(c.cents), list: c.listName })
+            : t('prices.shoppingCostGlobal', { total: money(c.cents) })
+        }}
+        @if (c.listName && c.globalPriced) {
+          <span class="muted">{{ t('prices.globalCount', { count: c.globalPriced }) }}</span>
+        }
         @if (c.missing) {
           <span class="muted">{{ t('prices.missingCount', { count: c.missing }) }}</span>
         }
@@ -125,7 +132,12 @@
                   <strong>{{ label(i) }}</strong>
                   <span class="qty">{{ amount(i) }}</span>
                   @if (i.costCents !== null) {
-                    <span class="qty price">≈ {{ money(i.costCents) }}</span>
+                    <span class="qty price"
+                      >≈ {{ money(i.costCents) }}
+                      @if (i.costGlobal) {
+                        <span class="global-tag">{{ t('prices.globalTag') }}</span>
+                      }
+                    </span>
                   }
                   @if (i.note) {
                     <span class="qty">{{ i.note }}</span>

@@ -24,6 +24,7 @@ import {
   PricesApi,
   type Currency,
   type PriceEntries,
+  type GlobalSuggestion,
   type PriceEntry,
   type PriceList,
 } from './prices.api';
@@ -81,6 +82,8 @@ export class PricesPage implements OnInit {
   protected readonly busy = signal(false);
   protected readonly error = signal<string | null>(null);
   protected readonly draft = signal<Draft | null>(null);
+  /** Cena ogólna z paragonów dla składnika w formularzu */
+  protected readonly suggestion = signal<GlobalSuggestion | null>(null);
   protected readonly renaming = signal(false);
   protected readonly confirmDelete = signal(false);
 
@@ -191,6 +194,48 @@ export class PricesPage implements OnInit {
         existing?.packageUnitCode ?? (ingredient.units.some((u) => u.code === 'PIECE') ? 'PIECE' : 'kg'),
       price: existing ? this.num(existing.priceCents / 100) : '',
     });
+    void this.loadSuggestion(ingredient.id);
+  }
+
+  private async loadSuggestion(ingredientId: string): Promise<void> {
+    this.suggestion.set(null);
+    const s = this.selected();
+    if (!s) return;
+    try {
+      const g = await this.api.globalSuggestion(s.id, ingredientId);
+      if (this.draft()?.ingredient.id === ingredientId) this.suggestion.set(g);
+    } catch {
+      // podpowiedź jest dodatkiem - bez niej formularz działa normalnie
+    }
+  }
+
+  /** "Użyj": opakowanie 1 kg / 1 l / 1 szt. po cenie ogólnej */
+  protected useSuggestion(g: GlobalSuggestion): void {
+    this.patchDraft({
+      packageAmount: '1',
+      packageUnitCode: g.packageUnitCode,
+      price: this.num(g.priceCents / 100),
+    });
+  }
+
+  /** "Zaktualizuj": to samo opakowanie, cena wg ceny ogólnej (zapis jak ręczna zmiana) */
+  protected async updateFromGlobal(e: PriceEntry): Promise<void> {
+    const s = this.selected();
+    if (!s || e.suggestedPriceCents === null) return;
+    await this.run(async () => {
+      this.data.set(
+        await this.api.setEntry(s.id, {
+          ingredientId: e.ingredient.id,
+          packageAmount: e.packageAmount,
+          packageUnitCode: e.packageUnitCode,
+          price: e.suggestedPriceCents! / 100,
+        }),
+      );
+    });
+  }
+
+  protected formatDate(iso: string): string {
+    return new Intl.DateTimeFormat(this.lang(), { dateStyle: 'medium' }).format(new Date(iso));
   }
 
   /** Edycja z listy: pełne dane składnika (jednostki kuchenne, gęstość) pobieramy z bazy */

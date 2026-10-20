@@ -269,6 +269,16 @@
                     })
                   }}
                 </p>
+                @if (c.globalPriced) {
+                  <p class="muted small">
+                    {{
+                      c.listName ? t('prices.globalCount', { count: c.globalPriced }) : t('prices.globalAll')
+                    }}
+                    @if (!c.listName) {
+                      <a routerLink="/prices">{{ t('prices.ownList') }}</a>
+                    }
+                  </p>
+                }
                 @if (c.missing.length) {
                   <p class="muted small">
                     {{ t('prices.missing', { names: missingNames(c) }) }}

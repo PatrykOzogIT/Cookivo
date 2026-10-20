@@ -176,7 +176,7 @@ describe('Cenniki i koszty (e2e)', () => {
         .set(bearer(me))
         .expect(200)
     ).body;
-    expect(week.cost).toEqual({ currency: 'PLN', cents: 340, missing: 0 });
+    expect(week.cost).toEqual({ currency: 'PLN', cents: 340, missing: 0, globalPriced: 0 });
   });
 
   it('cennik gospodarstwa jest wspólny; obcy go nie widzi', async () => {

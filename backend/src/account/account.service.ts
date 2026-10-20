@@ -280,8 +280,9 @@ export class AccountService {
         status: r.status,
         createdAt: r.createdAt,
       })),
-      // Historia cen z paragonów (konto bez gospodarstwa; ceny gospodarstwa są wspólne)
+      // Historia cen z paragonów i wpisanych ręcznie (konto bez gospodarstwa; ceny gospodarstwa są wspólne)
       priceHistory: user.priceObservations.map((o) => ({
+        source: o.source,
         ingredient: o.ingredient.namePl,
         store: o.storeName,
         purchasedOn: o.purchasedOn?.toISOString().slice(0, 10) ?? null,

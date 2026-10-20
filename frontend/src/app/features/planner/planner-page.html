@@ -16,6 +16,9 @@
           <p class="week-cost">
             <span class="material-symbols-rounded" aria-hidden="true">payments</span>
             {{ t('prices.weekCost', { total: money(c.cents, c.currency) }) }}
+            @if (c.globalPriced) {
+              <span class="muted">{{ t('prices.globalCount', { count: c.globalPriced }) }}</span>
+            }
             @if (c.missing) {
               <span class="muted">{{ t('prices.missingCount', { count: c.missing }) }}</span>
             }

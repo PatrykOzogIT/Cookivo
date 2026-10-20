@@ -421,7 +421,14 @@ export class PlannerService {
       cooks.map((c) => ({ recipeId: c.recipeId, factor: c.servings / Math.max(1, c.recipe.servings) })),
     );
     const cost = await this.prices.cost(scope, need);
-    return cost ? { currency: cost.currency, cents: cost.cents, missing: cost.missing.length } : null;
+    return cost
+      ? {
+          currency: cost.currency,
+          cents: cost.cents,
+          missing: cost.missing.length,
+          globalPriced: cost.globalPriced,
+        }
+      : null;
   }
 
   /** Liczba osób w gospodarstwie (z dziećmi bez konta) */

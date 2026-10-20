@@ -140,7 +140,8 @@ backend/
   src/planner/       planer: gotowania (partie) i posiłki, zapasy, bilans dnia, kopiowanie
   src/pantry/        lodówka i spiżarnia (ilość opcjonalna, także kg i l, daty ważności)
   src/shopping/      lista zakupów: z planu i z przepisu (z podprzepisami), minus lodówka; ręcznie z ilością (kg, l, sztuki...)
-  src/prices/        cenniki (ceny za opakowanie), historia cen z paragonów i szacowane koszty przepisów, listy i tygodnia
+  src/prices/        cenniki (ceny za opakowanie), historia cen, ceny ogólne z paragonów (mediana)
+                     i szacowane koszty przepisów, listy i tygodnia
   src/ratings/       oceny 1-5 z komentarzami, średnia zapisana w przepisie
   src/account/       ustawienia konta, urządzenia, eksport danych i usunięcie konta (RODO)
   src/moderation/    filtr wulgaryzmów

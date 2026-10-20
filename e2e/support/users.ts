@@ -17,7 +17,8 @@ export function newUser(prefix: string): TestUser {
   return { username: `${prefix}_${id}`.slice(0, 20), email: `${prefix}.${id}@e2e.cookivo.test` };
 }
 
-async function sql(query: string, params: unknown[]): Promise<void> {
+/** Bezpośredni zapis w testowej bazie (dane, których nie da się utworzyć przez UI bez płatnego API) */
+export async function sql(query: string, params: unknown[]): Promise<void> {
   const client = new Client({ connectionString: DATABASE_URL.replace(/\?.*$/, '') });
   await client.connect();
   try {

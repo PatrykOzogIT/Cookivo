@@ -112,3 +112,32 @@
 .price {
   color: var(--ck-text);
 }
+
+// Podpowiedź ceny ogólnej w formularzu i przy starej cenie
+.global-hint {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 8px;
+  margin: 12px 0 0;
+  font-size: 0.9rem;
+  > .material-symbols-rounded {
+    color: var(--ck-link);
+    font-size: 20px;
+  }
+  // Tekst obok ikony nawet na wąskim ekranie; przycisk przechodzi niżej, gdy brak miejsca
+  > span:not(.material-symbols-rounded) {
+    flex: 1 1 12rem;
+  }
+}
+
+.stale {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 10px;
+  margin-top: 4px;
+  font-size: 0.85rem;
+  color: var(--ck-text-muted);
+  flex-basis: 100%;
+}

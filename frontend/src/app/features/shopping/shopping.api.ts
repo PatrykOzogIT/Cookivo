@@ -30,15 +30,20 @@ export interface ShoppingItem {
   checkedBy: string | null;
   /** Koszt pozycji wg domyślnego cennika (null = brak ceny) */
   costCents: number | null;
+  /** Koszt z ceny ogólnej (brak w cenniku) */
+  costGlobal: boolean;
   updatedAt: string;
 }
 
 export interface ShoppingCost {
   currency: string;
-  listName: string;
+  /** null = brak cennika (same ceny ogólne) */
+  listName: string | null;
   cents: number;
   priced: number;
   missing: number;
+  /** Ile pozycji wyceniono cenami ogólnymi z paragonów */
+  globalPriced: number;
 }
 
 export interface AddResult {

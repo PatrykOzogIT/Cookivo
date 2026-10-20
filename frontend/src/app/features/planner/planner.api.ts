@@ -118,7 +118,7 @@ export interface PlanWeek {
   targets: Targets | null;
   persons: PlanPerson[];
   /** Koszt gotowań w tygodniu wg domyślnego cennika (null = brak cennika) */
-  cost: { currency: string; cents: number; missing: number } | null;
+  cost: { currency: string; cents: number; missing: number; globalPriced: number } | null;
   meals: PlanMeal[];
   leftovers: Leftover[];
 }

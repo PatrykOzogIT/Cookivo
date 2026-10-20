@@ -754,6 +754,7 @@
               "Reading a recipe from photos (optional): the photos you choose in the recipe form. Purpose: reading the recipe text and filling in the form for you to check. Photos are not saved - they are deleted after reading; we only keep a usage counter (date, number of photos, result) needed for daily limits. Do not send photos containing other people’s personal data. Legal basis: contract (Art. 6(1)(b) GDPR).",
               "Reading a receipt from photos (optional): the receipt photos you choose in the pantry or price lists. Purpose: reading the purchased products, quantities and prices for you to check before saving. Photos are not saved - they are deleted after reading; we only keep a usage counter (as for recipes). After you confirm, we save the selected products in the pantry and the prices in the price list and the price history (product, regular price, package size, shop and purchase date); in a household, its members see them. We do not save the full receipt, payment amounts or card details. Legal basis: contract (Art. 6(1)(b) GDPR).",
               "Receipt product links and ingredient requests: when you confirm a receipt import, we remember which ingredient was assigned to the product name printed on the receipt in a given shop chain (e.g. \"MlekoŚw3,2 1l\" at Biedronka → Milk 3.2%). We suggest your assignments to you and your household, and a summary of many people's assignments to all users (without showing who bought what). Product names from a reading are kept until you confirm the import, at most one day. When you report a missing product, we store the name you give, the receipt text and the shop - the administrator sees them, and we email you when the product is added. Legal basis: contract (Art. 6(1)(b) GDPR).",
+              "General prices: regular prices from all users' confirmed receipts from the last 60 days are combined into a general product price (the median, separately for each shop chain) and shown to others in price lists and cost estimates. We do not show who bought the product or when. Price history also includes prices entered manually in a price list - these are not used for general prices. Legal basis: our legitimate interest in helping users estimate shopping costs (Art. 6(1)(f) GDPR); you can object by writing to kontakt@cookivo.pl.",
               "Security: IP address and browser information for sign-in sessions, number of failed sign-ins and the consent history with IP address. Purpose: protecting accounts against takeover, detecting abuse and demonstrating consent. Legal basis: our legitimate interest (Art. 6(1)(f) GDPR) and the duty to demonstrate consent (Art. 7(1) GDPR).",
               "Moderation: reports about content and users, moderator decisions and account blocks with reasons. Purpose: countering illegal content and content that breaks the terms, and obligations under the Digital Services Act (DSA). Legal basis: legal obligation and legitimate interest (Art. 6(1)(c) and (f) GDPR).",
               "Correspondence: when you write to us - your email address and the message, so we can reply. Legal basis: legitimate interest (Art. 6(1)(f) GDPR)."
@@ -799,6 +800,7 @@
               "Photos for reading a recipe or receipt - not kept after reading; usage counter - 90 days.",
               "Price history from receipts - until the price list it belongs to or the account (in a household - the household) is deleted.",
               "Receipt product links and ingredient requests - until you delete the account; product names from an unconfirmed receipt reading - one day.",
+              "Receipt prices in general prices - calculated from the last 60 days; the history entries themselves - as for price history.",
               "Consent history - for as long as the account exists.",
               "Reports and moderation decisions - until the reported content or the reporter’s account is deleted.",
               "Database backups at our provider - up to a few days, after which the data also disappears from backups."
@@ -1503,7 +1505,18 @@
     "missing": "No price: {{names}}.",
     "missingCount": "no price: {{count}} items",
     "addPrices": "Complete the price list",
-    "noList": "Create a price list to see the recipe cost."
+    "noList": "Create a price list to see the recipe cost.",
+    "shoppingCostGlobal": "Estimated cost: approx. {{total}} (based on general prices from receipts)",
+    "globalCount": "incl. general prices: {{count}} items",
+    "globalTag": "(general price)",
+    "globalAll": "Cost based on general prices from users' receipts.",
+    "ownList": "Create your own price list",
+    "globalHint": "General price from receipts: approx. {{price}} {{per}}.",
+    "globalHintStore": "General price at \"{{store}}\": approx. {{price}} {{per}}.",
+    "useGlobal": "Use",
+    "staleHint": "Your price from {{date}} · general price now: approx. {{price}} {{per}}",
+    "update": "Update",
+    "updateFrom": "Update price: {{name}} to {{price}}"
   },
   "variants": {
     "title": "Alternatives",

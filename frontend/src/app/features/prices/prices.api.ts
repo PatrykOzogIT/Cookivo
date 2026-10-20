@@ -23,6 +23,20 @@ export interface PriceEntry {
   /** Cena do porównań: za kg, l albo sztukę */
   unitPrice: { cents: number; per: 'kg' | 'l' | 'PIECE' };
   updatedAt: string;
+  /** Cena ogólna z paragonów (za kg / l / szt.); sameStore = z sieci o nazwie cennika */
+  global: { unitPrice: { cents: number; per: 'kg' | 'l' | 'PIECE' }; sameStore: boolean } | null;
+  /** Własna cena stara, a ogólna świeża i wyraźnie inna */
+  stale: boolean;
+  /** Cena tego samego opakowania wg ceny ogólnej (do "Zaktualizuj") */
+  suggestedPriceCents: number | null;
+}
+
+/** Podpowiedź ceny ogólnej przy dodawaniu ceny: 1 kg / 1 l / 1 szt. */
+export interface GlobalSuggestion {
+  packageAmount: number;
+  packageUnitCode: 'kg' | 'l' | 'PIECE';
+  priceCents: number;
+  sameStore: boolean;
 }
 
 export interface PriceEntries {
@@ -40,7 +54,10 @@ export interface SavePriceEntry {
 /** Szacowany koszt (null = brak cennika) */
 export interface Cost {
   currency: Currency;
-  listName: string;
+  /** null = brak własnego cennika (same ceny ogólne) */
+  listName: string | null;
+  /** Ile składników wyceniono cenami ogólnymi z paragonów */
+  globalPriced: number;
   cents: number;
   priced: number;
   missing: (Localized & { id: string })[];
@@ -77,6 +94,16 @@ export class PricesApi {
 
   setEntry(id: string, body: SavePriceEntry): Promise<PriceEntries> {
     return firstValueFrom(this.http.put<PriceEntries>(`/api/prices/${id}/entries`, body));
+  }
+
+  async globalSuggestion(listId: string, ingredientId: string): Promise<GlobalSuggestion | null> {
+    return (
+      await firstValueFrom(
+        this.http.get<{ suggestion: GlobalSuggestion | null }>(
+          `/api/prices/${listId}/global/${ingredientId}`,
+        ),
+      )
+    ).suggestion;
   }
 
   removeEntry(id: string, entryId: string): Promise<PriceEntries> {

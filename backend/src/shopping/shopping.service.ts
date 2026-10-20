@@ -60,8 +60,11 @@ export class ShoppingService {
       include: ITEM_INCLUDE,
       orderBy: [{ checked: 'asc' }, { createdAt: 'asc' }],
     });
-    // Koszt: to, co jeszcze do kupienia (nieodhaczone, z ilością), wg domyślnego cennika
-    const prices = await this.prices.defaultPrices(scope);
+    // Koszt: to, co jeszcze do kupienia (nieodhaczone, z ilością) - własny cennik, braki z cen ogólnych
+    const prices = await this.prices.effectivePrices(
+      scope,
+      rows.filter((r) => r.ingredientId).map((r) => r.ingredientId!),
+    );
     const need = new Map<string, number>();
     for (const r of rows) {
       if (!r.checked && r.ingredientId && r.grams)
@@ -74,6 +77,8 @@ export class ShoppingService {
         return {
           ...toDto(r),
           costCents: perGram !== undefined && r.grams ? Math.round(r.grams * perGram) : null,
+          /** Koszt z ceny ogólnej (brak w cenniku) */
+          costGlobal: !!r.ingredientId && !!prices?.globalIds.has(r.ingredientId),
         };
       }),
       cost: cost
@@ -83,6 +88,7 @@ export class ShoppingService {
             cents: cost.cents,
             priced: cost.priced,
             missing: cost.missing.length,
+            globalPriced: cost.globalPriced,
           }
         : null,
     };

@@ -2,6 +2,7 @@ import { BadRequestException, Injectable, NotFoundException } from '@nestjs/comm
 import type { AuthUser } from '../common/auth.decorators.js';
 import { ownerScope, type OwnerScope } from '../common/owner-scope.js';
 import type { Prisma } from '../generated/prisma/client.js';
+import type { GlobalPrice } from './global-prices.js';
 import { containsProfanity } from '../moderation/profanity.js';
 import { PrismaService } from '../prisma/prisma.service.js';
 import { ingredientForMath, RecipeCalculatorService } from '../recipes/recipe-calculator.service.js';
@@ -10,12 +11,17 @@ import { RecipesService } from '../recipes/recipes.service.js';
 import { ingredientNeeds } from '../shopping/recipe-loader.js';
 import { LIQUID_CATEGORIES } from '../shopping/shopping-math.js';
 import { costOf, normalizePackageUnit, unitPrice } from './cost-math.js';
+import { isStale } from './global-prices.js';
+import { GlobalPricesService } from './global-prices.service.js';
 import type { PriceEntryDto, PriceListDto, UpdatePriceListDto } from './prices.dto.js';
 
 /** Szacunek kosztu do pokazania w interfejsie */
 export interface CostSummary {
   currency: string;
-  listName: string;
+  /** null = brak własnego cennika (same ceny ogólne) */
+  listName: string | null;
+  /** Ile składników wyceniono cenami ogólnymi z paragonów */
+  globalPriced: number;
   cents: number;
   priced: number;
   missing: { id: string; namePl: string; nameEn: string | null }[];
@@ -31,6 +37,7 @@ export class PricesService {
     private readonly prisma: PrismaService,
     private readonly calculator: RecipeCalculatorService,
     private readonly recipes: RecipesService,
+    private readonly global: GlobalPricesService,
   ) {}
 
   async lists(userId: string) {
@@ -109,26 +116,83 @@ export class PricesService {
       include: { ingredient: { include: { category: true, units: true } } },
       orderBy: { ingredient: { namePl: 'asc' } },
     });
+    const global = await this.global.forIngredients(
+      rows.map((e) => e.ingredientId),
+      list.currency,
+      list.name,
+    );
     return {
       list: { id: list.id, name: list.name, currency: list.currency, isDefault: list.isDefault },
-      entries: rows.map((e) => ({
-        id: e.id,
-        ingredient: {
-          id: e.ingredient.id,
-          namePl: e.ingredient.namePl,
-          nameEn: e.ingredient.nameEn,
-          category: { code: e.ingredient.category.code, icon: e.ingredient.category.icon },
-        },
-        packageAmount: e.packageAmount,
-        packageUnitCode: e.packageUnitCode,
-        priceCents: e.priceCents,
-        unitPrice: unitPrice(e, {
-          density: e.ingredient.density,
-          pieceGrams: e.ingredient.units.find((u) => u.unitCode === 'PIECE')?.grams ?? null,
-          liquid: LIQUID_CATEGORIES.has(e.ingredient.category.code),
-        }),
-        updatedAt: e.updatedAt,
-      })),
+      entries: rows.map((e) => this.entryDto(e, global.get(e.ingredientId) ?? null)),
+    };
+  }
+
+  private entryDto(
+    e: Prisma.PriceEntryGetPayload<{ include: { ingredient: { include: { category: true; units: true } } } }>,
+    global: GlobalPrice | null,
+  ) {
+    const shelf = {
+      density: e.ingredient.density,
+      pieceGrams: e.ingredient.units.find((u) => u.unitCode === 'PIECE')?.grams ?? null,
+      liquid: LIQUID_CATEGORIES.has(e.ingredient.category.code),
+    };
+    const stale = global
+      ? isStale({ centsPerGram: e.priceCents / e.packageGrams, updatedAt: e.updatedAt }, global)
+      : false;
+    return {
+      id: e.id,
+      ingredient: {
+        id: e.ingredient.id,
+        namePl: e.ingredient.namePl,
+        nameEn: e.ingredient.nameEn,
+        category: { code: e.ingredient.category.code, icon: e.ingredient.category.icon },
+      },
+      packageAmount: e.packageAmount,
+      packageUnitCode: e.packageUnitCode,
+      priceCents: e.priceCents,
+      unitPrice: unitPrice(e, shelf),
+      updatedAt: e.updatedAt,
+      /** Cena ogólna z paragonów (za kg / l / szt.) i czy własna wymaga aktualizacji */
+      global: global
+        ? {
+            unitPrice: unitPrice({ priceCents: global.centsPerGram * 1000, packageGrams: 1000 }, shelf),
+            sameStore: global.storeKey !== null,
+          }
+        : null,
+      stale,
+      /** Cena tego samego opakowania wg ceny ogólnej - do przycisku "Zaktualizuj" */
+      suggestedPriceCents: stale && global ? Math.round(global.centsPerGram * e.packageGrams) : null,
+    };
+  }
+
+  /** Podpowiedź ceny ogólnej przy dodawaniu ceny: 1 kg / 1 l / 1 szt. w walucie cennika */
+  async globalSuggestion(userId: string, listId: string, ingredientId: string) {
+    const scope = await ownerScope(this.prisma, userId);
+    const list = await this.findList(scope, listId);
+    const ingredient = await this.prisma.ingredient.findUnique({
+      where: { id: ingredientId },
+      include: { category: true, units: true },
+    });
+    if (!ingredient) throw new NotFoundException({ code: 'INGREDIENT_UNKNOWN' });
+    const global = (await this.global.forIngredients([ingredientId], list.currency, list.name)).get(
+      ingredientId,
+    );
+    if (!global) return { suggestion: null };
+    const price = unitPrice(
+      { priceCents: global.centsPerGram * 1000, packageGrams: 1000 },
+      {
+        density: ingredient.density,
+        pieceGrams: ingredient.units.find((u) => u.unitCode === 'PIECE')?.grams ?? null,
+        liquid: LIQUID_CATEGORIES.has(ingredient.category.code),
+      },
+    );
+    return {
+      suggestion: {
+        packageAmount: 1,
+        packageUnitCode: price.per,
+        priceCents: price.cents,
+        sameStore: global.storeKey !== null,
+      },
     };
   }
 
@@ -143,10 +207,26 @@ export class PricesService {
     if (!ingredient || (ingredient.status !== 'APPROVED' && ingredient.createdById !== user.id)) {
       throw new NotFoundException({ code: 'INGREDIENT_UNKNOWN' });
     }
-    await this.upsertEntry(list.id, ingredient, {
+    const entry = {
       packageAmount: dto.packageAmount,
       packageUnitCode: dto.packageUnitCode,
       priceCents: Math.round(dto.price * 100),
+    };
+    const packageGrams = await this.upsertEntry(list.id, ingredient, entry);
+    // Historia cen: także ceny wpisane ręcznie (nie liczą się do cen ogólnych)
+    await this.prisma.priceObservation.create({
+      data: {
+        ...scope,
+        listId: list.id,
+        ingredientId: ingredient.id,
+        source: 'MANUAL',
+        storeName: list.name.slice(0, 80),
+        purchasedOn: new Date(new Date().toISOString().slice(0, 10)),
+        currency: list.currency,
+        ...entry,
+        packageGrams,
+        packages: 1,
+      },
     });
     return this.entries(user.id, list.id);
   }
@@ -208,9 +288,24 @@ export class PricesService {
     };
   }
 
-  /** Koszt potrzebnych gramów (lista zakupów, plan) wg domyślnego cennika */
+  /**
+   * Ceny do liczenia kosztów: własny domyślny cennik, a braki (albo brak cennika) - ceny ogólne
+   * z paragonów (najpierw z sieci o nazwie cennika). null = nie ma żadnych cen.
+   */
+  async effectivePrices(scope: OwnerScope, ingredientIds: string[]) {
+    const own = await this.defaultPrices(scope);
+    const currency = own?.list.currency ?? 'PLN';
+    const missing = ingredientIds.filter((id) => !own?.centsPerGram.has(id));
+    const global = await this.global.forIngredients(missing, currency, own?.list.name ?? null);
+    if (!own && !global.size) return null;
+    const centsPerGram = new Map(own?.centsPerGram ?? []);
+    for (const [id, g] of global) centsPerGram.set(id, g.centsPerGram);
+    return { currency, listName: own?.list.name ?? null, centsPerGram, globalIds: new Set(global.keys()) };
+  }
+
+  /** Koszt potrzebnych gramów (lista zakupów, plan, przepis): własne ceny, braki z cen ogólnych */
   async cost(scope: OwnerScope, need: Map<string, number>): Promise<CostSummary | null> {
-    const prices = await this.defaultPrices(scope);
+    const prices = await this.effectivePrices(scope, [...need.keys()]);
     if (!prices) return null;
     const result = costOf(need, prices.centsPerGram);
     const missing = result.missing.length
@@ -221,8 +316,9 @@ export class PricesService {
         })
       : [];
     return {
-      currency: prices.list.currency,
-      listName: prices.list.name,
+      currency: prices.currency,
+      listName: prices.listName,
+      globalPriced: [...need.keys()].filter((id) => prices.globalIds.has(id)).length,
       cents: result.cents,
       priced: result.priced,
       missing,

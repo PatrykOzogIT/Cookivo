@@ -36,6 +36,16 @@ export class PricesController {
     return this.prices.entries(user.id, id);
   }
 
+  /** Cena ogólna z paragonów dla składnika (podpowiedź przy dodawaniu ceny) */
+  @Get('prices/:id/global/:ingredientId')
+  globalSuggestion(
+    @CurrentUser() user: AuthUser,
+    @Param('id', ParseUUIDPipe) id: string,
+    @Param('ingredientId', ParseUUIDPipe) ingredientId: string,
+  ) {
+    return this.prices.globalSuggestion(user.id, id, ingredientId);
+  }
+
   @Put('prices/:id/entries')
   setEntry(
     @CurrentUser() user: AuthUser,
