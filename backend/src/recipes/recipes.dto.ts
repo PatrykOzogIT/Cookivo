@@ -186,6 +186,11 @@ export class SaveRecipeDto {
   @Length(3, 150)
   title!: string;
 
+  /** Tylko przy tworzeniu: nowy przepis jest wersją tego (np. "Zrób z tego wersję…" od asystenta) */
+  @IsOptional()
+  @IsUUID()
+  variantOfId?: string;
+
   @IsOptional()
   @Transform(emptyToUndefined)
   @IsString()

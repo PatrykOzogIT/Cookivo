@@ -32,6 +32,7 @@ import type { Difficulty, Photo, RecipeDetail, SaveRecipe, Visibility } from '..
 import { LineItemPickerComponent } from './line-item-picker';
 import { PhotoPickerComponent } from './photo-picker';
 import { RecipeImportPanel } from './recipe-import-panel';
+import { AssistantStore } from '../../assistant/assistant.store';
 import { toLineItem, type RecipeDraft } from '../recipe-import.api';
 
 type LineGroup = FormGroup<{
@@ -106,7 +107,12 @@ export class RecipeFormPage implements OnInit {
   /** Parametr trasy :id - tylko przy edycji */
   readonly id = input<string>();
   /** Edytowany przepis jest wariantem - pokazujemy pole "co zmieniono" */
-  protected readonly variantOf = signal<RecipeDetail['variantOf']>(null);
+  protected readonly variantSource = signal<RecipeDetail['variantOf']>(null);
+  /** ?variantOf= - nowy przepis to wersja od asystenta ("Zrób z tego wersję…") */
+  readonly variantOf = input<string>();
+  /** Co asystent zmienił i dlaczego (pokazujemy nad formularzem) */
+  protected readonly assistantChanges = signal<{ change: string; why: string }[] | null>(null);
+  private readonly assistant = inject(AssistantStore);
 
   protected readonly difficulties: Difficulty[] = ['EASY', 'MEDIUM', 'HARD'];
   protected readonly maxGallery = MAX_GALLERY;
@@ -160,6 +166,14 @@ export class RecipeFormPage implements OnInit {
   async ngOnInit(): Promise<void> {
     const id = this.id();
     if (!id) {
+      const v = this.assistant.variantDraft();
+      if (v && v.recipeId === this.variantOf()) {
+        this.applyDraft(v.draft);
+        this.assistantChanges.set(v.changes);
+        this.variantSource.set({ id: v.recipeId, title: v.originalTitle, author: null, viewable: true });
+        this.assistant.variantDraft.set(null);
+        return;
+      }
       this.addLine();
       this.addStep();
       return;
@@ -385,6 +399,7 @@ export class RecipeFormPage implements OnInit {
       canBeIngredient: v.canBeIngredient,
       cookedGrams: parseDecimal(v.cookedGrams),
       variantNote: v.variantNote.trim() || null,
+      ...(!this.id() && this.variantSource() ? { variantOfId: this.variantSource()!.id } : {}),
       mealTypes: v.mealTypes,
       ingredients: v.ingredients.map((l) => ({
         ...(l.item!.kind === 'recipe' ? { subRecipeId: l.item!.id } : { ingredientId: l.item!.id }),
@@ -405,7 +420,7 @@ export class RecipeFormPage implements OnInit {
   private fill(r: RecipeDetail): void {
     const text = (n: number | null) => (n === null ? '' : String(n));
     const decimal = (n: number) => formatNumber(n, this.lang(), 3).replace(/\s/g, '');
-    this.variantOf.set(r.variantOf);
+    this.variantSource.set(r.variantOf);
     this.form.patchValue({
       title: r.title,
       description: r.description ?? '',

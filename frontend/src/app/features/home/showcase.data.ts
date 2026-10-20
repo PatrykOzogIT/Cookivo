@@ -21,6 +21,7 @@ export const SLIDES: readonly ShowcaseSlide[] = [
   { key: 'pantry', icon: 'kitchen', access: 'account', optional: true, path: '/pantry' },
   { key: 'budget', icon: 'sell', access: 'account', optional: true, path: '/prices' },
   { key: 'receipts', icon: 'photo_camera', access: 'account', optional: true, path: '/receipt-import' },
+  { key: 'assistant', icon: 'star_shine', access: 'account', optional: true, path: '/planner' },
   { key: 'household', icon: 'group', access: 'account', optional: true, path: '/household' },
   { key: 'groups', icon: 'diversity_3', access: 'account', optional: true, path: '/groups' },
 ];

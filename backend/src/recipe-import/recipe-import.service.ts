@@ -74,7 +74,8 @@ export class RecipeImportService {
   }
 
   /** Szkic przepisu: dopasowanie składników do bazy i sprawdzenie jednostek */
-  private async toDraft(e: Extraction, user: AuthUser) {
+  /** Szkic przepisu z odczytu (także z wersji przepisu od asystenta) */
+  async toDraft(e: Extraction, user: AuthUser) {
     const unitMl = await this.calculator.unitMl();
     const ingredients = await Promise.all(
       e.ingredients.map(async (line) => {

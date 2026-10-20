@@ -1000,6 +1000,10 @@ model RecipeFriendGroup {
 enum AiImportKind {
   RECIPE
   RECEIPT
+  /// Zadanie asystenta (plan, przepisy z lodówki, wersja przepisu) - liczy się do limitu asystenta
+  ASSISTANT
+  /// Rozpoznanie prośby do asystenta (tani krok, osobny dzienny limit)
+  ASSISTANT_ROUTE
 }
 
 /**

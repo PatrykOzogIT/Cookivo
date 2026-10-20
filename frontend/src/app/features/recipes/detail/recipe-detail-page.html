@@ -303,6 +303,18 @@
                 </p>
               }
             </div>
+            @if (assistant.status()?.enabled) {
+              <div class="to-shopping">
+                <button
+                  mat-stroked-button
+                  type="button"
+                  (click)="assistant.openFor({ id: r.id, title: r.title })"
+                >
+                  <span class="material-symbols-rounded" aria-hidden="true">star_shine</span>
+                  {{ t('assistant.variant.open') }}
+                </button>
+              </div>
+            }
           }
         </section>
 

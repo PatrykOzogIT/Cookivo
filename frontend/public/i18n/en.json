@@ -157,7 +157,8 @@
     "CURRENCY_MISMATCH": "The receipt's currency differs from the price list's currency.",
     "PRICE_LIST_REQUIRED": "Choose or create a price list.",
     "PRICE_LIST_CONFLICT": "Someone in your household just changed the price lists. Confirm the import again.",
-    "REQUEST_LIMIT": "You already have many requests waiting for review. Try again once some are added."
+    "REQUEST_LIMIT": "You already have many requests waiting for review. Try again once some are added.",
+    "ASSISTANT_EMPTY": "Tell me what you need help with."
   },
   "auth": {
     "fields": {
@@ -363,6 +364,15 @@
           "need": "optional – just a receipt photo; you check everything before saving.",
           "cta": "Import a receipt",
           "ctaGuest": "Create an account and import a receipt"
+        },
+        "assistant": {
+          "tab": "Assistant",
+          "title": "A week of meals from one sentence",
+          "body": "Say what you want – the assistant builds a plan from recipes matching your allergies and goals, suggests what to cook from your pantry and makes a vegan or lighter version of a recipe. You approve everything.",
+          "where": "The \"Assistant\" button in the corner of the screen",
+          "need": "optional – just a request; daily task limit.",
+          "cta": "Open the planner",
+          "ctaGuest": "Create an account and try the assistant"
         }
       },
       "p": {
@@ -472,7 +482,20 @@
           "name": "Banana",
           "amount": "1.25 kg · 5.99 zł/kg"
         },
-        "receiptHint": "3 products to the pantry, prices to the \"Biedronka\" list"
+        "receiptHint": "3 products to the pantry, prices to the \"Biedronka\" list",
+        "as0": "\"Light breakfasts for work, filling dinners, sweet suppers\"",
+        "as1": {
+          "name": "Mon · Apple porridge",
+          "meta": "412 kcal"
+        },
+        "as2": {
+          "name": "Mon · Beef goulash",
+          "meta": "2 days"
+        },
+        "as3": {
+          "name": "Mon · Apple pancakes",
+          "meta": "380 kcal"
+        }
       },
       "scale": {
         "basic": "Basics",
@@ -755,6 +778,7 @@
               "Reading a receipt from photos (optional): the receipt photos you choose in the pantry or price lists. Purpose: reading the purchased products, quantities and prices for you to check before saving. Photos are not saved - they are deleted after reading; we only keep a usage counter (as for recipes). After you confirm, we save the selected products in the pantry and the prices in the price list and the price history (product, regular price, package size, shop and purchase date); in a household, its members see them. We do not save the full receipt, payment amounts or card details. Legal basis: contract (Art. 6(1)(b) GDPR).",
               "Receipt product links and ingredient requests: when you confirm a receipt import, we remember which ingredient was assigned to the product name printed on the receipt in a given shop chain (e.g. \"MlekoŚw3,2 1l\" at Biedronka → Milk 3.2%). We suggest your assignments to you and your household, and a summary of many people's assignments to all users (without showing who bought what). Product names from a reading are kept until you confirm the import, at most one day. When you report a missing product, we store the name you give, the receipt text and the shop - the administrator sees them, and we email you when the product is added. Legal basis: contract (Art. 6(1)(b) GDPR).",
               "General prices: regular prices from all users' confirmed receipts from the last 60 days are combined into a general product price (the median, separately for each shop chain) and shown to others in price lists and cost estimates. We do not show who bought the product or when. Price history also includes prices entered manually in a price list - these are not used for general prices. Legal basis: our legitimate interest in helping users estimate shopping costs (Art. 6(1)(f) GDPR); you can object by writing to kontakt@cookivo.pl.",
+              "Assistant (optional): the text of your request and the Cookivo data needed to answer it - a list of matching recipes (titles, kcal, time), the products in your pantry and, only with consent to health data, your daily kcal target - are sent to the AI model to prepare a suggestion (a meal plan, recipes from your pantry, a recipe version). We filter recipes for your allergies on our side - the allergies themselves are not sent. The assistant does not save anything on its own: you approve the suggestions. Conversations are not stored; we only keep a usage counter (date, task type, result, tokens). Topping up the shopping list works without AI - based on the plan, the pantry and your purchase history from receipts. Legal basis: contract (Art. 6(1)(b) GDPR) and, for the kcal target, your explicit consent (Art. 9(2)(a) GDPR).",
               "Security: IP address and browser information for sign-in sessions, number of failed sign-ins and the consent history with IP address. Purpose: protecting accounts against takeover, detecting abuse and demonstrating consent. Legal basis: our legitimate interest (Art. 6(1)(f) GDPR) and the duty to demonstrate consent (Art. 7(1) GDPR).",
               "Moderation: reports about content and users, moderator decisions and account blocks with reasons. Purpose: countering illegal content and content that breaks the terms, and obligations under the Digital Services Act (DSA). Legal basis: legal obligation and legitimate interest (Art. 6(1)(c) and (f) GDPR).",
               "Correspondence: when you write to us - your email address and the message, so we can reply. Legal basis: legitimate interest (Art. 6(1)(f) GDPR)."
@@ -781,7 +805,7 @@
             [
               "JCHost (jchost.pl) - Polish hosting provider: application server, photos and email.",
               "Databricks, Inc. (owner of the Neon service) - cloud database stored in the EU region (Frankfurt, Germany; Amazon Web Services infrastructure); the provider may use further sub-processors under its data processing agreement. Databricks is based in the USA - any access from outside the European Economic Area is safeguarded by the standard contractual clauses approved by the European Commission (Art. 46 GDPR).",
-              "Anthropic PBC - the AI model that reads recipes and receipts from photos (only when you use these features). Anthropic is based in the USA; the transfer is safeguarded by the standard contractual clauses in the data processing agreement (Art. 46 GDPR). Under Anthropic’s terms, data sent through the API is not used to train models."
+              "Anthropic PBC - the AI model that reads recipes and receipts from photos and powers the assistant (only when you use these features). Anthropic is based in the USA; the transfer is safeguarded by the standard contractual clauses in the data processing agreement (Art. 46 GDPR). Under Anthropic’s terms, data sent through the API is not used to train models."
             ],
             "When checking whether a new password has appeared in known breaches, we send the Have I Been Pwned service only the first 5 characters of the password’s SHA-1 hash - this cannot be used to recover the password or identify you.",
             "We may also disclose data to public authorities when required by law."
@@ -937,7 +961,7 @@
           "title": "Health and nutrition values",
           "body": [
             "Calculations of calories, macronutrients, portions and costs are indicative and do not replace advice from a doctor or dietitian. User recipes are not reviewed by professionals.",
-            "We mark allergens of database ingredients to the best of our knowledge, but product composition differs between manufacturers - if you have an allergy, always check the label. Reading a recipe or receipt from photos is done by an AI model and may contain mistakes - check the draft before saving, especially amounts, ingredients and prices."
+            "We mark allergens of database ingredients to the best of our knowledge, but product composition differs between manufacturers - if you have an allergy, always check the label. Reading a recipe or receipt from photos and the assistant's suggestions (plans, recipes, recipe versions) are prepared by an AI model and may contain mistakes - check the draft before saving, especially amounts, ingredients, allergens and prices."
           ]
         },
         {
@@ -1822,5 +1846,69 @@
     "requestHint": "E.g. \"Grated beetroot in a jar\". We attach the receipt text (\"{{text}}\") and the shop. Once the product is added, we will match it automatically on your next receipt.",
     "requestSend": "Send request",
     "requested": "Reported - we will add the product and match it automatically next time. For now, choose a substitute or remove the item."
+  },
+  "assistant": {
+    "open": "Assistant",
+    "title": "Cookivo assistant",
+    "close": "Close the assistant",
+    "intro": "I can plan your meals, pick recipes from what is in your pantry and top up your shopping list. Choose a quick action or write what you need – e.g. \"Plan my week: light breakfasts for work, filling dinners, sweet suppers\".",
+    "quickLabel": "Quick actions",
+    "quick": {
+      "PLAN": "Plan my week",
+      "PANTRY": "What can I cook from my pantry?",
+      "SHOPPING": "Top up my shopping"
+    },
+    "placeholder": "Write what you need",
+    "send": "Send",
+    "working": "Preparing a suggestion…",
+    "remaining": "Left today: {{count}} of {{limit}} tasks. Topping up shopping does not use the limit.",
+    "message": {
+      "OFF_TOPIC": "I only help with meal planning, recipes from your pantry and shopping in Cookivo. Try e.g. \"Plan my dinners for 5 days\".",
+      "VARIANT_HINT": "To make a version of a recipe, open the recipe and choose \"Make a version…\".",
+      "PANTRY_EMPTY": "Your pantry is empty – add products there and I will suggest what to cook.",
+      "NO_RECIPES": "I couldn't find matching recipes in the database. Add your own recipes or change the request."
+    },
+    "plan": {
+      "leftover": "from an earlier cooking",
+      "swap": "Swap",
+      "swapLabel": "Swap: {{name}}",
+      "remove": "Remove from plan: {{name}}",
+      "apply": "Save to planner ({{count}})",
+      "saved": "Saved to the planner: {{count}} meals.",
+      "open": "Open the planner"
+    },
+    "pantry": {
+      "have": "You have: {{names}}",
+      "missing": "Missing: {{names}}",
+      "addMissing": "Add missing to the list",
+      "added": "Added to the list: {{count}} items."
+    },
+    "shopping": {
+      "plan": "For planned meals (7 days)",
+      "regular": "You buy regularly and are probably running low",
+      "why": "every ~{{every}} days, last {{ago}} days ago",
+      "apply": "Add selected ({{count}})",
+      "added": "Added to the list: {{count}} items.",
+      "nothing": "Nothing is missing for the next days and your regular purchases are up to date.",
+      "open": "Open the shopping list"
+    },
+    "variant": {
+      "open": "Make a version…",
+      "title": "Recipe version: {{name}}",
+      "kind": "Kind of version",
+      "kinds": {
+        "VEGAN": "Vegan",
+        "GLUTEN_FREE": "Gluten-free",
+        "LACTOSE_FREE": "Lactose-free",
+        "LIGHTER": "Lighter",
+        "FASTER": "Quicker",
+        "FROM_PANTRY": "From what I have"
+      },
+      "wish": "Extra wish (optional)",
+      "make": "Prepare the version",
+      "cancel": "Other request",
+      "changes": "What the assistant changed",
+      "check": "This is a draft – check the ingredients and steps before saving."
+    }
   }
 }

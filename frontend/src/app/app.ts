@@ -10,6 +10,7 @@ import { AuthService } from './core/auth/auth.service';
 import { LanguageService } from './core/i18n/language.service';
 import { THEMES, ThemeService, type ThemePreference } from './core/theme/theme.service';
 import { LegalUpdateBanner } from './features/legal/legal-update-banner';
+import { AssistantPanel } from './features/assistant/assistant-panel';
 import { CONTACT_EMAIL } from './features/legal/legal';
 import { LogoComponent } from './layout/logo';
 import { GUEST_BOTTOM_NAV, GUEST_NAV, USER_BOTTOM_NAV, USER_MENU, USER_NAV } from './layout/navigation';
@@ -27,6 +28,7 @@ import { GUEST_BOTTOM_NAV, GUEST_NAV, USER_BOTTOM_NAV, USER_MENU, USER_NAV } fro
     MatTooltipModule,
     LogoComponent,
     LegalUpdateBanner,
+    AssistantPanel,
   ],
   templateUrl: './app.html',
   styleUrl: './app.scss',

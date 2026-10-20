@@ -7,6 +7,8 @@ import { PrismaService } from '../prisma/prisma.service.js';
 const DAY_MS = 24 * 60 * 60 * 1000;
 /** Retencja liczników użycia (polityka prywatności) */
 const KEEP_MS = 90 * DAY_MS;
+/** Rozpoznanie prośby do asystenta jest tanie, ale też ma sufit (ochrona przed nadużyciem) */
+const ROUTE_DAILY_LIMIT = 30;
 
 /**
  * Limity i licznik odczytów przez AI (tabela `ai_imports`): dzienny na osobę osobno dla przepisów
@@ -20,9 +22,26 @@ export class AiUsageService {
   ) {}
 
   dailyLimit(kind: AiImportKind): number {
-    return kind === 'RECEIPT'
-      ? this.config.get('RECEIPT_IMPORT_DAILY_LIMIT', { infer: true })
-      : this.config.get('RECIPE_IMPORT_DAILY_LIMIT', { infer: true });
+    switch (kind) {
+      case 'RECEIPT':
+        return this.config.get('RECEIPT_IMPORT_DAILY_LIMIT', { infer: true });
+      case 'ASSISTANT':
+        return this.config.get('ASSISTANT_DAILY_LIMIT', { infer: true });
+      case 'ASSISTANT_ROUTE':
+        return ROUTE_DAILY_LIMIT;
+      default:
+        return this.config.get('RECIPE_IMPORT_DAILY_LIMIT', { infer: true });
+    }
+  }
+
+  /** Miesięczny limit serwisu: importy zdjęć razem, asystent osobno */
+  private monthly(kind: AiImportKind): { kinds: AiImportKind[]; limit: number } {
+    return kind === 'ASSISTANT' || kind === 'ASSISTANT_ROUTE'
+      ? { kinds: ['ASSISTANT'], limit: this.config.get('ASSISTANT_MONTHLY_LIMIT', { infer: true }) }
+      : {
+          kinds: ['RECIPE', 'RECEIPT'],
+          limit: this.config.get('RECIPE_IMPORT_MONTHLY_LIMIT', { infer: true }),
+        };
   }
 
   async remaining(userId: string, kind: AiImportKind): Promise<number> {
@@ -36,8 +55,11 @@ export class AiUsageService {
     }
     const now = new Date();
     const monthStart = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1));
-    const month = await this.prisma.aiImport.count({ where: { createdAt: { gte: monthStart } } });
-    if (month >= this.config.get('RECIPE_IMPORT_MONTHLY_LIMIT', { infer: true })) {
+    const { kinds, limit } = this.monthly(kind);
+    const month = await this.prisma.aiImport.count({
+      where: { kind: { in: kinds }, createdAt: { gte: monthStart } },
+    });
+    if (month >= limit) {
       throw new HttpException({ code: 'IMPORT_BUSY' }, HttpStatus.TOO_MANY_REQUESTS);
     }
   }

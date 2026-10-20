@@ -1,0 +1,298 @@
+// Pływający przycisk: prawy dolny róg; na telefonie nad dolnym paskiem
+.fab {
+  position: fixed;
+  right: max(24px, env(safe-area-inset-right));
+  bottom: max(24px, env(safe-area-inset-bottom));
+  z-index: 120;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 52px;
+  padding: 0 20px 0 16px;
+  border: 0;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--ck-cta-from), var(--ck-cta-to));
+  color: var(--ck-cta-text);
+  font: inherit;
+  font-weight: 700;
+  box-shadow: var(--ck-shadow-lg);
+  cursor: pointer;
+  &:focus-visible {
+    outline: var(--ck-focus-width) solid var(--ck-focus);
+    outline-offset: 3px;
+  }
+  &.hidden {
+    display: none;
+  }
+}
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 130;
+  background: color-mix(in srgb, var(--ck-text) 35%, transparent);
+}
+
+// Panel: z prawej na komputerze, od dołu na telefonie
+.panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 140;
+  display: flex;
+  flex-direction: column;
+  width: min(440px, 100vw);
+  background: var(--ck-bg);
+  color: var(--ck-text);
+  border-left: 1px solid var(--ck-border);
+  box-shadow: var(--ck-shadow-lg);
+}
+
+.panel-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 8px 8px 20px;
+  border-bottom: 1px solid var(--ck-border);
+  > .material-symbols-rounded {
+    color: var(--ck-link);
+  }
+  h2 {
+    flex: 1;
+    margin: 0;
+    font-size: 1.1rem;
+  }
+}
+
+.log {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  overscroll-behavior: contain;
+}
+
+.intro,
+.working {
+  margin: 0;
+  color: var(--ck-text-muted);
+}
+
+.bubble {
+  margin: 0;
+  padding: 12px 14px;
+  border-radius: var(--ck-radius-sm);
+  overflow-wrap: anywhere;
+  p {
+    margin: 0 0 8px;
+  }
+  &.user {
+    align-self: flex-end;
+    max-width: 85%;
+    background: var(--ck-surface-2);
+  }
+  &.bot {
+    background: var(--ck-surface);
+    border: 1px solid var(--ck-border);
+  }
+  &.error {
+    background: color-mix(in srgb, var(--ck-danger) 12%, transparent);
+    color: var(--ck-danger);
+  }
+}
+
+.day {
+  margin: 12px 0 4px;
+  font-size: 0.95rem;
+  &::first-letter {
+    text-transform: uppercase;
+  }
+}
+
+.meals,
+.picks,
+.items {
+  margin: 0 0 12px;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.meals li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0 8px;
+  .slot {
+    flex-basis: 100%;
+    font-size: 0.8rem;
+    color: var(--ck-text-muted);
+  }
+  .recipe {
+    flex: 1 1 auto;
+  }
+  .meal-actions {
+    display: inline-flex;
+    align-items: center;
+  }
+}
+
+.recipe {
+  color: var(--ck-link);
+  font-weight: 600;
+}
+
+.meta {
+  font-size: 0.85rem;
+  color: var(--ck-text-muted);
+}
+
+.picks li {
+  padding: 10px 0;
+  border-bottom: 1px solid var(--ck-border);
+  .reason {
+    margin: 4px 0;
+  }
+  p {
+    margin: 0 0 4px;
+  }
+}
+
+.items li .meta {
+  margin-left: 8px;
+}
+
+.done {
+  font-weight: 600;
+  color: var(--ck-success);
+  a {
+    color: var(--ck-link);
+  }
+}
+
+.panel-foot {
+  padding: 12px 16px max(12px, env(safe-area-inset-bottom));
+  border-top: 1px solid var(--ck-border);
+  background: var(--ck-surface);
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.chip {
+  min-height: 44px;
+  padding: 0 14px;
+  font: inherit;
+  font-weight: 600;
+  color: var(--ck-text);
+  background: var(--ck-surface);
+  border: 1px solid var(--ck-border-strong);
+  border-radius: 999px;
+  cursor: pointer;
+  &[aria-checked='true'] {
+    border-color: var(--ck-link);
+    background: var(--ck-sage-bg);
+  }
+  &:disabled {
+    opacity: 0.55;
+    cursor: default;
+  }
+  &:focus-visible {
+    outline: var(--ck-focus-width) solid var(--ck-focus);
+    outline-offset: 2px;
+  }
+}
+
+.ask {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  mat-form-field {
+    flex: 1;
+  }
+}
+
+.variant {
+  .variant-title {
+    margin: 0 0 8px;
+    font-weight: 700;
+  }
+  mat-form-field {
+    width: 100%;
+  }
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 8px;
+  }
+}
+
+.limit {
+  margin: 6px 0 0;
+  font-size: 0.8rem;
+  color: var(--ck-text-muted);
+}
+
+@media (max-width: 767.98px) {
+  .fab {
+    bottom: calc(var(--ck-bottom-nav-h) + env(safe-area-inset-bottom) + 12px);
+    right: 16px;
+    padding: 0 14px;
+    // Na telefonie sama ikona - nazwa zostaje dla czytników ekranu
+    .fab-label {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+    }
+  }
+
+  .panel {
+    top: auto;
+    width: 100vw;
+    height: 92dvh;
+    border-left: 0;
+    border-top: 1px solid var(--ck-border);
+    border-radius: var(--ck-radius) var(--ck-radius) 0 0;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .panel {
+    animation: slide-in 0.2s ease-out;
+  }
+  @keyframes slide-in {
+    from {
+      transform: translateX(24px);
+      opacity: 0;
+    }
+  }
+}
+
+// Przyciski tekstowe w wynikach - kolor linku (sprawdzony kontrast na tle karty we wszystkich motywach)
+.bubble .mat-mdc-button:not(:disabled) {
+  color: var(--ck-link);
+}
+
+// Szybkie akcje w jednym rzędzie (przewijane), żeby zostawić miejsce na wyniki
+.panel-foot > .chips {
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  padding-bottom: 2px;
+  scrollbar-width: thin;
+  .chip {
+    flex-shrink: 0;
+  }
+}

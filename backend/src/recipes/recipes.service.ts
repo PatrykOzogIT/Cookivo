@@ -282,6 +282,8 @@ export class RecipesService {
   }
 
   async create(dto: SaveRecipeDto, user: AuthUser) {
+    // Wersja przepisu: oryginał musi być widoczny; wskazujemy zawsze na pierwotny (bez łańcuchów)
+    const original = dto.variantOfId ? await this.get(dto.variantOfId, user) : null;
     const id = await this.prisma.$transaction(
       async (tx) => {
         const created = await tx.recipe.create({
@@ -289,6 +291,12 @@ export class RecipesService {
           select: { id: true },
         });
         await this.writeContent(tx, created.id, dto, user, true, user.id);
+        if (original) {
+          await tx.recipe.update({
+            where: { id: created.id },
+            data: { variantOfId: original.variantOf?.id ?? original.id },
+          });
+        }
         return created.id;
       },
       { timeout: 20_000 },

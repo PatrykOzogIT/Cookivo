@@ -9,5 +9,6 @@ import { ShoppingService } from './shopping.service.js';
   imports: [PantryModule, PricesModule],
   controllers: [ShoppingController],
   providers: [ShoppingService],
+  exports: [ShoppingService],
 })
 export class ShoppingModule {}

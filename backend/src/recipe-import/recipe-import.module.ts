@@ -10,5 +10,6 @@ import { RecipeImportService } from './recipe-import.service.js';
   imports: [AiModule, IngredientsModule],
   controllers: [RecipeImportController],
   providers: [RecipeImportService, RecipeExtractor],
+  exports: [RecipeImportService],
 })
 export class RecipeImportModule {}

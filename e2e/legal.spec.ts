@@ -5,7 +5,7 @@ test.describe('Dokumenty prawne i zgody', () => {
   test('regulamin i polityka: administrator, kontakt, data obowiązywania', async ({ page }) => {
     await page.goto('/legal/privacy');
     await expect(page.getByRole('heading', { level: 1, name: 'Polityka prywatności' })).toBeVisible();
-    await expect(page.getByText('Obowiązuje od 22 października 2026')).toBeVisible();
+    await expect(page.getByText('Obowiązuje od 23 października 2026')).toBeVisible();
     await expect(page.getByText(/Administratorem Twoich danych osobowych jest Patryk Ożóg/)).toBeVisible();
     await expect(
       page.locator('article').getByRole('link', { name: 'kontakt@cookivo.pl' }).first(),
@@ -35,7 +35,7 @@ test.describe('Dokumenty prawne i zgody', () => {
     await page.goto('/settings');
     const card = page.getByRole('region', { name: 'Moje zgody' });
     await expect(card.getByText('Regulamin')).toHaveCount(2); // stara i nowa wersja
-    await expect(card.getByText('wersja 2026-10-22').first()).toBeVisible();
+    await expect(card.getByText('wersja 2026-10-23').first()).toBeVisible();
     await expect(card.getByText('Polityka prywatności')).toBeVisible();
   });
 });

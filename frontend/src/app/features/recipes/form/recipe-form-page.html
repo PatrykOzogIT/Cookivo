@@ -32,6 +32,22 @@
         </div>
       </div>
     }
+    @if (assistantChanges(); as changes) {
+      <section class="alert info import-summary" aria-labelledby="assistant-changes">
+        <span class="material-symbols-rounded" aria-hidden="true">star_shine</span>
+        <div>
+          <strong id="assistant-changes">{{ t('assistant.variant.changes') }}</strong>
+          <ul>
+            @for (c of changes; track $index) {
+              <li>
+                <strong>{{ c.change }}</strong> - {{ c.why }}
+              </li>
+            }
+          </ul>
+          <p class="small">{{ t('assistant.variant.check') }}</p>
+        </div>
+      </section>
+    }
     <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
       <!-- Podstawy -->
       <section class="ck-card box">
@@ -332,7 +348,7 @@
       <!-- Ustawienia -->
       <section class="ck-card box">
         <h2>{{ t('recipes.form.settings') }}</h2>
-        @if (variantOf(); as o) {
+        @if (variantSource(); as o) {
           <p class="muted small">{{ t('variants.basedOn') }} {{ o.title }}</p>
           <mat-form-field class="full">
             <mat-label>{{ t('variants.note') }}</mat-label>

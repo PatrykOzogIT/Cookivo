@@ -96,12 +96,54 @@ export class ShoppingService {
 
   /** Składniki na partie ugotowane w zakresie dat planu, minus to, co jest w lodówce */
   async addFromPlan(userId: string, fromIso: string, toIso: string): Promise<AddResult> {
+    const scope = await ownerScope(this.prisma, userId);
+    return this.merge(scope, await this.planNeed(scope, fromIso, toIso));
+  }
+
+  /**
+   * Podgląd (asystent): czego brakuje do zaplanowanych gotowań - po odjęciu lodówki
+   * i tego, co już czeka na liście. Nic nie zapisuje.
+   */
+  async planShortfall(userId: string, fromIso: string, toIso: string): Promise<Map<string, number>> {
+    const scope = await ownerScope(this.prisma, userId);
+    const need = await this.planNeed(scope, fromIso, toIso);
+    const stock = await this.pantry.stock(scope);
+    const onList = await this.unchecked(scope);
+    const result = new Map<string, number>();
+    for (const [id, grams] of need) {
+      const have = stock.get(id);
+      if (have === null) continue; // "mam" bez ilości
+      const left = grams - (have ?? 0) - (onList.get(id) ?? 0);
+      if (left >= MIN_GRAMS) result.set(id, left);
+    }
+    return result;
+  }
+
+  /** Gramy nieodhaczonych pozycji listy (null = pozycja bez ilości - traktujemy jak "jest") */
+  async unchecked(scope: OwnerScope): Promise<Map<string, number>> {
+    const rows = await this.prisma.shoppingItem.findMany({
+      where: { ...scope, checked: false, ingredientId: { not: null } },
+      select: { ingredientId: true, grams: true },
+    });
+    const map = new Map<string, number>();
+    for (const r of rows) {
+      map.set(r.ingredientId!, (map.get(r.ingredientId!) ?? 0) + (r.grams ?? Number.POSITIVE_INFINITY));
+    }
+    return map;
+  }
+
+  /** Dodanie gotowych ilości (zatwierdzony szkic asystenta) - bez ponownego odejmowania lodówki */
+  async addNeeds(userId: string, need: Map<string, number>): Promise<{ added: number }> {
+    const scope = await ownerScope(this.prisma, userId);
+    for (const [id, grams] of need) await this.addGrams(scope, id, grams, null);
+    return { added: need.size };
+  }
+
+  private async planNeed(scope: OwnerScope, fromIso: string, toIso: string) {
     const from = toDate(fromIso);
     const to = toDate(toIso);
     const span = Math.round((to.getTime() - from.getTime()) / DAY_MS);
     if (span < 0 || span >= MAX_RANGE_DAYS) throw new BadRequestException({ code: 'DATE_RANGE_INVALID' });
-
-    const scope = await ownerScope(this.prisma, userId);
     const cooks = await this.prisma.planCook.findMany({
       where: { ...scope, date: { gte: from, lte: to } },
       include: { recipe: { select: { servings: true } } },
@@ -113,7 +155,7 @@ export class ShoppingService {
     const need = new Map<string, number>();
     for (const c of cooks)
       expandRecipe(c.recipeId, c.servings / Math.max(1, c.recipe.servings), recipes, need);
-    return this.merge(scope, need);
+    return need;
   }
 
   async addFromRecipe(user: AuthUser, recipeId: string, servings: number): Promise<AddResult> {

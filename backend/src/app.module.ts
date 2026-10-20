@@ -13,6 +13,7 @@ import { AccountModule } from './account/account.module.js';
 import { LegalModule } from './legal/legal.module.js';
 import { HouseholdModule } from './household/household.module.js';
 import { GroupsModule } from './groups/groups.module.js';
+import { AssistantModule } from './assistant/assistant.module.js';
 import { IngredientRequestsModule } from './ingredient-requests/ingredient-requests.module.js';
 import { ReceiptImportModule } from './receipt-import/receipt-import.module.js';
 import { RecipeImportModule } from './recipe-import/recipe-import.module.js';
@@ -67,6 +68,7 @@ import { PrismaModule } from './prisma/prisma.module.js';
     RecipeImportModule,
     ReceiptImportModule,
     IngredientRequestsModule,
+    AssistantModule,
     PlannerModule,
     PantryModule,
     ShoppingModule,

@@ -157,7 +157,8 @@
     "CURRENCY_MISMATCH": "Waluta paragonu różni się od waluty cennika.",
     "PRICE_LIST_REQUIRED": "Wybierz albo załóż cennik.",
     "PRICE_LIST_CONFLICT": "Ktoś z domowników właśnie zmienił cenniki. Zatwierdź import jeszcze raz.",
-    "REQUEST_LIMIT": "Masz już dużo zgłoszeń czekających na rozpatrzenie. Spróbuj, gdy część zostanie dodana."
+    "REQUEST_LIMIT": "Masz już dużo zgłoszeń czekających na rozpatrzenie. Spróbuj, gdy część zostanie dodana.",
+    "ASSISTANT_EMPTY": "Napisz, w czym pomóc."
   },
   "auth": {
     "fields": {
@@ -363,6 +364,15 @@
           "need": "opcjonalnie – tylko zdjęcie paragonu; wszystko sprawdzasz przed zapisem.",
           "cta": "Importuj paragon",
           "ctaGuest": "Załóż konto i zaimportuj paragon"
+        },
+        "assistant": {
+          "tab": "Asystent",
+          "title": "Plan tygodnia z jednego zdania",
+          "body": "Napisz, czego chcesz – asystent ułoży plan z przepisów dopasowanych do Twoich alergii i celów, podpowie, co ugotować z lodówki, i zrobi wegańską czy lżejszą wersję przepisu. Wszystko zatwierdzasz.",
+          "where": "Przycisk „Asystent” w rogu ekranu",
+          "need": "opcjonalnie – tylko prośba; dzienny limit zadań.",
+          "cta": "Otwórz planer",
+          "ctaGuest": "Załóż konto i wypróbuj asystenta"
         }
       },
       "p": {
@@ -472,7 +482,20 @@
           "name": "Banan",
           "amount": "1,25 kg · 5,99 zł/kg"
         },
-        "receiptHint": "3 produkty do lodówki, ceny do cennika „Biedronka”"
+        "receiptHint": "3 produkty do lodówki, ceny do cennika „Biedronka”",
+        "as0": "„Śniadania lekkie do pracy, obiady sycące, kolacje na słodko”",
+        "as1": {
+          "name": "Pn · Owsianka z jabłkiem",
+          "meta": "412 kcal"
+        },
+        "as2": {
+          "name": "Pn · Gulasz wołowy",
+          "meta": "2 dni"
+        },
+        "as3": {
+          "name": "Pn · Placki z jabłkami",
+          "meta": "380 kcal"
+        }
       },
       "scale": {
         "basic": "Podstawy",
@@ -755,6 +778,7 @@
               "Odczyt paragonu ze zdjęć (opcjonalny): zdjęcia paragonu, które wybierzesz w lodówce albo w cennikach. Cel: odczytanie kupionych produktów, ilości i cen do Twojego sprawdzenia przed zapisem. Zdjęć nie zapisujemy - po odczycie są usuwane; przechowujemy tylko licznik użycia (jak przy przepisach). Po zatwierdzeniu zapisujemy wybrane produkty w lodówce, a ceny - w cenniku i w historii cen (produkt, cena regularna, wielkość opakowania, sklep i data zakupu); w gospodarstwie widzą je domownicy. Nie zapisujemy treści całego paragonu, kwot płatności ani danych karty. Podstawa: umowa (art. 6 ust. 1 lit. b RODO).",
               "Powiązania produktów z paragonów i prośby o składniki: zatwierdzając import paragonu, zapamiętujemy, jaki składnik przypisano nazwie produktu z paragonu w danej sieci sklepów (np. „MlekoŚw3,2 1l” w Biedronce → Mleko 3,2%). Twoje przypisania podpowiadamy Tobie i domownikom, a zestawienie przypisań wielu osób - wszystkim użytkownikom (bez wskazywania, kto co kupił). Nazwy produktów z odczytu przechowujemy do zatwierdzenia importu, najdłużej dobę. Gdy zgłosisz brakujący produkt, zapisujemy podaną nazwę, tekst z paragonu i sklep - widzi je administrator, a o dodaniu produktu informujemy Cię e-mailem. Podstawa: umowa (art. 6 ust. 1 lit. b RODO).",
               "Ceny ogólne: ceny regularne z zatwierdzonych paragonów wszystkich użytkowników z ostatnich 60 dni łączymy w cenę ogólną produktu (medianę, osobno dla sieci sklepów) i pokazujemy ją innym w cennikach i szacunkach kosztów. Nie pokazujemy, kto ani kiedy kupił produkt. Historia cen obejmuje też ceny wpisane ręcznie w cenniku - te nie wchodzą do cen ogólnych. Podstawa: nasz prawnie uzasadniony interes - pomoc użytkownikom w szacowaniu kosztów zakupów (art. 6 ust. 1 lit. f RODO); możesz wnieść sprzeciw, pisząc na kontakt@cookivo.pl.",
+              "Asystent (opcjonalny): treść Twojej prośby i dane z Cookivo potrzebne do odpowiedzi - lista pasujących przepisów (tytuły, kcal, czas), produkty w lodówce, a tylko przy zgodzie na dane o zdrowiu także Twój dzienny cel kcal - przekazujemy do modelu AI, żeby przygotować propozycję (plan posiłków, przepisy z lodówki, wersję przepisu). Przepisy filtrujemy pod Twoje alergie u nas - samych alergii nie wysyłamy. Asystent niczego nie zapisuje sam: propozycje zatwierdzasz. Rozmów nie przechowujemy; zapisujemy tylko licznik użycia (data, rodzaj zadania, wynik, tokeny). Uzupełnianie listy zakupów działa bez AI - na podstawie planu, lodówki i historii zakupów z paragonów. Podstawa: umowa (art. 6 ust. 1 lit. b RODO), a dla celu kcal - Twoja wyraźna zgoda (art. 9 ust. 2 lit. a RODO).",
               "Bezpieczeństwo: adres IP i informacja o przeglądarce przy sesjach logowania, liczba nieudanych logowań oraz historia zgód z adresem IP. Cel: ochrona kont przed przejęciem, wykrywanie nadużyć i wykazanie udzielonych zgód. Podstawa: nasz prawnie uzasadniony interes (art. 6 ust. 1 lit. f RODO) i obowiązek wykazania zgody (art. 7 ust. 1 RODO).",
               "Moderacja: zgłoszenia treści i użytkowników, decyzje moderatorów oraz blokady kont z uzasadnieniem. Cel: przeciwdziałanie treściom bezprawnym i niezgodnym z regulaminem oraz obowiązki z aktu o usługach cyfrowych (DSA). Podstawa: obowiązek prawny i prawnie uzasadniony interes (art. 6 ust. 1 lit. c i f RODO).",
               "Korespondencja: gdy do nas piszesz - Twój adres e-mail i treść wiadomości, żeby odpowiedzieć. Podstawa: prawnie uzasadniony interes (art. 6 ust. 1 lit. f RODO)."
@@ -781,7 +805,7 @@
             [
               "JCHost (jchost.pl) - polski dostawca hostingu: serwer aplikacji, zdjęcia i poczta e-mail.",
               "Databricks, Inc. (właściciel usługi Neon) - baza danych w chmurze, przechowywana w regionie UE (Frankfurt, Niemcy; infrastruktura Amazon Web Services); dostawca może korzystać z dalszych podmiotów przetwarzających na warunkach swojej umowy powierzenia. Databricks ma siedzibę w USA - ewentualny dostęp spoza Europejskiego Obszaru Gospodarczego zabezpieczają standardowe klauzule umowne zatwierdzone przez Komisję Europejską (art. 46 RODO).",
-              "Anthropic PBC - model AI odczytujący przepisy i paragony ze zdjęć (tylko gdy użyjesz tych funkcji). Anthropic ma siedzibę w USA; przekazanie zabezpieczają standardowe klauzule umowne w umowie powierzenia (art. 46 RODO). Według warunków Anthropic dane przesyłane przez API nie służą do trenowania modeli."
+              "Anthropic PBC - model AI odczytujący przepisy i paragony ze zdjęć oraz asystent (tylko gdy użyjesz tych funkcji). Anthropic ma siedzibę w USA; przekazanie zabezpieczają standardowe klauzule umowne w umowie powierzenia (art. 46 RODO). Według warunków Anthropic dane przesyłane przez API nie służą do trenowania modeli."
             ],
             "Sprawdzając, czy nowe hasło nie wyciekło w znanych incydentach, wysyłamy do serwisu Have I Been Pwned tylko 5 pierwszych znaków skrótu SHA-1 hasła - nie da się z tego odtworzyć hasła ani Cię zidentyfikować.",
             "Dane możemy też ujawnić uprawnionym organom publicznym, gdy wymaga tego prawo."
@@ -937,7 +961,7 @@
           "title": "Zdrowie i wartości odżywcze",
           "body": [
             "Wyliczenia kalorii, makroskładników, porcji i kosztów mają charakter orientacyjny i nie zastępują porady lekarza ani dietetyka. Przepisy użytkowników nie są weryfikowane przez specjalistów.",
-            "Alergeny składników z bazy oznaczamy według najlepszej wiedzy, ale skład produktów różni się między producentami - przy alergii zawsze sprawdzaj etykietę. Odczyt przepisu i paragonu ze zdjęć wykonuje model AI i może zawierać błędy - przed zapisem sprawdź szkic, zwłaszcza ilości, składniki i ceny."
+            "Alergeny składników z bazy oznaczamy według najlepszej wiedzy, ale skład produktów różni się między producentami - przy alergii zawsze sprawdzaj etykietę. Odczyt przepisu i paragonu ze zdjęć oraz propozycje asystenta (plany, przepisy, wersje przepisów) przygotowuje model AI i mogą zawierać błędy - przed zapisem sprawdź szkic, zwłaszcza ilości, składniki, alergeny i ceny."
           ]
         },
         {
@@ -1822,5 +1846,69 @@
     "requestHint": "Np. „Buraczki tarte w słoiku”. Dołączymy tekst z paragonu („{{text}}”) i sklep. Po dodaniu produktu dopasujemy go sam przy kolejnym paragonie.",
     "requestSend": "Wyślij zgłoszenie",
     "requested": "Zgłoszone - dodamy produkt i następnym razem dopasujemy go sam. Teraz wybierz zamiennik albo usuń pozycję."
+  },
+  "assistant": {
+    "open": "Asystent",
+    "title": "Asystent Cookivo",
+    "close": "Zamknij asystenta",
+    "intro": "Pomogę ułożyć plan posiłków, wybrać przepisy z tego, co masz w lodówce, i uzupełnić listę zakupów. Wybierz szybką akcję albo napisz, czego potrzebujesz – np. „Ułóż mi plan na tydzień: śniadania lekkie do pracy, obiady sycące, kolacje na słodko”.",
+    "quickLabel": "Szybkie akcje",
+    "quick": {
+      "PLAN": "Plan na tydzień",
+      "PANTRY": "Co ugotować z lodówki?",
+      "SHOPPING": "Uzupełnij zakupy"
+    },
+    "placeholder": "Napisz, czego potrzebujesz",
+    "send": "Wyślij",
+    "working": "Przygotowuję propozycję…",
+    "remaining": "Zostało dziś: {{count}} z {{limit}} zadań. Uzupełnianie zakupów nie zużywa limitu.",
+    "message": {
+      "OFF_TOPIC": "Pomagam tylko w planowaniu posiłków, przepisach z lodówki i zakupach w Cookivo. Spróbuj np. „Ułóż mi obiady na 5 dni”.",
+      "VARIANT_HINT": "Żeby zrobić wersję przepisu, otwórz przepis i wybierz „Zrób z tego wersję…”.",
+      "PANTRY_EMPTY": "Twoja lodówka jest pusta – dodaj w niej produkty, a podpowiem, co z nich ugotować.",
+      "NO_RECIPES": "Nie znalazłem pasujących przepisów w bazie. Dodaj własne przepisy albo zmień prośbę."
+    },
+    "plan": {
+      "leftover": "z wcześniejszego gotowania",
+      "swap": "Zamień",
+      "swapLabel": "Zamień: {{name}}",
+      "remove": "Usuń z planu: {{name}}",
+      "apply": "Zapisz w planerze ({{count}})",
+      "saved": "Zapisano w planerze: {{count}} posiłków.",
+      "open": "Otwórz planer"
+    },
+    "pantry": {
+      "have": "Masz: {{names}}",
+      "missing": "Brakuje: {{names}}",
+      "addMissing": "Dodaj braki do listy",
+      "added": "Dodano do listy: {{count}} poz."
+    },
+    "shopping": {
+      "plan": "Na zaplanowane posiłki (7 dni)",
+      "regular": "Kupujesz regularnie, a pewnie się kończy",
+      "why": "co ~{{every}} dni, ostatnio {{ago}} dni temu",
+      "apply": "Dodaj zaznaczone ({{count}})",
+      "added": "Dodano do listy: {{count}} poz.",
+      "nothing": "Na najbliższe dni niczego nie brakuje, a regularne zakupy są aktualne.",
+      "open": "Otwórz listę zakupów"
+    },
+    "variant": {
+      "open": "Zrób z tego wersję…",
+      "title": "Wersja przepisu: {{name}}",
+      "kind": "Rodzaj wersji",
+      "kinds": {
+        "VEGAN": "Wegańska",
+        "GLUTEN_FREE": "Bez glutenu",
+        "LACTOSE_FREE": "Bez laktozy",
+        "LIGHTER": "Lżejsza",
+        "FASTER": "Szybsza",
+        "FROM_PANTRY": "Z tego, co mam"
+      },
+      "wish": "Dodatkowe życzenie (opcjonalnie)",
+      "make": "Przygotuj wersję",
+      "cancel": "Inna prośba",
+      "changes": "Co zmienił asystent",
+      "check": "To szkic – sprawdź składniki i kroki przed zapisem."
+    }
   }
 }

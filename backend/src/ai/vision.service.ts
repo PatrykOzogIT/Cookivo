@@ -61,11 +61,13 @@ export class VisionService {
       images: ModelImage[];
       prompt: string;
       maxTokens: number;
+      /** Inny model niż domyślny (np. Sonnet do wersji przepisu) */
+      model?: string;
     },
   ): Promise<VisionResult<z.infer<S>>> {
     if (!this.client) throw new Error('Odczyt zdjęć wyłączony (brak ANTHROPIC_API_KEY)');
     const response = await this.client.messages.parse({
-      model: this.model,
+      model: opts.model ?? this.model,
       max_tokens: opts.maxTokens,
       // Stały prefiks (reguły + kontekst) z prompt caching - kolejne odczyty płacą za niego ułamek
       system: [

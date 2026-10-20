@@ -59,6 +59,7 @@ describe('Pliki tłumaczeń', () => {
       'PRICE_LIST_REQUIRED',
       'PRICE_LIST_CONFLICT',
       'REQUEST_LIMIT',
+      'ASSISTANT_EMPTY',
       'PORTIONS_EXCEEDED',
       'SLOT_UNKNOWN',
       'DATE_INVALID',

@@ -36,6 +36,14 @@ export const envSchema = z.object({
   RECEIPT_IMPORT_DAILY_LIMIT: z.coerce.number().int().min(0).default(5),
   RECIPE_IMPORT_MONTHLY_LIMIT: z.coerce.number().int().min(0).default(300),
   /**
+   * Asystent (plan tygodnia, przepisy z lodówki, wersja przepisu): limity osobne od importów zdjęć.
+   * Modele osobno - wersja przepisu potrzebuje lepszego wyczucia kuchni (Sonnet), reszta - Haiku.
+   */
+  ASSISTANT_MODEL: z.string().default('claude-haiku-5-5'),
+  ASSISTANT_VARIANT_MODEL: z.string().default('claude-sonnet-5-5'),
+  ASSISTANT_DAILY_LIMIT: z.coerce.number().int().min(0).default(5),
+  ASSISTANT_MONTHLY_LIMIT: z.coerce.number().int().min(0).default(500),
+  /**
    * Paragony: lista zatwierdzonych składników w poleceniu dla AI (lepsze dopasowanie, ~3 tys. tokenów
    * więcej na odczyt). Można wyłączyć, gdy powiązania od użytkowników wystarczą.
    */

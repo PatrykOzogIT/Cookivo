@@ -432,7 +432,7 @@ export class PlannerService {
   }
 
   /** Liczba osób w gospodarstwie (z dziećmi bez konta) */
-  private async people(scope: Scope): Promise<number> {
+  async people(scope: Scope): Promise<number> {
     if (!scope.householdId) return 1;
     const [members, dependents] = await Promise.all([
       this.prisma.householdMember.count({ where: { householdId: scope.householdId } }),

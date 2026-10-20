@@ -157,6 +157,18 @@
                 <span class="material-symbols-rounded">sell</span>{{ t('p.receiptHint') }}
               </p>
             }
+            @case ('assistant') {
+              <p class="note quote" aria-hidden="true">{{ t('p.as0') }}</p>
+              <ul class="rows" aria-hidden="true">
+                @for (r of ['as1', 'as2', 'as3']; track r) {
+                  <li>
+                    <span class="dot material-symbols-rounded">check_circle</span>
+                    <span class="grow">{{ t('p.' + r + '.name') }}</span>
+                    <span class="muted">{{ t('p.' + r + '.meta') }}</span>
+                  </li>
+                }
+              </ul>
+            }
             @case ('household') {
               <ul class="rows people" aria-hidden="true">
                 @for (r of ['h1', 'h2', 'h3']; track r; let i = $index) {

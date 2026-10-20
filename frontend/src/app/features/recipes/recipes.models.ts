@@ -136,6 +136,8 @@ export interface RecipeQuery {
 
 export interface SaveRecipe {
   variantNote?: string | null;
+  /** Tylko przy tworzeniu: wersja tego przepisu (np. od asystenta) */
+  variantOfId?: string;
   title: string;
   description?: string;
   servings: number;

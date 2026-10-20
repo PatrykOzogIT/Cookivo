@@ -9,5 +9,6 @@ import { PlannerService } from './planner.service.js';
   imports: [ProfileModule, PricesModule],
   controllers: [PlannerController],
   providers: [PlannerService],
+  exports: [PlannerService],
 })
 export class PlannerModule {}

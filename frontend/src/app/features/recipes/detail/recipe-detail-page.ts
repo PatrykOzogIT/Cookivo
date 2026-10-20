@@ -10,6 +10,7 @@ import { Router, RouterLink } from '@angular/router';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { apiErrorCode } from '../../../core/api-error';
 import { AuthService } from '../../../core/auth/auth.service';
+import { AssistantStore } from '../../assistant/assistant.store';
 import { LocalizedPipe, NumberPipe } from '../../../core/i18n/format.pipes';
 import { LanguageService } from '../../../core/i18n/language.service';
 import { NutritionTableComponent } from '../../../shared/nutrition-table/nutrition-table';
@@ -72,6 +73,8 @@ export class RecipeDetailPage implements OnInit {
   private readonly router = inject(Router);
   private readonly title = inject(Title);
   protected readonly auth = inject(AuthService);
+  /** "Zrób z tego wersję…" - otwiera panel asystenta w trybie wersji */
+  protected readonly assistant = inject(AssistantStore);
   protected readonly lang = inject(LanguageService).current;
 
   readonly id = input.required<string>();
