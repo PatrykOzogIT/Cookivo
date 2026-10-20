@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import type { Env } from '../config/env.js';
-import type { AiImportKind } from '../generated/prisma/client.js';
+import { Prisma, type AiImportKind } from '../generated/prisma/client.js';
 import { PrismaService } from '../prisma/prisma.service.js';
 
 const DAY_MS = 24 * 60 * 60 * 1000;
@@ -65,6 +65,11 @@ export class AiUsageService {
   private async purgeOld(): Promise<void> {
     try {
       await this.prisma.aiImport.deleteMany({ where: { createdAt: { lt: new Date(Date.now() - KEEP_MS) } } });
+      // Nazwy produktów z niezatwierdzonych paragonów - najwyżej doba
+      await this.prisma.aiImport.updateMany({
+        where: { createdAt: { lt: new Date(Date.now() - DAY_MS) }, lines: { not: Prisma.DbNull } },
+        data: { lines: Prisma.DbNull },
+      });
     } catch {
       // sprzątanie nie może psuć importu
     }

@@ -227,6 +227,36 @@ const COPY = {
       footer: 'You can leave the group at any time.',
     },
   },
+  ingredientAdded: {
+    pl: {
+      subject: 'Dodaliśmy produkt, o który prosiłeś(-aś)',
+      heading: 'Cześć {username}!',
+      body: 'Dodaliśmy do bazy składników: „{title}”. Przy kolejnym imporcie paragonu z tym produktem dopasujemy go automatycznie.',
+      cta: 'Zobacz składnik',
+      footer: 'Dziękujemy, że pomagasz uzupełniać bazę Cookivo.',
+    },
+    en: {
+      subject: 'We added the product you asked for',
+      heading: 'Hi {username}!',
+      body: 'We added to the ingredient database: “{title}”. Next time you import a receipt with this product, we will match it automatically.',
+      cta: 'See the ingredient',
+      footer: 'Thank you for helping us complete the Cookivo database.',
+    },
+  },
+  ingredientRequestRejected: {
+    pl: {
+      subject: 'Nie dodaliśmy zgłoszonego produktu',
+      heading: 'Cześć {username}!',
+      body: 'Przejrzeliśmy prośbę o dodanie „{title}”, ale nie dodaliśmy go do bazy (np. to nie produkt spożywczy, jest już pod inną nazwą albo brakuje wiarygodnych danych o składzie). Przy imporcie możesz wybrać najbliższy składnik z bazy.',
+      footer: 'Dziękujemy, że pomagasz uzupełniać bazę Cookivo.',
+    },
+    en: {
+      subject: "We didn't add the product you reported",
+      heading: 'Hi {username}!',
+      body: 'We reviewed your request to add “{title}” but did not add it (e.g. it is not a food product, it already exists under another name, or reliable composition data is missing). When importing, you can choose the closest ingredient from the database.',
+      footer: 'Thank you for helping us complete the Cookivo database.',
+    },
+  },
 } satisfies Record<string, Record<Locale, Copy>>;
 
 export type MailKind = keyof typeof COPY;

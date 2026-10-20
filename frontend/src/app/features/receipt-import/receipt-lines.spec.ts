@@ -15,6 +15,7 @@ const draft = (over: Partial<ReceiptDraftLine> = {}): ReceiptDraftLine => ({
   text: 'MLEKO UHT 3,2% 1L 2 x 4,29',
   name: 'mleko 3,2%',
   status: 'MATCHED',
+  matchSource: 'NAME',
   ingredient: milk,
   suggestions: [],
   packages: 2,
@@ -68,6 +69,8 @@ describe('pozycje paragonu w podglądzie', () => {
       attention: 1,
       totalCents: 858,
     });
+    // Wstępnie wybrany składnik (do potwierdzenia) wymaga uwagi
+    expect(summarize([{ ...a, status: 'CONFIRM' }], true, true).attention).toBe(1);
     // Cennik odznaczony - nic do cennika
     expect(summarize([a, b], true, false)).toMatchObject({ pantry: 1, prices: 0 });
   });
@@ -75,6 +78,7 @@ describe('pozycje paragonu w podglądzie', () => {
   it('do zatwierdzenia: liczby i cele, cena tylko przy cenniku', () => {
     const line = { ...fromDraft(draft(), 'pl'), price: '4,29' };
     expect(toCommitLine(line, true, true)).toEqual({
+      key: 0,
       ingredientId: 'm',
       toPantry: true,
       toPrices: true,

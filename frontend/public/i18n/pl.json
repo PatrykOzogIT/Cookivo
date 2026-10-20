@@ -156,7 +156,8 @@
     "HOUSEHOLD_CHANGED": "Od odczytu paragonu zmieniło się Twoje gospodarstwo. Zacznij od nowa, żeby zakupy trafiły we właściwe miejsce.",
     "CURRENCY_MISMATCH": "Waluta paragonu różni się od waluty cennika.",
     "PRICE_LIST_REQUIRED": "Wybierz albo załóż cennik.",
-    "PRICE_LIST_CONFLICT": "Ktoś z domowników właśnie zmienił cenniki. Zatwierdź import jeszcze raz."
+    "PRICE_LIST_CONFLICT": "Ktoś z domowników właśnie zmienił cenniki. Zatwierdź import jeszcze raz.",
+    "REQUEST_LIMIT": "Masz już dużo zgłoszeń czekających na rozpatrzenie. Spróbuj, gdy część zostanie dodana."
   },
   "auth": {
     "fields": {
@@ -752,6 +753,7 @@
               "Grupy znajomych (opcjonalne): członkostwo, rola, status akceptacji, kto Cię zaprosił, zaproszenia (z adresem e-mail osoby zapraszanej, jeśli go podasz) i przepisy udostępnione grupie. Członkowie grupy widzą Twoją nazwę użytkownika i udostępnione przepisy; osobę czekającą na akceptację widzi tylko właściciel grupy. Grupy nie dają dostępu do danych o zdrowiu, planów ani zakupów. Podstawa: umowa (art. 6 ust. 1 lit. b RODO).",
               "Odczyt przepisu ze zdjęć (opcjonalny): zdjęcia, które wybierzesz w formularzu przepisu. Cel: odczytanie tekstu przepisu i wypełnienie formularza do Twojego sprawdzenia. Zdjęć nie zapisujemy - po odczycie są usuwane; przechowujemy tylko licznik użycia (data, liczba zdjęć, wynik) potrzebny do dziennych limitów. Nie wysyłaj zdjęć z danymi osobowymi innych osób. Podstawa: umowa (art. 6 ust. 1 lit. b RODO).",
               "Odczyt paragonu ze zdjęć (opcjonalny): zdjęcia paragonu, które wybierzesz w lodówce albo w cennikach. Cel: odczytanie kupionych produktów, ilości i cen do Twojego sprawdzenia przed zapisem. Zdjęć nie zapisujemy - po odczycie są usuwane; przechowujemy tylko licznik użycia (jak przy przepisach). Po zatwierdzeniu zapisujemy wybrane produkty w lodówce, a ceny - w cenniku i w historii cen (produkt, cena regularna, wielkość opakowania, sklep i data zakupu); w gospodarstwie widzą je domownicy. Nie zapisujemy treści całego paragonu, kwot płatności ani danych karty. Podstawa: umowa (art. 6 ust. 1 lit. b RODO).",
+              "Powiązania produktów z paragonów i prośby o składniki: zatwierdzając import paragonu, zapamiętujemy, jaki składnik przypisano nazwie produktu z paragonu w danej sieci sklepów (np. „MlekoŚw3,2 1l” w Biedronce → Mleko 3,2%). Twoje przypisania podpowiadamy Tobie i domownikom, a zestawienie przypisań wielu osób - wszystkim użytkownikom (bez wskazywania, kto co kupił). Nazwy produktów z odczytu przechowujemy do zatwierdzenia importu, najdłużej dobę. Gdy zgłosisz brakujący produkt, zapisujemy podaną nazwę, tekst z paragonu i sklep - widzi je administrator, a o dodaniu produktu informujemy Cię e-mailem. Podstawa: umowa (art. 6 ust. 1 lit. b RODO).",
               "Bezpieczeństwo: adres IP i informacja o przeglądarce przy sesjach logowania, liczba nieudanych logowań oraz historia zgód z adresem IP. Cel: ochrona kont przed przejęciem, wykrywanie nadużyć i wykazanie udzielonych zgód. Podstawa: nasz prawnie uzasadniony interes (art. 6 ust. 1 lit. f RODO) i obowiązek wykazania zgody (art. 7 ust. 1 RODO).",
               "Moderacja: zgłoszenia treści i użytkowników, decyzje moderatorów oraz blokady kont z uzasadnieniem. Cel: przeciwdziałanie treściom bezprawnym i niezgodnym z regulaminem oraz obowiązki z aktu o usługach cyfrowych (DSA). Podstawa: obowiązek prawny i prawnie uzasadniony interes (art. 6 ust. 1 lit. c i f RODO).",
               "Korespondencja: gdy do nas piszesz - Twój adres e-mail i treść wiadomości, żeby odpowiedzieć. Podstawa: prawnie uzasadniony interes (art. 6 ust. 1 lit. f RODO)."
@@ -796,6 +798,7 @@
               "Zdjęcia, które nie zostały dołączone do przepisu - doba.",
               "Zdjęcia do odczytu przepisu lub paragonu - nie przechowujemy ich po odczycie; licznik użycia - 90 dni.",
               "Historia cen z paragonów - do usunięcia cennika, do którego trafiła, albo konta (w gospodarstwie - gospodarstwa).",
+              "Powiązania produktów z paragonów i prośby o składniki - do usunięcia konta; nazwy produktów z niezatwierdzonego odczytu paragonu - doba.",
               "Historia zgód - przez czas istnienia konta.",
               "Zgłoszenia i decyzje moderacji - do usunięcia zgłoszonej treści albo konta osoby zgłaszającej.",
               "Kopie zapasowe bazy danych u dostawcy - do kilku dni, potem dane znikają także z kopii."
@@ -1618,7 +1621,26 @@
       "reason": "Powód (zobaczy go użytkownik)",
       "blockHint": "Użytkownik zostanie wylogowany ze wszystkich urządzeń i dostanie maila z powodem."
     },
-    "todo": "sprawy do załatwienia: {{count}}"
+    "todo": "sprawy do załatwienia: {{count}}",
+    "requests": {
+      "tab": "Prośby o składniki ({{count}})",
+      "title": "Prośby o składniki",
+      "lead": "Produkty, których brakuje w bazie (np. z importu paragonu). Dodaj składnik albo wskaż istniejący - tekst z paragonu zostanie z nim powiązany, a zgłaszający dostanie maila.",
+      "status": {
+        "OPEN": "Otwarte",
+        "DONE": "Dodane",
+        "REJECTED": "Odrzucone"
+      },
+      "loading": "Wczytywanie…",
+      "empty": "Brak próśb.",
+      "by": "zgłasza: {{name}}",
+      "linked": "Składnik: {{name}}",
+      "pick": "Wskaż składnik z bazy",
+      "add": "Dodaj składnik",
+      "link": "Wskaż istniejący",
+      "reject": "Odrzuć",
+      "statusLabel": "Status próśb"
+    }
   },
   "groups": {
     "lead": "Dzielcie się przepisami w gronie znajomych - szerzej niż w gospodarstwie, ale bez publikowania dla wszystkich. Grupy dotyczą tylko przepisów: plany, zakupy i dane o zdrowiu zostają u Was.",
@@ -1774,6 +1796,18 @@
     "donePrices": "Cennik „{{name}}”: zapisano {{count}} cen.",
     "donePricesNew": "Utworzono cennik „{{name}}” i zapisano w nim {{count}} cen.",
     "another": "Importuj kolejny paragon",
-    "defaultListName": "Cennik domowy"
+    "defaultListName": "Cennik domowy",
+    "source": {
+      "MINE": "tak jak ostatnio",
+      "COMMUNITY": "tak przypisali inni",
+      "AI": "najbliższy odpowiednik w bazie",
+      "NAME": "podobna nazwa w bazie"
+    },
+    "confirm": "To ten produkt",
+    "request": "Zgłoś brakujący produkt",
+    "requestName": "Pełna nazwa produktu",
+    "requestHint": "Np. „Buraczki tarte w słoiku”. Dołączymy tekst z paragonu („{{text}}”) i sklep. Po dodaniu produktu dopasujemy go sam przy kolejnym paragonie.",
+    "requestSend": "Wyślij zgłoszenie",
+    "requested": "Zgłoszone - dodamy produkt i następnym razem dopasujemy go sam. Teraz wybierz zamiennik albo usuń pozycję."
   }
 }

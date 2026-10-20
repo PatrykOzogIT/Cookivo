@@ -142,6 +142,8 @@ export class AccountService {
         sessions: { orderBy: { createdAt: 'asc' } },
         friendGroups: { include: { group: { select: { name: true } } }, orderBy: { joinedAt: 'asc' } },
         aiImports: { orderBy: { createdAt: 'asc' } },
+        receiptAliasVotes: { include: { ingredient: { select: { namePl: true } } } },
+        ingredientRequests: { orderBy: { createdAt: 'asc' } },
         priceObservations: {
           include: { ingredient: { select: { namePl: true } } },
           orderBy: { createdAt: 'asc' },
@@ -263,6 +265,20 @@ export class AccountService {
         photos: i.photos,
         success: i.success,
         committedAt: i.committedAt,
+      })),
+      // Twoje powiązania "tekst z paragonu → składnik" (głosy w podpowiedziach dla wszystkich)
+      receiptAliases: user.receiptAliasVotes.map((v) => ({
+        store: v.storeKey || null,
+        receiptText: v.textKey,
+        ingredient: v.ingredient.namePl,
+        updatedAt: v.updatedAt,
+      })),
+      ingredientRequests: user.ingredientRequests.map((r) => ({
+        name: r.name,
+        receiptText: r.receiptText,
+        store: r.storeName,
+        status: r.status,
+        createdAt: r.createdAt,
       })),
       // Historia cen z paragonów (konto bez gospodarstwa; ceny gospodarstwa są wspólne)
       priceHistory: user.priceObservations.map((o) => ({

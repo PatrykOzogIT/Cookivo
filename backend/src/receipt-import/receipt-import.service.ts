@@ -14,14 +14,18 @@ import { toModelImage } from '../ai/vision.service.js';
 import type { AuthUser } from '../common/auth.decorators.js';
 import { ownerScope, type OwnerScope } from '../common/owner-scope.js';
 import { normalizeSearch } from '../common/text.js';
-import type { Prisma } from '../generated/prisma/client.js';
+import { Prisma } from '../generated/prisma/client.js';
 import { IngredientsService } from '../ingredients/ingredients.service.js';
 import { PantryService } from '../pantry/pantry.service.js';
+import { ConfigService } from '@nestjs/config';
+import type { Env } from '../config/env.js';
 import { CURRENCIES } from '../prices/prices.dto.js';
 import { PricesService } from '../prices/prices.service.js';
 import { toDate } from '../planner/planner.service.js';
 import { PrismaService } from '../prisma/prisma.service.js';
 import { RecipeCalculatorService } from '../recipes/recipe-calculator.service.js';
+import { ReceiptAliasService } from './receipt-alias.service.js';
+import { storeKey, textKey } from './receipt-aliases.js';
 import { ReceiptExtractor, type ReceiptReading } from './receipt-extractor.js';
 import type { ReceiptCommitDto } from './receipt-import.dto.js';
 import { purchaseDate, receiptLine, toCents } from './receipt-math.js';
@@ -39,7 +43,34 @@ export interface CommitResult {
 }
 
 /** Składnik z bazy w kształcie, którego używa podgląd (wybór jednostek opakowania) */
-function lineItem(c: Candidate) {
+export interface LineIngredient {
+  id: string;
+  namePl: string;
+  nameEn: string | null;
+  density: number | null;
+  units: { code: string; namePl: string; nameEn: string | null; grams: number }[];
+  category: { icon: string };
+}
+
+type MatchStatus = 'MATCHED' | 'CONFIRM';
+type MatchSource = 'MINE' | 'COMMUNITY' | 'AI' | 'NAME';
+
+interface Catalog {
+  text: string;
+  /** nazwa małymi literami → id */
+  byName: Map<string, string>;
+}
+
+/** Teksty pozycji zapisane przy odczycie (ai_imports.lines) - do głosów i próśb o składniki */
+export interface StoredLines {
+  storeKey: string;
+  storeName: string | null;
+  items: { key: number; text: string; textKey: string }[];
+}
+
+const CATALOG_TTL_MS = 60 * 60 * 1000;
+
+function lineItem(c: Candidate): LineIngredient {
   return {
     id: c.id,
     namePl: c.namePl,
@@ -71,7 +102,11 @@ export class ReceiptImportService {
     private readonly calculator: RecipeCalculatorService,
     private readonly pantry: PantryService,
     private readonly prices: PricesService,
+    private readonly aliases: ReceiptAliasService,
+    private readonly config: ConfigService<Env, true>,
   ) {}
+
+  private catalogCache: { at: number; value: Catalog } | null = null;
 
   async status(userId: string) {
     return {
@@ -93,10 +128,11 @@ export class ReceiptImportService {
     const images = await Promise.all(files.map(toModelImage));
     const scope = await ownerScope(this.prisma, user.id);
     const importId = await this.usage.start(user.id, 'RECEIPT', images.length, scopeKey(scope));
+    const catalog = this.config.get('RECEIPT_CATALOG_HINTS', { infer: true }) ? await this.catalog() : null;
 
     let reading: ReceiptReading;
     try {
-      const result = await this.extractor.extract(images, lang);
+      const result = await this.extractor.extract(images, lang, catalog?.text ?? null);
       reading = result.reading;
       await this.usage.finish(importId, result);
     } catch (err) {
@@ -109,41 +145,84 @@ export class ReceiptImportService {
         HttpStatus.UNPROCESSABLE_ENTITY,
       );
     }
-    return this.toDraft(importId, reading, scope, user);
+    return this.toDraft(importId, reading, scope, user, catalog);
   }
 
-  /** Szkic: tylko produkty spożywcze, przeliczone ceny, dopasowanie do bazy i propozycja cennika */
-  private async toDraft(importId: string, r: ReceiptReading, scope: OwnerScope, user: AuthUser) {
+  /**
+   * Szkic: tylko produkty spożywcze, przeliczone ceny, dopasowanie do bazy i propozycja cennika.
+   * Kolejność dopasowania: własne powiązanie → pewne domyślne (głosy) → AI "ten sam" → pewna nazwa;
+   * do potwierdzenia: niepewne domyślne → AI "odpowiednik" → nazwa z bazy na początku odczytu.
+   */
+  private async toDraft(
+    importId: string,
+    r: ReceiptReading,
+    scope: OwnerScope,
+    user: AuthUser,
+    catalog: Catalog | null,
+  ) {
     const unitMl = await this.calculator.unitMl();
     const food = r.items
       .filter((i) => i.isFood && (i.totalPrice === null || i.totalPrice > 0))
       .slice(0, MAX_LINES);
+    const store = r.store?.trim().slice(0, 80) || null;
+    const chain = storeKey(store);
+    const keys = food.map((i) => textKey(i.productText || i.text));
+    const aliases = await this.aliases.lookup(user.id, scope, chain, keys);
+
+    // Składniki wskazane przez powiązania i AI - jednym zapytaniem
+    const aiIds = food.map((i) =>
+      i.catalogName ? (catalog?.byName.get(i.catalogName.trim().toLowerCase()) ?? null) : null,
+    );
+    const wanted = new Set<string>(aiIds.filter((id): id is string => !!id));
+    for (const hit of aliases.values()) {
+      if (hit.mine) wanted.add(hit.mine);
+      if (hit.community) wanted.add(hit.community.ingredientId);
+    }
+    const known = await this.loadItems([...wanted]);
+
     const lines = await Promise.all(
       food.map(async (item, index) => {
         const numbers = receiptLine(item);
-        const { match, suggestions } = await matchIngredient(this.ingredients, item.name, user);
+        const { match, suggestions, partial } = await matchIngredient(this.ingredients, item.name, user);
+        const hit = aliases.get(keys[index]);
+        const pick = (id: string | null | undefined) => (id ? (known.get(id) ?? null) : null);
+        const aiPick = pick(aiIds[index]);
+        const candidates: [LineIngredient | null, MatchStatus, MatchSource][] = [
+          [pick(hit?.mine), 'MATCHED', 'MINE'],
+          [hit?.community?.confident ? pick(hit.community.ingredientId) : null, 'MATCHED', 'COMMUNITY'],
+          [item.catalogMatch === 'SAME' ? aiPick : null, 'MATCHED', 'AI'],
+          [match ? lineItem(match) : null, 'MATCHED', 'NAME'],
+          [pick(hit?.community?.ingredientId), 'CONFIRM', 'COMMUNITY'],
+          [aiPick, 'CONFIRM', 'AI'],
+          [partial ? lineItem(partial) : null, 'CONFIRM', 'NAME'],
+        ];
+        const [chosen, status, source] = candidates.find(([i]) => i) ?? [null, null, null];
+
         let { packageAmount, packageUnitCode } = numbers;
         let warnings: string[] = numbers.warnings;
-        if (match) {
-          if (packageUnitCode && !unitAllowed(packageUnitCode, match, unitMl)) {
+        if (chosen) {
+          if (packageUnitCode && !unitAllowed(packageUnitCode, chosen, unitMl)) {
             // Np. "1 l" przy składniku bez gęstości - użytkownik poda wielkość sam
             packageAmount = null;
             packageUnitCode = null;
             warnings = [...warnings, 'UNIT_NOT_ALLOWED'];
-          } else if (!packageUnitCode && match.units.some((u) => u.code === 'PIECE')) {
+          } else if (!packageUnitCode && chosen.units.some((u) => u.code === 'PIECE')) {
             // Sztuka bez gramatury (bułka, banan) - opakowanie = 1 szt. (gramy z bazy)
             packageAmount = 1;
             packageUnitCode = 'PIECE';
             warnings = warnings.filter((w) => w !== 'NO_PACKAGE_SIZE');
           }
         }
+        const others = suggestions.map(lineItem).filter((s) => s.id !== chosen?.id);
         return {
           key: index,
           text: item.text.slice(0, 120),
           name: item.name.trim().slice(0, 80),
-          status: match ? 'MATCHED' : suggestions.length ? 'CONFIRM' : 'NOT_FOUND',
-          ingredient: match ? lineItem(match) : null,
-          suggestions: suggestions.map(lineItem),
+          status: status ?? (others.length ? 'CONFIRM' : 'NOT_FOUND'),
+          /** Skąd dopasowanie: własne / innych / AI / nazwa */
+          matchSource: source,
+          ingredient: chosen,
+          suggestions: others,
           packages: numbers.packages,
           packageAmount,
           packageUnitCode,
@@ -154,8 +233,23 @@ export class ReceiptImportService {
         };
       }),
     );
+
+    // Nazwy produktów do głosów i próśb o składniki (do zatwierdzenia, maks. doba)
+    const stored: StoredLines = {
+      storeKey: chain,
+      storeName: store,
+      items: food.map((item, index) => ({
+        key: index,
+        text: (item.productText || item.text).trim().slice(0, 120),
+        textKey: keys[index],
+      })),
+    };
+    await this.prisma.aiImport.update({
+      where: { id: importId },
+      data: { lines: stored as unknown as Prisma.InputJsonValue },
+    });
+
     const currency = CURRENCIES.find((c) => c === r.currency?.trim().toUpperCase()) ?? null;
-    const store = r.store?.trim().slice(0, 80) || null;
     return {
       importId,
       store,
@@ -170,6 +264,52 @@ export class ReceiptImportService {
       skipped: r.items.length - food.length,
       warnings: r.warnings.slice(0, 10),
     };
+  }
+
+  /** Zatwierdzone składniki dla AI (nazwy po jednej w linii) - w pamięci na godzinę, żeby prefiks był stały */
+  private async catalog(): Promise<Catalog> {
+    if (this.catalogCache && Date.now() - this.catalogCache.at < CATALOG_TTL_MS)
+      return this.catalogCache.value;
+    const rows = await this.prisma.ingredient.findMany({
+      where: { status: 'APPROVED' },
+      select: { id: true, namePl: true },
+      orderBy: { namePl: 'asc' },
+    });
+    const value: Catalog = {
+      text: rows.map((r) => r.namePl).join('\n'),
+      byName: new Map(rows.map((r) => [r.namePl.toLowerCase(), r.id])),
+    };
+    this.catalogCache = { at: Date.now(), value };
+    return value;
+  }
+
+  private async loadItems(ids: string[]): Promise<Map<string, LineIngredient>> {
+    if (!ids.length) return new Map();
+    const rows = await this.prisma.ingredient.findMany({
+      where: { id: { in: ids } },
+      include: {
+        category: true,
+        units: { include: { unit: true }, orderBy: { unit: { sortOrder: 'asc' } } },
+      },
+    });
+    return new Map(
+      rows.map((r) => [
+        r.id,
+        {
+          id: r.id,
+          namePl: r.namePl,
+          nameEn: r.nameEn,
+          density: r.density,
+          units: r.units.map((u) => ({
+            code: u.unitCode,
+            namePl: u.unit.namePl,
+            nameEn: u.unit.nameEn,
+            grams: u.grams,
+          })),
+          category: { icon: r.category.icon },
+        },
+      ]),
+    );
   }
 
   /** Cennik o nazwie sklepu (np. "Biedronka"), inaczej domyślny; null = trzeba założyć */
@@ -301,10 +441,25 @@ export class ReceiptImportService {
             });
           }
 
+          // Zatwierdzone pozycje to głosy "ten tekst z paragonu = ten składnik" (także bez zmian)
+          const stored = record.lines as unknown as StoredLines | null;
+          if (stored) {
+            const byKey = new Map(stored.items.map((i) => [i.key, i.textKey]));
+            await this.aliases.vote(
+              user.id,
+              stored.storeKey,
+              [...pantryLines, ...priceLines]
+                .filter((l) => l.key !== undefined && byKey.has(l.key))
+                .map((l) => ({ textKey: byKey.get(l.key!)!, ingredientId: l.ingredientId })),
+              tx,
+            );
+          }
+
           const result: CommitResult = { pantry: pantryLines.length, prices: priceLines.length, list };
           await tx.aiImport.update({
             where: { id: record.id },
-            data: { result: result as unknown as Prisma.InputJsonValue },
+            // Nazwy produktów nie są już potrzebne - nie trzymamy listy zakupów dłużej niż trzeba
+            data: { result: result as unknown as Prisma.InputJsonValue, lines: Prisma.DbNull },
           });
           return result;
         },

@@ -236,3 +236,26 @@
   margin: 0;
   padding-left: 20px;
 }
+
+// Źródło wstępnego dopasowania ("Wybrali inni", "Najbliższy odpowiednik")
+.source {
+  font-size: 0.8rem;
+  color: var(--ck-text-muted);
+}
+
+.confirm .material-symbols-rounded,
+.report-open .material-symbols-rounded {
+  margin-right: 4px;
+}
+
+.report-open {
+  margin: 0 0 8px -12px;
+}
+
+.request-form {
+  margin-bottom: 8px;
+  mat-form-field {
+    width: 100%;
+    max-width: 480px;
+  }
+}

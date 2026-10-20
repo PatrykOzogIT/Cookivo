@@ -97,7 +97,12 @@ describe('Zgłoszenia i moderacja (e2e)', () => {
   it('licznik admina: sprawy liczone po celu + składniki do akceptacji', async () => {
     const pending = await t.prisma.ingredient.count({ where: { status: 'PENDING' } });
     const summary = async () => (await api().get('/api/admin/summary').set(bearer(admin)).expect(200)).body;
-    expect(await summary()).toEqual({ openReports: 0, pendingIngredients: pending, total: pending });
+    expect(await summary()).toEqual({
+      openReports: 0,
+      pendingIngredients: pending,
+      ingredientRequests: 0,
+      total: pending,
+    });
 
     // Dwa zgłoszenia tego samego przepisu = jedna sprawa; zgłoszenie użytkownika = druga
     await report(r1, { targetType: 'RECIPE', recipeId, reason: 'SPAM' }).expect(201);

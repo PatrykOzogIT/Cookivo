@@ -54,13 +54,26 @@ export class VisionService {
 
   async parse<S extends z.ZodType>(
     schema: S,
-    opts: { system: string; images: ModelImage[]; prompt: string; maxTokens: number },
+    opts: {
+      /** Reguły; `cachedContext` (np. lista składników) idzie za nimi z cache - stała między wywołaniami */
+      system: string;
+      cachedContext?: string;
+      images: ModelImage[];
+      prompt: string;
+      maxTokens: number;
+    },
   ): Promise<VisionResult<z.infer<S>>> {
     if (!this.client) throw new Error('Odczyt zdjęć wyłączony (brak ANTHROPIC_API_KEY)');
     const response = await this.client.messages.parse({
       model: this.model,
       max_tokens: opts.maxTokens,
-      system: opts.system,
+      // Stały prefiks (reguły + kontekst) z prompt caching - kolejne odczyty płacą za niego ułamek
+      system: [
+        { type: 'text' as const, text: opts.system },
+        ...(opts.cachedContext ? [{ type: 'text' as const, text: opts.cachedContext }] : []),
+      ].map((block, i, all) =>
+        i === all.length - 1 ? { ...block, cache_control: { type: 'ephemeral' as const } } : block,
+      ),
       // Odczytanie tekstu ze zdjęcia - niski wysiłek wystarcza i obniża koszt
       output_config: { effort: 'low', format: zodOutputFormat(schema) },
       messages: [
@@ -83,7 +96,11 @@ export class VisionService {
     }
     return {
       output: response.parsed_output as z.infer<S>,
-      inputTokens: response.usage.input_tokens,
+      // Wszystkie tokeny wejścia (także z cache) - do śledzenia kosztów w ai_imports
+      inputTokens:
+        response.usage.input_tokens +
+        (response.usage.cache_creation_input_tokens ?? 0) +
+        (response.usage.cache_read_input_tokens ?? 0),
       outputTokens: response.usage.output_tokens,
     };
   }

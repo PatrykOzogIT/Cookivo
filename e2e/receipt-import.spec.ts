@@ -34,6 +34,7 @@ const line = (key: number, text: string, ing: Ing | null, over: object = {}) => 
   text,
   name: text.toLowerCase(),
   status: ing ? 'MATCHED' : 'NOT_FOUND',
+  matchSource: ing ? 'NAME' : null,
   ingredient: ing,
   suggestions: [],
   packages: 1,
@@ -284,6 +285,94 @@ test.describe('Import paragonu', () => {
       await expectNoA11yViolations(page);
       await page.getByRole('button', { name: 'Zacznij od nowa' }).click();
     }
+  });
+
+  test('wstępnie wybrany składnik do potwierdzenia i zgłoszenie brakującego produktu', async ({
+    page,
+    request,
+  }) => {
+    const user = await createUser(request, 'zglaszam');
+    await request.post('/api/prices', { headers: await token(request, user), data: { name: 'Biedronka' } });
+    const beet = await ingredient(request, 'burak');
+    const milk = await ingredient(request, 'mleko 3,2');
+    const commits = await mockReceipt(page, {
+      importId: '0190a000-0000-7000-8000-000000000004',
+      store: 'Biedronka',
+      purchasedOn: '2026-10-18',
+      currency: 'PLN',
+      currencyRead: 'PLN',
+      suggestedListId: null,
+      lines: [
+        {
+          ...line(0, 'BuraczkiNaszSp510g', beet, {
+            packageAmount: 510,
+            packageUnitCode: 'g',
+            priceCents: 365,
+          }),
+          status: 'CONFIRM',
+          matchSource: 'AI',
+        },
+        {
+          ...line(1, 'MlekoŚw3,2 1l', milk, { packageUnitCode: 'l', priceCents: 329 }),
+          status: 'CONFIRM',
+          matchSource: 'COMMUNITY',
+        },
+        line(2, 'TwaSernikDelika1kg', null, {
+          name: 'twaróg sernikowy',
+          packageAmount: 1,
+          packageUnitCode: null,
+        }),
+      ],
+      totalCents: 694,
+      skipped: 0,
+      warnings: [],
+    });
+    const requests: Record<string, unknown>[] = [];
+    await page.route('**/api/ingredient-requests', async (route) => {
+      requests.push(route.request().postDataJSON());
+      await route.fulfill({ status: 201, json: { id: 'r1', name: 'x', status: 'OPEN' } });
+    });
+
+    await loginUi(page, user);
+    await page.goto('/receipt-import');
+    await page.locator('input[type=file]').setInputFiles(join(__dirname, 'fixtures', 'dish.jpg'));
+    await page.getByRole('button', { name: 'Odczytaj paragon' }).click();
+
+    const beetLine = page.getByRole('listitem').filter({ hasText: 'BuraczkiNaszSp510g' });
+    await expect(beetLine.getByText('najbliższy odpowiednik w bazie')).toBeVisible();
+    await expect(
+      page.getByRole('listitem').filter({ hasText: 'MlekoŚw' }).getByText('tak przypisali inni'),
+    ).toBeVisible();
+    const summary = page.getByRole('region', { name: 'Podsumowanie' });
+    await expect(summary).toContainText('Wymaga uwagi3');
+    await beetLine.getByRole('button', { name: 'To ten produkt' }).click();
+    await expect(beetLine.getByText('najbliższy odpowiednik w bazie')).toHaveCount(0);
+    await expect(summary).toContainText('Wymaga uwagi2');
+
+    // Brak w bazie: zgłoszenie z pełną nazwą
+    const cheese = page.getByRole('listitem').filter({ hasText: 'TwaSernikDelika1kg' });
+    await cheese.getByRole('button', { name: 'Zgłoś brakujący produkt' }).click();
+    const nameField = cheese.getByLabel('Pełna nazwa produktu');
+    await expect(nameField).toBeFocused();
+    await expect(nameField).toHaveValue('Twaróg sernikowy');
+    await nameField.fill('Twaróg sernikowy wiaderko 1 kg');
+    await expectNoA11yViolations(page);
+    await cheese.getByRole('button', { name: 'Wyślij zgłoszenie' }).click();
+    await expect(cheese.getByText(/Zgłoszone - dodamy produkt/)).toBeVisible();
+    expect(requests).toEqual([
+      { name: 'Twaróg sernikowy wiaderko 1 kg', importId: '0190a000-0000-7000-8000-000000000004', key: 2 },
+    ]);
+
+    // Pozycja bez składnika blokuje zatwierdzenie - usuwamy ją
+    await page.getByRole('button', { name: 'Usuń pozycję: TwaSernikDelika1kg' }).click();
+    await page.getByRole('button', { name: 'Zatwierdź import' }).click();
+    await expect(page.getByRole('heading', { name: 'Zapisano zakupy z paragonu' })).toBeVisible();
+    expect(commits[0]).toMatchObject({
+      lines: [
+        { key: 0, ingredientId: beet.id },
+        { key: 1, ingredientId: milk.id },
+      ],
+    });
   });
 
   test('przycisk ukryty, gdy funkcja wyłączona (brak klucza API)', async ({ page, request }) => {

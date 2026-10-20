@@ -20,6 +20,8 @@ export interface ReceiptIngredient extends Localized {
 }
 
 export type MatchStatus = 'MATCHED' | 'CONFIRM' | 'NOT_FOUND';
+/** Skąd dopasowanie: własne powiązanie / wybór innych / AI z listy / podobna nazwa */
+export type MatchSource = 'MINE' | 'COMMUNITY' | 'AI' | 'NAME';
 
 export interface ReceiptDraftLine {
   key: number;
@@ -27,6 +29,8 @@ export interface ReceiptDraftLine {
   text: string;
   name: string;
   status: MatchStatus;
+  matchSource: MatchSource | null;
+  /** Przy CONFIRM może być już wybrany (do potwierdzenia) */
   ingredient: ReceiptIngredient | null;
   suggestions: ReceiptIngredient[];
   packages: number;
@@ -55,6 +59,8 @@ export interface ReceiptDraft {
 }
 
 export interface ReceiptCommitLine {
+  /** Numer pozycji ze szkicu - zapamiętujemy powiązanie tekst z paragonu → składnik */
+  key: number;
   ingredientId: string;
   toPantry: boolean;
   toPrices: boolean;

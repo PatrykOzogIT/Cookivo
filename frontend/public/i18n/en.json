@@ -156,7 +156,8 @@
     "HOUSEHOLD_CHANGED": "Your household changed after the receipt was read. Start again so the shopping goes to the right place.",
     "CURRENCY_MISMATCH": "The receipt's currency differs from the price list's currency.",
     "PRICE_LIST_REQUIRED": "Choose or create a price list.",
-    "PRICE_LIST_CONFLICT": "Someone in your household just changed the price lists. Confirm the import again."
+    "PRICE_LIST_CONFLICT": "Someone in your household just changed the price lists. Confirm the import again.",
+    "REQUEST_LIMIT": "You already have many requests waiting for review. Try again once some are added."
   },
   "auth": {
     "fields": {
@@ -752,6 +753,7 @@
               "Friend groups (optional): membership, role, approval status, who invited you, invitations (including the invitee's email address if you provide it) and recipes shared with the group. Group members see your username and shared recipes; a person waiting for approval is visible only to the group owner. Groups give no access to health data, plans or shopping. Legal basis: contract (Art. 6(1)(b) GDPR).",
               "Reading a recipe from photos (optional): the photos you choose in the recipe form. Purpose: reading the recipe text and filling in the form for you to check. Photos are not saved - they are deleted after reading; we only keep a usage counter (date, number of photos, result) needed for daily limits. Do not send photos containing other people’s personal data. Legal basis: contract (Art. 6(1)(b) GDPR).",
               "Reading a receipt from photos (optional): the receipt photos you choose in the pantry or price lists. Purpose: reading the purchased products, quantities and prices for you to check before saving. Photos are not saved - they are deleted after reading; we only keep a usage counter (as for recipes). After you confirm, we save the selected products in the pantry and the prices in the price list and the price history (product, regular price, package size, shop and purchase date); in a household, its members see them. We do not save the full receipt, payment amounts or card details. Legal basis: contract (Art. 6(1)(b) GDPR).",
+              "Receipt product links and ingredient requests: when you confirm a receipt import, we remember which ingredient was assigned to the product name printed on the receipt in a given shop chain (e.g. \"MlekoŚw3,2 1l\" at Biedronka → Milk 3.2%). We suggest your assignments to you and your household, and a summary of many people's assignments to all users (without showing who bought what). Product names from a reading are kept until you confirm the import, at most one day. When you report a missing product, we store the name you give, the receipt text and the shop - the administrator sees them, and we email you when the product is added. Legal basis: contract (Art. 6(1)(b) GDPR).",
               "Security: IP address and browser information for sign-in sessions, number of failed sign-ins and the consent history with IP address. Purpose: protecting accounts against takeover, detecting abuse and demonstrating consent. Legal basis: our legitimate interest (Art. 6(1)(f) GDPR) and the duty to demonstrate consent (Art. 7(1) GDPR).",
               "Moderation: reports about content and users, moderator decisions and account blocks with reasons. Purpose: countering illegal content and content that breaks the terms, and obligations under the Digital Services Act (DSA). Legal basis: legal obligation and legitimate interest (Art. 6(1)(c) and (f) GDPR).",
               "Correspondence: when you write to us - your email address and the message, so we can reply. Legal basis: legitimate interest (Art. 6(1)(f) GDPR)."
@@ -796,6 +798,7 @@
               "Photos not attached to a recipe - one day.",
               "Photos for reading a recipe or receipt - not kept after reading; usage counter - 90 days.",
               "Price history from receipts - until the price list it belongs to or the account (in a household - the household) is deleted.",
+              "Receipt product links and ingredient requests - until you delete the account; product names from an unconfirmed receipt reading - one day.",
               "Consent history - for as long as the account exists.",
               "Reports and moderation decisions - until the reported content or the reporter’s account is deleted.",
               "Database backups at our provider - up to a few days, after which the data also disappears from backups."
@@ -1618,7 +1621,26 @@
       "reason": "Reason (shown to the user)",
       "blockHint": "The user will be signed out on all devices and receive an email with the reason."
     },
-    "todo": "items to handle: {{count}}"
+    "todo": "items to handle: {{count}}",
+    "requests": {
+      "tab": "Ingredient requests ({{count}})",
+      "title": "Ingredient requests",
+      "lead": "Products missing from the database (e.g. from receipt import). Add the ingredient or point to an existing one - the receipt text gets linked to it and the requester receives an email.",
+      "status": {
+        "OPEN": "Open",
+        "DONE": "Added",
+        "REJECTED": "Rejected"
+      },
+      "loading": "Loading…",
+      "empty": "No requests.",
+      "by": "requested by: {{name}}",
+      "linked": "Ingredient: {{name}}",
+      "pick": "Choose an ingredient from the database",
+      "add": "Add ingredient",
+      "link": "Choose existing",
+      "reject": "Reject",
+      "statusLabel": "Request status"
+    }
   },
   "groups": {
     "lead": "Share recipes with friends - wider than your household, without publishing to everyone. Groups are only about recipes: plans, shopping and health data stay with you.",
@@ -1774,6 +1796,18 @@
     "donePrices": "Price list \"{{name}}\": {{count}} prices saved.",
     "donePricesNew": "Created the price list \"{{name}}\" with {{count}} prices.",
     "another": "Import another receipt",
-    "defaultListName": "Home price list"
+    "defaultListName": "Home price list",
+    "source": {
+      "MINE": "same as last time",
+      "COMMUNITY": "chosen by others",
+      "AI": "closest match in the database",
+      "NAME": "similar name in the database"
+    },
+    "confirm": "This is it",
+    "request": "Report a missing product",
+    "requestName": "Full product name",
+    "requestHint": "E.g. \"Grated beetroot in a jar\". We attach the receipt text (\"{{text}}\") and the shop. Once the product is added, we will match it automatically on your next receipt.",
+    "requestSend": "Send request",
+    "requested": "Reported - we will add the product and match it automatically next time. For now, choose a substitute or remove the item."
   }
 }

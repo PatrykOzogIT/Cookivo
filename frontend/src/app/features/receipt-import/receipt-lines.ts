@@ -1,5 +1,6 @@
 import { parseDecimal } from '../../core/i18n/format.pipes';
 import type {
+  MatchSource,
   MatchStatus,
   ReceiptCommitLine,
   ReceiptDraftLine,
@@ -12,6 +13,7 @@ export interface EditLine {
   text: string;
   name: string;
   status: MatchStatus;
+  matchSource: MatchSource | null;
   ingredient: ReceiptIngredient | null;
   suggestions: ReceiptIngredient[];
   packages: string;
@@ -22,6 +24,8 @@ export interface EditLine {
   toPrices: boolean;
   uncertain: boolean;
   warnings: string[];
+  /** Zgłoszono brakujący produkt (prośba do admina) */
+  requested: boolean;
 }
 
 /** Co jest nie tak z pozycją - kody `receiptImport.problem.<KOD>` */
@@ -38,6 +42,7 @@ export function fromDraft(line: ReceiptDraftLine, lang: string): EditLine {
     text: line.text,
     name: line.name,
     status: line.status,
+    matchSource: line.matchSource,
     ingredient: line.ingredient,
     suggestions: line.suggestions,
     packages: decimalText(line.packages, lang),
@@ -48,6 +53,7 @@ export function fromDraft(line: ReceiptDraftLine, lang: string): EditLine {
     toPrices: true,
     uncertain: line.uncertain,
     warnings: line.warnings,
+    requested: false,
   };
 }
 
@@ -93,8 +99,10 @@ export function summarize(lines: EditLine[], pantry: boolean, prices: boolean): 
     lines: lines.length,
     pantry: pantry ? lines.filter((l) => l.toPantry).length : 0,
     prices: prices ? lines.filter((l) => l.toPrices).length : 0,
-    attention: lines.filter((l) => lineProblems(l, pantry, prices).length || l.warnings.length || l.uncertain)
-      .length,
+    attention: lines.filter(
+      (l) =>
+        lineProblems(l, pantry, prices).length || l.warnings.length || l.uncertain || l.status !== 'MATCHED',
+    ).length,
     totalCents: lines.reduce((sum, l) => sum + (lineTotalCents(l) ?? 0), 0),
   };
 }
@@ -102,6 +110,7 @@ export function summarize(lines: EditLine[], pantry: boolean, prices: boolean): 
 /** Pozycja do zatwierdzenia (wywołać tylko dla pozycji bez braków) */
 export function toCommitLine(line: EditLine, pantry: boolean, prices: boolean): ReceiptCommitLine {
   return {
+    key: line.key,
     ingredientId: line.ingredient!.id,
     toPantry: pantry && line.toPantry,
     toPrices: prices && line.toPrices,

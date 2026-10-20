@@ -127,6 +127,13 @@
         }
       </section>
     </mat-tab>
+    <mat-tab [label]="t('admin.requests.tab', { count: adminTodo()?.ingredientRequests ?? 0 })">
+      <ng-template matTabContent>
+        <section class="ck-card box" aria-labelledby="requests-title">
+          <app-admin-ingredient-requests-panel />
+        </section>
+      </ng-template>
+    </mat-tab>
     <mat-tab [label]="t('admin.users.title')">
       <ng-template matTabContent>
         <section class="ck-card box" aria-labelledby="users-title">

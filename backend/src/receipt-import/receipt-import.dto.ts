@@ -4,6 +4,7 @@ import {
   IsArray,
   IsBoolean,
   IsIn,
+  IsInt,
   IsNumber,
   IsOptional,
   IsString,
@@ -27,6 +28,13 @@ export class ReceiptAnalyzeDto {
 
 /** Pozycja po sprawdzeniu przez użytkownika: N opakowań × wielkość opakowania, cena regularna */
 export class ReceiptLineDto {
+  /** Numer pozycji ze szkicu (do zapamiętania powiązania tekst → składnik) */
+  @IsOptional()
+  @IsInt()
+  @Min(0)
+  @Max(99)
+  key?: number;
+
   @IsUUID()
   ingredientId!: string;
 

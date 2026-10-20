@@ -18,6 +18,8 @@ export const ReceiptSchema = z.object({
     z.object({
       /** Linia z paragonu dokładnie tak, jak wydrukowana */
       text: z.string(),
+      /** Sama nazwa produktu z paragonu, bez ilości, ceny i litery stawki VAT (np. "MlekoŚw3,2 1l") */
+      productText: z.string(),
       /** Ogólna nazwa produktu po polsku, w mianowniku liczby pojedynczej, bez marki */
       name: z.string(),
       /** false = chemia, kosmetyki, torby, kaucje itp. */
@@ -33,6 +35,10 @@ export const ReceiptSchema = z.object({
       /** Wartość pozycji przed rabatami */
       totalPrice: z.number().nullable(),
       uncertain: z.boolean(),
+      /** Nazwa z listy składników Cookivo (dokładnie jak na liście) albo null */
+      catalogName: z.string().nullable(),
+      /** SAME = ten sam produkt, SIMILAR = tylko najbliższy odpowiednik z listy */
+      catalogMatch: z.enum(['SAME', 'SIMILAR']).nullable(),
     }),
   ),
   /** Krótkie uwagi dla użytkownika, np. "paragon ucięty u dołu" */
@@ -47,6 +53,9 @@ export interface ReceiptExtractionResult {
   inputTokens: number;
   outputTokens: number;
 }
+
+const CATALOG_RULE = `"catalogName" i "catalogMatch": wybierz z listy "Składniki Cookivo" (poniżej) składnik, który kupiono, i przepisz jego nazwę dokładnie jak na liście. "SAME" = ten sam produkt (np. "MlekoŚw3,2 1l" → "Mleko 3,2%", "Fil Z Piersi K kg" → "Pierś z kurczaka"); "SIMILAR" = na liście jest tylko najbliższy odpowiednik (np. buraczki tarte w słoiku → "Burak"). Nie wybieraj produktu o innych istotnych cechach (mleko 2% to nie mleko 3,2%). Gdy nic nie pasuje - null.`;
+const NO_CATALOG_RULE = '"catalogName" i "catalogMatch": zawsze null.';
 
 const SYSTEM = `Odczytujesz paragony fiskalne ze zdjęć dla aplikacji kulinarnej Cookivo (spiżarnia i cennik produktów spożywczych).
 
@@ -64,6 +73,8 @@ Zasady:
 - "packageAmount" i "packageUnit" tylko wtedy, gdy wielkość opakowania jest wydrukowana w nazwie (1L → 1 l, 500G → 500 g, 10SZT → 10 PIECE). Nie zgaduj gramatury.
 - Nie myl ceny za opakowanie z ceną za kilogram.
 - Kwoty jako liczby z kropką (4,29 → 4.29). Data jako YYYY-MM-DD. Waluta jako kod ISO (zł → PLN).
+- "productText": sama nazwa produktu dokładnie tak, jak wydrukowana (bez ilości, ceny i litery stawki VAT), np. "MlekoŚw3,2 1l".
+- {CATALOG_RULE}
 - Gdy czegoś nie da się pewnie odczytać, ustaw "uncertain": true i dodaj krótką uwagę w "warnings".
 - Jeśli na zdjęciach nie ma paragonu, ustaw "isReceipt": false i opisz powód w "warnings".
 - Uwagi w "warnings" pisz w języku: {LANG}.`;
@@ -81,9 +92,21 @@ export class ReceiptExtractor {
     this.enabled = vision.enabled;
   }
 
-  async extract(images: ModelImage[], lang: 'pl' | 'en'): Promise<ReceiptExtractionResult> {
+  /** `catalog` = nazwy zatwierdzonych składników (po jednej w linii) albo null, gdy podpowiedzi wyłączone */
+  async extract(
+    images: ModelImage[],
+    lang: 'pl' | 'en',
+    catalog: string | null = null,
+  ): Promise<ReceiptExtractionResult> {
     const { output, inputTokens, outputTokens } = await this.vision.parse(ReceiptSchema, {
-      system: SYSTEM.replace('{LANG}', lang === 'en' ? 'angielskim' : 'polskim'),
+      system: SYSTEM.replace('{LANG}', lang === 'en' ? 'angielskim' : 'polskim').replace(
+        '{CATALOG_RULE}',
+        catalog ? CATALOG_RULE : NO_CATALOG_RULE,
+      ),
+      cachedContext: catalog
+        ? `Składniki Cookivo:
+${catalog}`
+        : undefined,
       images,
       prompt: 'Odczytaj ten paragon.',
       maxTokens: 8000,

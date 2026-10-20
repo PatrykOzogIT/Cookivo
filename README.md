@@ -133,7 +133,9 @@ backend/
   src/household/     gospodarstwa domowe: zaproszenia, członkowie, udostępnianie alergii
   src/ai/            wspólny odczyt zdjęć przez Claude (structured outputs), limity użycia, dopasowanie składników
   src/recipe-import/ odczyt przepisu ze zdjęć i szkic do formularza
-  src/receipt-import/ odczyt paragonu → szkic → zatwierdzenie (lodówka, cennik, historia cen) w jednej transakcji
+  src/receipt-import/ odczyt paragonu → szkic → zatwierdzenie (lodówka, cennik, historia cen) w jednej transakcji;
+                     dopasowanie: własne i wspólne powiązania z paragonów, lista składników dla AI
+  src/ingredient-requests/ prośby o brakujące składniki (np. z paragonu) i ich obsługa w panelu admina
   src/groups/        grupy znajomych: zaproszenia z akceptacją właściciela, przepisy "dla grup"
   src/planner/       planer: gotowania (partie) i posiłki, zapasy, bilans dnia, kopiowanie
   src/pantry/        lodówka i spiżarnia (ilość opcjonalna, także kg i l, daty ważności)

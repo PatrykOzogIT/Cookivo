@@ -9,6 +9,7 @@ import { RouterLink } from '@angular/router';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { apiErrorCode } from '../../core/api-error';
 import { LanguageService } from '../../core/i18n/language.service';
+import { AdminIngredientRequestsPanel } from './admin-ingredient-requests-panel';
 import { AdminUsersPanel } from './admin-users-panel';
 import { ReportsApi, type QueueItem, type ReportStatus } from '../moderation/reports.api';
 import { AdminSummaryService } from '../../core/admin/admin-summary.service';
@@ -25,6 +26,7 @@ import { AdminSummaryService } from '../../core/admin/admin-summary.service';
     MatInputModule,
     MatTabsModule,
     AdminUsersPanel,
+    AdminIngredientRequestsPanel,
     TranslocoDirective,
   ],
   templateUrl: './admin-page.html',
@@ -34,6 +36,8 @@ export class AdminPage {
   private readonly api = inject(ReportsApi);
   private readonly language = inject(LanguageService);
   private readonly adminSummary = inject(AdminSummaryService);
+  /** Liczniki spraw (np. prośby o składniki w nazwie zakładki) */
+  protected readonly adminTodo = this.adminSummary.summary;
 
   protected readonly status = signal<ReportStatus>('OPEN');
   protected readonly items = signal<QueueItem[]>([]);

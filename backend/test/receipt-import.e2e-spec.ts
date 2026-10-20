@@ -1,3 +1,4 @@
+import { ConfigService } from '@nestjs/config';
 import sharp from 'sharp';
 import { ReceiptExtractor, type ReceiptReading } from '../src/receipt-import/receipt-extractor.js';
 import { createTestApp } from './support/app.js';
@@ -7,7 +8,10 @@ const bearer = (token: string) => ({ Authorization: `Bearer ${token}` });
 
 const item = (over: Partial<ReceiptReading['items'][number]>): ReceiptReading['items'][number] => ({
   text: '',
+  productText: over.text ?? '',
   name: '',
+  catalogName: null,
+  catalogMatch: null,
   isFood: true,
   quantity: null,
   quantityUnit: null,
@@ -361,5 +365,159 @@ describe('Import paragonu ze zdjęć (e2e)', () => {
     // Limit paragonów nie zjada limitu przepisów
     const recipe = await t.api().get('/api/recipe-import/status').set(bearer(me)).expect(200);
     expect(recipe.body.remaining).toBe(5);
+  });
+
+  // --- Dopasowanie: lista składników dla AI, powiązania od użytkowników ---------------------
+
+  const reading = (items: ReceiptReading['items']): ReceiptReading => ({ ...READING, items });
+  const onlyEggs = (text = 'JajaWolWyb M 20szt') =>
+    reading([
+      item({
+        text,
+        name: 'jajka z wolnego wybiegu',
+        packageAmount: 20,
+        packageUnit: 'PIECE',
+        totalPrice: 20.99,
+      }),
+    ]);
+
+  it('AI wybiera z listy składników: ten sam produkt / odpowiednik; zmyślona nazwa jest pomijana', async () => {
+    let catalog: string | null = null;
+    extractor.extract = async (_images, _lang, c) => {
+      catalog = c ?? null;
+      return {
+        reading: reading([
+          item({
+            text: 'MlekoŚw3,2 1l',
+            name: 'mleko świeże',
+            catalogName: 'Mleko 3,2%',
+            catalogMatch: 'SAME',
+            totalPrice: 3.29,
+          }),
+          item({
+            text: 'BuraczkiNaszSp510g',
+            name: 'buraczki tarte',
+            catalogName: 'burak',
+            catalogMatch: 'SIMILAR',
+            totalPrice: 3.65,
+          }),
+          item({ text: 'MąkaT650PlonNat1kg', name: 'mąka pszenna typ 650', totalPrice: 2.19 }),
+          item({
+            text: 'Smoczy ser',
+            name: 'smoczy ser',
+            catalogName: 'Smoczy ser',
+            catalogMatch: 'SAME',
+            totalPrice: 9,
+          }),
+        ]),
+        inputTokens: 1,
+        outputTokens: 1,
+      };
+    };
+    const d = (await analyze(me).expect(200)).body;
+    expect(catalog).toContain('Mleko 3,2%');
+    const [milk, beet, flour, dragon] = d.lines as (Line & { matchSource: string | null })[];
+    expect(milk).toMatchObject({
+      status: 'MATCHED',
+      matchSource: 'AI',
+      ingredient: { namePl: 'Mleko 3,2%' },
+    });
+    // Odpowiednik - wybrany, ale do potwierdzenia
+    expect(beet).toMatchObject({ status: 'CONFIRM', matchSource: 'AI', ingredient: { namePl: 'Burak' } });
+    // "mąka pszenna typ 650" zaczyna się od nazwy z bazy
+    expect(flour).toMatchObject({
+      status: 'CONFIRM',
+      matchSource: 'NAME',
+      ingredient: { namePl: 'Mąka pszenna' },
+    });
+    expect(dragon.ingredient).toBeNull();
+  });
+
+  it('bez podpowiedzi z listy (RECEIPT_CATALOG_HINTS=false) AI nie dostaje katalogu', async () => {
+    const config = t.app.get(ConfigService);
+    const original = config.get.bind(config);
+    const spy = vi
+      .spyOn(config, 'get')
+      .mockImplementation(((key: string, ...rest: unknown[]) =>
+        key === 'RECEIPT_CATALOG_HINTS'
+          ? false
+          : (original as (k: string, ...r: unknown[]) => unknown)(key, ...rest)) as never);
+    let catalog: string | null | undefined;
+    extractor.extract = async (_i, _l, c) => {
+      catalog = c;
+      return { reading: onlyEggs(), inputTokens: 1, outputTokens: 1 };
+    };
+    await analyze(me).expect(200);
+    spy.mockRestore();
+    expect(catalog).toBeNull();
+  });
+
+  it('powiązania: pierwszy głos podpowiada innym, od 3 głosów pewne; własne ma pierwszeństwo', async () => {
+    extractor.extract = async () => ({ reading: onlyEggs(), inputTokens: 1, outputTokens: 1 });
+    const eggs = (await t.prisma.ingredient.findFirstOrThrow({ where: { namePl: 'Jajko', source: 'USDA' } }))
+      .id;
+    const milk = (await t.prisma.ingredient.findFirstOrThrow({ where: { namePl: 'Mleko 3,2%' } })).id;
+    const confirm = async (token: string, ingredientId: string, unit = 'PIECE') => {
+      const d = (await analyze(token).expect(200)).body;
+      await commit(token, d.importId, {
+        toPantry: true,
+        toPrices: false,
+        currency: 'PLN',
+        lines: [
+          {
+            key: 0,
+            ingredientId,
+            toPantry: true,
+            toPrices: false,
+            packages: 1,
+            packageAmount: 20,
+            packageUnitCode: unit,
+          },
+        ],
+      }).expect(200);
+      // Nazw produktów nie trzymamy po zatwierdzeniu
+      expect((await t.prisma.aiImport.findUniqueOrThrow({ where: { id: d.importId } })).lines).toBeNull();
+      return d;
+    };
+    const first = (token: string) =>
+      analyze(token)
+        .expect(200)
+        .then((r) => r.body.lines[0]);
+
+    await confirm(me, eggs);
+    const b = await t.login('drugi');
+    expect(await first(b)).toMatchObject({
+      status: 'CONFIRM',
+      matchSource: 'COMMUNITY',
+      ingredient: { id: eggs },
+    });
+    await confirm(b, eggs);
+    const c = await t.login('trzeci');
+    await confirm(c, eggs);
+    const d = await t.login('czwarty');
+    expect(await first(d)).toMatchObject({
+      status: 'MATCHED',
+      matchSource: 'COMMUNITY',
+      ingredient: { id: eggs },
+    });
+
+    // Czwarty woli inaczej - u niego własne, u innych dalej domyślne (3 z 4 = 75%)
+    await confirm(d, milk, 'l');
+    expect(await first(d)).toMatchObject({
+      status: 'MATCHED',
+      matchSource: 'MINE',
+      ingredient: { id: milk },
+    });
+    const e = await t.login('piaty');
+    expect(await first(e)).toMatchObject({
+      status: 'MATCHED',
+      matchSource: 'COMMUNITY',
+      ingredient: { id: eggs },
+    });
+
+    // Głosy zablokowanych kont się nie liczą (zostają 2 z 3 → tylko podpowiedź)
+    await t.prisma.user.updateMany({ where: { username: 'trzeci' }, data: { blockedAt: new Date() } });
+    expect(await first(e)).toMatchObject({ status: 'CONFIRM', matchSource: 'COMMUNITY' });
+    expect(await t.prisma.receiptAliasVote.count()).toBe(4);
   });
 });

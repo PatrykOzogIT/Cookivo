@@ -1,4 +1,13 @@
-import { Component, computed, inject, input, signal, type OnInit } from '@angular/core';
+import {
+  Component,
+  Injector,
+  afterNextRender,
+  computed,
+  inject,
+  input,
+  signal,
+  type OnInit,
+} from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -13,6 +22,7 @@ import { apiErrorCode } from '../../core/api-error';
 import { LocalizedPipe } from '../../core/i18n/format.pipes';
 import { LanguageService } from '../../core/i18n/language.service';
 import { PhotoPicker } from '../../shared/photo-picker';
+import { IngredientRequestsApi } from '../admin/ingredient-requests.api';
 import { HouseholdApi } from '../household/household.api';
 import { IngredientsApi } from '../ingredients/ingredients.api';
 import type { Ingredient } from '../ingredients/ingredients.models';
@@ -58,6 +68,8 @@ import {
 })
 export class ReceiptImportPage implements OnInit {
   private readonly api = inject(ReceiptImportApi);
+  private readonly requestsApi = inject(IngredientRequestsApi);
+  private readonly injector = inject(Injector);
   private readonly pricesApi = inject(PricesApi);
   private readonly transloco = inject(TranslocoService);
   private readonly dictionaries = toSignal(inject(IngredientsApi).dictionaries$);
@@ -76,6 +88,9 @@ export class ReceiptImportPage implements OnInit {
   protected readonly errorWarnings = signal<string[]>([]);
   /** Pozycja, przy której jest otwarta wyszukiwarka składnika */
   protected readonly picking = signal<number | null>(null);
+  /** Pozycja z otwartym formularzem "Zgłoś brakujący produkt" */
+  protected readonly reporting = signal<number | null>(null);
+  protected requestName = '';
   /** Formularz nowego cennika anulowany - proponujemy zapis tylko do lodówki */
   protected readonly newListCancelled = signal(false);
   protected newListName = '';
@@ -177,6 +192,7 @@ export class ReceiptImportPage implements OnInit {
     this.s.patchLine(line.key, {
       ingredient: item,
       status: 'MATCHED',
+      matchSource: null,
       // Jednostka opakowania niepasująca do nowego składnika - do wyboru od nowa
       packageUnitCode:
         line.packageUnitCode && options.includes(line.packageUnitCode)
@@ -186,6 +202,29 @@ export class ReceiptImportPage implements OnInit {
             : null,
     });
     this.picking.set(null);
+  }
+
+  /** Wstępnie wybrany składnik (od innych / AI / podobna nazwa) - potwierdzony */
+  protected confirmMatch(line: EditLine): void {
+    this.s.patchLine(line.key, { status: 'MATCHED' });
+  }
+
+  protected openRequest(line: EditLine): void {
+    this.requestName = line.name ? line.name.charAt(0).toUpperCase() + line.name.slice(1) : '';
+    this.reporting.set(line.key);
+    afterNextRender(() => document.getElementById('request-name')?.focus(), { injector: this.injector });
+  }
+
+  /** "Zgłoś brakujący produkt": pełna nazwa od użytkownika, tekst i sklep serwer bierze z odczytu */
+  protected async sendRequest(line: EditLine): Promise<void> {
+    const draft = this.s.draft();
+    const name = this.requestName.trim();
+    if (!draft || name.length < 2) return;
+    await this.run(async () => {
+      await this.requestsApi.create({ name, importId: draft.importId, key: line.key });
+      this.s.patchLine(line.key, { requested: true });
+      this.reporting.set(null);
+    });
   }
 
   protected unitsFor(ingredient: ReceiptIngredient | null) {

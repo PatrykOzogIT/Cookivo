@@ -74,6 +74,8 @@ model User {
   householdInvites HouseholdInvite[]
 
   aiImports          AiImport[]
+  receiptAliasVotes  ReceiptAliasVote[]
+  ingredientRequests IngredientRequest[]
   friendGroups       FriendGroupMember[] @relation("FriendGroupMember")
   friendGroupInvited FriendGroupMember[] @relation("FriendGroupInvitedBy")
   friendGroupInvites FriendGroupInvite[]
@@ -196,6 +198,8 @@ model Ingredient {
   pantryItems       PantryItem[]
   shoppingItems     ShoppingItem[]
   priceObservations PriceObservation[]
+  receiptAliasVotes ReceiptAliasVote[]
+  requests          IngredientRequest[]
   prices            PriceEntry[]
   usedIn            RecipeIngredient[]
   preferences       IngredientPreference[]
@@ -1018,6 +1022,8 @@ model AiImport {
   committedAt  DateTime?          @map("committed_at")
   /// Wynik zatwierdzenia (same liczby) - zwracany przy ponownym zatwierdzeniu
   result       Json?
+  /// Paragon: sieć i nazwy produktów z odczytu (do głosów i próśb o składniki), czyszczone po zatwierdzeniu
+  lines        Json?
   createdAt    DateTime           @default(now()) @map("created_at")
   observations PriceObservation[]
 
@@ -1069,4 +1075,57 @@ model PriceObservation {
   @@index([listId])
   @@index([importId])
   @@map("price_observations")
+}
+
+/**
+ * Głos "ten tekst z paragonu (w tej sieci sklepów) to ten składnik" - z zatwierdzonych importów
+ * i rozpatrzonych próśb. Własne powiązanie (osoby / gospodarstwa) ma pierwszeństwo; domyślne
+ * dla wszystkich = większość głosów (`receipt-aliases.ts`). Usuwane razem z kontem.
+ */
+model ReceiptAliasVote {
+  id           String     @id @default(uuid(7)) @db.Uuid
+  userId       String     @map("user_id") @db.Uuid
+  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  /// Sieć sklepu po normalizacji ("" = nieznana)
+  storeKey     String     @map("store_key") @db.VarChar(40)
+  /// Nazwa produktu z paragonu po normalizacji (bez ilości i ceny)
+  textKey      String     @map("text_key") @db.VarChar(120)
+  ingredientId String     @map("ingredient_id") @db.Uuid
+  ingredient   Ingredient @relation(fields: [ingredientId], references: [id], onDelete: Cascade)
+  updatedAt    DateTime   @updatedAt @map("updated_at")
+
+  @@unique([userId, storeKey, textKey])
+  @@index([textKey, storeKey])
+  @@map("receipt_alias_votes")
+}
+
+enum IngredientRequestStatus {
+  OPEN
+  DONE
+  REJECTED
+}
+
+/**
+ * Prośba o dodanie składnika do bazy (np. z nierozpoznanej pozycji paragonu) - rozpatruje admin
+ */
+model IngredientRequest {
+  id           String                  @id @default(uuid(7)) @db.Uuid
+  userId       String                  @map("user_id") @db.Uuid
+  user         User                    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  /// Pełna nazwa od użytkownika (admin może nie znać skrótu z paragonu)
+  name         String                  @db.VarChar(120)
+  receiptText  String?                 @map("receipt_text") @db.VarChar(120)
+  storeName    String?                 @map("store_name") @db.VarChar(80)
+  storeKey     String                  @default("") @map("store_key") @db.VarChar(40)
+  textKey      String?                 @map("text_key") @db.VarChar(120)
+  status       IngredientRequestStatus @default(OPEN)
+  /// Składnik, który rozwiązał prośbę
+  ingredientId String?                 @map("ingredient_id") @db.Uuid
+  ingredient   Ingredient?             @relation(fields: [ingredientId], references: [id], onDelete: SetNull)
+  createdAt    DateTime                @default(now()) @map("created_at")
+  resolvedAt   DateTime?               @map("resolved_at")
+
+  @@index([status, createdAt])
+  @@index([userId])
+  @@map("ingredient_requests")
 }

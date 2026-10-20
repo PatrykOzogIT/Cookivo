@@ -9,6 +9,8 @@ export interface AdminSummary {
   /** Sprawy w kolejce zgłoszeń (po celu, jak w panelu) */
   openReports: number;
   pendingIngredients: number;
+  /** Otwarte prośby o dodanie składnika */
+  ingredientRequests: number;
   total: number;
 }
 

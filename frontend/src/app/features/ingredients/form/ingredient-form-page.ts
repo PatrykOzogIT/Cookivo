@@ -75,6 +75,8 @@ export class IngredientFormPage implements OnInit {
 
   /** Parametr trasy :id - obecny tylko przy edycji */
   readonly id = input<string>();
+  /** ?name= - nazwa z prośby o składnik (panel admina) */
+  readonly name = input<string>();
 
   protected readonly fields = NUTRIENT_FIELDS;
   protected readonly dictionaries = toSignal(this.api.dictionaries$);
@@ -125,7 +127,11 @@ export class IngredientFormPage implements OnInit {
 
   async ngOnInit(): Promise<void> {
     const id = this.id();
-    if (!id) return;
+    if (!id) {
+      const name = this.name()?.trim();
+      if (name) this.form.controls.namePl.setValue(name.slice(0, 120));
+      return;
+    }
     this.loading.set(true);
     try {
       this.fill(await this.api.get(id));

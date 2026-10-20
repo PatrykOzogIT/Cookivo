@@ -106,7 +106,7 @@
                     >admin_panel_settings</span
                   >
                   <span>{{ t('nav.admin') }}</span>
-                  @if (adminTodo()?.openReports; as n) {
+                  @if ((adminTodo()?.openReports ?? 0) + (adminTodo()?.ingredientRequests ?? 0); as n) {
                     <span class="menu-count" aria-hidden="true">{{ n }}</span>
                     <span class="visually-hidden">, {{ t('admin.todo', { count: n }) }}</span>
                   }

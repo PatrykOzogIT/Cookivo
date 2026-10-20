@@ -266,6 +266,13 @@
                   @if (l.ingredient; as ing) {
                     <span class="material-symbols-rounded" aria-hidden="true">{{ ing.category.icon }}</span>
                     <strong>{{ ing | localized: lang() }}</strong>
+                    @if (l.status === 'CONFIRM' && l.matchSource) {
+                      <span class="source">{{ t('receiptImport.source.' + l.matchSource) }}</span>
+                      <button mat-stroked-button type="button" class="confirm" (click)="confirmMatch(l)">
+                        <span class="material-symbols-rounded" aria-hidden="true">check</span
+                        >{{ t('receiptImport.confirm') }}
+                      </button>
+                    }
                   } @else {
                     <span class="muted">{{ t('receiptImport.pickIngredient', { name: l.name }) }}</span>
                   }
@@ -275,6 +282,47 @@
                     </button>
                   }
                 </div>
+                @if (l.requested) {
+                  <p class="note" role="status">
+                    <span class="material-symbols-rounded" aria-hidden="true">mark_email_read</span
+                    >{{ t('receiptImport.requested') }}
+                  </p>
+                } @else if (reporting() === l.key) {
+                  <form class="request-form" (ngSubmit)="sendRequest(l)" novalidate>
+                    <mat-form-field subscriptSizing="dynamic">
+                      <mat-label>{{ t('receiptImport.requestName') }}</mat-label>
+                      <input
+                        matInput
+                        name="requestName"
+                        id="request-name"
+                        maxlength="120"
+                        autocomplete="off"
+                        [(ngModel)]="requestName"
+                        aria-describedby="request-hint"
+                      />
+                    </mat-form-field>
+                    <p class="hint" id="request-hint">
+                      {{ t('receiptImport.requestHint', { text: l.text }) }}
+                    </p>
+                    <div class="row">
+                      <button
+                        mat-stroked-button
+                        type="submit"
+                        [disabled]="busy() || requestName.trim().length < 2"
+                      >
+                        {{ t('receiptImport.requestSend') }}
+                      </button>
+                      <button mat-button type="button" (click)="reporting.set(null)">
+                        {{ t('common.cancel') }}
+                      </button>
+                    </div>
+                  </form>
+                } @else if (!l.ingredient || l.status !== 'MATCHED') {
+                  <button mat-button type="button" class="report-open" (click)="openRequest(l)">
+                    <span class="material-symbols-rounded" aria-hidden="true">add</span
+                    >{{ t('receiptImport.request') }}
+                  </button>
+                }
                 @if (!l.ingredient && l.suggestions.length) {
                   <div class="suggestions" role="group" [attr.aria-label]="t('receiptImport.suggestions')">
                     @for (sg of l.suggestions; track sg.id) {

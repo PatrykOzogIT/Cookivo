@@ -35,6 +35,14 @@ export const envSchema = z.object({
   RECIPE_IMPORT_DAILY_LIMIT: z.coerce.number().int().min(0).default(5),
   RECEIPT_IMPORT_DAILY_LIMIT: z.coerce.number().int().min(0).default(5),
   RECIPE_IMPORT_MONTHLY_LIMIT: z.coerce.number().int().min(0).default(300),
+  /**
+   * Paragony: lista zatwierdzonych składników w poleceniu dla AI (lepsze dopasowanie, ~3 tys. tokenów
+   * więcej na odczyt). Można wyłączyć, gdy powiązania od użytkowników wystarczą.
+   */
+  RECEIPT_CATALOG_HINTS: z
+    .enum(['true', 'false', '1', '0'])
+    .default('true')
+    .transform((v) => v === 'true' || v === '1'),
   /** Limity żądań (ochrona przed zgadywaniem haseł). Wyłączamy tylko w testach E2E. */
   THROTTLE_ENABLED: z
     .enum(['true', 'false', '1', '0'])
