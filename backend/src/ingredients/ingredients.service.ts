@@ -7,12 +7,13 @@ import {
 } from '@nestjs/common';
 import type { AuthUser } from '../common/auth.decorators.js';
 import { normalizeSearch } from '../common/text.js';
+import { similarName } from '../ai/ingredient-names.js';
 import { Prisma } from '../generated/prisma/client.js';
 import { containsProfanity } from '../moderation/profanity.js';
 import { PrismaService } from '../prisma/prisma.service.js';
 import { RecipeCalculatorService } from '../recipes/recipe-calculator.service.js';
 import { ingredientForMe } from '../profile/personalization.js';
-import type { ListIngredientsQuery, SaveIngredientDto } from './ingredients.dto.js';
+import { ListIngredientsQuery, type SaveIngredientDto } from './ingredients.dto.js';
 import { checkNutrition } from './nutrition.js';
 
 const isAdmin = (user?: AuthUser) => user?.role === 'ADMIN' || user?.role === 'SUPER_ADMIN';
@@ -125,6 +126,36 @@ export class IngredientsService {
     };
   }
 
+  /**
+   * Możliwe duble przed dodaniem składnika: zatwierdzone i własne (każdy status),
+   * a dla admina także oczekujące od innych. Najwyżej 3, najpierw zatwierdzone.
+   */
+  async similar(names: string[], user: AuthUser) {
+    const found = new Map<string, ReturnType<typeof toDto>>();
+    // Pełna nazwa i jej początki ("Ćwikła domowa z chrzanem" znajdzie też "Ćwikła domowa")
+    const queries = new Map<string, string>();
+    for (const full of names.map((n) => n.trim()).filter((n) => n.length >= 3)) {
+      const words = full.split(/\s+/);
+      for (let k = words.length; k >= Math.max(1, words.length - 3); k--) {
+        const q = words.slice(0, k).join(' ');
+        if (q.length >= 3) queries.set(q, full);
+      }
+    }
+    for (const [q, name] of queries) {
+      const query = (extra: Partial<ListIngredientsQuery> = {}) =>
+        Object.assign(new ListIngredientsQuery(), { q, pageSize: 8 }, extra);
+      const pages = [await this.list(query(), user)];
+      if (isAdmin(user)) pages.push(await this.list(query({ status: 'PENDING' }), user));
+      for (const item of pages.flatMap((p) => p.items)) {
+        if (item.status !== 'REJECTED' && similarName(name, item)) found.set(item.id, item);
+      }
+    }
+    return [...found.values()]
+      .sort((a, b) => Number(b.status === 'APPROVED') - Number(a.status === 'APPROVED'))
+      .slice(0, 3)
+      .map((i) => ({ id: i.id, namePl: i.namePl, nameEn: i.nameEn, status: i.status }));
+  }
+
   async get(id: string, user?: AuthUser) {
     return toDto(await this.findVisible(id, user), user, await this.personal(user));
   }
@@ -136,7 +167,7 @@ export class IngredientsService {
       .create({
         data: {
           ...(await this.toData(dto)),
-          source: 'USER',
+          source: dto.fromLabel ? 'LABEL' : 'USER',
           // Admin nie musi czekać na akceptację własnego składnika
           status: admin ? 'APPROVED' : 'PENDING',
           reviewedById: admin ? user.id : null,
@@ -256,14 +287,17 @@ export class IngredientsService {
       if (known !== unitCodes.length) throw new BadRequestException({ code: 'UNIT_UNKNOWN' });
     }
 
-    const duplicate = await this.prisma.ingredient.findFirst({
+    // Ta sama nazwa po normalizacji ("Zolty ser" = "Żółty ser") - tak jak test unikalności katalogu
+    const key = normalizeSearch(dto.namePl);
+    const candidates = await this.prisma.ingredient.findMany({
       where: {
         status: 'APPROVED',
-        namePl: { equals: dto.namePl, mode: 'insensitive' },
+        searchText: { startsWith: key },
         ...(exceptId ? { id: { not: exceptId } } : {}),
       },
-      select: { id: true },
+      select: { id: true, namePl: true },
     });
+    const duplicate = candidates.find((c) => normalizeSearch(c.namePl) === key);
     if (duplicate) throw new ConflictException({ code: 'INGREDIENT_EXISTS', id: duplicate.id });
   }
 

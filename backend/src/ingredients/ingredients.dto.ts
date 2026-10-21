@@ -171,6 +171,24 @@ export class SaveIngredientDto {
   @ValidateNested({ each: true })
   @Type(() => IngredientUnitDto)
   units: IngredientUnitDto[] = [];
+
+  /** Wartości z odczytu etykiety (źródło na karcie składnika) */
+  @IsOptional()
+  @IsBoolean()
+  fromLabel?: boolean;
+}
+
+export class SimilarIngredientsQuery {
+  @Transform(trim)
+  @IsString()
+  @Length(1, 120)
+  namePl!: string;
+
+  @IsOptional()
+  @Transform(trim)
+  @IsString()
+  @MaxLength(120)
+  nameEn?: string;
 }
 
 export class RejectIngredientDto {

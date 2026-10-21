@@ -17,6 +17,7 @@ Angular and NestJS.
 - 📸 Recipe import from photos (Claude API, structured outputs, ingredient matching)
 - 🤖 Assistant: weekly meal plan from a description (also within a budget), recipes from the pantry, recipe versions (vegan, gluten-free, lighter…), a substitute while cooking ("Don't have it"), a dictated shopping list, a cooking plan for several dishes at once (meal prep), shopping top-up - drafts you approve, daily limits
 - 🧾 Receipt import: one AI reading fills the pantry and the price list (review before saving, idempotent commit, price history)
+- 🏷️ Ingredient from a label photo: nutrition per 100 g, allergens and package weight read by AI into the form (nothing guessed, duplicate check)
 - 🥕 Pantry management
 - ⚠️ Allergies & food intolerances
 - ⭐ Recipe ratings and variants
@@ -137,6 +138,7 @@ backend/
   src/receipt-import/ odczyt paragonu → szkic → zatwierdzenie (lodówka, cennik, historia cen) w jednej transakcji;
                      dopasowanie: własne i wspólne powiązania z paragonów, lista składników dla AI
   src/assistant/     asystent: plan tygodnia (z budżetem), przepisy z lodówki, wersje przepisów, zamienniki, dyktowanie listy, plan gotowania (Claude), uzupełnienie zakupów (bez AI)
+  src/label-import/  odczyt etykiety produktu → szkic formularza składnika (wartości na 100 g, alergeny)
   src/ingredient-requests/ prośby o brakujące składniki (np. z paragonu) i ich obsługa w panelu admina
   src/groups/        grupy znajomych: zaproszenia z akceptacją właściciela, przepisy "dla grup"
   src/planner/       planer: gotowania (partie) i posiłki, zapasy, bilans dnia, kopiowanie

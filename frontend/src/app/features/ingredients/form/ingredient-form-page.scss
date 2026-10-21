@@ -166,3 +166,43 @@ button .material-symbols-rounded {
     flex: 1;
   }
 }
+
+// Odczyt etykiety: podsumowanie, co sprawdzić
+.label-summary {
+  margin-bottom: 20px;
+  h2:focus {
+    outline: none;
+  }
+  ul {
+    margin: 0;
+    padding-left: 20px;
+  }
+  li {
+    margin: 4px 0;
+  }
+  .todo {
+    font-weight: 600;
+  }
+}
+
+// Możliwe duble przy nazwie nowego składnika
+.similar {
+  margin: 0 0 16px;
+  p {
+    margin: 0;
+  }
+  ul {
+    margin: 4px 0;
+    padding-left: 20px;
+  }
+  a {
+    color: var(--ck-link);
+  }
+  .muted-inline {
+    margin-left: 4px;
+    color: var(--ck-text-muted);
+  }
+  .small {
+    font-size: 0.85rem;
+  }
+}

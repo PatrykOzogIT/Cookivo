@@ -44,7 +44,7 @@ export interface Ingredient extends Localized {
   id: string;
   category: Category;
   status: IngredientStatus;
-  source: 'USDA' | 'CIQUAL' | 'USER';
+  source: 'USDA' | 'CIQUAL' | 'USER' | 'LABEL';
   sourceRef: string | null;
   nutrition: Nutrition;
   density: number | null;
@@ -103,4 +103,6 @@ export interface SaveIngredient {
   density: number | null;
   allergens: string[];
   units: { code: string; grams: number }[];
+  /** Wartości z odczytu etykiety (źródło na karcie) */
+  fromLabel?: boolean;
 }

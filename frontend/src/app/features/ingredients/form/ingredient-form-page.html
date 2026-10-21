@@ -18,6 +18,53 @@
       <p class="lead">{{ t(auth.isAdmin() ? 'ingredients.form.leadAdmin' : 'ingredients.form.lead') }}</p>
     }
 
+    @if (!id()) {
+      <app-label-import-panel [name]="form.controls.namePl.value" (draft)="applyLabel($event)" />
+    }
+
+    @if (labelDraft(); as d) {
+      <section class="ck-card box label-summary" aria-labelledby="label-summary">
+        <h2 id="label-summary" tabindex="-1">{{ t('ingredients.label.summaryTitle') }}</h2>
+        @if (d.printedName) {
+          <p class="muted">{{ t('ingredients.label.printed', { name: d.printedName }) }}</p>
+        }
+        <ul>
+          @if (!d.namePl) {
+            <li class="todo">{{ t('ingredients.label.noName') }}</li>
+          }
+          @if (d.noTable) {
+            <li class="todo">{{ t('ingredients.label.noTable') }}</li>
+          } @else if (d.portionUnknown) {
+            <li class="todo">{{ t('ingredients.label.portionUnknown') }}</li>
+          } @else if (d.missing.length) {
+            <li class="todo">
+              {{ t('ingredients.label.missing', { fields: missingNames(d) }) }}
+            </li>
+          }
+          @if (d.fromPortion) {
+            <li>{{ t('ingredients.label.fromPortion') }}</li>
+          }
+          @if (d.perMl) {
+            <li class="todo">{{ t('ingredients.label.perMl') }}</li>
+          }
+          @if (d.problem) {
+            <li class="todo">{{ t('errors.' + d.problem) }}</li>
+          }
+          @if (!d.ingredientsVisible) {
+            <li class="todo">{{ t('ingredients.label.noIngredients') }}</li>
+          } @else {
+            <li>{{ t('ingredients.label.checkAllergens') }}</li>
+          }
+          @if (d.mayContain.length) {
+            <li>{{ t('ingredients.label.mayContain', { names: allergenNames(d.mayContain) }) }}</li>
+          }
+          @for (w of d.warnings; track $index) {
+            <li>{{ w }}</li>
+          }
+        </ul>
+      </section>
+    }
+
     @if (error(); as code) {
       <div class="alert" role="alert">
         <span class="material-symbols-rounded" aria-hidden="true">error</span>
@@ -51,6 +98,25 @@
             <mat-hint>{{ t('common.optional') }}</mat-hint>
           </mat-form-field>
         </div>
+        @if (similar().length && !id()) {
+          <div class="notice similar" role="status">
+            <span class="material-symbols-rounded" aria-hidden="true">content_copy</span>
+            <div>
+              <p>{{ t('ingredients.similar.title') }}</p>
+              <ul>
+                @for (s of similar(); track s.id) {
+                  <li>
+                    <a [routerLink]="['/ingredients', s.id]">{{ s | localized: lang() }}</a>
+                    @if (s.status === 'PENDING') {
+                      <span class="muted-inline">({{ t('ingredients.similar.pending') }})</span>
+                    }
+                  </li>
+                }
+              </ul>
+              <p class="small">{{ t('ingredients.similar.hint') }}</p>
+            </div>
+          </div>
+        }
         <mat-form-field class="category">
           <mat-label>{{ t('ingredients.filters.category') }}</mat-label>
           <mat-select formControlName="categoryCode" required>

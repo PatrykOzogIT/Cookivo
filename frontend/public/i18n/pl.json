@@ -159,7 +159,9 @@
     "PRICE_LIST_CONFLICT": "Ktoś z domowników właśnie zmienił cenniki. Zatwierdź import jeszcze raz.",
     "REQUEST_LIMIT": "Masz już dużo zgłoszeń czekających na rozpatrzenie. Spróbuj, gdy część zostanie dodana.",
     "ASSISTANT_EMPTY": "Napisz, w czym pomóc.",
-    "PREP_NO_STEPS": "Wybrane przepisy nie mają kroków - nie ma czego ułożyć."
+    "PREP_NO_STEPS": "Wybrane przepisy nie mają kroków - nie ma czego ułożyć.",
+    "LABEL_NOT_LABEL": "To nie wygląda na etykietę produktu spożywczego. Zrób zdjęcie tabeli wartości i składu.",
+    "LABEL_TOO_MANY": "Wybierz najwyżej 2 zdjęcia: tabelę wartości i skład."
   },
   "auth": {
     "fields": {
@@ -777,6 +779,7 @@
               "Grupy znajomych (opcjonalne): członkostwo, rola, status akceptacji, kto Cię zaprosił, zaproszenia (z adresem e-mail osoby zapraszanej, jeśli go podasz) i przepisy udostępnione grupie. Członkowie grupy widzą Twoją nazwę użytkownika i udostępnione przepisy; osobę czekającą na akceptację widzi tylko właściciel grupy. Grupy nie dają dostępu do danych o zdrowiu, planów ani zakupów. Podstawa: umowa (art. 6 ust. 1 lit. b RODO).",
               "Odczyt przepisu ze zdjęć (opcjonalny): zdjęcia, które wybierzesz w formularzu przepisu. Cel: odczytanie tekstu przepisu i wypełnienie formularza do Twojego sprawdzenia. Zdjęć nie zapisujemy - po odczycie są usuwane; przechowujemy tylko licznik użycia (data, liczba zdjęć, wynik) potrzebny do dziennych limitów. Nie wysyłaj zdjęć z danymi osobowymi innych osób. Podstawa: umowa (art. 6 ust. 1 lit. b RODO).",
               "Odczyt paragonu ze zdjęć (opcjonalny): zdjęcia paragonu, które wybierzesz w lodówce albo w cennikach. Cel: odczytanie kupionych produktów, ilości i cen do Twojego sprawdzenia przed zapisem. Zdjęć nie zapisujemy - po odczycie są usuwane; przechowujemy tylko licznik użycia (jak przy przepisach). Po zatwierdzeniu zapisujemy wybrane produkty w lodówce, a ceny - w cenniku i w historii cen (produkt, cena regularna, wielkość opakowania, sklep i data zakupu); w gospodarstwie widzą je domownicy. Nie zapisujemy treści całego paragonu, kwot płatności ani danych karty. Podstawa: umowa (art. 6 ust. 1 lit. b RODO).",
+              "Odczyt etykiety produktu ze zdjęcia (opcjonalny): zdjęcia etykiety (tabela wartości, skład), które wybierzesz w formularzu składnika, i ewentualnie wpisana nazwa produktu. Cel: odczytanie nazwy, wartości odżywczych, alergenów i wagi opakowania do Twojego sprawdzenia przed zapisem. Zdjęć nie zapisujemy - po odczycie są usuwane; przechowujemy tylko licznik użycia. Przy wpisywaniu nazwy nowego składnika sprawdzamy, czy podobny nie istnieje już w bazie (bez udziału AI). Podstawa: umowa (art. 6 ust. 1 lit. b RODO).",
               "Powiązania produktów z paragonów i prośby o składniki: zatwierdzając import paragonu, zapamiętujemy, jaki składnik przypisano nazwie produktu z paragonu w danej sieci sklepów (np. „MlekoŚw3,2 1l” w Biedronce → Mleko 3,2%). Twoje przypisania podpowiadamy Tobie i domownikom, a zestawienie przypisań wielu osób - wszystkim użytkownikom (bez wskazywania, kto co kupił). Nazwy produktów z odczytu przechowujemy do zatwierdzenia importu, najdłużej dobę. Gdy zgłosisz brakujący produkt, zapisujemy podaną nazwę, tekst z paragonu i sklep - widzi je administrator, a o dodaniu produktu informujemy Cię e-mailem. Podstawa: umowa (art. 6 ust. 1 lit. b RODO).",
               "Ceny ogólne: ceny regularne z zatwierdzonych paragonów wszystkich użytkowników z ostatnich 60 dni łączymy w cenę ogólną produktu (medianę, osobno dla sieci sklepów) i pokazujemy ją innym w cennikach i szacunkach kosztów. Nie pokazujemy, kto ani kiedy kupił produkt. Historia cen obejmuje też ceny wpisane ręcznie w cenniku - te nie wchodzą do cen ogólnych. Podstawa: nasz prawnie uzasadniony interes - pomoc użytkownikom w szacowaniu kosztów zakupów (art. 6 ust. 1 lit. f RODO); możesz wnieść sprzeciw, pisząc na kontakt@cookivo.pl.",
               "Asystent (opcjonalny): treść Twojej prośby i dane z Cookivo potrzebne do odpowiedzi - lista pasujących przepisów (tytuły, kcal, czas, szacowany koszt porcji z cen), produkty w lodówce, a tylko przy zgodzie na dane o zdrowiu także Twój dzienny cel kcal - przekazujemy do modelu AI, żeby przygotować propozycję (plan posiłków, także z budżetem, plan gotowania, przepisy z lodówki, wersję przepisu). Przepisy filtrujemy pod Twoje alergie u nas - samych alergii do tych zadań nie wysyłamy. Przy zamienniku w trakcie gotowania („Nie mam”) wysyłamy przepis, brakujący składnik i produkty z lodówki, a przy zgodzie na dane o zdrowiu także nazwy alergenów, których unikasz - żeby zamiennik był dla Ciebie bezpieczny. Przy planie gotowania (meal prep) wysyłamy nazwy wybranych przepisów, ich kroki i liczbę porcji - bez danych o zdrowiu. Dyktując listę zakupów, wysyłamy do modelu AI tekst listy; mowę na tekst zamienia Twoja przeglądarka (np. Chrome korzysta z usługi Google na jej zasadach) - nagrania do nas nie trafiają. Asystent niczego nie zapisuje sam: propozycje zatwierdzasz. Rozmów nie przechowujemy; zapisujemy tylko licznik użycia (data, rodzaj zadania, wynik, tokeny). Uzupełnianie listy zakupów działa bez AI - na podstawie planu, lodówki i historii zakupów z paragonów. Podstawa: umowa (art. 6 ust. 1 lit. b RODO), a dla celu kcal i alergenów - Twoja wyraźna zgoda (art. 9 ust. 2 lit. a RODO).",
@@ -806,7 +809,7 @@
             [
               "JCHost (jchost.pl) - polski dostawca hostingu: serwer aplikacji, zdjęcia i poczta e-mail.",
               "Databricks, Inc. (właściciel usługi Neon) - baza danych w chmurze, przechowywana w regionie UE (Frankfurt, Niemcy; infrastruktura Amazon Web Services); dostawca może korzystać z dalszych podmiotów przetwarzających na warunkach swojej umowy powierzenia. Databricks ma siedzibę w USA - ewentualny dostęp spoza Europejskiego Obszaru Gospodarczego zabezpieczają standardowe klauzule umowne zatwierdzone przez Komisję Europejską (art. 46 RODO).",
-              "Anthropic PBC - model AI odczytujący przepisy i paragony ze zdjęć oraz asystent (tylko gdy użyjesz tych funkcji). Anthropic ma siedzibę w USA; przekazanie zabezpieczają standardowe klauzule umowne w umowie powierzenia (art. 46 RODO). Według warunków Anthropic dane przesyłane przez API nie służą do trenowania modeli."
+              "Anthropic PBC - model AI odczytujący przepisy, paragony i etykiety produktów ze zdjęć oraz asystent (tylko gdy użyjesz tych funkcji). Anthropic ma siedzibę w USA; przekazanie zabezpieczają standardowe klauzule umowne w umowie powierzenia (art. 46 RODO). Według warunków Anthropic dane przesyłane przez API nie służą do trenowania modeli."
             ],
             "Sprawdzając, czy nowe hasło nie wyciekło w znanych incydentach, wysyłamy do serwisu Have I Been Pwned tylko 5 pierwszych znaków skrótu SHA-1 hasła - nie da się z tego odtworzyć hasła ani Cię zidentyfikować.",
             "Dane możemy też ujawnić uprawnionym organom publicznym, gdy wymaga tego prawo."
@@ -822,7 +825,7 @@
               "Sesje logowania (adres IP, przeglądarka) - sesja wygasa po 30 dniach, jej dane usuwamy najpóźniej 30 dni po wygaśnięciu lub wylogowaniu.",
               "Linki z wiadomości e-mail (potwierdzenie adresu, reset hasła) - do doby po wykorzystaniu lub wygaśnięciu.",
               "Zdjęcia, które nie zostały dołączone do przepisu - doba.",
-              "Zdjęcia do odczytu przepisu lub paragonu - nie przechowujemy ich po odczycie; licznik użycia - 90 dni.",
+              "Zdjęcia do odczytu przepisu, paragonu lub etykiety - nie przechowujemy ich po odczycie; licznik użycia - 90 dni.",
               "Historia cen z paragonów - do usunięcia cennika, do którego trafiła, albo konta (w gospodarstwie - gospodarstwa).",
               "Powiązania produktów z paragonów i prośby o składniki - do usunięcia konta; nazwy produktów z niezatwierdzonego odczytu paragonu - doba.",
               "Ceny z paragonów w cenach ogólnych - liczone z ostatnich 60 dni; same wpisy historii - jak historia cen.",
@@ -1069,7 +1072,32 @@
       "submit": "Zapisz składnik"
     },
     "sourceCiqual": "ANSES, tabela składu żywności Ciqual 2025 (aktualizacja: 3.11.2025),",
-    "ciqualLicence": "Dane wykorzystane na licencji"
+    "ciqualLicence": "Dane wykorzystane na licencji",
+    "label": {
+      "title": "Uzupełnij ze zdjęcia etykiety",
+      "hint": "Zrób zdjęcie tabeli wartości odżywczych i składu (do {{count}} zdjęć). Asystent odczyta wartości na 100 g, alergeny i wagę opakowania - wszystko sprawdzisz przed zapisem.",
+      "choose": "Zrób lub wybierz zdjęcia",
+      "remaining": "Zostało dziś: {{count}} z {{limit}}",
+      "working": "Odczytuję etykietę…",
+      "privacy": "Zdjęcia wysyłamy do modelu AI tylko na czas odczytu - nie zapisujemy ich.",
+      "summaryTitle": "Odczytano z etykiety - sprawdź każde pole",
+      "printed": "Na opakowaniu: {{name}}",
+      "noName": "Nie udało się odczytać nazwy - wpisz ją.",
+      "noTable": "Nie widzę tabeli wartości odżywczych - zrób zdjęcie tyłu opakowania albo wpisz wartości.",
+      "portionUnknown": "Wartości są tylko na porcję, a wielkości porcji nie widać - wpisz wartości na 100 g.",
+      "missing": "Nieczytelne: {{fields}} - uzupełnij z etykiety albo zrób wyraźniejsze zdjęcie.",
+      "fromPortion": "Wartości przeliczono z porcji na 100 g.",
+      "perMl": "Etykieta podaje wartości na 100 ml - wpisaliśmy je jak na 100 g. Ustaw gęstość i sprawdź wartości.",
+      "noIngredients": "Nie widać składu - zaznacz alergeny samodzielnie.",
+      "checkAllergens": "Alergeny odczytane ze składu - porównaj je z etykietą.",
+      "mayContain": "Może zawierać: {{names}} - tego nie oznaczamy jako alergen, sprawdź etykietę."
+    },
+    "similar": {
+      "title": "Podobne składniki już są w bazie:",
+      "pending": "czeka na zatwierdzenie",
+      "hint": "Jeśli to ten sam produkt, użyj istniejącego zamiast dodawać nowy."
+    },
+    "sourceLabel": "Wartości z etykiety produktu, dodane przez użytkownika {{username}}."
   },
   "profile": {
     "lead": "Na podstawie tych danych wyliczymy Twoje dzienne zapotrzebowanie na kalorie i makroskładniki.",

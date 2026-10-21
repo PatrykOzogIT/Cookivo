@@ -1,4 +1,4 @@
-import { isConfidentMatch, unitAllowed } from './ingredient-names.js';
+import { isConfidentMatch, similarName, unitAllowed } from './ingredient-names.js';
 
 describe('pewne dopasowanie nazwy do składnika', () => {
   it('ta sama nazwa albo nazwa z doprecyzowaniem', () => {
@@ -23,5 +23,22 @@ describe('pewne dopasowanie nazwy do składnika', () => {
     expect(unitAllowed('kg', { density: null, units: [] }, {})).toBe(true);
     expect(unitAllowed('l', { density: null, units: [] }, {})).toBe(false);
     expect(unitAllowed('l', { density: 1.03, units: [] }, {})).toBe(true);
+  });
+});
+
+describe('similarName', () => {
+  const c = (namePl: string, nameEn: string | null = null) => ({ namePl, nameEn });
+  it('ta sama nazwa, angielska, liczba mnoga, początek nazwy', () => {
+    expect(similarName('ziemniak', c('Ziemniaki'))).toBe(true);
+    expect(similarName('Ziemniaki', c('Ziemniak'))).toBe(true);
+    expect(similarName('Zolty ser', c('Żółty ser'))).toBe(true);
+    expect(similarName('Potatoes', c('Ziemniaki', 'Potatoes'))).toBe(true);
+    expect(similarName('Mąka pszenna typ 650', c('Mąka pszenna'))).toBe(true);
+    expect(similarName('Mąka', c('Mąka pszenna'))).toBe(true);
+  });
+  it('różne produkty', () => {
+    expect(similarName('Mleko 2%', c('Mleko 3,2%'))).toBe(false);
+    expect(similarName('Ser', c('Serek wiejski'))).toBe(false);
+    expect(similarName('Kiwi', c('Kiwano'))).toBe(false);
   });
 });

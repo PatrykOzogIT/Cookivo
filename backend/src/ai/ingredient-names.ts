@@ -27,3 +27,21 @@ export function unitAllowed(
   if (unit === 'ml' || unit === 'l') return !!c.density;
   return !!unitMl[unit] && !!c.density;
 }
+
+/**
+ * Czy nowy składnik może być dublem istniejącego (ostrzeżenie w formularzu): ta sama nazwa
+ * PL lub EN po normalizacji, liczba mnoga albo jedna nazwa jest początkiem drugiej
+ * ("Mąka pszenna typ 650" ↔ "Mąka pszenna").
+ */
+export function similarName(name: string, c: { namePl: string; nameEn: string | null }): boolean {
+  const q = normalizeSearch(name);
+  if (q.length < 3) return false;
+  return [c.namePl, c.nameEn ?? ''].some((raw) => {
+    const n = normalizeSearch(raw);
+    if (n.length < 3) return false;
+    if (n === q || n.startsWith(`${q} `) || q.startsWith(`${n} `)) return true;
+    const [short, long] = n.length < q.length ? [n, q] : [q, n];
+    const rest = long.slice(short.length);
+    return short.length >= 4 && long.startsWith(short) && rest.length <= 2 && /^[a-z]+$/.test(rest);
+  });
+}

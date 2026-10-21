@@ -161,6 +161,8 @@
                 >Licence Ouverte 2.0<span class="visually-hidden"> ({{ t('common.opensInNewTab') }})</span></a
               >.
             </p>
+          } @else if (i.source === 'LABEL') {
+            <p>{{ t('ingredients.sourceLabel', { username: i.createdBy?.username ?? '—' }) }}</p>
           } @else {
             <p>{{ t('ingredients.sourceUser', { username: i.createdBy?.username ?? '—' }) }}</p>
           }

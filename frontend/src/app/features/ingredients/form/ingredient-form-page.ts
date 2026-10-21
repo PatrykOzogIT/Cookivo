@@ -1,5 +1,15 @@
-import { Component, computed, inject, input, signal, type OnInit } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import {
+  Component,
+  DestroyRef,
+  Injector,
+  afterNextRender,
+  computed,
+  inject,
+  input,
+  signal,
+  type OnInit,
+} from '@angular/core';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import {
   FormArray,
   NonNullableFormBuilder,
@@ -15,7 +25,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { Router, RouterLink } from '@angular/router';
-import { TranslocoDirective } from '@jsverse/transloco';
+import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
+import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { apiErrorCode } from '../../../core/api-error';
 import { AuthService } from '../../../core/auth/auth.service';
@@ -29,6 +40,8 @@ import {
   kcalMismatch,
   nutritionGroupValidator,
 } from './nutrition-validators';
+import { LabelImportPanel } from './label-import-panel';
+import { LabelImportApi, type LabelDraft, type SimilarIngredient } from './label-import.api';
 
 type UnitRow = FormGroup<{ code: FormControl<string>; grams: FormControl<string> }>;
 
@@ -62,6 +75,7 @@ type NutrientName = (typeof NUTRIENT_FIELDS)[number]['name'];
     MatSlideToggleModule,
     TranslocoDirective,
     LocalizedPipe,
+    LabelImportPanel,
   ],
   templateUrl: './ingredient-form-page.html',
   styleUrl: './ingredient-form-page.scss',
@@ -107,6 +121,13 @@ export class IngredientFormPage implements OnInit {
   protected readonly saving = signal(false);
   protected readonly error = signal<string | null>(null);
   protected readonly duplicateId = signal<string | null>(null);
+  /** Ostatni odczyt etykiety (podsumowanie: co sprawdzić i uzupełnić) */
+  protected readonly labelDraft = signal<LabelDraft | null>(null);
+  /** Możliwe duble (sprawdzane przy wpisywaniu nazwy nowego składnika) */
+  protected readonly similar = signal<SimilarIngredient[]>([]);
+  private readonly labels = inject(LabelImportApi);
+  private readonly transloco = inject(TranslocoService);
+  private readonly injector = inject(Injector);
 
   private readonly nutritionValue = toSignal(this.form.controls.nutrition.valueChanges, {
     initialValue: this.form.controls.nutrition.getRawValue(),
@@ -123,6 +144,69 @@ export class IngredientFormPage implements OnInit {
 
   protected get unitRows(): FormArray<UnitRow> {
     return this.form.controls.units;
+  }
+
+  constructor() {
+    // Nowy składnik: po chwili od wpisania nazwy sprawdzamy, czy taki już nie istnieje
+    this.form.controls.namePl.valueChanges
+      .pipe(debounceTime(600), distinctUntilChanged(), takeUntilDestroyed(inject(DestroyRef)))
+      .subscribe((name) => void this.checkSimilar(name));
+  }
+
+  private async checkSimilar(name: string): Promise<void> {
+    const q = name.trim();
+    if (this.id() || q.length < 3) {
+      this.similar.set([]);
+      return;
+    }
+    try {
+      const found = await this.labels.similar(q, this.form.controls.nameEn.value.trim());
+      if (this.form.controls.namePl.value.trim() === q) this.similar.set(found);
+    } catch {
+      // Ostrzeżenie jest pomocą - błąd sieci nie blokuje formularza
+    }
+  }
+
+  /** Szkic z etykiety → formularz (wszystko do sprawdzenia; czego nie odczytano, zostaje puste) */
+  protected applyLabel(d: LabelDraft): void {
+    const text = (value: number | null) =>
+      value === null ? '' : formatNumber(value, this.lang(), 2).replace(/\s/g, '');
+    const c = this.form.controls;
+    if (d.namePl) c.namePl.setValue(d.namePl);
+    if (d.nameEn && !c.nameEn.value.trim()) c.nameEn.setValue(d.nameEn);
+    if (d.category) c.categoryCode.setValue(d.category);
+    c.nutrition.setValue(
+      Object.fromEntries(NUTRIENT_FIELDS.map((f) => [f.name, text(d.values[f.name])])) as Record<
+        NutrientName,
+        string
+      >,
+    );
+    c.nutrition.markAllAsTouched();
+    if (d.liquid) c.liquid.setValue(true);
+    if (d.ingredientsVisible) c.allergens.setValue(d.allergens);
+    if (d.packageGrams) {
+      const row = this.unitRows.controls.find((r) => r.controls.code.value === 'PACKAGE');
+      if (row) row.controls.grams.setValue(text(d.packageGrams));
+      else this.addUnit('PACKAGE', text(d.packageGrams));
+    }
+    if (!d.namePl) c.namePl.markAsTouched();
+    this.similar.set(d.similar);
+    this.labelDraft.set(d);
+    afterNextRender(() => document.getElementById('label-summary')?.focus(), { injector: this.injector });
+  }
+
+  protected missingNames(d: LabelDraft): string {
+    return d.missing.map((k) => this.transloco.translate(`nutrition.${k}`)).join(', ');
+  }
+
+  protected allergenNames(codes: string[]): string {
+    const all = this.dictionaries()?.allergens ?? [];
+    const en = this.lang() === 'en';
+    return codes
+      .map((code) => all.find((a) => a.code === code))
+      .filter((a) => !!a)
+      .map((a) => (en ? a.nameEn : a.namePl))
+      .join(', ');
   }
 
   async ngOnInit(): Promise<void> {
@@ -224,6 +308,7 @@ export class IngredientFormPage implements OnInit {
       density: v.liquid ? num(v.density) : null,
       allergens: v.allergens,
       units: v.units.map((u) => ({ code: u.code, grams: num(u.grams)! })),
+      ...(this.labelDraft() && !this.id() ? { fromLabel: true } : {}),
     };
   }
 

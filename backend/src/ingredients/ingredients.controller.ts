@@ -13,7 +13,12 @@ import {
 } from '@nestjs/common';
 import { CurrentUser, Public, Roles, type AuthUser } from '../common/auth.decorators.js';
 import { RequireVerifiedEmail } from '../common/verified-email.guard.js';
-import { ListIngredientsQuery, RejectIngredientDto, SaveIngredientDto } from './ingredients.dto.js';
+import {
+  ListIngredientsQuery,
+  RejectIngredientDto,
+  SaveIngredientDto,
+  SimilarIngredientsQuery,
+} from './ingredients.dto.js';
 import { IngredientsService } from './ingredients.service.js';
 
 @Controller()
@@ -31,6 +36,12 @@ export class IngredientsController {
   @Get('ingredients')
   list(@Query() query: ListIngredientsQuery, @CurrentUser() user?: AuthUser) {
     return this.ingredients.list(query, user);
+  }
+
+  /** Możliwe duble przed dodaniem składnika (ostrzeżenie w formularzu) */
+  @Get('ingredients/similar')
+  similar(@Query() query: SimilarIngredientsQuery, @CurrentUser() user: AuthUser) {
+    return this.ingredients.similar([query.namePl, query.nameEn ?? ''], user);
   }
 
   @Public()

@@ -154,6 +154,8 @@ enum IngredientSource {
   /// ANSES Ciqual (Licence Ouverte 2.0) - wymaga podania źródła
   CIQUAL
   USER
+  /// Wartości odczytane z etykiety produktu (formularz składnika)
+  LABEL
 }
 
 /// Wartości odżywcze zawsze na 100 g, zgodnie z tabelą z etykiety UE.
@@ -1004,6 +1006,8 @@ enum AiImportKind {
   ASSISTANT
   /// Rozpoznanie prośby do asystenta (tani krok, osobny dzienny limit)
   ASSISTANT_ROUTE
+  /// Odczyt etykiety produktu ze zdjęcia (formularz składnika)
+  LABEL
 }
 
 /**

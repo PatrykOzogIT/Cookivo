@@ -11,8 +11,8 @@ const KEEP_MS = 90 * DAY_MS;
 const ROUTE_DAILY_LIMIT = 30;
 
 /**
- * Limity i licznik odczytów przez AI (tabela `ai_imports`): dzienny na osobę osobno dla przepisów
- * i paragonów, miesięczny wspólny dla całego serwisu (kontrola kosztów).
+ * Limity i licznik odczytów przez AI (tabela `ai_imports`): dzienny na osobę osobno dla przepisów,
+ * paragonów i etykiet, miesięczny wspólny dla całego serwisu (kontrola kosztów).
  */
 @Injectable()
 export class AiUsageService {
@@ -25,6 +25,8 @@ export class AiUsageService {
     switch (kind) {
       case 'RECEIPT':
         return this.config.get('RECEIPT_IMPORT_DAILY_LIMIT', { infer: true });
+      case 'LABEL':
+        return this.config.get('LABEL_IMPORT_DAILY_LIMIT', { infer: true });
       case 'ASSISTANT':
         return this.config.get('ASSISTANT_DAILY_LIMIT', { infer: true });
       case 'ASSISTANT_ROUTE':
@@ -39,7 +41,7 @@ export class AiUsageService {
     return kind === 'ASSISTANT' || kind === 'ASSISTANT_ROUTE'
       ? { kinds: ['ASSISTANT'], limit: this.config.get('ASSISTANT_MONTHLY_LIMIT', { infer: true }) }
       : {
-          kinds: ['RECIPE', 'RECEIPT'],
+          kinds: ['RECIPE', 'RECEIPT', 'LABEL'],
           limit: this.config.get('RECIPE_IMPORT_MONTHLY_LIMIT', { infer: true }),
         };
   }

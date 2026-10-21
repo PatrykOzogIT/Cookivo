@@ -159,7 +159,9 @@
     "PRICE_LIST_CONFLICT": "Someone in your household just changed the price lists. Confirm the import again.",
     "REQUEST_LIMIT": "You already have many requests waiting for review. Try again once some are added.",
     "ASSISTANT_EMPTY": "Tell me what you need help with.",
-    "PREP_NO_STEPS": "The selected recipes have no steps - there's nothing to schedule."
+    "PREP_NO_STEPS": "The selected recipes have no steps - there's nothing to schedule.",
+    "LABEL_NOT_LABEL": "This doesn't look like a food product label. Take a photo of the nutrition table and ingredients.",
+    "LABEL_TOO_MANY": "Choose up to 2 photos: the nutrition table and the ingredients."
   },
   "auth": {
     "fields": {
@@ -777,6 +779,7 @@
               "Friend groups (optional): membership, role, approval status, who invited you, invitations (including the invitee's email address if you provide it) and recipes shared with the group. Group members see your username and shared recipes; a person waiting for approval is visible only to the group owner. Groups give no access to health data, plans or shopping. Legal basis: contract (Art. 6(1)(b) GDPR).",
               "Reading a recipe from photos (optional): the photos you choose in the recipe form. Purpose: reading the recipe text and filling in the form for you to check. Photos are not saved - they are deleted after reading; we only keep a usage counter (date, number of photos, result) needed for daily limits. Do not send photos containing other people’s personal data. Legal basis: contract (Art. 6(1)(b) GDPR).",
               "Reading a receipt from photos (optional): the receipt photos you choose in the pantry or price lists. Purpose: reading the purchased products, quantities and prices for you to check before saving. Photos are not saved - they are deleted after reading; we only keep a usage counter (as for recipes). After you confirm, we save the selected products in the pantry and the prices in the price list and the price history (product, regular price, package size, shop and purchase date); in a household, its members see them. We do not save the full receipt, payment amounts or card details. Legal basis: contract (Art. 6(1)(b) GDPR).",
+              "Reading a product label from a photo (optional): the label photos (nutrition table, ingredients) you choose in the ingredient form and, optionally, the product name you typed. Purpose: reading the name, nutrition values, allergens and package weight for you to check before saving. Photos are not stored - they are deleted after reading; we only keep a usage counter. When you type the name of a new ingredient, we check whether a similar one already exists (without AI). Legal basis: contract (Art. 6(1)(b) GDPR).",
               "Receipt product links and ingredient requests: when you confirm a receipt import, we remember which ingredient was assigned to the product name printed on the receipt in a given shop chain (e.g. \"MlekoŚw3,2 1l\" at Biedronka → Milk 3.2%). We suggest your assignments to you and your household, and a summary of many people's assignments to all users (without showing who bought what). Product names from a reading are kept until you confirm the import, at most one day. When you report a missing product, we store the name you give, the receipt text and the shop - the administrator sees them, and we email you when the product is added. Legal basis: contract (Art. 6(1)(b) GDPR).",
               "General prices: regular prices from all users' confirmed receipts from the last 60 days are combined into a general product price (the median, separately for each shop chain) and shown to others in price lists and cost estimates. We do not show who bought the product or when. Price history also includes prices entered manually in a price list - these are not used for general prices. Legal basis: our legitimate interest in helping users estimate shopping costs (Art. 6(1)(f) GDPR); you can object by writing to kontakt@cookivo.pl.",
               "Assistant (optional): the text of your request and the Cookivo data needed to answer it - a list of matching recipes (titles, kcal, time, estimated cost per serving from prices), the products in your pantry and, only with consent to health data, your daily kcal target - are sent to the AI model to prepare a suggestion (a meal plan, also within a budget, a cooking plan, recipes from your pantry, a recipe version). We filter recipes for your allergies on our side - the allergies themselves are not sent for these tasks. For a substitute while cooking (\"Don't have it\") we send the recipe, the missing ingredient and your pantry products and, with consent to health data, the names of allergens you avoid - so that the substitute is safe for you. For a cooking plan (meal prep) we send the names of the selected recipes, their steps and the number of servings - no health data. When you dictate a shopping list, the text of the list is sent to the AI model; speech is turned into text by your browser (e.g. Chrome uses a Google service under its own terms) - recordings never reach us. The assistant does not save anything on its own: you approve the suggestions. Conversations are not stored; we only keep a usage counter (date, task type, result, tokens). Topping up the shopping list works without AI - based on the plan, the pantry and your purchase history from receipts. Legal basis: contract (Art. 6(1)(b) GDPR) and, for the kcal target and allergens, your explicit consent (Art. 9(2)(a) GDPR).",
@@ -806,7 +809,7 @@
             [
               "JCHost (jchost.pl) - Polish hosting provider: application server, photos and email.",
               "Databricks, Inc. (owner of the Neon service) - cloud database stored in the EU region (Frankfurt, Germany; Amazon Web Services infrastructure); the provider may use further sub-processors under its data processing agreement. Databricks is based in the USA - any access from outside the European Economic Area is safeguarded by the standard contractual clauses approved by the European Commission (Art. 46 GDPR).",
-              "Anthropic PBC - the AI model that reads recipes and receipts from photos and powers the assistant (only when you use these features). Anthropic is based in the USA; the transfer is safeguarded by the standard contractual clauses in the data processing agreement (Art. 46 GDPR). Under Anthropic’s terms, data sent through the API is not used to train models."
+              "Anthropic PBC - the AI model that reads recipes, receipts and product labels from photos and powers the assistant (only when you use these features). Anthropic is based in the USA; the transfer is safeguarded by the standard contractual clauses in the data processing agreement (Art. 46 GDPR). Under Anthropic’s terms, data sent through the API is not used to train models."
             ],
             "When checking whether a new password has appeared in known breaches, we send the Have I Been Pwned service only the first 5 characters of the password’s SHA-1 hash - this cannot be used to recover the password or identify you.",
             "We may also disclose data to public authorities when required by law."
@@ -822,7 +825,7 @@
               "Sign-in sessions (IP address, browser) - a session expires after 30 days; its data is deleted no later than 30 days after it expires or you sign out.",
               "Links from emails (address confirmation, password reset) - one day after use or expiry.",
               "Photos not attached to a recipe - one day.",
-              "Photos for reading a recipe or receipt - not kept after reading; usage counter - 90 days.",
+              "Photos for reading a recipe, receipt or label - not kept after reading; usage counter - 90 days.",
               "Price history from receipts - until the price list it belongs to or the account (in a household - the household) is deleted.",
               "Receipt product links and ingredient requests - until you delete the account; product names from an unconfirmed receipt reading - one day.",
               "Receipt prices in general prices - calculated from the last 60 days; the history entries themselves - as for price history.",
@@ -1069,7 +1072,32 @@
       "submit": "Save ingredient"
     },
     "sourceCiqual": "ANSES, Ciqual food composition table 2025 (updated 3 Nov 2025),",
-    "ciqualLicence": "Data used under the"
+    "ciqualLicence": "Data used under the",
+    "label": {
+      "title": "Fill in from a label photo",
+      "hint": "Take a photo of the nutrition table and the ingredients list (up to {{count}} photos). The assistant reads the values per 100 g, allergens and package weight - you check everything before saving.",
+      "choose": "Take or choose photos",
+      "remaining": "Left today: {{count}} of {{limit}}",
+      "working": "Reading the label…",
+      "privacy": "Photos are sent to the AI model only for reading - we do not store them.",
+      "summaryTitle": "Read from the label - check every field",
+      "printed": "On the package: {{name}}",
+      "noName": "Couldn't read the name - type it in.",
+      "noTable": "I can't see a nutrition table - take a photo of the back of the package or enter the values.",
+      "portionUnknown": "The values are per serving only and the serving size isn't visible - enter the values per 100 g.",
+      "missing": "Unreadable: {{fields}} - fill them in from the label or take a sharper photo.",
+      "fromPortion": "Values converted from a serving to 100 g.",
+      "perMl": "The label gives values per 100 ml - we entered them as per 100 g. Set the density and check the values.",
+      "noIngredients": "The ingredients list isn't visible - tick the allergens yourself.",
+      "checkAllergens": "Allergens read from the ingredients list - compare them with the label.",
+      "mayContain": "May contain: {{names}} - not marked as an allergen, check the label."
+    },
+    "similar": {
+      "title": "Similar ingredients are already in the database:",
+      "pending": "awaiting approval",
+      "hint": "If it's the same product, use the existing one instead of adding a new one."
+    },
+    "sourceLabel": "Values from the product label, added by {{username}}."
   },
   "profile": {
     "lead": "We use these details to calculate your daily calorie and macronutrient needs.",

@@ -34,6 +34,7 @@ export const envSchema = z.object({
   RECIPE_IMPORT_MODEL: z.string().default('claude-haiku-5-5'),
   RECIPE_IMPORT_DAILY_LIMIT: z.coerce.number().int().min(0).default(5),
   RECEIPT_IMPORT_DAILY_LIMIT: z.coerce.number().int().min(0).default(5),
+  LABEL_IMPORT_DAILY_LIMIT: z.coerce.number().int().min(0).default(10),
   RECIPE_IMPORT_MONTHLY_LIMIT: z.coerce.number().int().min(0).default(300),
   /**
    * Asystent (plan tygodnia, przepisy z lodówki, wersja przepisu): limity osobne od importów zdjęć.
