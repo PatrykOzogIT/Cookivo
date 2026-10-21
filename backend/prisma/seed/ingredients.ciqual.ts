@@ -1665,4 +1665,103 @@ export const CIQUAL_CATALOG: CiqualItem[] = [
     category: 'GRAINS',
     units: { PIECE: 9, PACKAGE: 130 },
   },
+  // --- Paczka 8: uzupełnienia (śniadania, przekąski, tłuszcze, kuchnia roślinna) ------
+  // Owoce suszone i półprodukty
+  {
+    pl: 'Jabłka suszone',
+    en: 'Dried apples',
+    ciqual: 13111,
+    category: 'FRUITS',
+    // Suszone jabłka bywają siarkowane - oznaczamy jak morele suszone
+    allergens: ['SULPHITES'],
+    units: { HANDFUL: 25 },
+  },
+  {
+    pl: 'Płatki ziemniaczane (puree w proszku)',
+    en: 'Instant mashed potato flakes',
+    ciqual: 4022,
+    category: 'VEGETABLES',
+    units: { TABLESPOON: 6, GLASS: 50 },
+  },
+  // Kuchnia roślinna
+  {
+    pl: 'Tempeh',
+    en: 'Tempeh',
+    ciqual: 20917,
+    category: 'LEGUMES',
+    allergens: ['SOY'],
+    units: { PACKAGE: 200, SLICE: 25 },
+  },
+  // Pieczywo i śniadania
+  {
+    pl: 'Croissant (rogal maślany)',
+    en: 'Croissant',
+    ciqual: 7615,
+    category: 'BAKERY',
+    // Mąka, masło, mleko; często smarowany jajkiem
+    allergens: ['GLUTEN', 'MILK', 'EGGS'],
+    units: { PIECE: 60 },
+  },
+  {
+    pl: 'Chałka',
+    en: 'Brioche bread',
+    ciqual: 7225,
+    category: 'BAKERY',
+    allergens: ['GLUTEN', 'MILK', 'EGGS'],
+    units: { SLICE: 35 },
+  },
+  {
+    pl: 'Płatki kukurydziane (naturalne)',
+    en: 'Plain corn flakes',
+    ciqual: 32014,
+    category: 'GRAINS',
+    // Zwykle ze słodem jęczmiennym
+    allergens: ['GLUTEN'],
+    units: { GLASS: 30, HANDFUL: 15 },
+  },
+  {
+    pl: 'Wafle kukurydziane (naturalne)',
+    en: 'Plain corn cakes',
+    ciqual: 7354,
+    category: 'GRAINS',
+    units: { PIECE: 8, PACKAGE: 120 },
+  },
+  {
+    pl: 'Popcorn (bez tłuszczu i soli)',
+    en: 'Air-popped popcorn, unsalted',
+    ciqual: 9231,
+    category: 'GRAINS',
+    units: { GLASS: 8, HANDFUL: 10 },
+  },
+  // Tłuszcze
+  {
+    pl: 'Tłuszcz kaczy',
+    en: 'Duck fat',
+    ciqual: 16550,
+    category: 'FATS',
+    units: { TABLESPOON: 13, TEASPOON: 4 },
+  },
+  {
+    pl: 'Smalec gęsi',
+    en: 'Goose fat',
+    ciqual: 16560,
+    category: 'FATS',
+    units: { TABLESPOON: 13, TEASPOON: 4 },
+  },
+  // Napoje
+  {
+    pl: 'Kombucha',
+    en: 'Kombucha',
+    ciqual: 18025,
+    category: 'BEVERAGES',
+    density: 1.0,
+    units: { GLASS: 250 },
+  },
+  {
+    pl: 'Cykoria rozpuszczalna (w proszku)',
+    en: 'Instant chicory powder',
+    ciqual: 18152,
+    category: 'BEVERAGES',
+    units: { TEASPOON: 2 },
+  },
 ];

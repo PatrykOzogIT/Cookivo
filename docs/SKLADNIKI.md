@@ -1,8 +1,8 @@
 # Rozbudowa bazy składników
 
-Stan na 2026-10-20: **571** składników – 347 z USDA FoodData Central SR Legacy (`backend/prisma/seed/ingredients.catalog.ts`)
+Stan na 2026-10-21: **583** składniki – 347 z USDA FoodData Central SR Legacy (`backend/prisma/seed/ingredients.catalog.ts`)
 
-- 224 z ANSES Ciqual 2025 (`backend/prisma/seed/ingredients.ciqual.ts`), w tym paczka 7: przetwory ze słoików i puszek oraz herbaty (pod import paragonów; herbaty jako napar, 1 torebka = 250 g naparu).
+- 236 z ANSES Ciqual 2025 (`backend/prisma/seed/ingredients.ciqual.ts`), w tym paczka 7: przetwory ze słoików i puszek oraz herbaty (pod import paragonów; herbaty jako napar, 1 torebka = 250 g naparu) i paczka 8: uzupełnienia.
   Cel: duże paczki tematyczne, bez obniżania jakości danych.
 
 ## Zasady (bez wyjątków)
@@ -56,9 +56,10 @@ Atrybucja CIQUAL (karta składnika + strona „Jak to działa”/README):
 | 5   | Wyroby o zmiennym składzie                              | pasztet, parówki, salami, kabanosy, sosy gotowe, miso, musztardy – alergeny zależą od producenta, wymagają weryfikacji albo oznaczenia „sprawdź etykietę”                                                                 | CIQUAL | ~40    |           |
 | 6   | Braki spoza Ciqual                                      | golonka, mąka owsiana, mąka migdałowa, tempeh, seitan, edamame                                                                                                                                                            | USDA   | ~20    |           |
 | 7   | **Przetwory i herbaty** (pod import paragonów)          | kukurydza, groszek, fasolka, szparagi i pieczarki konserwowe, soczewica gotowana, mus jabłkowy, gruszki w syropie, sok ananasowy, makrela i sardynki w sosie pomidorowym, herbata zielona i ziołowa (napar), wafle ryżowe | CIQUAL | 14     | ✅ dodane |
+| 8   | **Uzupełnienia**                                        | croissant, chałka, płatki kukurydziane, wafle kukurydziane, popcorn, płatki ziemniaczane, jabłka suszone, tempeh, tłuszcz kaczy, smalec gęsi, kombucha, cykoria rozpuszczalna                                             | CIQUAL | 12     | ✅ dodane |
 
 Odrzucone przy przeglądzie: produkty, dla których Ciqual nie podaje energii lub makroskładników
-(np. skórka cytryny, kumkwat, morwa, czarny bez, laska wanilii, agar, syrop z agawy, olej rydzowy),
+(np. pomidory suszone, skórka cytryny, kumkwat, morwa, czarny bez, laska wanilii, agar, syrop z agawy, olej rydzowy),
 regionalne odmiany (Martynika, Reunion), dania i produkty przetworzone, oraz pozycje dublujące
 katalog USDA (sprawdzane po fragmentach nazw i testem unikalności).
 
