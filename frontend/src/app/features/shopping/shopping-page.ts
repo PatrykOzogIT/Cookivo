@@ -26,6 +26,7 @@ import { HouseholdApi } from '../household/household.api';
 import { IngredientsApi } from '../ingredients/ingredients.api';
 import type { Ingredient, Localized } from '../ingredients/ingredients.models';
 import { IngredientPickerComponent } from '../pantry/ingredient-picker';
+import { ShoppingDictation } from '../assistant/shopping-dictation';
 import { addDays, isoDay, mondayOf } from '../planner/plan-math';
 import { AmountLabelPipe } from '../recipes/amount-label.pipe';
 import { unitOptionsWithBulk, type LineItem } from '../recipes/recipe-units';
@@ -65,6 +66,7 @@ interface Draft {
     TranslocoDirective,
     LocalizedPipe,
     IngredientPickerComponent,
+    ShoppingDictation,
   ],
   templateUrl: './shopping-page.html',
   styleUrls: ['../pantry/pantry-page.scss', './shopping-page.scss'],
@@ -278,7 +280,7 @@ export class ShoppingPage implements OnInit {
       .join(', ');
   }
 
-  private async load(silent = false): Promise<void> {
+  protected async load(silent = false): Promise<void> {
     try {
       const res = await this.api.list();
       this.items.set(res.items);

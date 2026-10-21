@@ -2,8 +2,8 @@
  * Aktualne wersje dokumentów prawnych (data wejścia w życie, jak w treści dokumentu na froncie).
  * Zmiana wersji = zalogowani dostają prośbę o akceptację nowej wersji (`GET /api/me/legal`).
  */
-export const TERMS_VERSION = '2026-10-23';
-export const PRIVACY_POLICY_VERSION = '2026-10-23';
+export const TERMS_VERSION = '2026-10-24';
+export const PRIVACY_POLICY_VERSION = '2026-10-24';
 
 export const LEGAL_DOCUMENTS = [
   { type: 'TERMS', version: TERMS_VERSION },

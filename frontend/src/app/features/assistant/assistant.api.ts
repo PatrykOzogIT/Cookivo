@@ -21,6 +21,8 @@ export interface RecipeCard {
   kcalPerServing: number | null;
   minutes: number | null;
   cover: Photo | null;
+  /** Koszt porcji (plan) - null, gdy brakuje cen */
+  costPerServingCents?: number | null;
 }
 
 export interface PlanMeal {
@@ -34,6 +36,9 @@ export interface PlanResult {
   type: 'PLAN';
   summary: string;
   people: number;
+  currency: string;
+  /** Budżet z prośby (np. "do 150 zł") */
+  budgetCents: number | null;
   days: { date: string; meals: PlanMeal[] }[];
 }
 
@@ -71,6 +76,27 @@ export interface VariantResult {
   changes: { change: string; why: string }[];
 }
 
+export interface ParsedItem {
+  name: string;
+  amount: number | null;
+  unit: 'g' | 'kg' | 'ml' | 'l' | 'PIECE' | 'PACKAGE' | null;
+  note: string | null;
+  /** Dopasowany składnik z bazy (null = własna pozycja) */
+  ingredient:
+    | (Localized & {
+        id: string;
+        density: number | null;
+        units: (Localized & { code: string; grams: number })[];
+        icon: string;
+      })
+    | null;
+}
+
+export interface Substitute {
+  options: { name: string; amount: string; note: string; inPantry: boolean }[];
+  tip: string | null;
+}
+
 export type AssistantResult = PlanResult | PantryResult | ShoppingResult | MessageResult;
 
 /** Asystent: zadania kończą się szkicem - zapis przez planer, listę zakupów, formularz przepisu */
@@ -99,6 +125,16 @@ export class AssistantApi {
     meals: { date: string; slot: string; recipeId: string; leftover: boolean }[],
   ): Promise<{ added: number }> {
     return firstValueFrom(this.http.post<{ added: number }>('/api/assistant/plan/apply', { meals }));
+  }
+
+  /** Podyktowana / wklejona lista → pozycje do sprawdzenia */
+  parseList(text: string): Promise<{ items: ParsedItem[] }> {
+    return firstValueFrom(this.http.post<{ items: ParsedItem[] }>('/api/assistant/shopping/parse', { text }));
+  }
+
+  /** "Nie mam składnika" w trybie gotowania */
+  substitute(body: { recipeId: string; lineId: string; lang: string }): Promise<Substitute> {
+    return firstValueFrom(this.http.post<Substitute>('/api/assistant/substitute', body));
   }
 
   applyShopping(items: { ingredientId: string; grams: number }[]): Promise<{ added: number }> {

@@ -175,6 +175,9 @@
     }
   </nav>
 
-  <!-- Asystent: przycisk w rogu i wysuwany panel (tylko po zalogowaniu, gdy działa AI) -->
-  <app-assistant-panel />
+  <!-- Asystent: przycisk w rogu i wysuwany panel (tylko po zalogowaniu, gdy działa AI);
+       poza paczką startową - ładuje się, gdy przeglądarka ma chwilę -->
+  @defer (on idle) {
+    <app-assistant-panel />
+  }
 </ng-container>

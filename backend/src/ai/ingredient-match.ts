@@ -1,5 +1,6 @@
 import type { AuthUser } from '../common/auth.decorators.js';
 import { normalizeSearch } from '../common/text.js';
+import { isConfidentMatch } from './ingredient-names.js';
 import { ListIngredientsQuery } from '../ingredients/ingredients.dto.js';
 import type { IngredientsService } from '../ingredients/ingredients.service.js';
 
@@ -32,25 +33,4 @@ export async function matchIngredient(
   return { match: null, suggestions: found.slice(0, 3), partial };
 }
 
-/**
- * Pewne dopasowanie: nazwa z bazy jest tą samą nazwą albo zaczyna się od niej
- * ("mleko" → "Mleko 3,2%", "mąka pszenna" → "Mąka pszenna"). Inaczej tylko podpowiedzi -
- * dlatego "mleko 2%" nigdy nie zostanie po cichu "Mlekiem 3,2%".
- */
-export function isConfidentMatch(name: string, c: { namePl: string }): boolean {
-  const q = normalizeSearch(name);
-  const n = normalizeSearch(c.namePl);
-  return !!q && (n === q || n.startsWith(`${q} `) || n.startsWith(`${q},`) || n.startsWith(`${q} (`));
-}
-
-/** Te same reguły co gramsFor / formularz: g zawsze, ml i miary kuchenne przy gęstości, własne jednostki */
-export function unitAllowed(
-  unit: string,
-  c: { density: number | null; units: { code: string }[] },
-  unitMl: Record<string, number | null>,
-): boolean {
-  if (unit === 'g' || unit === 'kg') return true;
-  if (c.units.some((u) => u.code === unit)) return true;
-  if (unit === 'ml' || unit === 'l') return !!c.density;
-  return !!unitMl[unit] && !!c.density;
-}
+export { isConfidentMatch, unitAllowed } from './ingredient-names.js';

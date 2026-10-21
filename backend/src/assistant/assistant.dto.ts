@@ -37,6 +37,26 @@ export class AskDto {
   lang?: 'pl' | 'en';
 }
 
+export class ParseListDto {
+  @Transform(trim)
+  @IsString()
+  @Length(1, 1000)
+  text!: string;
+}
+
+export class SubstituteDto {
+  @IsUUID()
+  recipeId!: string;
+
+  /** Pozycja przepisu (id linii składnika) */
+  @IsUUID()
+  lineId!: string;
+
+  @IsOptional()
+  @IsIn(['pl', 'en'])
+  lang?: 'pl' | 'en';
+}
+
 export class VariantDto {
   @IsUUID()
   recipeId!: string;

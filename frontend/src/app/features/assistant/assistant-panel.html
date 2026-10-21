@@ -53,6 +53,24 @@
                     @case ('PLAN') {
                       @let plan = $any(e.result);
                       <p>{{ plan.summary }}</p>
+                      @if (planCost(plan); as cost) {
+                        <p class="cost" [class.over]="plan.budgetCents && cost.cents > plan.budgetCents">
+                          {{
+                            plan.budgetCents
+                              ? t('plan.costBudget', {
+                                  total: money(cost.cents, plan.currency),
+                                  budget: money(plan.budgetCents, plan.currency),
+                                })
+                              : t('plan.cost', { total: money(cost.cents, plan.currency) })
+                          }}
+                          @if (plan.budgetCents && cost.cents > plan.budgetCents) {
+                            <span class="meta over-text">{{ t('plan.overBudget') }}</span>
+                          }
+                          @if (cost.missing) {
+                            <span class="meta">{{ t('plan.costMissing', { count: cost.missing }) }}</span>
+                          }
+                        </p>
+                      }
                       @for (d of plan.days; track d.date; let di = $index) {
                         <h3 class="day">{{ dayLabel(d.date) }}</h3>
                         <ul class="meals">
@@ -67,6 +85,14 @@
                               <span class="meta">
                                 @if (m.recipe.kcalPerServing) {
                                   {{ m.recipe.kcalPerServing }} kcal
+                                }
+                                @if ((m.recipe.costPerServingCents ?? null) !== null) {
+                                  ·
+                                  {{
+                                    t('plan.perServing', {
+                                      price: money(m.recipe.costPerServingCents, plan.currency),
+                                    })
+                                  }}
                                 }
                                 @if (m.leftover) {
                                   · {{ t('plan.leftover') }}
@@ -250,7 +276,8 @@
                 <button
                   type="button"
                   class="chip"
-                  (click)="quick($any(a))"
+                  (click)="select($any(a))"
+                  [attr.aria-pressed]="selected() === a"
                   [disabled]="busy() || (a !== 'SHOPPING' && !status()?.remaining)"
                 >
                   {{ t('quick.' + a) }}
@@ -259,9 +286,10 @@
             </div>
             <form class="ask" (ngSubmit)="send()">
               <mat-form-field subscriptSizing="dynamic">
-                <mat-label>{{ t('placeholder') }}</mat-label>
+                <mat-label>{{ selected() ? t('hint.' + selected()) : t('placeholder') }}</mat-label>
                 <input
                   matInput
+                  id="assistant-input"
                   name="text"
                   [(ngModel)]="text"
                   maxlength="500"
@@ -269,12 +297,7 @@
                   enterkeyhint="send"
                 />
               </mat-form-field>
-              <button
-                mat-icon-button
-                type="submit"
-                [disabled]="busy() || !text.trim() || !status()?.remaining"
-                [attr.aria-label]="t('send')"
-              >
+              <button mat-icon-button type="submit" [disabled]="!canSend()" [attr.aria-label]="t('send')">
                 <span class="material-symbols-rounded" aria-hidden="true">send</span>
               </button>
             </form>

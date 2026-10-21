@@ -778,7 +778,7 @@
               "Odczyt paragonu ze zdjęć (opcjonalny): zdjęcia paragonu, które wybierzesz w lodówce albo w cennikach. Cel: odczytanie kupionych produktów, ilości i cen do Twojego sprawdzenia przed zapisem. Zdjęć nie zapisujemy - po odczycie są usuwane; przechowujemy tylko licznik użycia (jak przy przepisach). Po zatwierdzeniu zapisujemy wybrane produkty w lodówce, a ceny - w cenniku i w historii cen (produkt, cena regularna, wielkość opakowania, sklep i data zakupu); w gospodarstwie widzą je domownicy. Nie zapisujemy treści całego paragonu, kwot płatności ani danych karty. Podstawa: umowa (art. 6 ust. 1 lit. b RODO).",
               "Powiązania produktów z paragonów i prośby o składniki: zatwierdzając import paragonu, zapamiętujemy, jaki składnik przypisano nazwie produktu z paragonu w danej sieci sklepów (np. „MlekoŚw3,2 1l” w Biedronce → Mleko 3,2%). Twoje przypisania podpowiadamy Tobie i domownikom, a zestawienie przypisań wielu osób - wszystkim użytkownikom (bez wskazywania, kto co kupił). Nazwy produktów z odczytu przechowujemy do zatwierdzenia importu, najdłużej dobę. Gdy zgłosisz brakujący produkt, zapisujemy podaną nazwę, tekst z paragonu i sklep - widzi je administrator, a o dodaniu produktu informujemy Cię e-mailem. Podstawa: umowa (art. 6 ust. 1 lit. b RODO).",
               "Ceny ogólne: ceny regularne z zatwierdzonych paragonów wszystkich użytkowników z ostatnich 60 dni łączymy w cenę ogólną produktu (medianę, osobno dla sieci sklepów) i pokazujemy ją innym w cennikach i szacunkach kosztów. Nie pokazujemy, kto ani kiedy kupił produkt. Historia cen obejmuje też ceny wpisane ręcznie w cenniku - te nie wchodzą do cen ogólnych. Podstawa: nasz prawnie uzasadniony interes - pomoc użytkownikom w szacowaniu kosztów zakupów (art. 6 ust. 1 lit. f RODO); możesz wnieść sprzeciw, pisząc na kontakt@cookivo.pl.",
-              "Asystent (opcjonalny): treść Twojej prośby i dane z Cookivo potrzebne do odpowiedzi - lista pasujących przepisów (tytuły, kcal, czas), produkty w lodówce, a tylko przy zgodzie na dane o zdrowiu także Twój dzienny cel kcal - przekazujemy do modelu AI, żeby przygotować propozycję (plan posiłków, przepisy z lodówki, wersję przepisu). Przepisy filtrujemy pod Twoje alergie u nas - samych alergii nie wysyłamy. Asystent niczego nie zapisuje sam: propozycje zatwierdzasz. Rozmów nie przechowujemy; zapisujemy tylko licznik użycia (data, rodzaj zadania, wynik, tokeny). Uzupełnianie listy zakupów działa bez AI - na podstawie planu, lodówki i historii zakupów z paragonów. Podstawa: umowa (art. 6 ust. 1 lit. b RODO), a dla celu kcal - Twoja wyraźna zgoda (art. 9 ust. 2 lit. a RODO).",
+              "Asystent (opcjonalny): treść Twojej prośby i dane z Cookivo potrzebne do odpowiedzi - lista pasujących przepisów (tytuły, kcal, czas, szacowany koszt porcji z cen), produkty w lodówce, a tylko przy zgodzie na dane o zdrowiu także Twój dzienny cel kcal - przekazujemy do modelu AI, żeby przygotować propozycję (plan posiłków, także z budżetem, przepisy z lodówki, wersję przepisu). Przepisy filtrujemy pod Twoje alergie u nas - samych alergii do tych zadań nie wysyłamy. Przy zamienniku w trakcie gotowania („Nie mam”) wysyłamy przepis, brakujący składnik i produkty z lodówki, a przy zgodzie na dane o zdrowiu także nazwy alergenów, których unikasz - żeby zamiennik był dla Ciebie bezpieczny. Dyktując listę zakupów, wysyłamy do modelu AI tekst listy; mowę na tekst zamienia Twoja przeglądarka (np. Chrome korzysta z usługi Google na jej zasadach) - nagrania do nas nie trafiają. Asystent niczego nie zapisuje sam: propozycje zatwierdzasz. Rozmów nie przechowujemy; zapisujemy tylko licznik użycia (data, rodzaj zadania, wynik, tokeny). Uzupełnianie listy zakupów działa bez AI - na podstawie planu, lodówki i historii zakupów z paragonów. Podstawa: umowa (art. 6 ust. 1 lit. b RODO), a dla celu kcal i alergenów - Twoja wyraźna zgoda (art. 9 ust. 2 lit. a RODO).",
               "Bezpieczeństwo: adres IP i informacja o przeglądarce przy sesjach logowania, liczba nieudanych logowań oraz historia zgód z adresem IP. Cel: ochrona kont przed przejęciem, wykrywanie nadużyć i wykazanie udzielonych zgód. Podstawa: nasz prawnie uzasadniony interes (art. 6 ust. 1 lit. f RODO) i obowiązek wykazania zgody (art. 7 ust. 1 RODO).",
               "Moderacja: zgłoszenia treści i użytkowników, decyzje moderatorów oraz blokady kont z uzasadnieniem. Cel: przeciwdziałanie treściom bezprawnym i niezgodnym z regulaminem oraz obowiązki z aktu o usługach cyfrowych (DSA). Podstawa: obowiązek prawny i prawnie uzasadniony interes (art. 6 ust. 1 lit. c i f RODO).",
               "Korespondencja: gdy do nas piszesz - Twój adres e-mail i treść wiadomości, żeby odpowiedzieć. Podstawa: prawnie uzasadniony interes (art. 6 ust. 1 lit. f RODO)."
@@ -1851,7 +1851,7 @@
     "open": "Asystent",
     "title": "Asystent Cookivo",
     "close": "Zamknij asystenta",
-    "intro": "Pomogę ułożyć plan posiłków, wybrać przepisy z tego, co masz w lodówce, i uzupełnić listę zakupów. Wybierz szybką akcję albo napisz, czego potrzebujesz – np. „Ułóż mi plan na tydzień: śniadania lekkie do pracy, obiady sycące, kolacje na słodko”.",
+    "intro": "Pomogę ułożyć plan posiłków, wybrać przepisy z tego, co masz w lodówce, i uzupełnić listę zakupów. Wybierz szybką akcję albo napisz, czego potrzebujesz – np. „Ułóż mi plan na tydzień: śniadania lekkie do pracy, obiady sycące, kolacje na słodko, do 150 zł”.",
     "quickLabel": "Szybkie akcje",
     "quick": {
       "PLAN": "Plan na tydzień",
@@ -1875,7 +1875,12 @@
       "remove": "Usuń z planu: {{name}}",
       "apply": "Zapisz w planerze ({{count}})",
       "saved": "Zapisano w planerze: {{count}} posiłków.",
-      "open": "Otwórz planer"
+      "open": "Otwórz planer",
+      "cost": "Koszt planu: ok. {{total}}",
+      "costBudget": "Koszt planu: ok. {{total}} (budżet {{budget}})",
+      "overBudget": "Ponad budżet",
+      "costMissing": "Posiłki bez ceny (nie wliczone): {{count}}",
+      "perServing": "{{price}}/porcja"
     },
     "pantry": {
       "have": "Masz: {{names}}",
@@ -1909,6 +1914,33 @@
       "cancel": "Inna prośba",
       "changes": "Co zmienił asystent",
       "check": "To szkic – sprawdź składniki i kroki przed zapisem."
+    },
+    "hint": {
+      "PLAN": "Dopisz życzenia (opcjonalnie)",
+      "PANTRY": "Dopisz, na co masz ochotę (opcjonalnie)",
+      "SHOPPING": "Kliknij Wyślij, żeby uzupełnić listę"
+    },
+    "dictation": {
+      "open": "Podyktuj albo wklej listę",
+      "title": "Lista z tekstu",
+      "label": "Co kupić?",
+      "placeholder": "np. dwa litry mleka, kilo jabłek, chleb i papier do pieczenia",
+      "speak": "Mów",
+      "stop": "Zatrzymaj",
+      "listening": "Słucham… powiedz, co kupić, i kliknij Zatrzymaj.",
+      "speechNote": "Mowę na tekst zamienia Twoja przeglądarka (np. Chrome korzysta z usługi Google). Gotowy tekst trafia do asystenta.",
+      "parse": "Rozpoznaj pozycje",
+      "close": "Zamknij",
+      "working": "Rozpoznaję pozycje…",
+      "custom": "(spoza bazy)",
+      "add": "Dodaj do listy ({{count}})"
+    },
+    "substitute": {
+      "open": "Nie mam",
+      "working": "Szukam zamiennika…",
+      "inPantry": "masz w lodówce",
+      "none": "Nie znalazłem dobrego zamiennika – ten składnik jest tu kluczowy.",
+      "disclaimer": "Propozycja asystenta – sprawdź, czy pasuje do Twoich alergii i diety."
     }
   }
 }

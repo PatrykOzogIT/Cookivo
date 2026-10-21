@@ -3,6 +3,8 @@ import { expect, test, type APIRequestContext, type Page } from '@playwright/tes
 import { createUser, loginUi, TEST_PASSWORD, type TestUser } from './support/users';
 
 async function expectNoA11yViolations(page: Page) {
+  // Panel wysuwa się z animacją przezroczystości - kontrast liczymy po jej końcu
+  await page.evaluate(() => Promise.all(document.getAnimations().map((a) => a.finished.catch(() => null))));
   const results = await new AxeBuilder({ page })
     .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'])
     .exclude('.cdk-overlay-container')
@@ -12,7 +14,14 @@ async function expectNoA11yViolations(page: Page) {
   ).toEqual([]);
 }
 
-const card = (id: string, title: string) => ({ id, title, kcalPerServing: 400, minutes: 20, cover: null });
+const card = (id: string, title: string, costPerServingCents: number | null = 1250) => ({
+  id,
+  title,
+  kcalPerServing: 400,
+  minutes: 20,
+  cover: null,
+  costPerServingCents,
+});
 
 /** Serwer bez klucza API ukrywa asystenta - podmieniamy odpowiedzi (bez kosztów i sieci) */
 async function mockAssistant(page: Page, replies: Record<string, unknown>) {
@@ -20,7 +29,7 @@ async function mockAssistant(page: Page, replies: Record<string, unknown>) {
   await page.route('**/api/assistant/status', (r) =>
     r.fulfill({ json: { enabled: true, dailyLimit: 5, remaining: 4 } }),
   );
-  for (const path of ['ask', 'variant', 'plan/apply', 'shopping/apply']) {
+  for (const path of ['ask', 'variant', 'plan/apply', 'shopping/apply', 'shopping/parse', 'substitute']) {
     await page.route(`**/api/assistant/${path}`, async (r) => {
       const body = r.request().postDataJSON();
       calls.push({ url: path, body });
@@ -51,6 +60,8 @@ test.describe('Asystent', () => {
               type: 'PLAN',
               summary: 'Lekkie śniadania i sycące obiady.',
               people: 1,
+              currency: 'PLN',
+              budgetCents: 3000,
               days: [
                 {
                   date: '2026-10-22',
@@ -66,7 +77,9 @@ test.describe('Asystent', () => {
                 },
                 {
                   date: '2026-10-23',
-                  meals: [{ slot: 'DINNER', leftover: true, recipe: card('c', 'Gulasz'), alternatives: [] }],
+                  meals: [
+                    { slot: 'DINNER', leftover: true, recipe: card('c', 'Gulasz', null), alternatives: [] },
+                  ],
                 },
               ],
             }
@@ -87,9 +100,27 @@ test.describe('Asystent', () => {
     await panel.getByRole('button', { name: 'Wyślij' }).click();
     await expect(panel.getByText(/Pomagam tylko w planowaniu posiłków/)).toBeVisible();
 
-    // Plan: zamiana śniadania i usunięcie obiadu z drugiego dnia
-    await panel.getByRole('button', { name: 'Plan na tydzień' }).click();
+    // Szybka akcja tylko się zaznacza - można dopisać życzenia i dopiero wysłać
+    const chip = panel.getByRole('button', { name: 'Plan na tydzień' });
+    await chip.click();
+    await expect(chip).toHaveAttribute('aria-pressed', 'true');
+    const input = panel.getByLabel(/Dopisz życzenia/);
+    await expect(input).toBeFocused();
+    expect(calls.filter((c) => c.url === 'ask')).toHaveLength(1);
+    await input.fill('obiady sycące, do 30 zł');
+    await panel.getByRole('button', { name: 'Wyślij' }).click();
     await expect(panel.getByText('Lekkie śniadania i sycące obiady.')).toBeVisible();
+    expect(calls.filter((c) => c.url === 'ask')[1].body).toEqual({
+      action: 'PLAN',
+      text: 'obiady sycące, do 30 zł',
+      lang: 'pl',
+    });
+    await expect(panel.getByText('Plan na tydzień: obiady sycące, do 30 zł')).toBeVisible();
+    // Koszt: 2 posiłki × 12,50 zł (resztki bez ceny), budżet 30 zł
+    await expect(panel.getByText(/Koszt planu: ok\. 25,00\s?zł \(budżet 30,00\s?zł\)/)).toBeVisible();
+    await expect(panel.getByText('Posiłki bez ceny (nie wliczone): 1')).toBeVisible();
+    await expect(panel.getByText(/12,50\s?zł\/porcja/).first()).toBeVisible();
+    await expect(panel.getByText('Ponad budżet')).toBeHidden();
     await expect(panel.getByText('z wcześniejszego gotowania')).toBeVisible();
     await panel.getByRole('button', { name: 'Zamień: Owsianka' }).click();
     await expect(panel.getByRole('link', { name: 'Jogurt z musli' })).toBeVisible();
@@ -117,6 +148,8 @@ test.describe('Asystent', () => {
         type: 'PLAN',
         summary: 'Plan.',
         people: 1,
+        currency: 'PLN',
+        budgetCents: null,
         days: [
           {
             date: '2026-10-22',
@@ -139,6 +172,7 @@ test.describe('Asystent', () => {
       await page.getByRole('button', { name: 'Asystent', exact: true }).click();
       const panel = page.getByRole('dialog', { name: 'Asystent Cookivo' });
       await panel.getByRole('button', { name: 'Plan na tydzień' }).click();
+      await panel.getByRole('button', { name: 'Wyślij' }).click();
       await expect(panel.getByRole('link', { name: 'Gulasz' })).toBeVisible();
       await page.mouse.move(0, 0);
       await expectNoA11yViolations(page);
@@ -173,6 +207,7 @@ test.describe('Asystent', () => {
     await page.getByRole('button', { name: 'Asystent', exact: true }).click();
     const panel = page.getByRole('dialog', { name: 'Asystent Cookivo' });
     await panel.getByRole('button', { name: 'Uzupełnij zakupy' }).click();
+    await panel.getByRole('button', { name: 'Wyślij' }).click();
     await expect(panel.getByText('co ~5 dni, ostatnio 6 dni temu')).toBeVisible();
     await panel.getByRole('checkbox', { name: /Marchew/ }).uncheck();
     await expectNoA11yViolations(page);
@@ -267,5 +302,106 @@ test.describe('Asystent', () => {
     await page.getByRole('button', { name: 'Zapisz przepis' }).click();
     const saved = await (await save).json();
     expect(saved.variantOf).toMatchObject({ id: original });
+  });
+
+  test('dyktowanie listy zakupów: tekst → podgląd → dodanie (składnik z bazy i własna pozycja)', async ({
+    page,
+    request,
+  }) => {
+    const user = await createUser(request, 'dyktuje');
+    const carrot = (
+      await (await request.get('/api/ingredients', { params: { q: 'marchew', pageSize: '1' } })).json()
+    ).items[0];
+    const calls = await mockAssistant(page, {
+      'shopping/parse': {
+        items: [
+          {
+            name: 'marchew',
+            amount: 1,
+            unit: 'kg',
+            note: null,
+            ingredient: { ...carrot, icon: carrot.icon ?? null },
+          },
+          { name: 'papier do pieczenia', amount: null, unit: null, note: null, ingredient: null },
+          { name: 'zapałki', amount: null, unit: null, note: null, ingredient: null },
+        ],
+      },
+    });
+    await loginUi(page, user);
+    await page.goto('/shopping');
+    await page.getByRole('button', { name: 'Podyktuj albo wklej listę' }).click();
+    await page.getByLabel('Co kupić?').fill('kilo marchwi, papier do pieczenia i zapałki');
+    await page.getByRole('button', { name: 'Rozpoznaj pozycje' }).click();
+    await expect(
+      page.getByRole('checkbox', { name: /Papier do pieczenia|papier do pieczenia/ }),
+    ).toBeChecked();
+    await page.getByRole('checkbox', { name: /zapałki/ }).uncheck();
+    await expectNoA11yViolations(page);
+    await page.getByRole('button', { name: 'Dodaj do listy (2)' }).click();
+    await expect(page.getByRole('button', { name: 'Podyktuj albo wklej listę' })).toBeVisible();
+    expect(calls.find((c) => c.url === 'shopping/parse')?.body).toEqual({
+      text: 'kilo marchwi, papier do pieczenia i zapałki',
+    });
+    const list = (await (await request.get('/api/shopping', { headers: await token(request, user) })).json())
+      .items as { name: string | null; ingredient: { id: string } | null }[];
+    expect(list).toHaveLength(2);
+    expect(list.find((i) => i.ingredient?.id === carrot.id)).toMatchObject({
+      amount: { unit: 'kg', manual: true },
+    });
+    expect(list.find((i) => !i.ingredient)?.name).toBe('papier do pieczenia');
+  });
+
+  test('tryb gotowania: „Nie mam” pokazuje zamienniki asystenta', async ({ page, request }) => {
+    const user = await createUser(request, 'zamiennik');
+    const headers = await token(request, user);
+    const egg = (
+      await (await request.get('/api/ingredients', { params: { q: 'jajko', pageSize: '1' } })).json()
+    ).items[0];
+    const created = await request.post('/api/recipes', {
+      headers,
+      data: {
+        title: 'Placki na szybko',
+        servings: 2,
+        visibility: 'PRIVATE',
+        canBeIngredient: false,
+        mealTypes: [],
+        ingredients: [{ ingredientId: egg.id, amount: 2, unitCode: 'PIECE' }],
+        steps: [{ text: 'Usmaż.' }],
+        photoIds: [],
+      },
+    });
+    const id = (await created.json()).id as string;
+    const calls = await mockAssistant(page, {
+      substitute: {
+        options: [
+          {
+            name: 'Siemię lniane z wodą',
+            amount: '2 łyżki + 6 łyżek wody',
+            note: 'Placki będą mniej puszyste.',
+            inPantry: false,
+          },
+          { name: 'Mleko', amount: '3 łyżki', note: 'Doda wilgoci.', inPantry: true },
+        ],
+        tip: 'Smaż na mniejszym ogniu.',
+      },
+    });
+    await loginUi(page, user);
+    await page.goto(`/recipes/${id}/cook`);
+    const missing = page.getByRole('button', { name: 'Nie mam' });
+    await missing.click();
+    await expect(missing).toHaveAttribute('aria-expanded', 'true');
+    await expect(page.getByText('Siemię lniane z wodą')).toBeVisible();
+    await expect(page.getByText('masz w lodówce')).toBeVisible();
+    await expect(page.getByText('Smaż na mniejszym ogniu.')).toBeVisible();
+    const body = calls.find((c) => c.url === 'substitute')?.body as {
+      recipeId: string;
+      lineId: string;
+      lang: string;
+    };
+    expect(body).toMatchObject({ recipeId: id, lang: 'pl' });
+    expect(body.lineId).toBeTruthy();
+    await expectNoA11yViolations(page);
+    await missing.click();
+    await expect(page.getByText('Siemię lniane z wodą')).toBeHidden();
   });
 });

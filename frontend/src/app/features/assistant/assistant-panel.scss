@@ -296,3 +296,25 @@
     flex-shrink: 0;
   }
 }
+
+// Zaznaczona szybka akcja
+.chip[aria-pressed='true'] {
+  border-color: var(--ck-link);
+  background: var(--ck-sage-bg);
+}
+
+// Koszt planu (przekroczony budżet - kolorem i tekstem)
+.cost {
+  font-weight: 600;
+  &.over {
+    color: var(--ck-danger);
+  }
+  .meta {
+    display: block;
+    font-weight: 400;
+  }
+  .over-text {
+    color: var(--ck-danger);
+    font-weight: 600;
+  }
+}

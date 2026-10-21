@@ -55,6 +55,50 @@
                     <span class="note">, {{ l.note }}</span>
                   }
                 </mat-checkbox>
+                @if (assistant.status()?.enabled && l.ingredient) {
+                  <button
+                    mat-button
+                    type="button"
+                    class="missing"
+                    [attr.aria-expanded]="subFor() === l.id"
+                    [attr.aria-controls]="'sub-' + l.id"
+                    (click)="substitute(l)"
+                  >
+                    {{ t('assistant.substitute.open') }}
+                  </button>
+                }
+                @if (subFor() === l.id) {
+                  <div class="sub" [id]="'sub-' + l.id" aria-live="polite">
+                    @if (subBusy()) {
+                      <p>{{ t('assistant.substitute.working') }}</p>
+                    } @else if (subError(); as code) {
+                      <p class="alert" role="alert">{{ t('errors.' + code) }}</p>
+                    } @else if (sub(); as s) {
+                      @if (s.options.length) {
+                        <ul>
+                          @for (o of s.options; track $index) {
+                            <li>
+                              <strong>{{ o.name }}</strong>
+                              @if (o.amount) {
+                                <span> - {{ o.amount }}</span>
+                              }
+                              @if (o.inPantry) {
+                                <span class="badge">{{ t('assistant.substitute.inPantry') }}</span>
+                              }
+                              <p>{{ o.note }}</p>
+                            </li>
+                          }
+                        </ul>
+                      } @else {
+                        <p>{{ t('assistant.substitute.none') }}</p>
+                      }
+                      @if (s.tip) {
+                        <p class="tip">{{ s.tip }}</p>
+                      }
+                      <p class="hint">{{ t('assistant.substitute.disclaimer') }}</p>
+                    }
+                  </div>
+                }
               </li>
             }
           </ul>

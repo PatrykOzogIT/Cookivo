@@ -24,6 +24,7 @@ import { AuthService } from '../../core/auth/auth.service';
 import { LocalizedPipe } from '../../core/i18n/format.pipes';
 import { LanguageService } from '../../core/i18n/language.service';
 import { AmountLabelPipe } from '../recipes/amount-label.pipe';
+import { formatMoney } from '../prices/prices.api';
 import { formatShoppingAmount } from '../shopping/shopping-format';
 import { ShoppingApi } from '../shopping/shopping.api';
 import {
@@ -74,6 +75,8 @@ export class AssistantPanel {
   protected readonly status = this.s.status;
   protected readonly busy = signal(false);
   protected text = '';
+  /** Zaznaczona szybka akcja (wysyłana razem z dopiskiem) */
+  protected readonly selected = signal<AssistantAction | null>(null);
   protected wish = '';
   protected readonly variantKind = signal<VariantKind>('LIGHTER');
   protected readonly kinds: VariantKind[] = [
@@ -123,17 +126,45 @@ export class AssistantPanel {
 
   // --- Prośby --------------------------------------------------------------------------
 
-  protected async quick(action: AssistantAction): Promise<void> {
-    this.s.add({ kind: 'user', text: this.transloco.translate(`assistant.quick.${action}`) });
-    await this.run(() => this.api.ask({ action, lang: this.lang() }));
+  /** Szybka akcja tylko się zaznacza - użytkownik może dopisać życzenia i wysłać, kiedy chce */
+  protected select(action: AssistantAction): void {
+    this.selected.update((current) => (current === action ? null : action));
+    afterNextRender(() => document.getElementById('assistant-input')?.focus(), { injector: this.injector });
+  }
+
+  protected canSend(): boolean {
+    const action = this.selected();
+    if (this.busy() || (!this.text.trim() && !action)) return false;
+    // Uzupełnianie zakupów działa bez AI - także po wyczerpaniu limitu
+    return action === 'SHOPPING' || !!this.status()?.remaining;
   }
 
   protected async send(): Promise<void> {
+    if (!this.canSend()) return;
     const text = this.text.trim();
-    if (!text || this.busy()) return;
+    const action = this.selected();
+    const label = action ? this.transloco.translate(`assistant.quick.${action}`) : '';
     this.text = '';
-    this.s.add({ kind: 'user', text });
-    await this.run(() => this.api.ask({ text, lang: this.lang() }));
+    this.selected.set(null);
+    this.s.add({ kind: 'user', text: label && text ? `${label}: ${text}` : label || text });
+    await this.run(() =>
+      this.api.ask({ ...(action ? { action } : {}), ...(text ? { text } : {}), lang: this.lang() }),
+    );
+  }
+
+  /** Koszt planu: porcje × osoby; null, gdy żaden posiłek nie ma ceny */
+  protected planCost(plan: PlanResult): { cents: number; missing: number } | null {
+    const meals = plan.days.flatMap((d) => d.meals);
+    const priced = meals.filter((m) => m.recipe.costPerServingCents != null);
+    if (!priced.length) return null;
+    return {
+      cents: priced.reduce((sum, m) => sum + m.recipe.costPerServingCents! * plan.people, 0),
+      missing: meals.length - priced.length,
+    };
+  }
+
+  protected money(cents: number, currency: string): string {
+    return formatMoney(cents, currency, this.lang());
   }
 
   protected async makeVariant(): Promise<void> {

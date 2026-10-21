@@ -3,7 +3,7 @@ import { inject, Injectable, signal } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 
 /** Data wejścia w życie bieżących dokumentów - ta sama co TERMS_VERSION / PRIVACY_POLICY_VERSION w backendzie */
-export const LEGAL_EFFECTIVE = '2026-10-23';
+export const LEGAL_EFFECTIVE = '2026-10-24';
 export const CONTACT_EMAIL = 'kontakt@cookivo.pl';
 
 export type ConsentType =

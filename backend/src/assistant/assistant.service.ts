@@ -8,17 +8,22 @@ import {
 } from '@nestjs/common';
 import { AiUsageService } from '../ai/ai-usage.service.js';
 import type { AuthUser } from '../common/auth.decorators.js';
-import { ownerScope } from '../common/owner-scope.js';
+import { ownerScope, type OwnerScope } from '../common/owner-scope.js';
 import type { AiImportKind } from '../generated/prisma/client.js';
 import { PantryService } from '../pantry/pantry.service.js';
 import { STANDARD_SLOTS } from '../planner/planner.dto.js';
 import { PlannerService } from '../planner/planner.service.js';
 import { PrismaService } from '../prisma/prisma.service.js';
 import { ProfileService } from '../profile/profile.service.js';
+import { matchIngredient } from '../ai/ingredient-match.js';
+import { IngredientsService } from '../ingredients/ingredients.service.js';
 import { RecipeImportService } from '../recipe-import/recipe-import.service.js';
 import { ListRecipesQuery } from '../recipes/recipes.dto.js';
 import { RecipesService } from '../recipes/recipes.service.js';
-import { LIQUID_CATEGORIES, shoppingAmount } from '../shopping/shopping-math.js';
+import { costOf } from '../prices/cost-math.js';
+import { PricesService } from '../prices/prices.service.js';
+import { loadRecipesForExpansion } from '../shopping/recipe-loader.js';
+import { expandRecipe, LIQUID_CATEGORIES, shoppingAmount } from '../shopping/shopping-math.js';
 import { ShoppingService } from '../shopping/shopping.service.js';
 import { AssistantAi, type AiResult } from './assistant-ai.js';
 import { duePurchases, toPlannerMeals, type ProposedMeal } from './assistant-math.js';
@@ -88,6 +93,8 @@ export class AssistantService {
     private readonly planner: PlannerService,
     private readonly profile: ProfileService,
     private readonly recipeImport: RecipeImportService,
+    private readonly prices: PricesService,
+    private readonly ingredients: IngredientsService,
   ) {}
 
   async status(userId: string) {
@@ -106,19 +113,22 @@ export class AssistantService {
     let slots = DEFAULT_SLOTS;
     let days = 7;
     let wishes = '';
-    if (!dto.action) {
-      const text = (dto.text ?? '').trim();
-      if (!text) throw new BadRequestException({ code: 'ASSISTANT_EMPTY' });
-      // Tani krok: o co chodzi? Odmowy nie zużywają limitu zadań
+    let budget: number | null = null;
+    const text = (dto.text ?? '').trim();
+    if (!dto.action && !text) throw new BadRequestException({ code: 'ASSISTANT_EMPTY' });
+    if (dto.action === 'PANTRY') wishes = text.slice(0, 300);
+    if (text && (!dto.action || dto.action === 'PLAN')) {
+      // Tani krok: o co chodzi i z jakimi życzeniami (posiłki, dni, budżet)? Odmowy nie zużywają limitu zadań
       const route = await this.call('ASSISTANT_ROUTE', user.id, () => this.ai.route(text));
-      task = route.task;
+      if (!dto.action) task = route.task;
       if (route.slots.length) slots = route.slots;
       if (route.days && route.days >= 1 && route.days <= 7) days = route.days;
+      if (route.budget && route.budget > 0 && route.budget < 100_000) budget = route.budget;
       wishes = route.wishes.slice(0, 300);
     }
     switch (task) {
       case 'PLAN':
-        return this.plan(user, slots, days, wishes, lang);
+        return this.plan(user, slots, days, wishes, lang, budget);
       case 'PANTRY':
         return this.fromPantry(user, wishes, lang);
       case 'SHOPPING':
@@ -132,7 +142,14 @@ export class AssistantService {
 
   // --- Plan tygodnia --------------------------------------------------------------------
 
-  private async plan(user: AuthUser, slots: string[], days: number, wishes: string, lang: 'pl' | 'en') {
+  private async plan(
+    user: AuthUser,
+    slots: string[],
+    days: number,
+    wishes: string,
+    lang: 'pl' | 'en',
+    budget: number | null,
+  ) {
     const scope = await ownerScope(this.prisma, user.id);
     const start = new Date(Date.now() + DAY_MS);
     const dates = Array.from({ length: days }, (_, i) => isoDay(new Date(start.getTime() + i * DAY_MS)));
@@ -163,6 +180,15 @@ export class AssistantService {
     }
     if (!aliases.size) return { type: 'MESSAGE', code: 'NO_RECIPES' };
 
+    // Koszt porcji (własny cennik, braki z cen ogólnych) - do planu z budżetem i podglądu
+    const costs = await this.costPerServing(scope, [...aliases.values()]);
+    const currency = costs.currency;
+    for (const [code, r] of aliases) {
+      const c = costs.byRecipe.get(r.id);
+      const i = lines.findIndex((l) => l.startsWith(`${code} |`));
+      lines[i] += c ? ` | ok. ${(c / 100).toFixed(2)} ${currency}/porcja` : ' | cena ?';
+    }
+
     const kcal = await this.kcalTarget(user.id);
     const context = [
       `Dni planu: ${days} (dzień 1 = ${dates[0]}).`,
@@ -170,7 +196,10 @@ export class AssistantService {
       `Osób w gospodarstwie: ${people}.`,
       kcal ? `Cel: ok. ${kcal} kcal dziennie na osobę.` : 'Brak celu kcal.',
       `Życzenia użytkownika: ${wishes || 'brak'}.`,
-      'Przepisy (kod | tytuł | rodzaj | kcal | czas):',
+      budget
+        ? `Budżet na cały plan: ${budget} ${currency} (koszt = cena porcji × liczba osób, dla każdego posiłku). Zmieść się w budżecie, wybieraj tańsze przepisy; przepisy bez ceny ("cena ?") stosuj oszczędnie.`
+        : '',
+      'Przepisy (kod | tytuł | rodzaj | kcal | czas | koszt):',
       ...lines,
     ].join('\n');
     const reply = await this.call('ASSISTANT', user.id, () => this.ai.plan(context, lang));
@@ -184,6 +213,10 @@ export class AssistantService {
       if (ok) seen.add(key);
       return ok;
     });
+    const withCost = (c: ReturnType<typeof card>) => ({
+      ...c,
+      costPerServingCents: costs.byRecipe.get(c.id) ?? null,
+    });
     const byDay = dates.map((date, i) => ({
       date,
       meals: meals
@@ -192,14 +225,21 @@ export class AssistantService {
         .map((m) => ({
           slot: m.slot,
           leftover: m.leftover,
-          recipe: card(aliases.get(m.recipe)!),
+          recipe: withCost(card(aliases.get(m.recipe)!)),
           alternatives: m.alternatives
             .filter((a) => aliases.has(a) && a !== m.recipe)
             .slice(0, 2)
-            .map((a) => card(aliases.get(a)!)),
+            .map((a) => withCost(card(aliases.get(a)!))),
         })),
     }));
-    return { type: 'PLAN', summary: reply.summary.slice(0, 500), people, days: byDay };
+    return {
+      type: 'PLAN',
+      summary: reply.summary.slice(0, 500),
+      people,
+      currency,
+      budgetCents: budget ? Math.round(budget * 100) : null,
+      days: byDay,
+    };
   }
 
   /** Zatwierdzony plan → planer (partie dla resztek). Przepisy sprawdza planer (widoczność). */
@@ -382,6 +422,75 @@ export class AssistantService {
     return this.shopping.addNeeds(user.id, new Map(dto.items.map((i) => [i.ingredientId, i.grams])));
   }
 
+  // --- Dyktowanie listy zakupów (drobne zadanie) ----------------------------------------------
+
+  /** Tekst (z dyktowania albo wklejony) → pozycje do dodania; dopasowanie do bazy jak przy imporcie */
+  async parseList(user: AuthUser, text: string) {
+    if (!this.ai.enabled) throw new ServiceUnavailableException({ code: 'IMPORT_DISABLED' });
+    const reply = await this.call('ASSISTANT_ROUTE', user.id, () => this.ai.parseList(text));
+    const items = await Promise.all(
+      reply.items.slice(0, 40).map(async (i) => {
+        const name = i.name.trim().slice(0, 80);
+        const found = i.isFood ? await matchIngredient(this.ingredients, name, user) : null;
+        const ingredient = found?.match ?? found?.partial ?? null;
+        return {
+          name,
+          amount: i.amount && i.amount > 0 && i.amount < 100_000 ? i.amount : null,
+          unit: i.unit,
+          note: i.note?.slice(0, 80) ?? null,
+          ingredient: ingredient
+            ? {
+                id: ingredient.id,
+                namePl: ingredient.namePl,
+                nameEn: ingredient.nameEn,
+                density: ingredient.density,
+                units: ingredient.units,
+                icon: ingredient.category.icon,
+              }
+            : null,
+        };
+      }),
+    );
+    return { items };
+  }
+
+  // --- Zamiennik w trakcie gotowania (drobne zadanie) ------------------------------------------
+
+  async substitute(user: AuthUser, dto: { recipeId: string; lineId: string; lang?: 'pl' | 'en' }) {
+    if (!this.ai.enabled) throw new ServiceUnavailableException({ code: 'IMPORT_DISABLED' });
+    const r = await this.recipes.get(dto.recipeId, user);
+    const line = r.ingredients.find((l) => l.id === dto.lineId);
+    if (!line?.ingredient) throw new BadRequestException({ code: 'LINE_INVALID' });
+    const pantry = (await this.pantry.list(user.id)).items;
+    const avoid = await this.avoidedAllergens(user.id);
+    const context = [
+      `Przepis: ${r.title} (${r.servings} porcji)`,
+      'Składniki:',
+      ...r.ingredients.map(
+        (l) => `- ${l.ingredient?.namePl ?? l.subRecipe?.title ?? '?'}: ${l.amount} ${l.unitCode}`,
+      ),
+      'Kroki:',
+      ...r.steps.map((s, i) => `${i + 1}. ${s.text}`),
+      `Brakuje: ${line.ingredient.namePl} (${line.amount} ${line.unitCode}).`,
+      `W lodówce: ${pantry.map((p) => p.ingredient.namePl).join(', ') || 'nic'}.`,
+      avoid.length ? `Unikane alergeny: ${avoid.join(', ')}.` : '',
+    ]
+      .filter(Boolean)
+      .join('\n');
+    const reply = await this.call('ASSISTANT_ROUTE', user.id, () =>
+      this.ai.substitute(context, dto.lang ?? 'pl'),
+    );
+    return {
+      options: reply.options.slice(0, 3).map((o) => ({
+        name: o.name.slice(0, 80),
+        amount: o.amount.slice(0, 40),
+        note: o.note.slice(0, 200),
+        inPantry: o.inPantry,
+      })),
+      tip: reply.tip?.slice(0, 200) ?? null,
+    };
+  }
+
   // --- Wersja przepisu -----------------------------------------------------------------------
 
   async variant(
@@ -421,6 +530,37 @@ export class AssistantService {
   }
 
   // ---------------------------------------------------------------------------
+
+  /**
+   * Koszt porcji przepisów (własny cennik, braki z cen ogólnych). null = nie wszystkie składniki
+   * mają cenę - nie zgadujemy.
+   */
+  private async costPerServing(scope: OwnerScope, recipes: RecipeCard[]) {
+    const tree = await loadRecipesForExpansion(
+      this.prisma,
+      recipes.map((r) => r.id),
+    );
+    const needs = new Map(
+      recipes.map((r) => [r.id, expandRecipe(r.id, 1 / Math.max(1, r.servings), tree)] as const),
+    );
+    const ids = [...new Set([...needs.values()].flatMap((n) => [...n.keys()]))];
+    const prices = await this.prices.effectivePrices(scope, ids);
+    const byRecipe = new Map<string, number>();
+    if (prices) {
+      for (const [id, need] of needs) {
+        const result = costOf(need, prices.centsPerGram);
+        if (!result.missing.length && need.size) byRecipe.set(id, result.cents);
+      }
+    }
+    return { currency: prices?.currency ?? 'PLN', byRecipe };
+  }
+
+  /** Alergeny, których użytkownik unika - tylko przy zgodzie zdrowotnej (zamiennik nie może ich proponować) */
+  private async avoidedAllergens(userId: string): Promise<string[]> {
+    if (!(await this.profile.hasHealthConsent(userId))) return [];
+    const rows = await this.prisma.userAllergen.findMany({ where: { userId }, include: { allergen: true } });
+    return rows.map((a) => a.allergen.namePl);
+  }
 
   /** Cel kcal tylko za zgodą zdrowotną (dane o zdrowiu) */
   private async kcalTarget(userId: string): Promise<number | null> {

@@ -69,7 +69,10 @@ describe('Asystent (e2e)', () => {
     expect((await api().get('/api/assistant/status').set(bearer(me)).expect(200)).body.enabled).toBe(false);
     await ask({ action: 'PLAN' }, 503);
     ai.enabled = true;
-    ai.route = async () => ({ output: { task: 'OFF_TOPIC', slots: [], days: null, wishes: '' }, ...tokens });
+    ai.route = async () => ({
+      output: { task: 'OFF_TOPIC', slots: [], days: null, wishes: '', budget: null },
+      ...tokens,
+    });
     expect((await ask({ text: 'Opowiedz mi kawał' })).body).toEqual({ type: 'MESSAGE', code: 'OFF_TOPIC' });
     expect(await remaining()).toBe(5);
   });
@@ -88,7 +91,13 @@ describe('Asystent (e2e)', () => {
     await recipe('Naleśniki', ['SUPPER'], [{ ingredientId: ids.flour, amount: 150, unitCode: 'g' }]);
     let context = '';
     ai.route = async () => ({
-      output: { task: 'PLAN', slots: ['BREAKFAST', 'DINNER'], days: 2, wishes: 'obiady sycące' },
+      output: {
+        task: 'PLAN',
+        slots: ['BREAKFAST', 'DINNER'],
+        days: 2,
+        wishes: 'obiady sycące',
+        budget: null,
+      },
       ...tokens,
     });
     ai.plan = async (c) => {
@@ -325,6 +334,132 @@ describe('Asystent (e2e)', () => {
         .expect(201)
     ).body;
     expect(created.variantOf).toMatchObject({ id: original });
+  });
+
+  it('plan z budżetem: szybka akcja z dopiskiem, koszt porcji w kontekście i w wyniku', async () => {
+    const soup = await recipe(
+      'Zupa marchewkowa',
+      ['DINNER'],
+      [{ ingredientId: ids.carrot, amount: 1000, unitCode: 'g' }],
+    );
+    await api().post('/api/prices').set(bearer(me)).send({ name: 'Dom' }).expect(201);
+    const listId = (await api().get('/api/prices').set(bearer(me)).expect(200)).body.lists[0].id;
+    await api()
+      .put(`/api/prices/${listId}/entries`)
+      .set(bearer(me))
+      .send({ ingredientId: ids.carrot, packageAmount: 1, packageUnitCode: 'kg', price: 4 })
+      .expect(200);
+    let routed = '';
+    ai.route = async (text) => {
+      routed = text;
+      // Model rozpoznał np. "zadania" jako coś innego - przy szybkiej akcji i tak planujemy
+      return {
+        output: { task: 'OFF_TOPIC', slots: ['DINNER'], days: 3, wishes: 'tanio', budget: 50 },
+        ...tokens,
+      };
+    };
+    let context = '';
+    ai.plan = async (c) => {
+      context = c;
+      return {
+        output: {
+          summary: 'Tanio.',
+          meals: [{ day: 1, slot: 'DINNER', recipe: 'r1', leftover: false, alternatives: [] }],
+        },
+        ...tokens,
+      };
+    };
+    const res = (await ask({ action: 'PLAN', text: 'obiady na 3 dni do 50 zł' })).body;
+    expect(routed).toBe('obiady na 3 dni do 50 zł');
+    expect(context).toContain('Budżet na cały plan: 50 PLN');
+    // 1 kg marchwi po 4 zł na 2 porcje = 2 zł za porcję
+    expect(context).toContain('Zupa marchewkowa');
+    expect(context).toContain('ok. 2.00 PLN/porcja');
+    expect(res).toMatchObject({ type: 'PLAN', currency: 'PLN', budgetCents: 5000 });
+    expect(res.days).toHaveLength(3);
+    expect(res.days[0].meals[0].recipe).toMatchObject({ id: soup, costPerServingCents: 200 });
+  });
+
+  it('dyktowanie listy: pozycje z dopasowaniem do bazy, rzeczy niespożywcze bez składnika', async () => {
+    let got = '';
+    ai.parseList = async (text) => {
+      got = text;
+      return {
+        output: {
+          items: [
+            { name: 'mleko 3,2%', amount: 2, unit: 'l', note: null, isFood: true },
+            { name: 'ziemniak', amount: 2, unit: 'kg', note: null, isFood: true },
+            { name: 'papier do pieczenia', amount: null, unit: null, note: null, isFood: false },
+          ],
+        },
+        ...tokens,
+      };
+    };
+    const res = (
+      await api()
+        .post('/api/assistant/shopping/parse')
+        .set(bearer(me))
+        .send({ text: 'dwa litry mleka, 2 kilo ziemniaków i papier do pieczenia' })
+        .expect(200)
+    ).body;
+    expect(got).toContain('dwa litry mleka');
+    expect(res.items[0]).toMatchObject({
+      name: 'mleko 3,2%',
+      amount: 2,
+      unit: 'l',
+      ingredient: { id: ids.milk },
+    });
+    expect(res.items[1].ingredient).toMatchObject({ namePl: 'Ziemniaki' });
+    expect(res.items[2]).toMatchObject({ name: 'papier do pieczenia', ingredient: null });
+    // Drobne zadanie - nie zużywa limitu zadań
+    expect(await remaining()).toBe(5);
+  });
+
+  it('zamiennik w trakcie gotowania: kontekst z przepisem i lodówką, zły wiersz - 400', async () => {
+    const pancakes = await recipe(
+      'Placki',
+      ['BREAKFAST'],
+      [
+        { ingredientId: ids.egg, amount: 2, unitCode: 'PIECE' },
+        { ingredientId: ids.flour, amount: 200, unitCode: 'g' },
+      ],
+    );
+    await api().post('/api/pantry').set(bearer(me)).send({ ingredientId: ids.milk }).expect(201);
+    const detail = (await api().get(`/api/recipes/${pancakes}`).set(bearer(me)).expect(200)).body;
+    const eggLine = detail.ingredients.find(
+      (l: { ingredient: { id: string } | null }) => l.ingredient?.id === ids.egg,
+    );
+    let context = '';
+    ai.substitute = async (c) => {
+      context = c;
+      return {
+        output: {
+          options: [
+            { name: 'mleko', amount: '3 łyżki', note: 'Placki będą mniej puszyste.', inPantry: true },
+          ],
+          tip: null,
+        },
+        ...tokens,
+      };
+    };
+    const res = (
+      await api()
+        .post('/api/assistant/substitute')
+        .set(bearer(me))
+        .send({ recipeId: pancakes, lineId: eggLine.id })
+        .expect(200)
+    ).body;
+    expect(context).toContain('Brakuje: Jajko (2 PIECE)');
+    expect(context).toContain('W lodówce: Mleko 3,2%');
+    expect(res).toEqual({
+      options: [{ name: 'mleko', amount: '3 łyżki', note: 'Placki będą mniej puszyste.', inPantry: true }],
+      tip: null,
+    });
+    await api()
+      .post('/api/assistant/substitute')
+      .set(bearer(me))
+      .send({ recipeId: pancakes, lineId: '0190a000-0000-7000-8000-000000000000' })
+      .expect(400);
   });
 
   it('limit dzienny zadań; błąd modelu', async () => {

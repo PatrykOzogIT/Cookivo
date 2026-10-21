@@ -15,6 +15,8 @@ export const RouteSchema = z.object({
   days: z.number().int().nullable(),
   /** Życzenia użytkownika w skrócie, po polsku */
   wishes: z.string(),
+  /** Budżet na cały plan w walucie użytkownika (np. "do 150 zł" → 150) albo null */
+  budget: z.number().nullable(),
 });
 
 export const PlanSchema = z.object({
@@ -44,7 +46,42 @@ export const VariantSchema = ExtractionSchema.extend({
   changes: z.array(z.object({ change: z.string(), why: z.string() })),
 });
 
+/** Lista zakupów z dyktowania / wklejonego tekstu */
+export const ListSchema = z.object({
+  items: z.array(
+    z.object({
+      /** Produkt po polsku w mianowniku liczby pojedynczej (np. "ziemniak") */
+      name: z.string(),
+      amount: z.number().nullable(),
+      unit: z.enum(['g', 'kg', 'ml', 'l', 'PIECE', 'PACKAGE']).nullable(),
+      /** Dopisek (np. "coś do kanapek", "bez laktozy") */
+      note: z.string().nullable(),
+      /** false = rzecz niespożywcza (np. papier do pieczenia) */
+      isFood: z.boolean(),
+    }),
+  ),
+});
+
+/** Zamiennik składnika w trakcie gotowania */
+export const SubstituteSchema = z.object({
+  options: z.array(
+    z.object({
+      name: z.string(),
+      /** Ilość zamiennika w tym przepisie, np. "150 g" albo "3 łyżki" */
+      amount: z.string(),
+      /** Jak użyć / czym się różni (jedno zdanie) */
+      note: z.string(),
+      /** Użytkownik ma ten produkt w lodówce */
+      inPantry: z.boolean(),
+    }),
+  ),
+  /** Gdy składnik można pominąć - krótka rada */
+  tip: z.string().nullable(),
+});
+
 export type Route = z.infer<typeof RouteSchema>;
+export type ListReply = z.infer<typeof ListSchema>;
+export type SubstituteReply = z.infer<typeof SubstituteSchema>;
 export type PlanReply = z.infer<typeof PlanSchema>;
 export type PantryReply = z.infer<typeof PantrySchema>;
 export type VariantReply = z.infer<typeof VariantSchema>;
@@ -66,6 +103,7 @@ const ROUTE_SYSTEM = `Jesteś asystentem aplikacji kulinarnej Cookivo. Rozpoznaj
 - OFF_TOPIC: wszystko inne - rozmowa, pytania ogólne, porady medyczne lub dietetyczne, tematy niezwiązane z gotowaniem w Cookivo.
 "slots": posiłki do zaplanowania (BREAKFAST śniadanie, SECOND_BREAKFAST drugie śniadanie, DINNER obiad, AFTERNOON_SNACK podwieczorek, SUPPER kolacja, SNACK przekąska); pusta lista = śniadanie, obiad i kolacja.
 "days": liczba dni planu 1-7 albo null.
+"budget": kwota na cały plan, jeśli użytkownik ją podał (np. "do 150 zł" → 150), inaczej null.
 "wishes": życzenia użytkownika w skrócie po polsku, np. "śniadania lekkie do spakowania; obiady sycące; kolacje na słodko".
 ${GUARD}`;
 
@@ -97,6 +135,23 @@ Zasady:
 - "warnings": gdy zmiana wyraźnie zmienia smak lub konsystencję, napisz to wprost (np. "bez jajek sernik będzie mniej zwarty").
 - Składniki: "text" = linia jak w przepisie, "name" = sam produkt po polsku w mianowniku liczby pojedynczej; jednostki: g, ml, PIECE, SLICE, CLOVE, BUNCH, HANDFUL, PINCH, CAN, PACKAGE, TEASPOON, TABLESPOON, GLASS.
 - "isRecipe": true. Tytuł, opis, kroki i uwagi w języku: {LANG}.
+${GUARD}`;
+
+const LIST_SYSTEM = `Zamieniasz podyktowaną albo wklejoną listę zakupów na pozycje w aplikacji Cookivo.
+Zasady:
+- Każdy produkt osobno; "name" po polsku w mianowniku liczby pojedynczej, bez ilości (np. "2 kilo ziemniaków" → "ziemniak", amount 2, unit "kg").
+- Jednostki: g, kg, ml, l, PIECE (sztuki), PACKAGE (opakowanie, paczka, słoik, puszka); brak ilości = null.
+- Ogólniki ("coś do kanapek") zostaw jako jedną pozycję z dopiskiem w "note".
+- "isFood": false dla rzeczy niespożywczych.
+${GUARD}`;
+
+const SUBSTITUTE_SYSTEM = `Jesteś doświadczonym kucharzem. Użytkownik gotuje przepis i nie ma jednego składnika. Zaproponuj 1-3 zamienniki dostępne w polskim domu, najlepiej z jego lodówki.
+Zasady:
+- Podaj ilość zamiennika dla tego przepisu ("amount") i jedno zdanie, jak go użyć lub czym zmieni danie ("note").
+- Uwzględnij rolę składnika w przepisie (np. jajko wiąże, śmietana zagęszcza).
+- Jeśli składnik można po prostu pominąć, powiedz to w "tip".
+- Nie proponuj produktów z alergenami wymienionymi jako unikane.
+- Teksty w języku: {LANG}.
 ${GUARD}`;
 
 /**
@@ -146,6 +201,26 @@ export class AssistantAi {
       images: [],
       prompt: context,
       maxTokens: 1500,
+      model: this.model,
+    });
+  }
+
+  async parseList(text: string): Promise<AiResult<ListReply>> {
+    return this.vision.parse(ListSchema, {
+      system: LIST_SYSTEM,
+      images: [],
+      prompt: `Lista:\n${text}`,
+      maxTokens: 2000,
+      model: this.model,
+    });
+  }
+
+  async substitute(context: string, lang: 'pl' | 'en'): Promise<AiResult<SubstituteReply>> {
+    return this.vision.parse(SubstituteSchema, {
+      system: SUBSTITUTE_SYSTEM.replace('{LANG}', language(lang)),
+      images: [],
+      prompt: context,
+      maxTokens: 800,
       model: this.model,
     });
   }

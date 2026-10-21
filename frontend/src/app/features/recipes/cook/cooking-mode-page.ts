@@ -16,6 +16,8 @@ import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 import { apiErrorCode } from '../../../core/api-error';
+import { AssistantApi, type Substitute } from '../../assistant/assistant.api';
+import { AssistantStore } from '../../assistant/assistant.store';
 import { LocalizedPipe } from '../../../core/i18n/format.pipes';
 import { LanguageService } from '../../../core/i18n/language.service';
 import { AmountLabelPipe } from '../amount-label.pipe';
@@ -39,6 +41,8 @@ export class CookingModePage implements OnInit, OnDestroy {
   private readonly transloco = inject(TranslocoService);
   private readonly title = inject(Title);
   protected readonly lang = inject(LanguageService).current;
+  private readonly assistantApi = inject(AssistantApi);
+  protected readonly assistant = inject(AssistantStore);
 
   readonly id = input.required<string>();
   /** ?servings= z przycisku "Gotuj" */
@@ -53,6 +57,11 @@ export class CookingModePage implements OnInit, OnDestroy {
   protected readonly now = signal(Date.now());
   protected readonly wakeLockActive = signal(false);
   protected readonly announcement = signal('');
+  /** "Nie mam" - zamiennik od asystenta dla jednego wiersza naraz */
+  protected readonly subFor = signal<string | null>(null);
+  protected readonly sub = signal<Substitute | null>(null);
+  protected readonly subBusy = signal(false);
+  protected readonly subError = signal<string | null>(null);
 
   private readonly track = viewChild<ElementRef<HTMLElement>>('track');
   private wakeLock: WakeLockSentinel | null = null;
@@ -67,6 +76,29 @@ export class CookingModePage implements OnInit, OnDestroy {
   protected readonly factor = computed(() => this.portions() / (this.recipe()?.servings ?? 1));
   protected readonly groups = computed(() => groupLines(this.recipe()?.ingredients ?? []));
   protected readonly cardCount = computed(() => 1 + (this.recipe()?.steps.length ?? 0));
+
+  protected async substitute(line: RecipeLine): Promise<void> {
+    if (this.subFor() === line.id) {
+      this.subFor.set(null);
+      return;
+    }
+    this.subFor.set(line.id);
+    this.sub.set(null);
+    this.subError.set(null);
+    this.subBusy.set(true);
+    try {
+      const res = await this.assistantApi.substitute({
+        recipeId: this.id(),
+        lineId: line.id,
+        lang: this.lang(),
+      });
+      if (this.subFor() === line.id) this.sub.set(res);
+    } catch (err) {
+      if (this.subFor() === line.id) this.subError.set(apiErrorCode(err));
+    } finally {
+      this.subBusy.set(false);
+    }
+  }
 
   async ngOnInit(): Promise<void> {
     try {

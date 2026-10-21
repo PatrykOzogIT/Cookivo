@@ -778,7 +778,7 @@
               "Reading a receipt from photos (optional): the receipt photos you choose in the pantry or price lists. Purpose: reading the purchased products, quantities and prices for you to check before saving. Photos are not saved - they are deleted after reading; we only keep a usage counter (as for recipes). After you confirm, we save the selected products in the pantry and the prices in the price list and the price history (product, regular price, package size, shop and purchase date); in a household, its members see them. We do not save the full receipt, payment amounts or card details. Legal basis: contract (Art. 6(1)(b) GDPR).",
               "Receipt product links and ingredient requests: when you confirm a receipt import, we remember which ingredient was assigned to the product name printed on the receipt in a given shop chain (e.g. \"MlekoŚw3,2 1l\" at Biedronka → Milk 3.2%). We suggest your assignments to you and your household, and a summary of many people's assignments to all users (without showing who bought what). Product names from a reading are kept until you confirm the import, at most one day. When you report a missing product, we store the name you give, the receipt text and the shop - the administrator sees them, and we email you when the product is added. Legal basis: contract (Art. 6(1)(b) GDPR).",
               "General prices: regular prices from all users' confirmed receipts from the last 60 days are combined into a general product price (the median, separately for each shop chain) and shown to others in price lists and cost estimates. We do not show who bought the product or when. Price history also includes prices entered manually in a price list - these are not used for general prices. Legal basis: our legitimate interest in helping users estimate shopping costs (Art. 6(1)(f) GDPR); you can object by writing to kontakt@cookivo.pl.",
-              "Assistant (optional): the text of your request and the Cookivo data needed to answer it - a list of matching recipes (titles, kcal, time), the products in your pantry and, only with consent to health data, your daily kcal target - are sent to the AI model to prepare a suggestion (a meal plan, recipes from your pantry, a recipe version). We filter recipes for your allergies on our side - the allergies themselves are not sent. The assistant does not save anything on its own: you approve the suggestions. Conversations are not stored; we only keep a usage counter (date, task type, result, tokens). Topping up the shopping list works without AI - based on the plan, the pantry and your purchase history from receipts. Legal basis: contract (Art. 6(1)(b) GDPR) and, for the kcal target, your explicit consent (Art. 9(2)(a) GDPR).",
+              "Assistant (optional): the text of your request and the Cookivo data needed to answer it - a list of matching recipes (titles, kcal, time, estimated cost per serving from prices), the products in your pantry and, only with consent to health data, your daily kcal target - are sent to the AI model to prepare a suggestion (a meal plan, also within a budget, recipes from your pantry, a recipe version). We filter recipes for your allergies on our side - the allergies themselves are not sent for these tasks. For a substitute while cooking (\"Don't have it\") we send the recipe, the missing ingredient and your pantry products and, with consent to health data, the names of allergens you avoid - so that the substitute is safe for you. When you dictate a shopping list, the text of the list is sent to the AI model; speech is turned into text by your browser (e.g. Chrome uses a Google service under its own terms) - recordings never reach us. The assistant does not save anything on its own: you approve the suggestions. Conversations are not stored; we only keep a usage counter (date, task type, result, tokens). Topping up the shopping list works without AI - based on the plan, the pantry and your purchase history from receipts. Legal basis: contract (Art. 6(1)(b) GDPR) and, for the kcal target and allergens, your explicit consent (Art. 9(2)(a) GDPR).",
               "Security: IP address and browser information for sign-in sessions, number of failed sign-ins and the consent history with IP address. Purpose: protecting accounts against takeover, detecting abuse and demonstrating consent. Legal basis: our legitimate interest (Art. 6(1)(f) GDPR) and the duty to demonstrate consent (Art. 7(1) GDPR).",
               "Moderation: reports about content and users, moderator decisions and account blocks with reasons. Purpose: countering illegal content and content that breaks the terms, and obligations under the Digital Services Act (DSA). Legal basis: legal obligation and legitimate interest (Art. 6(1)(c) and (f) GDPR).",
               "Correspondence: when you write to us - your email address and the message, so we can reply. Legal basis: legitimate interest (Art. 6(1)(f) GDPR)."
@@ -1851,7 +1851,7 @@
     "open": "Assistant",
     "title": "Cookivo assistant",
     "close": "Close the assistant",
-    "intro": "I can plan your meals, pick recipes from what is in your pantry and top up your shopping list. Choose a quick action or write what you need – e.g. \"Plan my week: light breakfasts for work, filling dinners, sweet suppers\".",
+    "intro": "I can plan your meals, pick recipes from what is in your pantry and top up your shopping list. Choose a quick action or write what you need – e.g. \"Plan my week: light breakfasts for work, filling dinners, sweet suppers, up to £30\".",
     "quickLabel": "Quick actions",
     "quick": {
       "PLAN": "Plan my week",
@@ -1875,7 +1875,12 @@
       "remove": "Remove from plan: {{name}}",
       "apply": "Save to planner ({{count}})",
       "saved": "Saved to the planner: {{count}} meals.",
-      "open": "Open the planner"
+      "open": "Open the planner",
+      "cost": "Plan cost: approx. {{total}}",
+      "costBudget": "Plan cost: approx. {{total}} (budget {{budget}})",
+      "overBudget": "Over budget",
+      "costMissing": "Meals without a price (not included): {{count}}",
+      "perServing": "{{price}}/serving"
     },
     "pantry": {
       "have": "You have: {{names}}",
@@ -1909,6 +1914,33 @@
       "cancel": "Other request",
       "changes": "What the assistant changed",
       "check": "This is a draft – check the ingredients and steps before saving."
+    },
+    "hint": {
+      "PLAN": "Add your wishes (optional)",
+      "PANTRY": "Add what you feel like (optional)",
+      "SHOPPING": "Click Send to top up your list"
+    },
+    "dictation": {
+      "open": "Dictate or paste a list",
+      "title": "List from text",
+      "label": "What to buy?",
+      "placeholder": "e.g. two litres of milk, a kilo of apples, bread and baking paper",
+      "speak": "Speak",
+      "stop": "Stop",
+      "listening": "Listening… say what to buy, then click Stop.",
+      "speechNote": "Speech is turned into text by your browser (e.g. Chrome uses a Google service). The finished text goes to the assistant.",
+      "parse": "Recognise items",
+      "close": "Close",
+      "working": "Recognising items…",
+      "custom": "(not in the database)",
+      "add": "Add to list ({{count}})"
+    },
+    "substitute": {
+      "open": "Don't have it",
+      "working": "Looking for a substitute…",
+      "inPantry": "in your pantry",
+      "none": "I couldn't find a good substitute – this ingredient is key here.",
+      "disclaimer": "The assistant's suggestion – check it suits your allergies and diet."
     }
   }
 }
