@@ -91,6 +91,12 @@ export const routes: Routes = [
     data: { titleKey: 'nav.preferences' },
   },
   {
+    path: 'planner/prep',
+    canMatch: [authGuard],
+    data: { titleKey: 'assistant.prep.title' },
+    loadComponent: () => import('./features/assistant/prep-page').then((m) => m.PrepPage),
+  },
+  {
     path: 'planner',
     canMatch: [authGuard],
     data: { titleKey: 'nav.planner' },

@@ -97,6 +97,39 @@ export interface Substitute {
   tip: string | null;
 }
 
+/** Harmonogram gotowania (meal prep) - czasy w minutach od startu */
+export interface PrepStep {
+  dish: string;
+  index: number;
+  text: string;
+  timerMinutes: number | null;
+  start: number;
+  minutes: number;
+  wait: number;
+  background: string | null;
+  equipment: 'OVEN' | 'HOB' | 'NONE';
+  estimated: boolean;
+}
+
+export interface PrepResult {
+  type: 'PREP';
+  summary: string;
+  tips: string[];
+  dishes: {
+    letter: string;
+    cookId: string;
+    recipeId: string;
+    title: string;
+    servings: number;
+    date: string;
+  }[];
+  skipped: string[];
+  steps: PrepStep[];
+  end: number;
+  handsOn: number;
+  oven: { from: number; to: number }[];
+}
+
 export type AssistantResult = PlanResult | PantryResult | ShoppingResult | MessageResult;
 
 /** Asystent: zadania kończą się szkicem - zapis przez planer, listę zakupów, formularz przepisu */
@@ -110,6 +143,10 @@ export class AssistantApi {
 
   ask(body: { text?: string; action?: AssistantAction; lang: string }): Promise<AssistantResult> {
     return firstValueFrom(this.http.post<AssistantResult>('/api/assistant/ask', body));
+  }
+
+  prep(cookIds: string[], lang: string): Promise<PrepResult> {
+    return firstValueFrom(this.http.post<PrepResult>('/api/assistant/prep', { cookIds, lang }));
   }
 
   variant(body: {

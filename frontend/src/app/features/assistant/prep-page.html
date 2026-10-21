@@ -1,0 +1,207 @@
+<div class="page" *transloco="let t; prefix: 'assistant.prep'">
+  <header class="head">
+    <a mat-button routerLink="/planner" class="back no-print">
+      <span class="material-symbols-rounded" aria-hidden="true">arrow_back</span>{{ t('back') }}
+    </a>
+    <h1>{{ t('title') }}</h1>
+    <p class="lead">{{ t('lead') }}</p>
+  </header>
+
+  @if (!store.status()?.enabled) {
+    <p class="ck-card box">{{ t('disabled') }}</p>
+  } @else if (result(); as r) {
+    <!-- Harmonogram -->
+    <section class="ck-card box" aria-labelledby="prep-summary">
+      <div class="top">
+        <div>
+          <h2 id="prep-summary">{{ r.summary }}</h2>
+          <mat-form-field class="start no-print" subscriptSizing="dynamic">
+            <mat-label>{{ t('start') }}</mat-label>
+            <input matInput type="time" name="start" [ngModel]="start()" (ngModelChange)="setStart($event)" />
+          </mat-form-field>
+          <p class="print-only">{{ t('startAt', { time: start() }) }}</p>
+        </div>
+        <div class="buttons no-print">
+          <button mat-stroked-button type="button" (click)="print()">
+            <span class="material-symbols-rounded" aria-hidden="true">print</span>{{ t('print') }}
+          </button>
+          <button mat-stroked-button type="button" (click)="again()">
+            <span class="material-symbols-rounded" aria-hidden="true">refresh</span>{{ t('again') }}
+          </button>
+        </div>
+      </div>
+
+      <dl class="metrics">
+        <div>
+          <dt>{{ t('end') }}</dt>
+          <dd>{{ clock(r.end) }}</dd>
+        </div>
+        <div>
+          <dt>{{ t('total') }}</dt>
+          <dd>{{ length(r.end) }}</dd>
+        </div>
+        <div>
+          <dt>{{ t('handsOn') }}</dt>
+          <dd>{{ length(r.handsOn) }}</dd>
+        </div>
+        <div>
+          <dt>{{ t('ovenUse') }}</dt>
+          <dd>
+            @for (w of r.oven; track $index) {
+              <span class="oven-window">{{ clock(w.from) }}–{{ clock(w.to) }}</span>
+            } @empty {
+              {{ t('ovenNone') }}
+            }
+          </dd>
+        </div>
+      </dl>
+
+      <ul class="dishes" [attr.aria-label]="t('dishes')">
+        @for (d of r.dishes; track d.letter) {
+          <li>
+            <span [class]="'badge dish-' + d.letter" aria-hidden="true">{{ d.letter }}</span>
+            <a [routerLink]="['/recipes', d.recipeId]">{{ d.title }}</a>
+            <span class="meta">· {{ t('portions', { count: servings(d.servings) }) }}</span>
+          </li>
+        }
+      </ul>
+      @if (r.skipped.length) {
+        <p class="meta">{{ t('skipped', { names: r.skipped.join(', ') }) }}</p>
+      }
+
+      <div class="columns" aria-hidden="true">
+        <span>{{ t('time') }}</span
+        ><span>{{ t('you') }}</span
+        ><span>{{ t('background') }}</span>
+      </div>
+      <ol class="step-list">
+        @for (s of r.steps; track key(s)) {
+          @let isDone = done().has(key(s));
+          @let isNow = current() === s;
+          <li
+            class="row"
+            [class.now]="isNow"
+            [class.done]="isDone"
+            [attr.aria-current]="isNow ? 'step' : null"
+          >
+            <span class="time">{{ clock(s.start) }}</span>
+            <div class="what">
+              <mat-checkbox [checked]="isDone" (change)="toggleDone(s, $event.checked)">
+                <span [class]="'badge dish-' + s.dish" aria-hidden="true">{{ s.dish }}</span>
+                <span class="cdk-visually-hidden"
+                  >{{ titles().get(s.dish) }}, {{ t('stepLabel', { n: s.index }) }}:</span
+                >
+                {{ s.text }}
+              </mat-checkbox>
+              <p class="meta">
+                {{ s.estimated ? t('approx', { time: length(s.minutes) }) : length(s.minutes) }}
+                @if (isNow) {
+                  · <strong>{{ t('now') }}</strong>
+                }
+              </p>
+              @if (s.timerMinutes) {
+                <div class="timer no-print">
+                  @if (left(s); as l) {
+                    <span class="clock" role="timer">{{ l }}</span>
+                    <button mat-button type="button" (click)="stopTimer(s)">{{ t('timerStop') }}</button>
+                  } @else {
+                    <button mat-stroked-button type="button" (click)="startTimer(s)">
+                      <span class="material-symbols-rounded" aria-hidden="true">timer</span
+                      >{{ t('timerStart', { time: length(s.timerMinutes) }) }}
+                    </button>
+                  }
+                </div>
+              }
+            </div>
+            <div class="bg">
+              @for (b of backgrounds(r, s); track b.dish + b.until) {
+                <p class="bg-item">
+                  <span [class]="'badge dish-' + b.dish" aria-hidden="true">{{ b.dish }}</span>
+                  <span class="cdk-visually-hidden">{{ titles().get(b.dish) }}:</span>
+                  {{ t('until', { what: b.text ?? t('waiting'), time: clock(b.until) }) }}
+                </p>
+              }
+            </div>
+          </li>
+        }
+      </ol>
+      @if (r.tips.length) {
+        <ul class="tips">
+          @for (tip of r.tips; track $index) {
+            <li>{{ tip }}</li>
+          }
+        </ul>
+      }
+      <p class="meta">{{ t('disclaimer') }}</p>
+      <p class="cdk-visually-hidden" aria-live="assertive">
+        @if (announcement(); as a) {
+          {{ t('timerDone', { step: a }) }}
+        }
+      </p>
+    </section>
+  } @else {
+    <!-- Wybór partii -->
+    <section class="ck-card box" aria-labelledby="prep-choose">
+      <h2 id="prep-choose">{{ t('choose', { day: dayLabel(day()) }) }}</h2>
+      @if (cooks(); as list) {
+        @if (list.length) {
+          <ul class="cooks">
+            @for (c of list; track c.id) {
+              <li>
+                <mat-checkbox
+                  [checked]="chosen().has(c.id)"
+                  [disabled]="!chosen().has(c.id) && chosen().size >= max"
+                  (change)="toggleCook(c.id, $event.checked)"
+                >
+                  <strong>{{ c.title }}</strong>
+                  <span class="meta"
+                    >{{ dayLabel(c.date) }} · {{ t('portions', { count: servings(c.servings) }) }}</span
+                  >
+                </mat-checkbox>
+              </li>
+            }
+          </ul>
+          <p class="meta">{{ t('max', { count: max }) }}</p>
+          <div class="setup">
+            <mat-form-field class="start" subscriptSizing="dynamic">
+              <mat-label>{{ t('start') }}</mat-label>
+              <input
+                matInput
+                type="time"
+                name="start"
+                [ngModel]="start()"
+                (ngModelChange)="setStart($event)"
+              />
+            </mat-form-field>
+            <button
+              mat-flat-button
+              class="ck-cta"
+              type="button"
+              (click)="generate()"
+              [disabled]="!canGenerate()"
+            >
+              {{ t('make') }}
+            </button>
+          </div>
+          <p class="meta">
+            {{ t('cost', { count: store.status()?.remaining ?? 0, limit: store.status()?.dailyLimit ?? 0 }) }}
+          </p>
+        } @else {
+          <p>{{ t('empty') }}</p>
+          <a mat-stroked-button routerLink="/planner">{{ t('back') }}</a>
+        }
+      } @else {
+        <mat-progress-bar mode="indeterminate" [attr.aria-label]="t('loading')" />
+      }
+      <div aria-live="polite">
+        @if (busy()) {
+          <p>{{ t('working') }}</p>
+          <mat-progress-bar mode="indeterminate" [attr.aria-label]="t('working')" />
+        }
+      </div>
+      @if (error(); as code) {
+        <p class="alert" role="alert" *transloco="let tr">{{ tr('errors.' + code) }}</p>
+      }
+    </section>
+  }
+</div>

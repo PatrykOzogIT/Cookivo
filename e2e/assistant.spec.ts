@@ -29,7 +29,15 @@ async function mockAssistant(page: Page, replies: Record<string, unknown>) {
   await page.route('**/api/assistant/status', (r) =>
     r.fulfill({ json: { enabled: true, dailyLimit: 5, remaining: 4 } }),
   );
-  for (const path of ['ask', 'variant', 'plan/apply', 'shopping/apply', 'shopping/parse', 'substitute']) {
+  for (const path of [
+    'ask',
+    'variant',
+    'plan/apply',
+    'shopping/apply',
+    'shopping/parse',
+    'substitute',
+    'prep',
+  ]) {
     await page.route(`**/api/assistant/${path}`, async (r) => {
       const body = r.request().postDataJSON();
       calls.push({ url: path, body });
@@ -403,5 +411,213 @@ test.describe('Asystent', () => {
     await expectNoA11yViolations(page);
     await missing.click();
     await expect(page.getByText('Siemię lniane z wodą')).toBeHidden();
+  });
+
+  test('plan gotowania: partie z planu → harmonogram z godzinami, tłem, odhaczaniem i minutnikiem', async ({
+    page,
+    request,
+  }) => {
+    test.slow();
+    const user = await createUser(request, 'mealprep');
+    const headers = await token(request, user);
+    const carrot = (
+      await (await request.get('/api/ingredients', { params: { q: 'marchew', pageSize: '1' } })).json()
+    ).items[0];
+    const tomorrow = new Date(Date.now() + 24 * 3600 * 1000);
+    const date = `${tomorrow.getFullYear()}-${String(tomorrow.getMonth() + 1).padStart(2, '0')}-${String(tomorrow.getDate()).padStart(2, '0')}`;
+    for (const title of ['Pieczone warzywa', 'Zupa marchewkowa']) {
+      const r = await request.post('/api/recipes', {
+        headers,
+        data: {
+          title,
+          servings: 4,
+          visibility: 'PRIVATE',
+          canBeIngredient: false,
+          mealTypes: ['DINNER'],
+          ingredients: [{ ingredientId: carrot.id, amount: 500, unitCode: 'g' }],
+          steps: [{ text: 'Krok pierwszy.' }, { text: 'Krok drugi.', timerMinutes: 40 }],
+          photoIds: [],
+        },
+      });
+      await request.post('/api/planner/meals', {
+        headers,
+        data: { date, slot: 'DINNER', recipeId: (await r.json()).id, servings: 6 },
+      });
+    }
+    const step = (dish: string, index: number, start: number, minutes: number, wait = 0, extra = {}) => ({
+      dish,
+      index,
+      text: `${dish === 'A' ? 'Warzywa' : 'Zupa'}: krok ${index}`,
+      timerMinutes: null,
+      start,
+      minutes,
+      wait,
+      background: wait ? (dish === 'A' ? 'piecze się' : 'gotuje się') : null,
+      equipment: wait ? (dish === 'A' ? 'OVEN' : 'HOB') : 'NONE',
+      estimated: true,
+      ...extra,
+    });
+    const calls = await mockAssistant(page, {
+      prep: (body: { cookIds: string[] }) => ({
+        type: 'PREP',
+        summary: 'Zacznij od warzyw do pieczenia.',
+        tips: ['Nagrzej piekarnik na początku.'],
+        dishes: body.cookIds.map((cookId, i) => ({
+          letter: 'AB'[i],
+          cookId,
+          recipeId: '0190a000-0000-7000-8000-00000000000' + i,
+          title: ['Pieczone warzywa', 'Zupa marchewkowa'][i],
+          servings: 6,
+          date,
+        })),
+        skipped: [],
+        steps: [
+          step('A', 1, 0, 15),
+          step('A', 2, 15, 2, 38, { timerMinutes: 40, estimated: false }),
+          step('B', 1, 17, 10),
+          step('B', 2, 27, 3, 22),
+        ],
+        end: 55,
+        handsOn: 30,
+        oven: [{ from: 15, to: 55 }],
+      }),
+    });
+    await page.clock.install();
+    await loginUi(page, user);
+    await page.goto('/planner');
+    await page.getByRole('link', { name: 'Plan gotowania' }).click();
+    await expect(page.getByRole('heading', { name: 'Plan gotowania', level: 1 })).toBeVisible();
+    await expect(page.getByRole('checkbox', { name: /Pieczone warzywa/ })).toBeChecked();
+    await expect(page.getByRole('checkbox', { name: /Zupa marchewkowa/ })).toBeChecked();
+    await expectNoA11yViolations(page);
+    await page.getByLabel('Start o').fill('09:30');
+    await page.getByRole('button', { name: 'Ułóż harmonogram' }).click();
+
+    await expect(page.getByRole('heading', { name: 'Zacznij od warzyw do pieczenia.' })).toBeVisible();
+    expect((calls.find((c) => c.url === 'prep')?.body as { cookIds: string[] }).cookIds).toHaveLength(2);
+    const metrics = page.locator('.metrics');
+    await expect(metrics.getByText('10:25', { exact: true })).toBeVisible();
+    await expect(metrics.getByText('55 min')).toBeVisible();
+    await expect(metrics.getByText('09:45–10:25')).toBeVisible();
+    const rows = page.locator('.step-list > li');
+    await expect(rows).toHaveCount(4);
+    await expect(rows.nth(0)).toHaveAttribute('aria-current', 'step');
+    await expect(rows.nth(2).getByText('piecze się do 10:25')).toBeVisible();
+    await expect(rows.nth(3).getByText('gotuje się do 10:22')).toBeVisible();
+    await expect(page.getByText('ok. 15 min (szacunek)')).toBeVisible();
+    await expectNoA11yViolations(page);
+
+    // Odhaczenie przesuwa "teraz"; zmiana startu przelicza godziny bez AI
+    await rows.nth(0).getByRole('checkbox').check();
+    await expect(rows.nth(1)).toHaveAttribute('aria-current', 'step');
+    await page.getByLabel('Start o').fill('11:00');
+    await expect(rows.nth(1).getByText('11:15')).toBeVisible();
+    expect(calls.filter((c) => c.url === 'prep')).toHaveLength(1);
+
+    // Minutnik kroku z przepisu
+    await rows.nth(1).getByRole('button', { name: 'Minutnik 40 min' }).click();
+    await expect(rows.nth(1).getByRole('timer')).toHaveText(/^(40:00|39:5\d)$/);
+    await page.clock.runFor(61_000);
+    await expect(rows.nth(1).getByRole('timer')).toHaveText(/^38:\d\d$/);
+
+    // Stan przeżywa wyjście z ekranu
+    await page.getByRole('link', { name: 'Wróć do planera' }).click();
+    await page.getByRole('link', { name: 'Plan gotowania' }).click();
+    await expect(rows.nth(0).getByRole('checkbox')).toBeChecked();
+    await page.getByRole('button', { name: 'Ułóż od nowa' }).click();
+    await expect(page.getByRole('button', { name: 'Ułóż harmonogram' })).toBeVisible();
+  });
+
+  test('WCAG AA planu gotowania we wszystkich motywach', async ({ page, request }) => {
+    test.slow();
+    const user = await createUser(request, 'prepmotywy');
+    await mockAssistant(page, {});
+    await page.route('**/api/planner?*', (r) =>
+      r.fulfill({
+        json: {
+          scope: 'USER',
+          people: 1,
+          freshDays: 3,
+          settings: { hiddenSlots: [], exactPortions: false },
+          slots: [],
+          targets: null,
+          persons: [],
+          cost: null,
+          leftovers: [],
+          meals: ['A', 'B', 'C', 'D'].map((l, i) => ({
+            id: 'm' + i,
+            date: '2099-01-0' + (i + 1),
+            slot: 'DINNER',
+            servings: 4,
+            myServings: 4,
+            absent: [],
+            shares: null,
+            grams: null,
+            cook: {
+              id: 'c' + i,
+              date: '2099-01-0' + (i + 1),
+              servings: 4,
+              remaining: 0,
+              mealsCount: 1,
+              potGrams: null,
+              gramsSource: null,
+            },
+            fromLeftovers: false,
+            daysAfterCooking: 0,
+            stale: false,
+            recipe: {
+              id: 'r' + i,
+              title: 'Danie ' + l,
+              servings: 4,
+              perServing: { kcal: 1, protein: 1, fat: 1, carbs: 1 },
+              cover: null,
+              allergens: [],
+              myAllergens: [],
+            },
+          })),
+        },
+      }),
+    );
+    await page.route('**/api/assistant/prep', (r) =>
+      r.fulfill({
+        json: {
+          type: 'PREP',
+          summary: 'Plan.',
+          tips: [],
+          dishes: ['A', 'B', 'C', 'D'].map((l, i) => ({
+            letter: l,
+            cookId: 'c' + i,
+            recipeId: 'r' + i,
+            title: 'Danie ' + l,
+            servings: 4,
+            date: '2099-01-01',
+          })),
+          skipped: [],
+          steps: ['A', 'B', 'C', 'D'].map((l, i) => ({
+            dish: l,
+            index: 1,
+            text: 'Krok ' + l,
+            timerMinutes: null,
+            start: i * 10,
+            minutes: 10,
+            wait: 30,
+            background: 'w tle',
+            equipment: 'HOB',
+            estimated: true,
+          })),
+          end: 70,
+          handsOn: 40,
+          oven: [],
+        },
+      }),
+    );
+    await loginUi(page, user);
+    for (const theme of ['fresh', 'citrus', 'midnight', 'apricot', 'cinnamon', 'contrast']) {
+      await page.evaluate((t) => localStorage.setItem('ck-theme', t), theme);
+      await page.goto('/planner/prep?from=2099-01-01');
+      await page.getByRole('button', { name: 'Ułóż harmonogram' }).click();
+      await expect(page.getByText('Krok D')).toBeVisible();
+      await expectNoA11yViolations(page);
+    }
   });
 });

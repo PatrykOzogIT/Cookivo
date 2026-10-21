@@ -1,0 +1,272 @@
+.page {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 24px max(var(--ck-gutter), env(safe-area-inset-right)) 32px
+    max(var(--ck-gutter), env(safe-area-inset-left));
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.head {
+  .back {
+    margin-left: -12px;
+    .material-symbols-rounded {
+      margin-right: 4px;
+    }
+  }
+  h1 {
+    margin: 4px 0 0;
+    font-size: clamp(1.6rem, 1.2rem + 1.5vw, 2.2rem);
+  }
+  .lead {
+    margin: 4px 0 0;
+    color: var(--ck-text-muted);
+  }
+}
+
+.box {
+  padding: 16px 20px;
+  h2 {
+    margin: 0 0 12px;
+    font-size: 1.1rem;
+  }
+}
+
+.meta {
+  margin: 4px 0 0;
+  font-size: 0.85rem;
+  color: var(--ck-text-muted);
+}
+
+.alert {
+  padding: 10px 12px;
+  border-radius: var(--ck-radius-sm);
+  background: color-mix(in srgb, var(--ck-danger) 12%, transparent);
+  color: var(--ck-danger);
+}
+
+// Dania: litera + kolor z istniejących par tokenów (kontrast jak w przyciskach)
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 24px;
+  height: 24px;
+  margin-right: 6px;
+  border-radius: 50%;
+  font-size: 0.8rem;
+  font-weight: 800;
+  vertical-align: middle;
+}
+.dish-A {
+  background: var(--ck-text);
+  color: var(--ck-surface);
+}
+.dish-B {
+  background: var(--ck-accent-from);
+  color: var(--ck-on-accent);
+}
+.dish-C {
+  background: var(--ck-sage-bg);
+  color: var(--ck-sage);
+  border: 1px solid var(--ck-sage);
+}
+.dish-D {
+  background: var(--ck-surface);
+  color: var(--ck-text);
+  border: 1px solid var(--ck-border-strong);
+}
+
+// Wybór partii
+.cooks {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  li {
+    padding: 4px 0;
+    border-bottom: 1px solid var(--ck-border);
+  }
+  .meta {
+    display: block;
+    margin: 0;
+  }
+}
+.setup {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-top: 12px;
+}
+.start {
+  width: 150px;
+}
+
+// Harmonogram
+.top {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 12px;
+  .buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: flex-start;
+    .material-symbols-rounded {
+      margin-right: 4px;
+    }
+  }
+}
+
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 10px;
+  margin: 16px 0;
+  div {
+    padding: 8px 12px;
+    border-radius: var(--ck-radius-sm);
+    background: var(--ck-surface-2);
+  }
+  dt {
+    font-size: 0.8rem;
+    color: var(--ck-text-muted);
+  }
+  dd {
+    margin: 2px 0 0;
+    font-size: 1.15rem;
+    font-weight: 700;
+  }
+  .oven-window {
+    display: block;
+  }
+}
+
+.dishes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  margin: 0 0 8px;
+  padding: 0;
+  list-style: none;
+  li {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+  }
+  a {
+    color: var(--ck-link);
+    font-weight: 600;
+  }
+  .meta {
+    margin: 0 0 0 4px;
+  }
+}
+
+.columns,
+.row {
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr) minmax(0, 220px);
+  gap: 12px;
+}
+.columns {
+  margin-top: 16px;
+  padding: 0 8px 4px;
+  font-size: 0.8rem;
+  color: var(--ck-text-muted);
+}
+.step-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.row {
+  padding: 10px 8px;
+  border-top: 1px solid var(--ck-border);
+  align-items: start;
+  &.now {
+    border-radius: var(--ck-radius-sm);
+    background: var(--ck-sage-bg);
+    .time {
+      color: var(--ck-sage);
+    }
+  }
+  &.done .what mat-checkbox {
+    text-decoration: line-through;
+  }
+}
+.time {
+  padding-top: 10px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.what .meta {
+  margin-left: 40px;
+}
+.timer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 6px 0 0 40px;
+  .clock {
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+  }
+  .material-symbols-rounded {
+    margin-right: 4px;
+  }
+}
+.bg {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-top: 8px;
+}
+.bg-item {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 4px 8px;
+  border-radius: var(--ck-radius-sm);
+  background: var(--ck-surface-2);
+  font-size: 0.85rem;
+}
+
+.tips {
+  margin: 16px 0 0;
+  padding-left: 20px;
+}
+
+.print-only {
+  display: none;
+}
+
+// Telefon: jedna kolumna - "w tle" pod krokiem
+@media (max-width: 599.98px) {
+  .columns {
+    display: none;
+  }
+  .row {
+    grid-template-columns: 48px minmax(0, 1fr);
+    gap: 8px;
+  }
+  .bg {
+    grid-column: 2;
+    padding-top: 0;
+  }
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  .print-only {
+    display: block;
+  }
+  .row.now {
+    background: none;
+  }
+}

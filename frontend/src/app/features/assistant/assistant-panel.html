@@ -283,6 +283,7 @@
                   {{ t('quick.' + a) }}
                 </button>
               }
+              <a class="chip" routerLink="/planner/prep" (click)="close()">{{ t('prep.open') }}</a>
             </div>
             <form class="ask" (ngSubmit)="send()">
               <mat-form-field subscriptSizing="dynamic">

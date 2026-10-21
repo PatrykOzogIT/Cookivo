@@ -26,6 +26,7 @@ import {
   weekFromParam,
 } from './plan-math';
 import { formatMoney } from '../prices/prices.api';
+import { AssistantStore } from '../assistant/assistant.store';
 import { ShoppingApi } from '../shopping/shopping.api';
 import { PlannerApi, SLOT_MEAL_TYPE, type PlanMeal, type PlanSlot, type PlanWeek } from './planner.api';
 import { PlannerSettingsDialog, type SettingsData } from './planner-settings-dialog';
@@ -54,6 +55,9 @@ export class PlannerPage {
   protected readonly today = isoDay(new Date());
   protected readonly monday = computed(() => weekFromParam(this.week()));
   protected readonly days = computed(() => weekDays(this.monday()));
+  protected readonly assistant = inject(AssistantStore);
+  /** Plan gotowania od poniedziałku oglądanego tygodnia (strona i tak nie cofa się przed dziś) */
+  protected readonly prepFrom = computed(() => this.monday());
   /** Na węższych ekranach pokazujemy jeden dzień */
   protected readonly wide = toSignal(
     inject(BreakpointObserver)

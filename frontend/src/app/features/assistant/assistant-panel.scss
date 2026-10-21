@@ -318,3 +318,11 @@
     font-weight: 600;
   }
 }
+
+// Skrót do planu gotowania (link wyglądający jak szybka akcja)
+a.chip {
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+  text-decoration: none;
+}

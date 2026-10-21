@@ -27,6 +27,12 @@
       }
     </div>
     <div class="actions">
+      @if (assistant.status()?.enabled) {
+        <a mat-stroked-button routerLink="/planner/prep" [queryParams]="{ from: prepFrom() }">
+          <span class="material-symbols-rounded" aria-hidden="true">skillet</span
+          >{{ t('assistant.prep.open') }}
+        </a>
+      }
       <button mat-stroked-button type="button" [matMenuTriggerFor]="menu">
         <span class="material-symbols-rounded" aria-hidden="true">more_horiz</span>{{ t('planner.more') }}
       </button>

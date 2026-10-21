@@ -22,6 +22,14 @@
     margin: 4px 0 0;
     color: var(--ck-text-muted);
   }
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    .material-symbols-rounded {
+      margin-right: 6px;
+    }
+  }
 }
 
 .week-nav {

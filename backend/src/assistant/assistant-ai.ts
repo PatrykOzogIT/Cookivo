@@ -79,6 +79,30 @@ export const SubstituteSchema = z.object({
   tip: z.string().nullable(),
 });
 
+/** Harmonogram gotowania: kolejność kroków i czasy (godziny liczy serwer) */
+export const PrepSchema = z.object({
+  /** 1-2 zdania dla użytkownika (np. od czego zacząć) */
+  summary: z.string(),
+  /** Wszystkie kroki wszystkich dań w kolejności wykonywania rękami */
+  steps: z.array(
+    z.object({
+      /** Kod kroku z listy, np. "A2" */
+      step: z.string(),
+      /** Czas pracy rękami w minutach */
+      minutes: z.number().int(),
+      /** Czas "w tle" po tym kroku (piekarnik, duszenie, gotowanie, studzenie), 0 jeśli brak */
+      waitMinutes: z.number().int(),
+      /** Co dzieje się w tle, 2-5 słów (np. "piecze się w 200°C") albo null */
+      background: z.string().nullable(),
+      /** Czym zajęty jest krok w tle */
+      equipment: z.enum(['OVEN', 'HOB', 'NONE']),
+    }),
+  ),
+  /** 0-3 krótkie rady (np. "nagrzej piekarnik na początku") */
+  tips: z.array(z.string()),
+});
+
+export type PrepReply = z.infer<typeof PrepSchema>;
 export type Route = z.infer<typeof RouteSchema>;
 export type ListReply = z.infer<typeof ListSchema>;
 export type SubstituteReply = z.infer<typeof SubstituteSchema>;
@@ -154,6 +178,18 @@ Zasady:
 - Teksty w języku: {LANG}.
 ${GUARD}`;
 
+const PREP_SYSTEM = `Jesteś doświadczonym kucharzem i planujesz gotowanie kilku dań naraz (meal prep) w zwykłej domowej kuchni: jeden piekarnik, cztery palniki, jedna osoba.
+Ułóż wszystkie kroki wszystkich dań w kolejności, w jakiej użytkownik wykonuje je rękami, tak żeby skończyć jak najszybciej.
+Zasady:
+- Użyj każdego kodu kroku dokładnie raz; w obrębie dania zachowaj kolejność z przepisu.
+- Wykorzystuj czas w tle: gdy coś się piecze, dusi albo gotuje, w tym czasie rób kroki innego dania.
+- Najdłuższe pieczenie i duszenie zaczynaj możliwie wcześnie; krojenie dla kilku dań może iść jedno po drugim.
+- W piekarniku naraz tylko dania w podobnej temperaturze.
+- "minutes": realny czas pracy rękami (dla podanej liczby porcji - więcej porcji to dłuższe krojenie i smażenie partiami).
+- "waitMinutes": czas, gdy danie nie wymaga uwagi; jeśli krok ma minutnik, minutes + waitMinutes = minutnik.
+- Teksty ("summary", "background", "tips") krótkie, w języku: {LANG}.
+${GUARD}`;
+
 /**
  * Wywołania modelu dla asystenta. Każde z wymuszonym schematem odpowiedzi (structured outputs);
  * dane z aplikacji przygotowuje serwer, model tylko wybiera i opisuje.
@@ -222,6 +258,16 @@ export class AssistantAi {
       prompt: context,
       maxTokens: 800,
       model: this.model,
+    });
+  }
+
+  async prep(context: string, lang: 'pl' | 'en'): Promise<AiResult<PrepReply>> {
+    return this.vision.parse(PrepSchema, {
+      system: PREP_SYSTEM.replace('{LANG}', language(lang)),
+      images: [],
+      prompt: context,
+      maxTokens: 4000,
+      model: this.variantModel,
     });
   }
 

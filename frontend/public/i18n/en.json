@@ -158,7 +158,8 @@
     "PRICE_LIST_REQUIRED": "Choose or create a price list.",
     "PRICE_LIST_CONFLICT": "Someone in your household just changed the price lists. Confirm the import again.",
     "REQUEST_LIMIT": "You already have many requests waiting for review. Try again once some are added.",
-    "ASSISTANT_EMPTY": "Tell me what you need help with."
+    "ASSISTANT_EMPTY": "Tell me what you need help with.",
+    "PREP_NO_STEPS": "The selected recipes have no steps - there's nothing to schedule."
   },
   "auth": {
     "fields": {
@@ -778,7 +779,7 @@
               "Reading a receipt from photos (optional): the receipt photos you choose in the pantry or price lists. Purpose: reading the purchased products, quantities and prices for you to check before saving. Photos are not saved - they are deleted after reading; we only keep a usage counter (as for recipes). After you confirm, we save the selected products in the pantry and the prices in the price list and the price history (product, regular price, package size, shop and purchase date); in a household, its members see them. We do not save the full receipt, payment amounts or card details. Legal basis: contract (Art. 6(1)(b) GDPR).",
               "Receipt product links and ingredient requests: when you confirm a receipt import, we remember which ingredient was assigned to the product name printed on the receipt in a given shop chain (e.g. \"MlekoŚw3,2 1l\" at Biedronka → Milk 3.2%). We suggest your assignments to you and your household, and a summary of many people's assignments to all users (without showing who bought what). Product names from a reading are kept until you confirm the import, at most one day. When you report a missing product, we store the name you give, the receipt text and the shop - the administrator sees them, and we email you when the product is added. Legal basis: contract (Art. 6(1)(b) GDPR).",
               "General prices: regular prices from all users' confirmed receipts from the last 60 days are combined into a general product price (the median, separately for each shop chain) and shown to others in price lists and cost estimates. We do not show who bought the product or when. Price history also includes prices entered manually in a price list - these are not used for general prices. Legal basis: our legitimate interest in helping users estimate shopping costs (Art. 6(1)(f) GDPR); you can object by writing to kontakt@cookivo.pl.",
-              "Assistant (optional): the text of your request and the Cookivo data needed to answer it - a list of matching recipes (titles, kcal, time, estimated cost per serving from prices), the products in your pantry and, only with consent to health data, your daily kcal target - are sent to the AI model to prepare a suggestion (a meal plan, also within a budget, recipes from your pantry, a recipe version). We filter recipes for your allergies on our side - the allergies themselves are not sent for these tasks. For a substitute while cooking (\"Don't have it\") we send the recipe, the missing ingredient and your pantry products and, with consent to health data, the names of allergens you avoid - so that the substitute is safe for you. When you dictate a shopping list, the text of the list is sent to the AI model; speech is turned into text by your browser (e.g. Chrome uses a Google service under its own terms) - recordings never reach us. The assistant does not save anything on its own: you approve the suggestions. Conversations are not stored; we only keep a usage counter (date, task type, result, tokens). Topping up the shopping list works without AI - based on the plan, the pantry and your purchase history from receipts. Legal basis: contract (Art. 6(1)(b) GDPR) and, for the kcal target and allergens, your explicit consent (Art. 9(2)(a) GDPR).",
+              "Assistant (optional): the text of your request and the Cookivo data needed to answer it - a list of matching recipes (titles, kcal, time, estimated cost per serving from prices), the products in your pantry and, only with consent to health data, your daily kcal target - are sent to the AI model to prepare a suggestion (a meal plan, also within a budget, a cooking plan, recipes from your pantry, a recipe version). We filter recipes for your allergies on our side - the allergies themselves are not sent for these tasks. For a substitute while cooking (\"Don't have it\") we send the recipe, the missing ingredient and your pantry products and, with consent to health data, the names of allergens you avoid - so that the substitute is safe for you. For a cooking plan (meal prep) we send the names of the selected recipes, their steps and the number of servings - no health data. When you dictate a shopping list, the text of the list is sent to the AI model; speech is turned into text by your browser (e.g. Chrome uses a Google service under its own terms) - recordings never reach us. The assistant does not save anything on its own: you approve the suggestions. Conversations are not stored; we only keep a usage counter (date, task type, result, tokens). Topping up the shopping list works without AI - based on the plan, the pantry and your purchase history from receipts. Legal basis: contract (Art. 6(1)(b) GDPR) and, for the kcal target and allergens, your explicit consent (Art. 9(2)(a) GDPR).",
               "Security: IP address and browser information for sign-in sessions, number of failed sign-ins and the consent history with IP address. Purpose: protecting accounts against takeover, detecting abuse and demonstrating consent. Legal basis: our legitimate interest (Art. 6(1)(f) GDPR) and the duty to demonstrate consent (Art. 7(1) GDPR).",
               "Moderation: reports about content and users, moderator decisions and account blocks with reasons. Purpose: countering illegal content and content that breaks the terms, and obligations under the Digital Services Act (DSA). Legal basis: legal obligation and legitimate interest (Art. 6(1)(c) and (f) GDPR).",
               "Correspondence: when you write to us - your email address and the message, so we can reply. Legal basis: legitimate interest (Art. 6(1)(f) GDPR)."
@@ -1941,6 +1942,44 @@
       "inPantry": "in your pantry",
       "none": "I couldn't find a good substitute – this ingredient is key here.",
       "disclaimer": "The assistant's suggestion – check it suits your allergies and diet."
+    },
+    "prep": {
+      "open": "Cooking plan",
+      "back": "Back to planner",
+      "title": "Cooking plan",
+      "lead": "Cooking several dishes at once? The assistant puts the steps of your recipes in one order - what you do by hand and what happens in the background.",
+      "disabled": "The assistant is unavailable right now.",
+      "choose": "What are you cooking? Batches from the plan from {{day}}",
+      "max": "Up to {{count}} dishes at once.",
+      "start": "Start at",
+      "startAt": "Start at {{time}}",
+      "make": "Make a schedule",
+      "cost": "This is 1 assistant task. Left today: {{count}} of {{limit}}.",
+      "empty": "There's nothing to cook in this week's plan. Add meals in the planner.",
+      "loading": "Loading the plan…",
+      "working": "Putting the steps in order…",
+      "print": "Print",
+      "again": "Start over",
+      "end": "Done by",
+      "total": "Total",
+      "handsOn": "Hands-on",
+      "ovenUse": "Oven",
+      "ovenNone": "not used",
+      "dishes": "Dishes",
+      "portions": "servings: {{count}}",
+      "skipped": "No steps in the recipe, so left out of the schedule: {{names}}.",
+      "time": "Time",
+      "you": "You (hands busy)",
+      "background": "In the background",
+      "stepLabel": "step {{n}}",
+      "approx": "approx. {{time}} (estimate)",
+      "now": "now",
+      "timerStart": "Timer {{time}}",
+      "timerStop": "Stop",
+      "timerDone": "The timer for step {{step}} has finished.",
+      "until": "{{what}} until {{time}}",
+      "waiting": "waiting",
+      "disclaimer": "The schedule is the assistant's suggestion - the steps come from your recipes, times without a timer are estimates."
     }
   }
 }

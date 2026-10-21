@@ -462,6 +462,104 @@ describe('Asystent (e2e)', () => {
       .expect(400);
   });
 
+  it('harmonogram gotowania: kroki z przepisów, kolejność naprawiona, godziny liczy serwer', async () => {
+    const make = async (title: string, steps: object[]) =>
+      (
+        await api()
+          .post('/api/recipes')
+          .set(bearer(me))
+          .send({
+            title,
+            servings: 4,
+            visibility: 'PRIVATE',
+            canBeIngredient: false,
+            mealTypes: ['DINNER'],
+            ingredients: [{ ingredientId: ids.carrot, amount: 500, unitCode: 'g' }],
+            steps,
+          })
+          .expect(201)
+      ).body.id as string;
+    const roast = await make('Pieczone warzywa', [
+      { text: 'Pokrój marchew.' },
+      { text: 'Piecz.', timerMinutes: 40 },
+    ]);
+    const soup = await make('Zupa marchewkowa', [
+      { text: 'Zeszklij cebulę.' },
+      { text: 'Gotuj.', timerMinutes: 25 },
+    ]);
+    const noSteps = await make('Surówka', []);
+    const cookId = async (recipeId: string, servings: number) => {
+      await api()
+        .post('/api/planner/meals')
+        .set(bearer(me))
+        .send({ date: iso(new Date(Date.now() + DAY)), slot: 'DINNER', recipeId, servings })
+        .expect(201);
+      return (await t.prisma.planCook.findFirstOrThrow({ where: { recipeId } })).id;
+    };
+    const cooks = [await cookId(roast, 6), await cookId(soup, 8), await cookId(noSteps, 2)];
+    let context = '';
+    ai.prep = async (c) => {
+      context = c;
+      return {
+        output: {
+          summary: 'Zacznij od warzyw do pieczenia.',
+          // B2 przed B1 - serwer naprawia kolejność w daniu; A1 powtórzone - wypada
+          steps: [
+            { step: 'A1', minutes: 15, waitMinutes: 0, background: null, equipment: 'NONE' },
+            { step: 'A2', minutes: 2, waitMinutes: 38, background: 'piecze się', equipment: 'OVEN' },
+            { step: 'B2', minutes: 10, waitMinutes: 0, background: null, equipment: 'NONE' },
+            { step: 'B1', minutes: 3, waitMinutes: 22, background: 'gotuje się', equipment: 'HOB' },
+            { step: 'A1', minutes: 1, waitMinutes: 0, background: null, equipment: 'NONE' },
+          ],
+          tips: ['Nagrzej piekarnik na początku.'],
+        },
+        ...tokens,
+      };
+    };
+    const res = (await api().post('/api/assistant/prep').set(bearer(me)).send({ cookIds: cooks }).expect(200))
+      .body;
+    expect(context).toContain('Danie A: Pieczone warzywa - ugotuj 6 porcji (przepis jest na 4)');
+    expect(context).toContain('A2. Piecz. [minutnik: 40 min]');
+    expect(context).toContain('B1. Zeszklij cebulę.');
+    expect(context).not.toContain('Surówka');
+    expect(res).toMatchObject({
+      type: 'PREP',
+      summary: 'Zacznij od warzyw do pieczenia.',
+      tips: ['Nagrzej piekarnik na początku.'],
+      skipped: ['Surówka'],
+      dishes: [
+        { letter: 'A', title: 'Pieczone warzywa', servings: 6 },
+        { letter: 'B', title: 'Zupa marchewkowa', servings: 8 },
+      ],
+    });
+    expect(
+      res.steps.map((x: { dish: string; index: number; start: number }) => [`${x.dish}${x.index}`, x.start]),
+    ).toEqual([
+      ['A1', 0],
+      ['A2', 15],
+      ['B1', 17],
+      // B2 po 25 minutach gotowania (17 + 3 + 22)
+      ['B2', 42],
+    ]);
+    expect(res.oven).toEqual([{ from: 15, to: 55 }]);
+    // B2 ma minutnik 25 min bez czasu w tle - minutnik wydłuża krok (42 + 25)
+    expect(res.end).toBe(67);
+    expect(await remaining()).toBe(4);
+
+    // Cudza partia / zła lista
+    await api().post('/api/assistant/prep').set(bearer(me)).send({ cookIds: [] }).expect(400);
+    await api()
+      .post('/api/assistant/prep')
+      .set(bearer(me))
+      .send({ cookIds: ['0190a000-0000-7000-8000-000000000000'] })
+      .expect(404);
+    await api()
+      .post('/api/assistant/prep')
+      .set(bearer(me))
+      .send({ cookIds: [cooks[2]] })
+      .expect(400);
+  });
+
   it('limit dzienny zadań; błąd modelu', async () => {
     ai.pantry = async () => {
       throw new Error('timeout');

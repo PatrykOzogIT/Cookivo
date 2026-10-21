@@ -75,6 +75,18 @@ export class VariantDto {
   lang?: 'pl' | 'en';
 }
 
+export class PrepDto {
+  @IsArray()
+  @ArrayMinSize(1)
+  @ArrayMaxSize(4)
+  @IsUUID('all', { each: true })
+  cookIds!: string[];
+
+  @IsOptional()
+  @IsIn(['pl', 'en'])
+  lang?: 'pl' | 'en';
+}
+
 export class PlanMealDto {
   @Matches(/^\d{4}-\d{2}-\d{2}$/, { message: 'DATE_INVALID' })
   date!: string;

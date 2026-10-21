@@ -609,3 +609,14 @@ a {
   line-height: 20px;
   text-align: center;
 }
+
+// Wydruk: tylko treść strony
+@media print {
+  .site-header,
+  .main-nav,
+  .bottom-nav,
+  .site-footer,
+  app-assistant-panel {
+    display: none !important;
+  }
+}

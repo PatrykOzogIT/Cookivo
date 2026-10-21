@@ -7,6 +7,7 @@ import {
   ApplyShoppingDto,
   AskDto,
   ParseListDto,
+  PrepDto,
   SubstituteDto,
   VariantDto,
 } from './assistant.dto.js';
@@ -55,6 +56,15 @@ export class AssistantController {
   @HttpCode(HttpStatus.OK)
   substitute(@CurrentUser() user: AuthUser, @Body() dto: SubstituteDto) {
     return this.assistant.substitute(user, dto);
+  }
+
+  /** Harmonogram gotowania kilku partii z planu (meal prep) */
+  @RequireVerifiedEmail()
+  @Throttle({ default: { limit: 5, ttl: 60_000 } })
+  @Post('prep')
+  @HttpCode(HttpStatus.OK)
+  prep(@CurrentUser() user: AuthUser, @Body() dto: PrepDto) {
+    return this.assistant.prep(user, dto);
   }
 
   /** Zatwierdzony plan → planer */

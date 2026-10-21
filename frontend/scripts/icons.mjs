@@ -17,10 +17,10 @@ const LIST = join(ROOT, 'src/app/core/icons.json');
 const FONT = join(ROOT, 'public/fonts/material-symbols-rounded.woff2');
 /**
  * Słowa, które w kodzie są kluczami/parametrami, a przypadkiem są też nazwami ikon
- * (np. 'groups' = slajd i filtr grup znajomych). Ikona użyta wprost w <span> lub icon: '...'
+ * (np. 'groups' = slajd i filtr grup znajomych, 'step' = wartość aria-current). Ikona użyta wprost w <span> lub icon: '...'
  * i tak trafi do fontu.
  */
-const NOT_ICONS = new Set(['groups', 'problem', 'store']);
+const NOT_ICONS = new Set(['groups', 'problem', 'store', 'step']);
 
 export function allIconNames() {
   const dts = readFileSync(join(ROOT, 'node_modules/material-symbols/index.d.ts'), 'utf8');

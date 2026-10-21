@@ -1,5 +1,5 @@
 import { Injectable, signal } from '@angular/core';
-import type { AssistantResult, AssistantStatus, VariantResult } from './assistant.api';
+import type { AssistantResult, AssistantStatus, PrepResult, VariantResult } from './assistant.api';
 
 export type NewEntry =
   | { kind: 'user'; text: string }
@@ -21,6 +21,8 @@ export class AssistantStore {
   readonly variantOf = signal<{ id: string; title: string } | null>(null);
   /** Gotowa wersja czekająca na formularz przepisu */
   readonly variantDraft = signal<(VariantResult & { originalTitle: string }) | null>(null);
+  /** Ostatni harmonogram gotowania (przeżywa wyjście z ekranu, nie odświeżenie strony) */
+  readonly prep = signal<{ result: PrepResult; start: string; done: ReadonlySet<string> } | null>(null);
   private nextId = 1;
 
   add(entry: NewEntry): void {

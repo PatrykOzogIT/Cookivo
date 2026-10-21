@@ -4,6 +4,7 @@ import {
   HttpStatus,
   Injectable,
   Logger,
+  NotFoundException,
   ServiceUnavailableException,
 } from '@nestjs/common';
 import { AiUsageService } from '../ai/ai-usage.service.js';
@@ -27,6 +28,7 @@ import { expandRecipe, LIQUID_CATEGORIES, shoppingAmount } from '../shopping/sho
 import { ShoppingService } from '../shopping/shopping.service.js';
 import { AssistantAi, type AiResult } from './assistant-ai.js';
 import { duePurchases, toPlannerMeals, type ProposedMeal } from './assistant-math.js';
+import { buildSchedule, type PrepDish } from './prep-math.js';
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 /** Kandydaci na posiłek (na rodzaj posiłku) i do "z lodówki" - więcej nie poprawia wyboru, a kosztuje */
@@ -488,6 +490,70 @@ export class AssistantService {
         inPantry: o.inPantry,
       })),
       tip: reply.tip?.slice(0, 200) ?? null,
+    };
+  }
+
+  // --- Harmonogram gotowania (meal prep) ---------------------------------------------------
+
+  /** Kilka partii z planu → jedna kolejność kroków; godziny i pilnowanie kolejności po stronie serwera */
+  async prep(user: AuthUser, dto: { cookIds: string[]; lang?: 'pl' | 'en' }) {
+    if (!this.ai.enabled) throw new ServiceUnavailableException({ code: 'IMPORT_DISABLED' });
+    const lang = dto.lang ?? 'pl';
+    const scope = await ownerScope(this.prisma, user.id);
+    const ids = [...new Set(dto.cookIds)];
+    const cooks = await this.prisma.planCook.findMany({
+      where: { id: { in: ids }, ...scope },
+      orderBy: [{ date: 'asc' }, { id: 'asc' }],
+    });
+    if (cooks.length !== ids.length) throw new NotFoundException({ code: 'NOT_FOUND' });
+    const loaded = await Promise.all(
+      cooks.map(async (c) => ({ cook: c, recipe: await this.recipes.get(c.recipeId, user) })),
+    );
+    const withSteps = loaded.filter((d) => d.recipe.steps.length);
+    if (!withSteps.length) throw new BadRequestException({ code: 'PREP_NO_STEPS' });
+    const dishes = withSteps.map((d, i) => ({
+      letter: String.fromCharCode(65 + i),
+      cookId: d.cook.id,
+      recipeId: d.recipe.id,
+      title: d.recipe.title,
+      servings: d.cook.servings,
+      date: isoDay(d.cook.date),
+      steps: d.recipe.steps.map((s) => ({ text: s.text, timerMinutes: s.timerMinutes ?? null })),
+      prepMinutes: d.recipe.prepMinutes,
+      cookMinutes: d.recipe.cookMinutes,
+      recipeServings: d.recipe.servings,
+    }));
+    const context = dishes
+      .flatMap((d) => [
+        `Danie ${d.letter}: ${d.title} - ugotuj ${d.servings} porcji (przepis jest na ${d.recipeServings})${
+          d.prepMinutes || d.cookMinutes
+            ? `; wg przepisu: przygotowanie ${d.prepMinutes ?? '?'} min, gotowanie ${d.cookMinutes ?? '?'} min`
+            : ''
+        }`,
+        ...d.steps.map(
+          (s, i) =>
+            `${d.letter}${i + 1}. ${s.text.slice(0, 600)}${s.timerMinutes ? ` [minutnik: ${s.timerMinutes} min]` : ''}`,
+        ),
+        '',
+      ])
+      .join('\n');
+    const reply = await this.call('ASSISTANT', user.id, () => this.ai.prep(context, lang));
+    const schedule = buildSchedule(dishes satisfies PrepDish[], reply.steps);
+    return {
+      type: 'PREP',
+      summary: reply.summary.slice(0, 400),
+      tips: reply.tips.slice(0, 3).map((t) => t.slice(0, 200)),
+      dishes: dishes.map(({ letter, cookId, recipeId, title, servings, date }) => ({
+        letter,
+        cookId,
+        recipeId,
+        title,
+        servings,
+        date,
+      })),
+      // Partie bez kroków nie trafiają do harmonogramu - mówimy o tym wprost
+      skipped: loaded.filter((d) => !d.recipe.steps.length).map((d) => d.recipe.title),
+      ...schedule,
     };
   }
 
