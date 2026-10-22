@@ -1,8 +1,9 @@
 # Rozbudowa bazy składników
 
-Stan na 2026-10-21: **583** składniki – 347 z USDA FoodData Central SR Legacy (`backend/prisma/seed/ingredients.catalog.ts`)
+Stan na 2026-10-22: **2185** składników:
 
-- 236 z ANSES Ciqual 2025 (`backend/prisma/seed/ingredients.ciqual.ts`), w tym paczka 7: przetwory ze słoików i puszek oraz herbaty (pod import paragonów; herbaty jako napar, 1 torebka = 250 g naparu) i paczka 8: uzupełnienia.
+- katalog (seed, 583): 347 z USDA FoodData Central SR Legacy (`backend/prisma/seed/ingredients.catalog.ts`) i 236 z ANSES Ciqual 2025 (`backend/prisma/seed/ingredients.ciqual.ts`), w tym paczki 7 (przetwory, herbaty jako napar) i 8 (uzupełnienia),
+- duży import (`backend/prisma/import/`, 1602): partia 1 - 933 pewne rekordy, partia 2 - 669 po recenzji AI (alergeny typowe, karta prosi o sprawdzenie etykiety); 405 rekordów o niskiej pewności czeka w `review/do-weryfikacji-reszta.csv`.
   Cel: duże paczki tematyczne, bez obniżania jakości danych.
 
 ## Zasady (bez wyjątków)
