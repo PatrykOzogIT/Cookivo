@@ -42,8 +42,9 @@ export default defineConfig({
       command: 'npm run start:dev --prefix backend',
       url: 'http://localhost:3000/api/health',
       reuseExistingServer: !isCI,
-      // Równoległe testy logują się z jednego IP
-      env: { THROTTLE_ENABLED: 'false' },
+      // Równoległe testy logują się z jednego IP; funkcje AI wyłączone jak w CI (testy podmieniają
+      // odpowiedzi przez page.route - lokalny klucz z backend/.env nie może włączyć prawdziwego API)
+      env: { THROTTLE_ENABLED: 'false', ANTHROPIC_API_KEY: '' },
       timeout: 120_000,
     },
     {
