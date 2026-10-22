@@ -75,7 +75,7 @@ export function plan(records: ImportRecord[], existing: Existing[]): PlannedReco
     const similar = live.find((e) => similarName(record.namePl, { namePl: e.name_pl, nameEn: null }));
     if (similar) base.review.push(`PODOBNY_ISTNIEJACY:${similar.name_pl}`);
     // Zweryfikowany ręcznie zostaje zatwierdzony - podobieństwo człowiek już widział
-    const manual = record.review.includes('ZWERYFIKOWANY_RECZNIE');
+    const manual = record.review.some((x) => x.startsWith('ZWERYFIKOWANY'));
     return { ...base, action: 'INSERT', detail: '', status: similar && !manual ? 'PENDING' : record.status };
   });
 }
@@ -86,19 +86,20 @@ const STAGING = `
     search_text text NOT NULL, category text NOT NULL, status text NOT NULL, source text NOT NULL,
     source_ref text NOT NULL, kcal float8 NOT NULL, protein float8 NOT NULL, fat float8 NOT NULL,
     saturated_fat float8, carbs float8 NOT NULL, sugars float8, fiber float8, salt float8, density float8,
-    allergens text[] NOT NULL, units jsonb NOT NULL
+    allergens text[] NOT NULL, units jsonb NOT NULL, allergens_typical boolean NOT NULL
   )`;
 const COLUMNS = `id uuid, batch int, seed_key text, name_pl text, name_en text, search_text text, category text,
   status text, source text, source_ref text, kcal float8, protein float8, fat float8, saturated_fat float8,
-  carbs float8, sugars float8, fiber float8, salt float8, density float8, allergens text[], units jsonb`;
+  carbs float8, sugars float8, fiber float8, salt float8, density float8, allergens text[], units jsonb,
+  allergens_typical boolean`;
 
 async function insertBatch(db: ClientBase, batch: number): Promise<number> {
   const inserted = await db.query<{ id: string }>(
     `INSERT INTO ingredients (id, name_pl, name_en, search_text, category_id, status, source, source_ref, seed_key,
-       kcal, protein, fat, saturated_fat, carbs, sugars, fiber, salt, density, reviewed_at, updated_at)
+       kcal, protein, fat, saturated_fat, carbs, sugars, fiber, salt, density, allergens_typical, reviewed_at, updated_at)
      SELECT s.id, s.name_pl, s.name_en, s.search_text, c.id, s.status::"IngredientStatus", s.source::"IngredientSource",
        s.source_ref, s.seed_key, s.kcal, s.protein, s.fat, s.saturated_fat, s.carbs, s.sugars, s.fiber, s.salt,
-       s.density, CASE WHEN s.status = 'APPROVED' THEN now() END, now()
+       s.density, s.allergens_typical, CASE WHEN s.status = 'APPROVED' THEN now() END, now()
      FROM import_staging s JOIN ingredient_categories c ON c.code = s.category
      WHERE s.batch = $1
      ON CONFLICT (seed_key) DO NOTHING
@@ -168,6 +169,7 @@ export async function runImport(
     density: p.record.density,
     allergens: p.record.allergens,
     units: p.record.units.map((u) => ({ code: u.code, grams: u.grams })),
+    allergens_typical: p.record.allergensTypical ?? false,
   }));
   const batches = Math.ceil(rows.length / batchSize);
 

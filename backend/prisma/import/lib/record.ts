@@ -32,6 +32,8 @@ export interface ImportRecord {
   review: string[];
   /** Scalone pozycje źródłowe (duplikaty) */
   duplicates: string[];
+  /** Alergeny typowe dla rodzaju produktu (nie z etykiety konkretnego wyrobu) */
+  allergensTypical?: boolean;
 }
 
 export const NAME_MAX = 120;

@@ -32,6 +32,8 @@ export interface Decision {
   categoryCode: string;
   allergens: string[];
   pieceGrams: number | null;
+  /** Alergeny typowe dla rodzaju produktu (recenzja AI) - karta pokazuje "sprawdź etykietę" */
+  allergensTypical?: boolean;
 }
 
 const REASONS: Record<string, string> = {
@@ -188,7 +190,8 @@ export function applyDecisions(records: ImportRecord[], decisions: Record<string
     r.units = r.units.filter((u) => u.code !== 'PIECE');
     if (d.pieceGrams) r.units.push({ code: 'PIECE', grams: d.pieceGrams, basis: 'SOURCE' });
     r.status = 'APPROVED';
-    r.review = ['ZWERYFIKOWANY_RECZNIE'];
+    r.review = [d.allergensTypical ? 'ZWERYFIKOWANY_AI' : 'ZWERYFIKOWANY_RECZNIE'];
+    r.allergensTypical = d.allergensTypical ?? false;
     applied++;
   }
   return applied;

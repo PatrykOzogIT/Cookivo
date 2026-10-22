@@ -1,0 +1,5410 @@
+{
+  "ciqual:7009": {
+    "namePl": "Bagietka pszenna do dopieczenia",
+    "nameEn": "Pre-baked white baguette",
+    "categoryCode": "BAKERY",
+    "allergens": ["GLUTEN"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:7258": {
+    "namePl": "Bajgiel",
+    "nameEn": "Bagel",
+    "categoryCode": "BAKERY",
+    "allergens": ["EGGS", "GLUTEN"],
+    "pieceGrams": 100,
+    "allergensTypical": true
+  },
+  "usda:172664": {
+    "namePl": "Bajgiel z cynamonem i rodzynkami",
+    "nameEn": "Cinnamon raisin bagel",
+    "categoryCode": "BAKERY",
+    "allergens": ["GLUTEN"],
+    "pieceGrams": 100,
+    "allergensTypical": true
+  },
+  "usda:174092": {
+    "namePl": "Bajgiel pełnoziarnisty",
+    "nameEn": "Whole grain bagel",
+    "categoryCode": "BAKERY",
+    "allergens": ["GLUTEN", "SOY"],
+    "pieceGrams": 86,
+    "allergensTypical": true
+  },
+  "usda:171852": {
+    "namePl": "Bajgiel wielozbożowy",
+    "nameEn": "Multigrain bagel",
+    "categoryCode": "BAKERY",
+    "allergens": ["GLUTEN"],
+    "pieceGrams": 81,
+    "allergensTypical": true
+  },
+  "ciqual:23050": {
+    "namePl": "Biszkopt",
+    "nameEn": "Sponge cake",
+    "categoryCode": "BAKERY",
+    "allergens": ["EGGS", "GLUTEN"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:7746": {
+    "namePl": "Brioche",
+    "nameEn": "Brioche",
+    "categoryCode": "BAKERY",
+    "allergens": ["EGGS", "GLUTEN", "MILK"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:7735": {
+    "namePl": "Brioche z czekoladą",
+    "nameEn": "Chocolate brioche",
+    "categoryCode": "BAKERY",
+    "allergens": ["EGGS", "GLUTEN", "MILK", "SOY"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:175031": {
+    "namePl": "Bułka kajzerka",
+    "nameEn": "Kaiser roll",
+    "categoryCode": "BAKERY",
+    "allergens": ["GLUTEN"],
+    "pieceGrams": 55,
+    "allergensTypical": true
+  },
+  "ciqual:7712": {
+    "namePl": "Bułka mleczna z kawałkami czekolady",
+    "nameEn": "Milk bun with chocolate chips",
+    "categoryCode": "BAKERY",
+    "allergens": ["EGGS", "GLUTEN", "MILK", "SOY"],
+    "pieceGrams": 55,
+    "allergensTypical": true
+  },
+  "ciqual:7711": {
+    "namePl": "Bułka mleczna",
+    "nameEn": "Milk bun",
+    "categoryCode": "BAKERY",
+    "allergens": ["EGGS", "GLUTEN", "MILK"],
+    "pieceGrams": 50,
+    "allergensTypical": true
+  },
+  "ciqual:7170": {
+    "namePl": "Bułka panini",
+    "nameEn": "Panini roll",
+    "categoryCode": "BAKERY",
+    "allergens": ["GLUTEN"],
+    "pieceGrams": 120,
+    "allergensTypical": true
+  },
+  "ciqual:7262": {
+    "namePl": "Bułka pełnoziarnista do hamburgera",
+    "nameEn": "Wholemeal hamburger bun",
+    "categoryCode": "BAKERY",
+    "allergens": ["EGGS", "GLUTEN", "MILK"],
+    "pieceGrams": 60,
+    "allergensTypical": true
+  },
+  "usda:175029": {
+    "namePl": "Bułka żytnia",
+    "nameEn": "Rye roll",
+    "categoryCode": "BAKERY",
+    "allergens": ["GLUTEN"],
+    "pieceGrams": 50,
+    "allergensTypical": true
+  },
+  "usda:171862": {
+    "namePl": "Bułki bezglutenowe jasne z mąki ryżowej",
+    "nameEn": "Gluten-free white rolls, rice flour",
+    "categoryCode": "BAKERY",
+    "allergens": [],
+    "pieceGrams": 60,
+    "allergensTypical": true
+  },
+  "usda:171844": {
+    "namePl": "Chapati",
+    "nameEn": "Chapati",
+    "categoryCode": "BAKERY",
+    "allergens": ["GLUTEN"],
+    "pieceGrams": 50,
+    "allergensTypical": true
+  },
+  "ciqual:38417": {
+    "namePl": "Chipsy kukurydziane nature",
+    "nameEn": "Plain corn chips",
+    "categoryCode": "SWEETS",
+    "allergens": ["GLUTEN"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:7130": {
+    "namePl": "Chleb bezglutenowy",
+    "nameEn": "Gluten-free bread",
+    "categoryCode": "BAKERY",
+    "allergens": ["GLUTEN"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:7210": {
+    "namePl": "Chleb brioche",
+    "nameEn": "Brioche bread",
+    "categoryCode": "BAKERY",
+    "allergens": ["EGGS", "GLUTEN", "MILK"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:7110": {
+    "namePl": "Chleb pełnoziarnisty",
+    "nameEn": "Wholemeal bread",
+    "categoryCode": "BAKERY",
+    "allergens": ["GLUTEN"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:7116": {
+    "namePl": "Chleb tostowy bezglutenowy",
+    "nameEn": "Gluten-free sandwich bread",
+    "categoryCode": "BAKERY",
+    "allergens": ["GLUTEN"],
+    "pieceGrams": 25,
+    "allergensTypical": true
+  },
+  "ciqual:7200": {
+    "namePl": "Chleb tostowy biały",
+    "nameEn": "White sandwich bread",
+    "categoryCode": "BAKERY",
+    "allergens": ["GLUTEN"],
+    "pieceGrams": 25,
+    "allergensTypical": true
+  },
+  "ciqual:7111": {
+    "namePl": "Chleb tostowy pełnoziarnisty",
+    "nameEn": "Wholemeal sandwich bread",
+    "categoryCode": "BAKERY",
+    "allergens": ["GLUTEN"],
+    "pieceGrams": 28,
+    "allergensTypical": true
+  },
+  "ciqual:7113": {
+    "namePl": "Chleb tostowy wieloziarnisty",
+    "nameEn": "Multigrain sandwich bread",
+    "categoryCode": "BAKERY",
+    "allergens": ["GLUTEN"],
+    "pieceGrams": 28,
+    "allergensTypical": true
+  },
+  "usda:174913": {
+    "namePl": "Chleb włoski",
+    "nameEn": "Italian bread",
+    "categoryCode": "BAKERY",
+    "allergens": ["GLUTEN"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:7115": {
+    "namePl": "Chleb z otrębami",
+    "nameEn": "Bran bread",
+    "categoryCode": "BAKERY",
+    "allergens": ["GLUTEN"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:172680": {
+    "namePl": "Chleb z rodzynkami",
+    "nameEn": "Raisin bread",
+    "categoryCode": "BAKERY",
+    "allergens": ["GLUTEN"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:167943": {
+    "namePl": "Chleb ziemniaczany",
+    "nameEn": "Potato bread",
+    "categoryCode": "BAKERY",
+    "allergens": ["GLUTEN"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:7125": {
+    "namePl": "Chleb żytnio-pszenny",
+    "nameEn": "Rye and wheat bread",
+    "categoryCode": "BAKERY",
+    "allergens": ["GLUTEN"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:38404": {
+    "namePl": "Chrupki ekstrudowane o smaku orzechowym",
+    "nameEn": "Puffed snacks, peanut flavour",
+    "categoryCode": "SWEETS",
+    "allergens": ["GLUTEN", "PEANUTS"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:172744": {
+    "namePl": "Chrupki żytnie, naturalne",
+    "nameEn": "Rye wafers, plain",
+    "categoryCode": "BAKERY",
+    "allergens": ["GLUTEN"],
+    "pieceGrams": 10,
+    "allergensTypical": true
+  },
+  "ciqual:37001": {
+    "namePl": "Ciasto do pizzy, surowe",
+    "nameEn": "Pizza dough, raw",
+    "categoryCode": "BAKERY",
+    "allergens": ["GLUTEN"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:172791": {
+    "namePl": "Ciasto filo",
+    "nameEn": "Phyllo dough",
+    "categoryCode": "BAKERY",
+    "allergens": ["GLUTEN"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:172790": {
+    "namePl": "Ciasto francuskie mrożone",
+    "nameEn": "Frozen puff pastry",
+    "categoryCode": "BAKERY",
+    "allergens": ["GLUTEN", "MILK"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:7619": {
+    "namePl": "Croissant maślany",
+    "nameEn": "Butter croissant",
+    "categoryCode": "BAKERY",
+    "allergens": ["EGGS", "GLUTEN", "MILK"],
+    "pieceGrams": 60,
+    "allergensTypical": true
+  },
+  "ciqual:7650": {
+    "namePl": "Croissant migdałowy",
+    "nameEn": "Almond croissant",
+    "categoryCode": "BAKERY",
+    "allergens": ["EGGS", "GLUTEN", "MILK", "NUTS"],
+    "pieceGrams": 90,
+    "allergensTypical": true
+  },
+  "ciqual:7616": {
+    "namePl": "Croissant zwykły",
+    "nameEn": "Plain croissant",
+    "categoryCode": "BAKERY",
+    "allergens": ["EGGS", "GLUTEN", "MILK"],
+    "pieceGrams": 50,
+    "allergensTypical": true
+  },
+  "usda:172758": {
+    "namePl": "Drożdżówka z lukrem",
+    "nameEn": "Glazed yeast bun",
+    "categoryCode": "BAKERY",
+    "allergens": ["EGGS", "GLUTEN", "MILK"],
+    "pieceGrams": 80,
+    "allergensTypical": true
+  },
+  "usda:167534": {
+    "namePl": "Ekler z kremem, lukrowany",
+    "nameEn": "Cream eclair, iced",
+    "categoryCode": "BAKERY",
+    "allergens": ["EGGS", "GLUTEN", "MILK"],
+    "pieceGrams": 80,
+    "allergensTypical": true
+  },
+  "usda:167945": {
+    "namePl": "Focaccia",
+    "nameEn": "Focaccia",
+    "categoryCode": "BAKERY",
+    "allergens": ["GLUTEN"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:175038": {
+    "namePl": "Gofry mrożone",
+    "nameEn": "Frozen waffles",
+    "categoryCode": "BAKERY",
+    "allergens": ["EGGS", "GLUTEN", "MILK"],
+    "pieceGrams": 40,
+    "allergensTypical": true
+  },
+  "ciqual:38414": {
+    "namePl": "Grissini z sezamem",
+    "nameEn": "Grissini with sesame",
+    "categoryCode": "BAKERY",
+    "allergens": ["GLUTEN", "SESAME"],
+    "pieceGrams": 5,
+    "allergensTypical": true
+  },
+  "ciqual:38500": {
+    "namePl": "Grzanki czosnkowe",
+    "nameEn": "Garlic croutons",
+    "categoryCode": "BAKERY",
+    "allergens": ["GLUTEN"],
+    "pieceGrams": 8,
+    "allergensTypical": true
+  },
+  "ciqual:7432": {
+    "namePl": "Grzanki naturalne",
+    "nameEn": "Plain croutons",
+    "categoryCode": "BAKERY",
+    "allergens": ["GLUTEN"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:38501": {
+    "namePl": "Grzanki serowe",
+    "nameEn": "Cheese croutons",
+    "categoryCode": "BAKERY",
+    "allergens": ["GLUTEN", "MILK"],
+    "pieceGrams": 8,
+    "allergensTypical": true
+  },
+  "usda:171867": {
+    "namePl": "Herbatniki Marie",
+    "nameEn": "Marie biscuits",
+    "categoryCode": "BAKERY",
+    "allergens": ["GLUTEN", "MILK"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:23909": {
+    "namePl": "Keks z bakaliami",
+    "nameEn": "Fruit cake",
+    "categoryCode": "BAKERY",
+    "allergens": ["EGGS", "GLUTEN", "MILK"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:7349": {
+    "namePl": "Krakersy pełnoziarniste",
+    "nameEn": "Wholemeal crackers",
+    "categoryCode": "BAKERY",
+    "allergens": ["GLUTEN"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:174982": {
+    "namePl": "Krakersy zwykłe",
+    "nameEn": "Plain crackers",
+    "categoryCode": "BAKERY",
+    "allergens": ["GLUTEN"],
+    "pieceGrams": 5,
+    "allergensTypical": true
+  },
+  "usda:172746": {
+    "namePl": "Krakersy solone",
+    "nameEn": "Saltine crackers",
+    "categoryCode": "BAKERY",
+    "allergens": ["GLUTEN", "MOLLUSCS"],
+    "pieceGrams": 5,
+    "allergensTypical": true
+  },
+  "usda:171856": {
+    "namePl": "Krakersy wodne",
+    "nameEn": "Water biscuits",
+    "categoryCode": "BAKERY",
+    "allergens": ["GLUTEN"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:167966": {
+    "namePl": "Krakersy z ryżu brązowego",
+    "nameEn": "Brown rice crackers",
+    "categoryCode": "BAKERY",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:24632": {
+    "namePl": "Magdalenki",
+    "nameEn": "Madeleines",
+    "categoryCode": "BAKERY",
+    "allergens": ["EGGS", "GLUTEN", "MILK"],
+    "pieceGrams": 25,
+    "allergensTypical": true
+  },
+  "ciqual:24631": {
+    "namePl": "Magdalenki czekoladowe",
+    "nameEn": "Chocolate madeleines",
+    "categoryCode": "BAKERY",
+    "allergens": ["EGGS", "GLUTEN", "MILK", "SOY"],
+    "pieceGrams": 25,
+    "allergensTypical": true
+  },
+  "ciqual:23952": {
+    "namePl": "Muffinka czekoladowa",
+    "nameEn": "Chocolate muffin",
+    "categoryCode": "BAKERY",
+    "allergens": ["EGGS", "GLUTEN", "MILK"],
+    "pieceGrams": 80,
+    "allergensTypical": true
+  },
+  "ciqual:23951": {
+    "namePl": "Muffinka z jagodami",
+    "nameEn": "Blueberry muffin",
+    "categoryCode": "BAKERY",
+    "allergens": ["EGGS", "GLUTEN", "MILK"],
+    "pieceGrams": 80,
+    "allergensTypical": true
+  },
+  "ciqual:7257": {
+    "namePl": "Muffinka angielska",
+    "nameEn": "English muffin",
+    "categoryCode": "BAKERY",
+    "allergens": ["GLUTEN"],
+    "pieceGrams": 60,
+    "allergensTypical": true
+  },
+  "ciqual:7256": {
+    "namePl": "Muffinka angielska pełnoziarnista",
+    "nameEn": "Whole wheat English muffin",
+    "categoryCode": "BAKERY",
+    "allergens": ["GLUTEN"],
+    "pieceGrams": 60,
+    "allergensTypical": true
+  },
+  "usda:171845": {
+    "namePl": "Naan",
+    "nameEn": "Naan bread",
+    "categoryCode": "BAKERY",
+    "allergens": ["EGGS", "GLUTEN", "MILK"],
+    "pieceGrams": 90,
+    "allergensTypical": true
+  },
+  "usda:174929": {
+    "namePl": "Paluszki pszenne",
+    "nameEn": "Bread sticks",
+    "categoryCode": "BAKERY",
+    "allergens": ["GLUTEN"],
+    "pieceGrams": 10,
+    "allergensTypical": true
+  },
+  "ciqual:7719": {
+    "namePl": "Panettone",
+    "nameEn": "Panettone",
+    "categoryCode": "BAKERY",
+    "allergens": ["EGGS", "GLUTEN", "MILK"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:174992": {
+    "namePl": "Pączek oblewany lukrem",
+    "nameEn": "Glazed doughnut",
+    "categoryCode": "BAKERY",
+    "allergens": ["EGGS", "GLUTEN", "MILK"],
+    "pieceGrams": 60,
+    "allergensTypical": true
+  },
+  "ciqual:23880": {
+    "namePl": "Pączek posypany cukrem",
+    "nameEn": "Sugar-dusted doughnut",
+    "categoryCode": "BAKERY",
+    "allergens": ["EGGS", "GLUTEN", "MILK"],
+    "pieceGrams": 60,
+    "allergensTypical": true
+  },
+  "usda:172757": {
+    "namePl": "Pączek z kremem",
+    "nameEn": "Cream-filled doughnut",
+    "categoryCode": "BAKERY",
+    "allergens": ["EGGS", "GLUTEN", "MILK"],
+    "pieceGrams": 70,
+    "allergensTypical": true
+  },
+  "ciqual:23881": {
+    "namePl": "Pączek z marmoladą",
+    "nameEn": "Jam-filled doughnut",
+    "categoryCode": "BAKERY",
+    "allergens": ["EGGS", "GLUTEN", "MILK"],
+    "pieceGrams": 70,
+    "allergensTypical": true
+  },
+  "ciqual:7359": {
+    "namePl": "Pieczywo chrupkie żytnie",
+    "nameEn": "Rye crispbread",
+    "categoryCode": "BAKERY",
+    "allergens": ["GLUTEN"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:174916": {
+    "namePl": "Pita pełnoziarnista",
+    "nameEn": "Whole wheat pita",
+    "categoryCode": "BAKERY",
+    "allergens": ["GLUTEN"],
+    "pieceGrams": 60,
+    "allergensTypical": true
+  },
+  "usda:172802": {
+    "namePl": "Ciasto na wontony",
+    "nameEn": "Wonton wrappers",
+    "categoryCode": "BAKERY",
+    "allergens": ["EGGS", "GLUTEN"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:7263": {
+    "namePl": "Precel",
+    "nameEn": "Pretzel",
+    "categoryCode": "BAKERY",
+    "allergens": ["GLUTEN"],
+    "pieceGrams": 80,
+    "allergensTypical": true
+  },
+  "usda:174806": {
+    "namePl": "Precle bezglutenowe",
+    "nameEn": "Gluten-free pretzels",
+    "categoryCode": "BAKERY",
+    "allergens": ["GLUTEN"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:167555": {
+    "namePl": "Precelki słone",
+    "nameEn": "Salted pretzel snacks",
+    "categoryCode": "BAKERY",
+    "allergens": ["GLUTEN"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:7730": {
+    "namePl": "Rogalik czekoladowy",
+    "nameEn": "Chocolate croissant",
+    "categoryCode": "BAKERY",
+    "allergens": ["EGGS", "GLUTEN", "MILK", "SOY"],
+    "pieceGrams": 65,
+    "allergensTypical": true
+  },
+  "ciqual:7720": {
+    "namePl": "Rogalik z rodzynkami",
+    "nameEn": "Raisin pastry",
+    "categoryCode": "BAKERY",
+    "allergens": ["EGGS", "GLUTEN", "MILK"],
+    "pieceGrams": 80,
+    "allergensTypical": true
+  },
+  "usda:175000": {
+    "namePl": "Rożek waflowy do lodów",
+    "nameEn": "Waffle ice cream cone",
+    "categoryCode": "BAKERY",
+    "allergens": ["EGGS", "GLUTEN", "MILK"],
+    "pieceGrams": 12,
+    "allergensTypical": true
+  },
+  "ciqual:7340": {
+    "namePl": "Suchary pełnoziarniste",
+    "nameEn": "Wholemeal rusks",
+    "categoryCode": "BAKERY",
+    "allergens": ["GLUTEN"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:7330": {
+    "namePl": "Suchary wielozbożowe",
+    "nameEn": "Multigrain rusks",
+    "categoryCode": "BAKERY",
+    "allergens": ["GLUTEN"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:167525": {
+    "namePl": "Tostady kukurydziane",
+    "nameEn": "Corn tostada shells",
+    "categoryCode": "BAKERY",
+    "allergens": [],
+    "pieceGrams": 12,
+    "allergensTypical": true
+  },
+  "ciqual:7402": {
+    "namePl": "Tosty pełnoziarniste, krojone",
+    "nameEn": "Sliced wholewheat toast",
+    "categoryCode": "BAKERY",
+    "allergens": ["GLUTEN"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:7353": {
+    "namePl": "Wafle zbożowe",
+    "nameEn": "Puffed cereal cakes",
+    "categoryCode": "BAKERY",
+    "allergens": ["GLUTEN"],
+    "pieceGrams": 10,
+    "allergensTypical": true
+  },
+  "usda:174935": {
+    "namePl": "Budyń czekoladowy, proszek",
+    "nameEn": "Chocolate pudding mix, dry",
+    "categoryCode": "BAKING",
+    "allergens": ["GLUTEN", "MILK"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:51550": {
+    "namePl": "Ciasto filo",
+    "nameEn": "Filo pastry",
+    "categoryCode": "BAKING",
+    "allergens": ["GLUTEN"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:23424": {
+    "namePl": "Ciasto francuskie maślane",
+    "nameEn": "Butter puff pastry",
+    "categoryCode": "BAKING",
+    "allergens": ["GLUTEN", "MILK"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:23420": {
+    "namePl": "Ciasto francuskie na tłuszczu roślinnym",
+    "nameEn": "Puff pastry, vegetable fat",
+    "categoryCode": "BAKING",
+    "allergens": ["GLUTEN"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:23402": {
+    "namePl": "Ciasto na pizzę cienkie, surowe",
+    "nameEn": "Thin pizza dough, raw",
+    "categoryCode": "BAKING",
+    "allergens": ["GLUTEN"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:31085": {
+    "namePl": "Czekolada gorzka do pieczenia, min. 40% kakao",
+    "nameEn": "Dark chocolate for baking",
+    "categoryCode": "BAKING",
+    "allergens": ["SOY"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:168147": {
+    "namePl": "Gluten pszenny",
+    "nameEn": "Vital wheat gluten",
+    "categoryCode": "BAKING",
+    "allergens": ["GLUTEN"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:170657": {
+    "namePl": "Kakao alkalizowane",
+    "nameEn": "Alkalized cocoa powder",
+    "categoryCode": "BAKING",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:169741": {
+    "namePl": "Mąka owsiana",
+    "nameEn": "Oat flour",
+    "categoryCode": "BAKING",
+    "allergens": ["GLUTEN"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:9437": {
+    "namePl": "Mąka pszenna samorosnąca",
+    "nameEn": "Self-raising wheat flour",
+    "categoryCode": "BAKING",
+    "allergens": ["GLUTEN"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:168943": {
+    "namePl": "Mąka sorgo pełnoziarnista",
+    "nameEn": "Sorghum flour, whole grain",
+    "categoryCode": "BAKING",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:96778": {
+    "namePl": "Spód do pizzy, gotowy",
+    "nameEn": "Prebaked pizza base",
+    "categoryCode": "BAKING",
+    "allergens": ["GLUTEN"],
+    "pieceGrams": 200,
+    "allergensTypical": true
+  },
+  "usda:175041": {
+    "namePl": "Winian potasu (kwas winowy)",
+    "nameEn": "Cream of tartar",
+    "categoryCode": "BAKING",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:1007": {
+    "namePl": "Wermut",
+    "nameEn": "Vermouth",
+    "categoryCode": "BEVERAGES",
+    "allergens": ["SULPHITES"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:1023": {
+    "namePl": "Brandy, armagnac lub koniak",
+    "nameEn": "Brandy, armagnac or cognac",
+    "categoryCode": "BEVERAGES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:175093": {
+    "namePl": "Cola",
+    "nameEn": "Cola",
+    "categoryCode": "BEVERAGES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:175099": {
+    "namePl": "Cola light",
+    "nameEn": "Diet cola",
+    "categoryCode": "BEVERAGES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:5003": {
+    "namePl": "Cydr",
+    "nameEn": "Cider",
+    "categoryCode": "BEVERAGES",
+    "allergens": ["SULPHITES"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:5007": {
+    "namePl": "Cydr słodki",
+    "nameEn": "Sweet cider",
+    "categoryCode": "BEVERAGES",
+    "allergens": ["SULPHITES"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:5006": {
+    "namePl": "Cydr wytrawny",
+    "nameEn": "Dry cider",
+    "categoryCode": "BEVERAGES",
+    "allergens": ["SULPHITES"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:171891": {
+    "namePl": "Espresso",
+    "nameEn": "Espresso",
+    "categoryCode": "BEVERAGES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:1002": {
+    "namePl": "Gin",
+    "nameEn": "Gin",
+    "categoryCode": "BEVERAGES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:171892": {
+    "namePl": "Herbata czarna z cytryną, light, gotowa do picia",
+    "nameEn": "Black tea with lemon, light",
+    "categoryCode": "BEVERAGES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:171888": {
+    "namePl": "Herbata czarna z cytryną, słodzona, gotowa do picia",
+    "nameEn": "Black tea with lemon, ready to drink, sweetened",
+    "categoryCode": "BEVERAGES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:174155": {
+    "namePl": "Herbata czarna, parzona",
+    "nameEn": "Black tea, brewed",
+    "categoryCode": "BEVERAGES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:171946": {
+    "namePl": "Herbata hibiskus (napar)",
+    "nameEn": "Hibiscus tea (brewed)",
+    "categoryCode": "BEVERAGES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:18076": {
+    "namePl": "Herbata liściasta",
+    "nameEn": "Loose-leaf tea",
+    "categoryCode": "BEVERAGES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:174120": {
+    "namePl": "Herbata oolong, parzona",
+    "nameEn": "Oolong tea, brewed",
+    "categoryCode": "BEVERAGES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:174873": {
+    "namePl": "Herbata rozpuszczalna niesłodzona",
+    "nameEn": "Instant tea",
+    "categoryCode": "BEVERAGES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:171918": {
+    "namePl": "Herbata rozpuszczalna z cytryną",
+    "nameEn": "Instant lemon tea",
+    "categoryCode": "BEVERAGES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:174156": {
+    "namePl": "Herbata rumiankowa, parzona",
+    "nameEn": "Chamomile tea, brewed",
+    "categoryCode": "BEVERAGES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:171911": {
+    "namePl": "Herbata zielona niesłodzona (napój gotowy)",
+    "nameEn": "Unsweetened ready-to-drink green tea",
+    "categoryCode": "BEVERAGES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:171889": {
+    "namePl": "Kawa bezkofeinowa (napar)",
+    "nameEn": "Decaf coffee (brewed)",
+    "categoryCode": "BEVERAGES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:18069": {
+    "namePl": "Kawa bezkofeinowa rozpuszczalna",
+    "nameEn": "Decaffeinated instant coffee",
+    "categoryCode": "BEVERAGES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:18004": {
+    "namePl": "Kawa gotowa do picia, bez cukru",
+    "nameEn": "Ready-to-drink coffee, unsweetened",
+    "categoryCode": "BEVERAGES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:18003": {
+    "namePl": "Kawa mielona",
+    "nameEn": "Ground coffee",
+    "categoryCode": "BEVERAGES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:18316": {
+    "namePl": "Kefir wodny",
+    "nameEn": "Water kefir",
+    "categoryCode": "BEVERAGES",
+    "allergens": ["MILK"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:1021": {
+    "namePl": "Likier z czarnej porzeczki (cassis)",
+    "nameEn": "Blackcurrant liqueur",
+    "categoryCode": "BEVERAGES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:173665": {
+    "namePl": "Likier kawowy",
+    "nameEn": "Coffee liqueur",
+    "categoryCode": "BEVERAGES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:175098": {
+    "namePl": "Likier kawowy ze śmietanką",
+    "nameEn": "Coffee cream liqueur",
+    "categoryCode": "BEVERAGES",
+    "allergens": ["MILK"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:1015": {
+    "namePl": "Marsala",
+    "nameEn": "Marsala wine",
+    "categoryCode": "BEVERAGES",
+    "allergens": ["SULPHITES"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:174118": {
+    "namePl": "Mleko czekoladowe",
+    "nameEn": "Chocolate milk",
+    "categoryCode": "BEVERAGES",
+    "allergens": ["MILK"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:174852": {
+    "namePl": "Napój cola",
+    "nameEn": "Cola",
+    "categoryCode": "BEVERAGES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:174850": {
+    "namePl": "Cola light bez kofeiny",
+    "nameEn": "Caffeine-free diet cola",
+    "categoryCode": "BEVERAGES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:18324": {
+    "namePl": "Napój energetyczny",
+    "nameEn": "Energy drink",
+    "categoryCode": "BEVERAGES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:173205": {
+    "namePl": "Napój gazowany cytrynowo-limonkowy",
+    "nameEn": "Lemon-lime soda",
+    "categoryCode": "BEVERAGES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:18019": {
+    "namePl": "Napój gazowany owocowy, słodzony",
+    "nameEn": "Sweetened fruit soft drink",
+    "categoryCode": "BEVERAGES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:174129": {
+    "namePl": "Napój herbaciany cytrynowy light",
+    "nameEn": "Diet lemon iced tea",
+    "categoryCode": "BEVERAGES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:18015": {
+    "namePl": "Napój herbaciany słodzony",
+    "nameEn": "Sweetened iced tea",
+    "categoryCode": "BEVERAGES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:174846": {
+    "namePl": "Napój imbirowy gazowany",
+    "nameEn": "Ginger ale",
+    "categoryCode": "BEVERAGES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:18348": {
+    "namePl": "Napój izotoniczny słodzony",
+    "nameEn": "Sports drink",
+    "categoryCode": "BEVERAGES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:174820": {
+    "namePl": "Napój migdałowy czekoladowy",
+    "nameEn": "Chocolate almond drink",
+    "categoryCode": "BEVERAGES",
+    "allergens": ["NUTS"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:168751": {
+    "namePl": "Napój migdałowy waniliowy, słodzony",
+    "nameEn": "Sweetened vanilla almond drink",
+    "categoryCode": "BEVERAGES",
+    "allergens": ["NUTS"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:19118": {
+    "namePl": "Napój mleczny czekoladowy, słodzony",
+    "nameEn": "Chocolate milk drink",
+    "categoryCode": "BEVERAGES",
+    "allergens": ["MILK"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:19117": {
+    "namePl": "Napój mleczny kawowy, słodzony",
+    "nameEn": "Coffee milk drink",
+    "categoryCode": "BEVERAGES",
+    "allergens": ["MILK"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:19127": {
+    "namePl": "Napój mleczny truskawkowy, słodzony",
+    "nameEn": "Strawberry milk drink",
+    "categoryCode": "BEVERAGES",
+    "allergens": ["MILK"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:19114": {
+    "namePl": "Napój mleczny waniliowy, słodzony",
+    "nameEn": "Vanilla milk drink",
+    "categoryCode": "BEVERAGES",
+    "allergens": ["MILK"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:18304": {
+    "namePl": "Napój owocowy o obniżonej zawartości cukru",
+    "nameEn": "Fruit drink, reduced sugar",
+    "categoryCode": "BEVERAGES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:18309": {
+    "namePl": "Napój owocowy słodzony",
+    "nameEn": "Sweetened fruit drink",
+    "categoryCode": "BEVERAGES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:169044": {
+    "namePl": "Napój pomarańczowy",
+    "nameEn": "Orange drink",
+    "categoryCode": "BEVERAGES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:174854": {
+    "namePl": "Napój pomarańczowy gazowany",
+    "nameEn": "Orange soda",
+    "categoryCode": "BEVERAGES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:18902": {
+    "namePl": "Napój sojowy aromatyzowany, słodzony",
+    "nameEn": "Flavoured soy drink, sweetened",
+    "categoryCode": "BEVERAGES",
+    "allergens": ["SOY"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:174295": {
+    "namePl": "Napój sojowy czekoladowy",
+    "nameEn": "Chocolate soy drink",
+    "categoryCode": "BEVERAGES",
+    "allergens": ["SOY"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:174869": {
+    "namePl": "Napój truskawkowy w proszku",
+    "nameEn": "Strawberry drink mix powder",
+    "categoryCode": "BEVERAGES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:171903": {
+    "namePl": "Napój żurawinowy",
+    "nameEn": "Cranberry juice drink",
+    "categoryCode": "BEVERAGES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:2374": {
+    "namePl": "Nektar ananasowy",
+    "nameEn": "Pineapple nectar",
+    "categoryCode": "BEVERAGES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:2366": {
+    "namePl": "Nektar bananowy",
+    "nameEn": "Banana nectar",
+    "categoryCode": "BEVERAGES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:2371": {
+    "namePl": "Nektar brzoskwiniowy",
+    "nameEn": "Peach nectar",
+    "categoryCode": "BEVERAGES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:2054": {
+    "namePl": "Nektar gruszkowy",
+    "nameEn": "Pear nectar",
+    "categoryCode": "BEVERAGES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:167784": {
+    "namePl": "Nektar z guawy",
+    "nameEn": "Guava nectar",
+    "categoryCode": "BEVERAGES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:2076": {
+    "namePl": "Nektar jabłkowy",
+    "nameEn": "Apple nectar",
+    "categoryCode": "BEVERAGES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:2370": {
+    "namePl": "Nektar mangowy",
+    "nameEn": "Mango nectar",
+    "categoryCode": "BEVERAGES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:2043": {
+    "namePl": "Nektar morelowy",
+    "nameEn": "Apricot nectar",
+    "categoryCode": "BEVERAGES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:2061": {
+    "namePl": "Nektar multiowocowy",
+    "nameEn": "Multifruit nectar",
+    "categoryCode": "BEVERAGES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:2375": {
+    "namePl": "Nektar pomarańczowy",
+    "nameEn": "Orange nectar",
+    "categoryCode": "BEVERAGES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:2022": {
+    "namePl": "Nektar truskawkowy",
+    "nameEn": "Strawberry nectar",
+    "categoryCode": "BEVERAGES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:2367": {
+    "namePl": "Nektar z guawy",
+    "nameEn": "Guava nectar",
+    "categoryCode": "BEVERAGES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:174863": {
+    "namePl": "Piwo bezalkoholowe",
+    "nameEn": "Non-alcoholic beer",
+    "categoryCode": "BEVERAGES",
+    "allergens": ["GLUTEN"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:5029": {
+    "namePl": "Piwo bezalkoholowe owocowe, słodzone",
+    "nameEn": "Sweetened alcohol-free fruit beer",
+    "categoryCode": "BEVERAGES",
+    "allergens": ["GLUTEN"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:5000": {
+    "namePl": "Piwo ciemne",
+    "nameEn": "Dark beer",
+    "categoryCode": "BEVERAGES",
+    "allergens": ["GLUTEN"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:5009": {
+    "namePl": "Piwo pszeniczne",
+    "nameEn": "Wheat beer",
+    "categoryCode": "BEVERAGES",
+    "allergens": ["GLUTEN"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:5004": {
+    "namePl": "Piwo z lemoniadą",
+    "nameEn": "Shandy",
+    "categoryCode": "BEVERAGES",
+    "allergens": ["GLUTEN"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:1004": {
+    "namePl": "Rum",
+    "nameEn": "Rum",
+    "categoryCode": "BEVERAGES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:1017": {
+    "namePl": "Sangria",
+    "nameEn": "Sangria",
+    "categoryCode": "BEVERAGES",
+    "allergens": ["SULPHITES"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:174181": {
+    "namePl": "Shake białkowy w proszku",
+    "nameEn": "Protein shake powder",
+    "categoryCode": "BEVERAGES",
+    "allergens": ["MILK"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:18300": {
+    "namePl": "Smoothie owocowe bez cukru",
+    "nameEn": "Fruit smoothie, no added sugar",
+    "categoryCode": "BEVERAGES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:2017": {
+    "namePl": "Sok granatowy",
+    "nameEn": "Pomegranate juice",
+    "categoryCode": "BEVERAGES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:2015": {
+    "namePl": "Sok grejpfrutowy",
+    "nameEn": "Grapefruit juice",
+    "categoryCode": "BEVERAGES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:2023": {
+    "namePl": "Sok mangowy",
+    "nameEn": "Mango juice",
+    "categoryCode": "BEVERAGES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:2006": {
+    "namePl": "Sok marchwiowy",
+    "nameEn": "Carrot juice",
+    "categoryCode": "BEVERAGES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:2033": {
+    "namePl": "Sok multiowocowy",
+    "nameEn": "Multifruit juice",
+    "categoryCode": "BEVERAGES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:2004": {
+    "namePl": "Sok owocowy",
+    "nameEn": "Fruit juice",
+    "categoryCode": "BEVERAGES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:167792": {
+    "namePl": "Sok pomarańczowo-ananasowy",
+    "nameEn": "Orange pineapple juice blend",
+    "categoryCode": "BEVERAGES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:2053": {
+    "namePl": "Sok pomidorowy",
+    "nameEn": "Tomato juice",
+    "categoryCode": "BEVERAGES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:2018": {
+    "namePl": "Sok śliwkowy",
+    "nameEn": "Prune juice",
+    "categoryCode": "BEVERAGES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:2052": {
+    "namePl": "Sok warzywno-owocowy",
+    "nameEn": "Fruit and vegetable juice",
+    "categoryCode": "BEVERAGES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:2075": {
+    "namePl": "Sok warzywny",
+    "nameEn": "Vegetable juice",
+    "categoryCode": "BEVERAGES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:2016": {
+    "namePl": "Sok winogronowy",
+    "nameEn": "Grape juice",
+    "categoryCode": "BEVERAGES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:174678": {
+    "namePl": "Sok z grejpfruta biały niesłodzony",
+    "nameEn": "Unsweetened white grapefruit juice",
+    "categoryCode": "BEVERAGES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:174679": {
+    "namePl": "Sok z grejpfruta biały słodzony",
+    "nameEn": "Sweetened white grapefruit juice",
+    "categoryCode": "BEVERAGES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:2377": {
+    "namePl": "Sok z krwistej pomarańczy",
+    "nameEn": "Blood orange juice",
+    "categoryCode": "BEVERAGES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:2034": {
+    "namePl": "Sok z mandarynki",
+    "nameEn": "Mandarin juice",
+    "categoryCode": "BEVERAGES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:2024": {
+    "namePl": "Sok z marakui",
+    "nameEn": "Passion fruit juice",
+    "categoryCode": "BEVERAGES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:167807": {
+    "namePl": "Sok z wiśni",
+    "nameEn": "Tart cherry juice",
+    "categoryCode": "BEVERAGES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:168117": {
+    "namePl": "Sok żurawinowy niesłodzony",
+    "nameEn": "Unsweetened cranberry juice",
+    "categoryCode": "BEVERAGES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:5207": {
+    "namePl": "Szampan",
+    "nameEn": "Champagne",
+    "categoryCode": "BEVERAGES",
+    "allergens": ["SULPHITES"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:18344": {
+    "namePl": "Tonik",
+    "nameEn": "Tonic water",
+    "categoryCode": "BEVERAGES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:18013": {
+    "namePl": "Tonik bez cukru",
+    "nameEn": "Sugar-free tonic water",
+    "categoryCode": "BEVERAGES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:1005": {
+    "namePl": "Whisky",
+    "nameEn": "Whisky",
+    "categoryCode": "BEVERAGES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:174157": {
+    "namePl": "Wino bezalkoholowe",
+    "nameEn": "Non-alcoholic wine",
+    "categoryCode": "BEVERAGES",
+    "allergens": ["SULPHITES"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:5201": {
+    "namePl": "Wino białe musujące",
+    "nameEn": "White sparkling wine",
+    "categoryCode": "BEVERAGES",
+    "allergens": ["SULPHITES"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:174849": {
+    "namePl": "Wino białe słodkie",
+    "nameEn": "Sweet white wine",
+    "categoryCode": "BEVERAGES",
+    "allergens": ["SULPHITES"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:173176": {
+    "namePl": "Wino deserowe słodkie",
+    "nameEn": "Sweet dessert wine",
+    "categoryCode": "BEVERAGES",
+    "allergens": ["SULPHITES"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:5216": {
+    "namePl": "Wino różowe wytrawne",
+    "nameEn": "Rosé wine, dry",
+    "categoryCode": "BEVERAGES",
+    "allergens": ["SULPHITES"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:174842": {
+    "namePl": "Woda gazowana",
+    "nameEn": "Sparkling water",
+    "categoryCode": "BEVERAGES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:18011": {
+    "namePl": "Woda kokosowa",
+    "nameEn": "Coconut water",
+    "categoryCode": "BEVERAGES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:1008": {
+    "namePl": "Wódka",
+    "nameEn": "Vodka",
+    "categoryCode": "BEVERAGES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:1001": {
+    "namePl": "Wódka owocowa (śliwowica, gruszkówka)",
+    "nameEn": "Fruit brandy",
+    "categoryCode": "BEVERAGES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:19696": {
+    "namePl": "Deser sojowy migdałowy, słodzony",
+    "nameEn": "Almond soy dessert, sweetened",
+    "categoryCode": "DAIRY",
+    "allergens": ["NUTS", "SOY"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:19695": {
+    "namePl": "Deser sojowy owocowy, słodzony",
+    "nameEn": "Fruit soy dessert, sweetened",
+    "categoryCode": "DAIRY",
+    "allergens": ["SOY"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:20929": {
+    "namePl": "Deser sojowy, chłodzony",
+    "nameEn": "Soy dessert, chilled",
+    "categoryCode": "DAIRY",
+    "allergens": ["SOY"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:12063": {
+    "namePl": "Feta krowia w oliwie z ziołami",
+    "nameEn": "Cow's milk feta in oil with herbs",
+    "categoryCode": "DAIRY",
+    "allergens": ["MILK"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:19559": {
+    "namePl": "Jogurt aromatyzowany 0%, ze słodzikiem",
+    "nameEn": "Flavoured yogurt 0%, sweetener",
+    "categoryCode": "DAIRY",
+    "allergens": ["MILK"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:19676": {
+    "namePl": "Jogurt owocowy lub aromatyzowany, słodzony",
+    "nameEn": "Flavoured or fruit yogurt, sweetened",
+    "categoryCode": "DAIRY",
+    "allergens": ["MILK"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:19539": {
+    "namePl": "Jogurt bifidus aromatyzowany, słodzony",
+    "nameEn": "Bifidus flavoured yogurt, sweetened",
+    "categoryCode": "DAIRY",
+    "allergens": ["MILK"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:19862": {
+    "namePl": "Jogurt grecki aromatyzowany, słodzony",
+    "nameEn": "Greek yogurt, flavoured, sweetened",
+    "categoryCode": "DAIRY",
+    "allergens": ["MILK"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:170901": {
+    "namePl": "Jogurt grecki truskawkowy, beztłuszczowy",
+    "nameEn": "Greek yogurt, strawberry, nonfat",
+    "categoryCode": "DAIRY",
+    "allergens": ["MILK"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:170907": {
+    "namePl": "Jogurt grecki waniliowy, 2%",
+    "nameEn": "Greek yogurt, vanilla, 2% fat",
+    "categoryCode": "DAIRY",
+    "allergens": ["MILK"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:19550": {
+    "namePl": "Jogurt grecki z mleka owczego",
+    "nameEn": "Greek-style sheep milk yogurt",
+    "categoryCode": "DAIRY",
+    "allergens": ["MILK"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:19727": {
+    "namePl": "Jogurt kozi owocowy, słodzony",
+    "nameEn": "Goat's milk fruit yogurt, sweetened",
+    "categoryCode": "DAIRY",
+    "allergens": ["MILK"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:19594": {
+    "namePl": "Jogurt naturalny 0%",
+    "nameEn": "Plain yogurt 0% fat",
+    "categoryCode": "DAIRY",
+    "allergens": ["MILK"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:19599": {
+    "namePl": "Jogurt naturalny słodzony",
+    "nameEn": "Sweetened plain yogurt",
+    "categoryCode": "DAIRY",
+    "allergens": ["MILK"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:19598": {
+    "namePl": "Jogurt naturalny śmietankowy",
+    "nameEn": "Creamy plain yogurt",
+    "categoryCode": "DAIRY",
+    "allergens": ["MILK"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:19724": {
+    "namePl": "Jogurt wysokobiałkowy naturalny",
+    "nameEn": "High-protein yogurt, plain",
+    "categoryCode": "DAIRY",
+    "allergens": ["MILK"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:19801": {
+    "namePl": "Kefir naturalny odtłuszczony",
+    "nameEn": "Plain skimmed kefir",
+    "categoryCode": "DAIRY",
+    "allergens": ["MILK"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:171274": {
+    "namePl": "Maślanka w proszku",
+    "nameEn": "Buttermilk powder",
+    "categoryCode": "DAIRY",
+    "allergens": ["MILK"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:12775": {
+    "namePl": "Mieszanka serów tartych",
+    "nameEn": "Grated cheese mix",
+    "categoryCode": "DAIRY",
+    "allergens": ["MILK"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:170900": {
+    "namePl": "Mozzarella light, tarta",
+    "nameEn": "Light shredded mozzarella",
+    "categoryCode": "DAIRY",
+    "allergens": ["MILK"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:169081": {
+    "namePl": "Kremowy serek do smarowania",
+    "nameEn": "Cream cheese spread",
+    "categoryCode": "DAIRY",
+    "allergens": ["MILK"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:12021": {
+    "namePl": "Ser Brie de Meaux",
+    "nameEn": "Brie de Meaux cheese",
+    "categoryCode": "DAIRY",
+    "allergens": ["MILK"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:173439": {
+    "namePl": "Ser cheddar light",
+    "nameEn": "Light cheddar cheese",
+    "categoryCode": "DAIRY",
+    "allergens": ["MILK"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:12767": {
+    "namePl": "Ser gouda z kminkiem",
+    "nameEn": "Cumin gouda cheese",
+    "categoryCode": "DAIRY",
+    "allergens": ["MILK"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:169079": {
+    "namePl": "Serek śmietankowy light",
+    "nameEn": "Low fat cream cheese",
+    "categoryCode": "DAIRY",
+    "allergens": ["MILK"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:19719": {
+    "namePl": "Serek typu petit-suisse owocowy 2-3%, słodzony",
+    "nameEn": "Fruit petit-suisse",
+    "categoryCode": "DAIRY",
+    "allergens": ["MILK"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:173443": {
+    "namePl": "Śmietana light",
+    "nameEn": "Light sour cream",
+    "categoryCode": "DAIRY",
+    "allergens": ["MILK"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:172204": {
+    "namePl": "Białko jaja suszone",
+    "nameEn": "Dried egg white",
+    "categoryCode": "EGGS",
+    "allergens": ["EGGS"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:16060": {
+    "namePl": "Olej kokosowy, rafinowany",
+    "nameEn": "Refined coconut oil",
+    "categoryCode": "FATS",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:16050": {
+    "namePl": "Olej kokosowy, tłoczony na zimno",
+    "nameEn": "Virgin coconut oil",
+    "categoryCode": "FATS",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:17001": {
+    "namePl": "Olej roślinny",
+    "nameEn": "Vegetable oil",
+    "categoryCode": "FATS",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:172338": {
+    "namePl": "Olej słonecznikowy wysokooleinowy",
+    "nameEn": "High oleic sunflower oil",
+    "categoryCode": "FATS",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:17420": {
+    "namePl": "Olej sojowy",
+    "nameEn": "Soybean oil",
+    "categoryCode": "FATS",
+    "allergens": ["SOY"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:25999": {
+    "namePl": "Anchois roladki z kaparami w oleju",
+    "nameEn": "Anchovy rolls with capers in oil",
+    "categoryCode": "FISH",
+    "allergens": ["FISH"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:26085": {
+    "namePl": "Barbun",
+    "nameEn": "Red mullet",
+    "categoryCode": "FISH",
+    "allergens": ["FISH"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:26098": {
+    "namePl": "Dorsz solony suszony",
+    "nameEn": "Salted dried cod",
+    "categoryCode": "FISH",
+    "allergens": ["FISH"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:174189": {
+    "namePl": "Dorsz w puszce",
+    "nameEn": "Canned cod",
+    "categoryCode": "FISH",
+    "allergens": ["FISH"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:26213": {
+    "namePl": "Hoki",
+    "nameEn": "Hoki",
+    "categoryCode": "FISH",
+    "allergens": ["FISH"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:175164": {
+    "namePl": "Krab królewski",
+    "nameEn": "King crab",
+    "categoryCode": "FISH",
+    "allergens": ["CRUSTACEANS"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:26208": {
+    "namePl": "Żabnica",
+    "nameEn": "Monkfish",
+    "categoryCode": "FISH",
+    "allergens": ["FISH"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:26146": {
+    "namePl": "Lucjan",
+    "nameEn": "Snapper",
+    "categoryCode": "FISH",
+    "allergens": ["FISH"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:175174": {
+    "namePl": "Łosoś czerwony konserwowy",
+    "nameEn": "Canned sockeye salmon",
+    "categoryCode": "FISH",
+    "allergens": ["FISH"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:175175": {
+    "namePl": "Łosoś różowy konserwowy",
+    "nameEn": "Canned pink salmon",
+    "categoryCode": "FISH",
+    "allergens": ["FISH"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:25993": {
+    "namePl": "Łosoś wędzony z koperkiem i cytryną",
+    "nameEn": "Smoked salmon with dill and lemon",
+    "categoryCode": "FISH",
+    "allergens": ["FISH"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:25991": {
+    "namePl": "Mahi-mahi",
+    "nameEn": "Mahi-mahi",
+    "categoryCode": "FISH",
+    "allergens": ["FISH"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:26123": {
+    "namePl": "Makrela w zalewie naturalnej",
+    "nameEn": "Mackerel in brine, canned",
+    "categoryCode": "FISH",
+    "allergens": ["FISH"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:175121": {
+    "namePl": "Makrela z puszki",
+    "nameEn": "Canned mackerel",
+    "categoryCode": "FISH",
+    "allergens": ["FISH"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:26178": {
+    "namePl": "Mero",
+    "nameEn": "Grouper",
+    "categoryCode": "FISH",
+    "allergens": ["FISH"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:26152": {
+    "namePl": "Mintaj wędzony",
+    "nameEn": "Smoked Alaska pollock",
+    "categoryCode": "FISH",
+    "allergens": ["FISH"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:175125": {
+    "namePl": "Okoń morski",
+    "nameEn": "Ocean perch",
+    "categoryCode": "FISH",
+    "allergens": ["FISH"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:27025": {
+    "namePl": "Okoń nilowy",
+    "nameEn": "Nile perch",
+    "categoryCode": "FISH",
+    "allergens": ["FISH"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:26171": {
+    "namePl": "Palia arktyczna",
+    "nameEn": "Arctic char",
+    "categoryCode": "FISH",
+    "allergens": ["FISH"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:174195": {
+    "namePl": "Paluszki rybne mrożone",
+    "nameEn": "Frozen fish sticks",
+    "categoryCode": "FISH",
+    "allergens": ["EGGS", "FISH", "GLUTEN"],
+    "pieceGrams": 28,
+    "allergensTypical": true
+  },
+  "ciqual:26029": {
+    "namePl": "Ryba panierowana, mrożona",
+    "nameEn": "Breaded fish, frozen",
+    "categoryCode": "FISH",
+    "allergens": ["EGGS", "FISH", "GLUTEN"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:26040": {
+    "namePl": "Sardynki w oliwie",
+    "nameEn": "Sardines in olive oil",
+    "categoryCode": "FISH",
+    "allergens": ["FISH"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:173702": {
+    "namePl": "Surimi",
+    "nameEn": "Surimi",
+    "categoryCode": "FISH",
+    "allergens": ["CRUSTACEANS", "EGGS", "FISH", "GLUTEN"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:26046": {
+    "namePl": "Paluszki krabowe surimi",
+    "nameEn": "Surimi crab sticks",
+    "categoryCode": "FISH",
+    "allergens": ["CRUSTACEANS", "EGGS", "FISH", "GLUTEN"],
+    "pieceGrams": 15,
+    "allergensTypical": true
+  },
+  "usda:173668": {
+    "namePl": "Śledź wędzony na zimno",
+    "nameEn": "Cold-smoked herring",
+    "categoryCode": "FISH",
+    "allergens": ["FISH"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:26242": {
+    "namePl": "Tuńczyk w sosie pomidorowym",
+    "nameEn": "Tuna in tomato sauce",
+    "categoryCode": "FISH",
+    "allergens": ["FISH"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:175158": {
+    "namePl": "Tuńczyk w wodzie",
+    "nameEn": "Tuna in water, canned",
+    "categoryCode": "FISH",
+    "allergens": ["FISH"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:13719": {
+    "namePl": "Ananas z puszki w lekkim syropie",
+    "nameEn": "Canned pineapple in light syrup",
+    "categoryCode": "FRUITS",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:169944": {
+    "namePl": "Ananas z puszki w syropie",
+    "nameEn": "Canned pineapple in syrup",
+    "categoryCode": "FRUITS",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:169125": {
+    "namePl": "Ananas z puszki w wodzie",
+    "nameEn": "Canned pineapple in water",
+    "categoryCode": "FRUITS",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:13089": {
+    "namePl": "Banan suszony",
+    "nameEn": "Dried banana",
+    "categoryCode": "FRUITS",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:13118": {
+    "namePl": "Brzoskwinie suszone",
+    "nameEn": "Dried peaches",
+    "categoryCode": "FRUITS",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:169930": {
+    "namePl": "Brzoskwinie z puszki w soku",
+    "nameEn": "Canned peaches in juice",
+    "categoryCode": "FRUITS",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:169112": {
+    "namePl": "Brzoskwinie z puszki w syropie",
+    "nameEn": "Canned peaches in syrup",
+    "categoryCode": "FRUITS",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:174673": {
+    "namePl": "Grejpfrut różowy",
+    "nameEn": "Pink grapefruit",
+    "categoryCode": "FRUITS",
+    "allergens": [],
+    "pieceGrams": 250,
+    "allergensTypical": true
+  },
+  "usda:168177": {
+    "namePl": "Gruszka azjatycka",
+    "nameEn": "Asian pear",
+    "categoryCode": "FRUITS",
+    "allergens": [],
+    "pieceGrams": 200,
+    "allergensTypical": true
+  },
+  "usda:171710": {
+    "namePl": "Jeżyny mrożone",
+    "nameEn": "Frozen blackberries",
+    "categoryCode": "FRUITS",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:169924": {
+    "namePl": "Mandarynki z puszki w lekkim syropie",
+    "nameEn": "Canned mandarins in light syrup",
+    "categoryCode": "FRUITS",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:13038": {
+    "namePl": "Mus jabłkowy, słodzony",
+    "nameEn": "Sweetened apple puree",
+    "categoryCode": "FRUITS",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:168164": {
+    "namePl": "Rodzynki złote",
+    "nameEn": "Golden raisins",
+    "categoryCode": "FRUITS",
+    "allergens": ["SULPHITES"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:13583": {
+    "namePl": "Śliwka czarna",
+    "nameEn": "Black plum",
+    "categoryCode": "FRUITS",
+    "allergens": [],
+    "pieceGrams": 60,
+    "allergensTypical": true
+  },
+  "ciqual:26264": {
+    "namePl": "Gnocchi ziemniaczane",
+    "nameEn": "Potato gnocchi",
+    "categoryCode": "GRAINS",
+    "allergens": ["EGGS", "GLUTEN"],
+    "pieceGrams": 8,
+    "allergensTypical": true
+  },
+  "usda:169750": {
+    "namePl": "Mąka kukurydziana pełnoziarnista",
+    "nameEn": "Whole-grain cornmeal",
+    "categoryCode": "BAKING",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:9874": {
+    "namePl": "Makaron bezglutenowy",
+    "nameEn": "Gluten-free pasta, dry",
+    "categoryCode": "GRAINS",
+    "allergens": ["GLUTEN"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:168900": {
+    "namePl": "Makaron bezglutenowy kukurydziany, gotowany",
+    "nameEn": "Gluten-free corn pasta, cooked",
+    "categoryCode": "GRAINS",
+    "allergens": ["GLUTEN"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:168899": {
+    "namePl": "Makaron bezglutenowy kukurydziany, suchy",
+    "nameEn": "Gluten-free corn pasta, dry",
+    "categoryCode": "GRAINS",
+    "allergens": ["GLUTEN"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:9824": {
+    "namePl": "Makaron bezglutenowy, gotowany",
+    "nameEn": "Gluten-free pasta, cooked",
+    "categoryCode": "GRAINS",
+    "allergens": ["GLUTEN"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:168909": {
+    "namePl": "Makaron somen, gotowany",
+    "nameEn": "Somen noodles, cooked",
+    "categoryCode": "GRAINS",
+    "allergens": ["GLUTEN"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:168908": {
+    "namePl": "Makaron somen, suchy",
+    "nameEn": "Somen noodles, dry",
+    "categoryCode": "GRAINS",
+    "allergens": ["GLUTEN"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:9121": {
+    "namePl": "Mieszanka ryżów, surowa",
+    "nameEn": "Mixed rice blend, raw",
+    "categoryCode": "GRAINS",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:9615": {
+    "namePl": "Polenta, gotowana",
+    "nameEn": "Polenta, cooked",
+    "categoryCode": "GRAINS",
+    "allergens": ["GLUTEN"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:32006": {
+    "namePl": "Ryż preparowany",
+    "nameEn": "Puffed rice",
+    "categoryCode": "GRAINS",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:172236": {
+    "namePl": "Aromat waniliowy sztuczny",
+    "nameEn": "Imitation vanilla flavoring",
+    "categoryCode": "BAKING",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:174258": {
+    "namePl": "Makaron szklany z fasoli mung",
+    "nameEn": "Glass noodles (mung bean)",
+    "categoryCode": "GRAINS",
+    "allergens": ["GLUTEN"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:172443": {
+    "namePl": "Natto",
+    "nameEn": "Natto",
+    "categoryCode": "LEGUMES",
+    "allergens": ["SOY"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:28503": {
+    "namePl": "Bresaola",
+    "nameEn": "Bresaola",
+    "categoryCode": "MEAT",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:169447": {
+    "namePl": "Burger wołowy, smażony",
+    "nameEn": "Beef patty, cooked",
+    "categoryCode": "MEAT",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:28960": {
+    "namePl": "Golonka wieprzowa, gotowana",
+    "nameEn": "Cooked pork knuckle",
+    "categoryCode": "MEAT",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:169157": {
+    "namePl": "Golonka wieprzowa, peklowana",
+    "nameEn": "Cured pork knuckle",
+    "categoryCode": "MEAT",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:171618": {
+    "namePl": "Kaszanka",
+    "nameEn": "Blood sausage",
+    "categoryCode": "MEAT",
+    "allergens": ["GLUTEN"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:28858": {
+    "namePl": "Pancetta",
+    "nameEn": "Pancetta",
+    "categoryCode": "MEAT",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:30746": {
+    "namePl": "Parówki koktajlowe",
+    "nameEn": "Cocktail sausages",
+    "categoryCode": "MEAT",
+    "allergens": [],
+    "pieceGrams": 10,
+    "allergensTypical": true
+  },
+  "usda:172964": {
+    "namePl": "Parówki wieprzowe",
+    "nameEn": "Pork frankfurters",
+    "categoryCode": "MEAT",
+    "allergens": [],
+    "pieceGrams": 50,
+    "allergensTypical": true
+  },
+  "usda:170204": {
+    "namePl": "Pastrami wołowe",
+    "nameEn": "Beef pastrami",
+    "categoryCode": "MEAT",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:172927": {
+    "namePl": "Pastrami z indyka",
+    "nameEn": "Turkey pastrami",
+    "categoryCode": "MEAT",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:174575": {
+    "namePl": "Pepperoni wołowo-wieprzowe, plastry",
+    "nameEn": "Sliced beef and pork pepperoni",
+    "categoryCode": "MEAT",
+    "allergens": [],
+    "pieceGrams": 2,
+    "allergensTypical": true
+  },
+  "ciqual:28976": {
+    "namePl": "Polędwica drobiowa peklowana, gotowana",
+    "nameEn": "Cooked brined poultry roast",
+    "categoryCode": "MEAT",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:167869": {
+    "namePl": "Polędwica kanadyjska",
+    "nameEn": "Canadian bacon",
+    "categoryCode": "MEAT",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:8000": {
+    "namePl": "Rillettes wieprzowe",
+    "nameEn": "Pork rillettes",
+    "categoryCode": "MEAT",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:30350": {
+    "namePl": "Salami",
+    "nameEn": "Salami",
+    "categoryCode": "MEAT",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:174603": {
+    "namePl": "Salami włoskie wieprzowe",
+    "nameEn": "Italian salami, pork",
+    "categoryCode": "MEAT",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:14000": {
+    "namePl": "Sarnina, pieczona",
+    "nameEn": "Roe deer, roasted",
+    "categoryCode": "MEAT",
+    "allergens": ["FISH"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:28844": {
+    "namePl": "Szynka parmeńska",
+    "nameEn": "Prosciutto di Parma",
+    "categoryCode": "MEAT",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:168284": {
+    "namePl": "Szynka pieczona",
+    "nameEn": "Roasted ham",
+    "categoryCode": "MEAT",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:28845": {
+    "namePl": "Szynka serrano",
+    "nameEn": "Serrano ham",
+    "categoryCode": "MEAT",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:28801": {
+    "namePl": "Szynka surowa wędzona",
+    "nameEn": "Smoked cured ham",
+    "categoryCode": "MEAT",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:28922": {
+    "namePl": "Szynka w kostce",
+    "nameEn": "Diced ham",
+    "categoryCode": "MEAT",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:28964": {
+    "namePl": "Szynka z indyka w plastrach",
+    "nameEn": "Turkey ham slices",
+    "categoryCode": "POULTRY",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:28963": {
+    "namePl": "Szynka z kurczaka w plastrach",
+    "nameEn": "Chicken ham slices",
+    "categoryCode": "POULTRY",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:168434": {
+    "namePl": "Pieczarki brązowe",
+    "nameEn": "Crimini mushrooms",
+    "categoryCode": "MUSHROOMS",
+    "allergens": [],
+    "pieceGrams": 20,
+    "allergensTypical": true
+  },
+  "usda:168582": {
+    "namePl": "Pieczarki słomkowe konserwowe",
+    "nameEn": "Canned straw mushrooms",
+    "categoryCode": "MUSHROOMS",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:170167": {
+    "namePl": "Kasztany jadalne suszone, obrane",
+    "nameEn": "Dried peeled chestnuts",
+    "categoryCode": "NUTS_SEEDS",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:15039": {
+    "namePl": "Kasztany konserwowe",
+    "nameEn": "Canned chestnuts",
+    "categoryCode": "NUTS_SEEDS",
+    "allergens": ["NUTS"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:168588": {
+    "namePl": "Masło migdałowe",
+    "nameEn": "Almond butter",
+    "categoryCode": "NUTS_SEEDS",
+    "allergens": ["NUTS"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:170155": {
+    "namePl": "Masło słonecznikowe",
+    "nameEn": "Sunflower seed butter",
+    "categoryCode": "NUTS_SEEDS",
+    "allergens": ["MILK"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:168597": {
+    "namePl": "Masło z nerkowców",
+    "nameEn": "Cashew butter",
+    "categoryCode": "NUTS_SEEDS",
+    "allergens": ["NUTS"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:170153": {
+    "namePl": "Mąka sezamowa",
+    "nameEn": "Sesame flour",
+    "categoryCode": "NUTS_SEEDS",
+    "allergens": ["GLUTEN", "SESAME"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:168592": {
+    "namePl": "Migdały miodowe prażone",
+    "nameEn": "Honey roasted almonds",
+    "categoryCode": "NUTS_SEEDS",
+    "allergens": ["NUTS"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:15042": {
+    "namePl": "Migdały, prażone, solone",
+    "nameEn": "Roasted salted almonds",
+    "categoryCode": "NUTS_SEEDS",
+    "allergens": ["NUTS"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:15019": {
+    "namePl": "Orzechy nerkowca, prażone, solone",
+    "nameEn": "Roasted salted cashews",
+    "categoryCode": "NUTS_SEEDS",
+    "allergens": ["NUTS"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:38406": {
+    "namePl": "Orzeszki ziemne w chrupiącej otoczce",
+    "nameEn": "Coated peanuts, savoury",
+    "categoryCode": "NUTS_SEEDS",
+    "allergens": ["GLUTEN", "PEANUTS"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:15037": {
+    "namePl": "Orzeszki ziemne, prażone, solone",
+    "nameEn": "Roasted salted peanuts",
+    "categoryCode": "NUTS_SEEDS",
+    "allergens": ["PEANUTS"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:169415": {
+    "namePl": "Pestki dyni prażone, solone",
+    "nameEn": "Roasted salted pumpkin seeds",
+    "categoryCode": "NUTS_SEEDS",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:15045": {
+    "namePl": "Pestki słonecznika prażone, solone",
+    "nameEn": "Roasted salted sunflower seeds",
+    "categoryCode": "NUTS_SEEDS",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:15009": {
+    "namePl": "Pistacje prażone, solone",
+    "nameEn": "Roasted salted pistachios",
+    "categoryCode": "NUTS_SEEDS",
+    "allergens": ["NUTS"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:11084": {
+    "namePl": "Agar",
+    "nameEn": "Agar agar",
+    "categoryCode": "BAKING",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:25970": {
+    "namePl": "Bulion mięsno-warzywny w proszku",
+    "nameEn": "Meat and vegetable stock powder",
+    "categoryCode": "SAUCES",
+    "allergens": ["CELERY"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:172883": {
+    "namePl": "Bulion wołowy",
+    "nameEn": "Beef stock",
+    "categoryCode": "SAUCES",
+    "allergens": ["CELERY"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:167558": {
+    "namePl": "Chipsy tortilla kukurydziane, solone",
+    "nameEn": "Salted corn tortilla chips",
+    "categoryCode": "SWEETS",
+    "allergens": ["GLUTEN"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:174796": {
+    "namePl": "Chipsy warzywne",
+    "nameEn": "Vegetable chips",
+    "categoryCode": "SWEETS",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:174783": {
+    "namePl": "Chipsy z batata",
+    "nameEn": "Sweet potato chips",
+    "categoryCode": "SWEETS",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:173155": {
+    "namePl": "Chipsy z ryżu brązowego",
+    "nameEn": "Brown rice chips",
+    "categoryCode": "SWEETS",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:4004": {
+    "namePl": "Chipsy ziemniaczane",
+    "nameEn": "Potato crisps",
+    "categoryCode": "SWEETS",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:4050": {
+    "namePl": "Chipsy ziemniaczane bez soli",
+    "nameEn": "Unsalted potato crisps",
+    "categoryCode": "SWEETS",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:4038": {
+    "namePl": "Chipsy ziemniaczane light",
+    "nameEn": "Reduced fat potato crisps",
+    "categoryCode": "SWEETS",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:167554": {
+    "namePl": "Chipsy ziemniaczane o smaku śmietanowo-cebulowym",
+    "nameEn": "Sour cream and onion potato chips",
+    "categoryCode": "SWEETS",
+    "allergens": ["MILK"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:169682": {
+    "namePl": "Chipsy ziemniaczane serowe",
+    "nameEn": "Cheese potato chips",
+    "categoryCode": "SWEETS",
+    "allergens": ["MILK"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:167537": {
+    "namePl": "Chrupki kukurydziane, naturalne",
+    "nameEn": "Plain corn puffs",
+    "categoryCode": "SWEETS",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:167949": {
+    "namePl": "Chrupki serowe",
+    "nameEn": "Cheese corn puffs",
+    "categoryCode": "SWEETS",
+    "allergens": ["MILK"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:173177": {
+    "namePl": "Izolat białka serwatkowego",
+    "nameEn": "Whey protein isolate",
+    "categoryCode": "OTHER",
+    "allergens": ["MILK"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:20903": {
+    "namePl": "Izolat białka sojowego",
+    "nameEn": "Soy protein isolate",
+    "categoryCode": "OTHER",
+    "allergens": ["SOY"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:20986": {
+    "namePl": "Kombu, suszone",
+    "nameEn": "Dried kombu",
+    "categoryCode": "OTHER",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:10005": {
+    "namePl": "Krab w puszce, odsączony",
+    "nameEn": "Canned crab meat, drained",
+    "categoryCode": "FISH",
+    "allergens": ["CRUSTACEANS"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:38104": {
+    "namePl": "Krakersy krewetkowe",
+    "nameEn": "Prawn crackers",
+    "categoryCode": "OTHER",
+    "allergens": ["CRUSTACEANS", "GLUTEN"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:38401": {
+    "namePl": "Krakersy serowe",
+    "nameEn": "Cheese crackers",
+    "categoryCode": "OTHER",
+    "allergens": ["GLUTEN", "MILK"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:38399": {
+    "namePl": "Krakersy słone",
+    "nameEn": "Savoury crackers",
+    "categoryCode": "BAKERY",
+    "allergens": ["GLUTEN"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:170171": {
+    "namePl": "Krem kokosowy słodzony, z puszki",
+    "nameEn": "Sweetened coconut cream, canned",
+    "categoryCode": "BAKING",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:10062": {
+    "namePl": "Krewetki tygrysie",
+    "nameEn": "Tiger prawns",
+    "categoryCode": "FISH",
+    "allergens": ["CRUSTACEANS"],
+    "pieceGrams": 25,
+    "allergensTypical": true
+  },
+  "ciqual:10026": {
+    "namePl": "Omułki śródziemnomorskie surowe",
+    "nameEn": "Mediterranean mussels, raw",
+    "categoryCode": "FISH",
+    "allergens": ["MOLLUSCS"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:10028": {
+    "namePl": "Omułki w puszce, odsączone",
+    "nameEn": "Canned mussels, drained",
+    "categoryCode": "FISH",
+    "allergens": ["MOLLUSCS"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:173180": {
+    "namePl": "Odżywka białkowa serwatkowa",
+    "nameEn": "Whey protein powder",
+    "categoryCode": "OTHER",
+    "allergens": ["MILK", "SOY"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:173181": {
+    "namePl": "Odżywka białkowa sojowa",
+    "nameEn": "Soy protein powder",
+    "categoryCode": "OTHER",
+    "allergens": ["SOY"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:13131": {
+    "namePl": "Oliwki czarne w oleju",
+    "nameEn": "Black olives in oil",
+    "categoryCode": "VEGETABLES",
+    "allergens": [],
+    "pieceGrams": 4,
+    "allergensTypical": true
+  },
+  "ciqual:13147": {
+    "namePl": "Oliwki zielone nadziewane anchois",
+    "nameEn": "Green olives stuffed with anchovy",
+    "categoryCode": "VEGETABLES",
+    "allergens": ["FISH"],
+    "pieceGrams": 4,
+    "allergensTypical": true
+  },
+  "usda:168856": {
+    "namePl": "Paluszki sezamowe, solone",
+    "nameEn": "Salted sesame sticks",
+    "categoryCode": "SWEETS",
+    "allergens": ["GLUTEN", "SESAME"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:169861": {
+    "namePl": "Popcorn bez soli, na oleju",
+    "nameEn": "Unsalted oil-popped popcorn",
+    "categoryCode": "SWEETS",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:167549": {
+    "namePl": "Popcorn mikrofalowy klasyczny",
+    "nameEn": "Microwave popcorn, regular",
+    "categoryCode": "SWEETS",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:173141": {
+    "namePl": "Popcorn mikrofalowy maślany",
+    "nameEn": "Microwave butter popcorn",
+    "categoryCode": "SWEETS",
+    "allergens": ["MILK"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:174778": {
+    "namePl": "Popcorn mikrofalowy, niskotłuszczowy",
+    "nameEn": "Microwave popcorn, low fat",
+    "categoryCode": "SWEETS",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:170247": {
+    "namePl": "Popcorn solony",
+    "nameEn": "Salted popcorn",
+    "categoryCode": "SWEETS",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:170650": {
+    "namePl": "Precelki solone",
+    "nameEn": "Salted pretzels",
+    "categoryCode": "SWEETS",
+    "allergens": ["GLUTEN"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:25598": {
+    "namePl": "Seitan",
+    "nameEn": "Seitan",
+    "categoryCode": "OTHER",
+    "allergens": ["GLUTEN"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:96781": {
+    "namePl": "Skrobia ryżowa",
+    "nameEn": "Rice starch",
+    "categoryCode": "BAKING",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:20906": {
+    "namePl": "Tofu jedwabiste",
+    "nameEn": "Silken tofu",
+    "categoryCode": "OTHER",
+    "allergens": ["SOY"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:20912": {
+    "namePl": "Tofu wędzone",
+    "nameEn": "Smoked tofu",
+    "categoryCode": "OTHER",
+    "allergens": ["SOY"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:169679": {
+    "namePl": "Wafle ryżowe z brązowego ryżu i kukurydzy",
+    "nameEn": "Rice cakes, brown rice and corn",
+    "categoryCode": "BAKERY",
+    "allergens": [],
+    "pieceGrams": 9,
+    "allergensTypical": true
+  },
+  "usda:167557": {
+    "namePl": "Wafle ryżowe z brązowego ryżu z sezamem",
+    "nameEn": "Brown rice cakes with sesame",
+    "categoryCode": "BAKERY",
+    "allergens": ["SESAME"],
+    "pieceGrams": 9,
+    "allergensTypical": true
+  },
+  "usda:168855": {
+    "namePl": "Wafle ryżowe z brązowego ryżu i żyta",
+    "nameEn": "Brown rice and rye rice cakes",
+    "categoryCode": "BAKERY",
+    "allergens": ["GLUTEN"],
+    "pieceGrams": 9,
+    "allergensTypical": true
+  },
+  "usda:167967": {
+    "namePl": "Wafle ryżowo-gryczane",
+    "nameEn": "Brown rice and buckwheat rice cakes",
+    "categoryCode": "BAKERY",
+    "allergens": [],
+    "pieceGrams": 9,
+    "allergensTypical": true
+  },
+  "ciqual:31047": {
+    "namePl": "Pektyna do konfitur",
+    "nameEn": "Jam pectin gelling agent",
+    "categoryCode": "BAKING",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:36020": {
+    "namePl": "Kurczak cały, surowy",
+    "nameEn": "Whole chicken, raw",
+    "categoryCode": "POULTRY",
+    "allergens": [],
+    "pieceGrams": 1500,
+    "allergensTypical": true
+  },
+  "ciqual:11079": {
+    "namePl": "Majonez light",
+    "nameEn": "Light mayonnaise",
+    "categoryCode": "SAUCES",
+    "allergens": ["EGGS", "MUSTARD"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:20916": {
+    "namePl": "Miso",
+    "nameEn": "Miso paste",
+    "categoryCode": "SAUCES",
+    "allergens": ["SOY"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:11021": {
+    "namePl": "Musztarda z ziarnami",
+    "nameEn": "Wholegrain mustard",
+    "categoryCode": "SAUCES",
+    "allergens": ["MUSTARD"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:168561": {
+    "namePl": "Relish ogórkowy słodki",
+    "nameEn": "Sweet pickle relish",
+    "categoryCode": "SAUCES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:174524": {
+    "namePl": "Salsa",
+    "nameEn": "Salsa",
+    "categoryCode": "SAUCES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:11100": {
+    "namePl": "Sos barbecue",
+    "nameEn": "Barbecue sauce",
+    "categoryCode": "SAUCES",
+    "allergens": ["CELERY", "MUSTARD"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:11102": {
+    "namePl": "Sos béarnaise",
+    "nameEn": "Bearnaise sauce",
+    "categoryCode": "SAUCES",
+    "allergens": ["EGGS", "MILK"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:11101": {
+    "namePl": "Sos beszamelowy",
+    "nameEn": "Bechamel sauce",
+    "categoryCode": "SAUCES",
+    "allergens": ["GLUTEN", "MILK"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:171565": {
+    "namePl": "Sos brązowy w proszku",
+    "nameEn": "Brown gravy mix",
+    "categoryCode": "SAUCES",
+    "allergens": ["GLUTEN"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:11248": {
+    "namePl": "Sos Caesar",
+    "nameEn": "Caesar dressing",
+    "categoryCode": "SAUCES",
+    "allergens": ["EGGS", "FISH", "MILK", "MUSTARD"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:171172": {
+    "namePl": "Sos cebulowy w proszku",
+    "nameEn": "Onion gravy mix",
+    "categoryCode": "SAUCES",
+    "allergens": ["GLUTEN"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:169877": {
+    "namePl": "Sos Caesar light",
+    "nameEn": "Light Caesar dressing",
+    "categoryCode": "SAUCES",
+    "allergens": ["EGGS", "FISH", "MILK", "MUSTARD"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:171595": {
+    "namePl": "Sos chili pomidorowy",
+    "nameEn": "Tomato chili sauce",
+    "categoryCode": "SAUCES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:171833": {
+    "namePl": "Sos chrzanowy",
+    "nameEn": "Horseradish sauce",
+    "categoryCode": "SAUCES",
+    "allergens": ["EGGS", "MUSTARD"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:11247": {
+    "namePl": "Sos curry zimny",
+    "nameEn": "Cold curry sauce",
+    "categoryCode": "SAUCES",
+    "allergens": ["EGGS", "MUSTARD"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:171567": {
+    "namePl": "Sos drobiowy w proszku",
+    "nameEn": "Chicken gravy mix",
+    "categoryCode": "SAUCES",
+    "allergens": ["GLUTEN"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:172886": {
+    "namePl": "Sos hoisin",
+    "nameEn": "Hoisin sauce",
+    "categoryCode": "SAUCES",
+    "allergens": ["GLUTEN", "SOY"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:11105": {
+    "namePl": "Sos holenderski",
+    "nameEn": "Hollandaise sauce",
+    "categoryCode": "SAUCES",
+    "allergens": ["EGGS", "MILK"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:11166": {
+    "namePl": "Sos jogurtowy",
+    "nameEn": "Yogurt sauce",
+    "categoryCode": "SAUCES",
+    "allergens": ["MILK"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:11223": {
+    "namePl": "Sos ostrygowy",
+    "nameEn": "Oyster sauce",
+    "categoryCode": "SAUCES",
+    "allergens": ["GLUTEN", "MOLLUSCS", "SOY"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:25525": {
+    "namePl": "Sos pomidorowy do pizzy",
+    "nameEn": "Pizza tomato sauce",
+    "categoryCode": "SAUCES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:173592": {
+    "namePl": "Sos ranch",
+    "nameEn": "Ranch dressing",
+    "categoryCode": "SAUCES",
+    "allergens": ["EGGS", "MILK", "MUSTARD"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:11246": {
+    "namePl": "Sos samurai",
+    "nameEn": "Samurai sauce",
+    "categoryCode": "SAUCES",
+    "allergens": ["EGGS", "MUSTARD"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:174066": {
+    "namePl": "Sos słodko-kwaśny",
+    "nameEn": "Sweet and sour sauce",
+    "categoryCode": "SAUCES",
+    "allergens": ["GLUTEN", "SOY"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:11216": {
+    "namePl": "Sos sojowy słodki",
+    "nameEn": "Sweet soy sauce",
+    "categoryCode": "SAUCES",
+    "allergens": ["GLUTEN", "SOY"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:171186": {
+    "namePl": "Sos sriracha",
+    "nameEn": "Sriracha hot chili sauce",
+    "categoryCode": "SAUCES",
+    "allergens": ["SULPHITES"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:11051": {
+    "namePl": "Sos tatarski",
+    "nameEn": "Tartar sauce",
+    "categoryCode": "SAUCES",
+    "allergens": ["EGGS", "MUSTARD"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:11301": {
+    "namePl": "Sos teriyaki",
+    "nameEn": "Teriyaki sauce",
+    "categoryCode": "SAUCES",
+    "allergens": ["GLUTEN", "SOY"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:171402": {
+    "namePl": "Sos tysiąca wysp",
+    "nameEn": "Thousand Island dressing",
+    "categoryCode": "SAUCES",
+    "allergens": ["EGGS", "MILK", "MUSTARD"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:171570": {
+    "namePl": "Sos w proszku",
+    "nameEn": "Gravy mix",
+    "categoryCode": "SAUCES",
+    "allergens": ["GLUTEN"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:173961": {
+    "namePl": "Sos żurawinowy słodzony",
+    "nameEn": "Sweetened cranberry sauce",
+    "categoryCode": "SAUCES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:19863": {
+    "namePl": "Tzatziki z jogurtem",
+    "nameEn": "Tzatziki with yogurt",
+    "categoryCode": "SAUCES",
+    "allergens": ["MILK"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:23300": {
+    "namePl": "Baklawa",
+    "nameEn": "Baklava",
+    "categoryCode": "SWEETS",
+    "allergens": ["GLUTEN", "MILK", "NUTS"],
+    "pieceGrams": 40,
+    "allergensTypical": true
+  },
+  "ciqual:31098": {
+    "namePl": "Baton czekoladowy z nugatem",
+    "nameEn": "Chocolate nougat bar",
+    "categoryCode": "SWEETS",
+    "allergens": ["MILK", "NUTS", "SOY"],
+    "pieceGrams": 50,
+    "allergensTypical": true
+  },
+  "usda:167954": {
+    "namePl": "Baton musli miękki",
+    "nameEn": "Soft granola bar",
+    "categoryCode": "SWEETS",
+    "allergens": ["GLUTEN"],
+    "pieceGrams": 30,
+    "allergensTypical": true
+  },
+  "usda:169585": {
+    "namePl": "Baton z orzeszkami ziemnymi",
+    "nameEn": "Peanut bar",
+    "categoryCode": "SWEETS",
+    "allergens": ["PEANUTS"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:31000": {
+    "namePl": "Batonik czekoladowy z biszkoptem",
+    "nameEn": "Chocolate bar with biscuit",
+    "categoryCode": "SWEETS",
+    "allergens": ["EGGS", "GLUTEN", "MILK", "SOY"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:31002": {
+    "namePl": "Batonik kokosowy w czekoladzie",
+    "nameEn": "Chocolate-coated coconut bar",
+    "categoryCode": "SWEETS",
+    "allergens": ["MILK", "SOY"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:169063": {
+    "namePl": "Batonik musli z owocami",
+    "nameEn": "Granola bar with fruit",
+    "categoryCode": "SWEETS",
+    "allergens": ["GLUTEN", "NUTS", "SOY"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:31115": {
+    "namePl": "Batonik zbożowy czekoladowo-owocowy",
+    "nameEn": "Chocolate and fruit cereal bar",
+    "categoryCode": "SWEETS",
+    "allergens": ["GLUTEN", "MILK"],
+    "pieceGrams": 25,
+    "allergensTypical": true
+  },
+  "ciqual:31106": {
+    "namePl": "Batonik zbożowy czekoladowy",
+    "nameEn": "Chocolate cereal bar",
+    "categoryCode": "SWEETS",
+    "allergens": ["GLUTEN", "MILK"],
+    "pieceGrams": 25,
+    "allergensTypical": true
+  },
+  "ciqual:31113": {
+    "namePl": "Batonik zbożowy owocowy",
+    "nameEn": "Fruit cereal bar",
+    "categoryCode": "SWEETS",
+    "allergens": ["GLUTEN"],
+    "pieceGrams": 25,
+    "allergensTypical": true
+  },
+  "ciqual:31114": {
+    "namePl": "Batonik zbożowy z migdałami lub orzechami laskowymi",
+    "nameEn": "Almond or hazelnut cereal bar",
+    "categoryCode": "SWEETS",
+    "allergens": ["GLUTEN", "NUTS"],
+    "pieceGrams": 25,
+    "allergensTypical": true
+  },
+  "usda:174650": {
+    "namePl": "Batonik zbożowy z mlekiem",
+    "nameEn": "Milk and cereal bar",
+    "categoryCode": "SWEETS",
+    "allergens": ["GLUTEN", "MILK"],
+    "pieceGrams": 25,
+    "allergensTypical": true
+  },
+  "usda:170275": {
+    "namePl": "Batony chrupiące z masłem orzechowym",
+    "nameEn": "Crispy peanut butter bar",
+    "categoryCode": "SWEETS",
+    "allergens": ["GLUTEN", "MILK", "PEANUTS"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:167544": {
+    "namePl": "Baton musli z rodzynkami",
+    "nameEn": "Raisin granola bar",
+    "categoryCode": "SWEETS",
+    "allergens": ["GLUTEN"],
+    "pieceGrams": 30,
+    "allergensTypical": true
+  },
+  "usda:167542": {
+    "namePl": "Baton musli twardy",
+    "nameEn": "Hard granola bar",
+    "categoryCode": "SWEETS",
+    "allergens": ["GLUTEN"],
+    "pieceGrams": 25,
+    "allergensTypical": true
+  },
+  "ciqual:24520": {
+    "namePl": "Bezy",
+    "nameEn": "Meringue",
+    "categoryCode": "SWEETS",
+    "allergens": ["EGGS"],
+    "pieceGrams": 15,
+    "allergensTypical": true
+  },
+  "ciqual:24430": {
+    "namePl": "Biszkopty savoiardi",
+    "nameEn": "Ladyfingers",
+    "categoryCode": "SWEETS",
+    "allergens": ["EGGS", "GLUTEN"],
+    "pieceGrams": 8,
+    "allergensTypical": true
+  },
+  "usda:168778": {
+    "namePl": "Budyń czekoladowy gotowy",
+    "nameEn": "Chocolate pudding, ready-to-eat",
+    "categoryCode": "SWEETS",
+    "allergens": ["MILK"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:168779": {
+    "namePl": "Budyń czekoladowy w proszku",
+    "nameEn": "Chocolate pudding mix",
+    "categoryCode": "SWEETS",
+    "allergens": ["MILK"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:168784": {
+    "namePl": "Budyń waniliowy w proszku",
+    "nameEn": "Vanilla pudding mix",
+    "categoryCode": "SWEETS",
+    "allergens": ["MILK"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:168849": {
+    "namePl": "Chipsy bananowe",
+    "nameEn": "Banana chips",
+    "categoryCode": "SWEETS",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:172713": {
+    "namePl": "Ciastka brownie",
+    "nameEn": "Brownies",
+    "categoryCode": "SWEETS",
+    "allergens": ["EGGS", "GLUTEN", "MILK"],
+    "pieceGrams": 60,
+    "allergensTypical": true
+  },
+  "usda:174971": {
+    "namePl": "Ciastka cukrowe",
+    "nameEn": "Sugar cookies",
+    "categoryCode": "SWEETS",
+    "allergens": ["EGGS", "GLUTEN", "MILK"],
+    "pieceGrams": 10,
+    "allergensTypical": true
+  },
+  "ciqual:24036": {
+    "namePl": "Ciastka czekoladowe",
+    "nameEn": "Chocolate cookies",
+    "categoryCode": "SWEETS",
+    "allergens": ["EGGS", "GLUTEN", "MILK", "SOY"],
+    "pieceGrams": 10,
+    "allergensTypical": true
+  },
+  "ciqual:24019": {
+    "namePl": "Ciastka czekoladowe bezglutenowe",
+    "nameEn": "Gluten-free chocolate cookies",
+    "categoryCode": "SWEETS",
+    "allergens": ["EGGS", "GLUTEN", "MILK", "SOY"],
+    "pieceGrams": 8,
+    "allergensTypical": true
+  },
+  "usda:172714": {
+    "namePl": "Ciastka czekoladowe waflowe",
+    "nameEn": "Chocolate wafer cookies",
+    "categoryCode": "SWEETS",
+    "allergens": ["GLUTEN", "MILK", "SOY"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:24224": {
+    "namePl": "Ciastka czekoladowe z kremem waniliowym",
+    "nameEn": "Chocolate sandwich cookies, vanilla filling",
+    "categoryCode": "SWEETS",
+    "allergens": ["GLUTEN", "MILK", "SOY"],
+    "pieceGrams": 10,
+    "allergensTypical": true
+  },
+  "ciqual:24676": {
+    "namePl": "Ciastka czekoladowe z orzechami",
+    "nameEn": "Chocolate nut cookies",
+    "categoryCode": "SWEETS",
+    "allergens": ["EGGS", "GLUTEN", "MILK", "NUTS", "SOY"],
+    "pieceGrams": 15,
+    "allergensTypical": true
+  },
+  "usda:172721": {
+    "namePl": "Ciastka figowe",
+    "nameEn": "Fig bars",
+    "categoryCode": "SWEETS",
+    "allergens": ["EGGS", "GLUTEN", "MILK"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:24070": {
+    "namePl": "Ciastka kokosowe",
+    "nameEn": "Coconut cookies",
+    "categoryCode": "SWEETS",
+    "allergens": ["EGGS", "GLUTEN", "MILK"],
+    "pieceGrams": 10,
+    "allergensTypical": true
+  },
+  "ciqual:24049": {
+    "namePl": "Ciastka kruche maślane",
+    "nameEn": "Butter shortbread cookies",
+    "categoryCode": "SWEETS",
+    "allergens": ["EGGS", "GLUTEN", "MILK"],
+    "pieceGrams": 10,
+    "allergensTypical": true
+  },
+  "ciqual:24050": {
+    "namePl": "Ciastka kruche maślane z czekoladą",
+    "nameEn": "Butter shortbread cookies with chocolate",
+    "categoryCode": "SWEETS",
+    "allergens": ["EGGS", "GLUTEN", "MILK", "SOY"],
+    "pieceGrams": 10,
+    "allergensTypical": true
+  },
+  "ciqual:24057": {
+    "namePl": "Ciastka kruche nadziewane owocami, typu lunetki",
+    "nameEn": "Fruit-filled shortbread lunettes",
+    "categoryCode": "SWEETS",
+    "allergens": ["EGGS", "GLUTEN", "MILK"],
+    "pieceGrams": 10,
+    "allergensTypical": true
+  },
+  "ciqual:24038": {
+    "namePl": "Ciastka kruche w czekoladzie",
+    "nameEn": "Chocolate-covered shortbread cookies",
+    "categoryCode": "SWEETS",
+    "allergens": ["EGGS", "GLUTEN", "MILK", "SOY"],
+    "pieceGrams": 12,
+    "allergensTypical": true
+  },
+  "usda:174950": {
+    "namePl": "Ciastka maślane",
+    "nameEn": "Butter cookies",
+    "categoryCode": "SWEETS",
+    "allergens": ["EGGS", "GLUTEN", "MILK"],
+    "pieceGrams": 10,
+    "allergensTypical": true
+  },
+  "usda:174079": {
+    "namePl": "Ciastka maślane z polewą czekoladową",
+    "nameEn": "Butter cookies with chocolate icing",
+    "categoryCode": "SWEETS",
+    "allergens": ["EGGS", "GLUTEN", "MILK", "SOY"],
+    "pieceGrams": 10,
+    "allergensTypical": true
+  },
+  "usda:172717": {
+    "namePl": "Ciastka miękkie z kawałkami czekolady",
+    "nameEn": "Soft chocolate chip cookies",
+    "categoryCode": "SWEETS",
+    "allergens": ["EGGS", "GLUTEN", "MILK", "SOY"],
+    "pieceGrams": 25,
+    "allergensTypical": true
+  },
+  "ciqual:24614": {
+    "namePl": "Ciastka migdałowe kruche",
+    "nameEn": "Crunchy almond biscuits",
+    "categoryCode": "SWEETS",
+    "allergens": ["EGGS", "GLUTEN", "NUTS"],
+    "pieceGrams": 10,
+    "allergensTypical": true
+  },
+  "ciqual:24037": {
+    "namePl": "Ciastka nadziewane figą",
+    "nameEn": "Fig-filled cookies",
+    "categoryCode": "SWEETS",
+    "allergens": ["EGGS", "GLUTEN", "MILK"],
+    "pieceGrams": 25,
+    "allergensTypical": true
+  },
+  "ciqual:24655": {
+    "namePl": "Ciastka owsiane",
+    "nameEn": "Oat biscuits",
+    "categoryCode": "SWEETS",
+    "allergens": ["EGGS", "GLUTEN", "MILK"],
+    "pieceGrams": 15,
+    "allergensTypical": true
+  },
+  "ciqual:24654": {
+    "namePl": "Ciastka owsiane w czekoladzie",
+    "nameEn": "Chocolate coated oat biscuits",
+    "categoryCode": "SWEETS",
+    "allergens": ["GLUTEN", "MILK", "SOY"],
+    "pieceGrams": 15,
+    "allergensTypical": true
+  },
+  "usda:174963": {
+    "namePl": "Ciastka owsiane z rodzynkami",
+    "nameEn": "Oatmeal raisin cookies",
+    "categoryCode": "SWEETS",
+    "allergens": ["EGGS", "GLUTEN", "MILK"],
+    "pieceGrams": 20,
+    "allergensTypical": true
+  },
+  "ciqual:24020": {
+    "namePl": "Ciastka pełnoziarniste",
+    "nameEn": "Wholegrain cookies",
+    "categoryCode": "SWEETS",
+    "allergens": ["EGGS", "GLUTEN", "MILK"],
+    "pieceGrams": 10,
+    "allergensTypical": true
+  },
+  "ciqual:24230": {
+    "namePl": "Ciastka pełnoziarniste z kremem czekoladowym",
+    "nameEn": "Whole wheat chocolate cream sandwich cookies",
+    "categoryCode": "SWEETS",
+    "allergens": ["GLUTEN", "MILK", "SOY"],
+    "pieceGrams": 10,
+    "allergensTypical": true
+  },
+  "ciqual:24009": {
+    "namePl": "Ciastka speculoos",
+    "nameEn": "Speculoos cookies",
+    "categoryCode": "SWEETS",
+    "allergens": ["GLUTEN", "MILK", "SOY"],
+    "pieceGrams": 8,
+    "allergensTypical": true
+  },
+  "ciqual:24034": {
+    "namePl": "Ciastka śniadaniowe",
+    "nameEn": "Breakfast cookies",
+    "categoryCode": "SWEETS",
+    "allergens": ["EGGS", "GLUTEN", "MILK"],
+    "pieceGrams": 10,
+    "allergensTypical": true
+  },
+  "ciqual:24040": {
+    "namePl": "Ciastka śniadaniowe czekoladowe",
+    "nameEn": "Chocolate breakfast cookies",
+    "categoryCode": "SWEETS",
+    "allergens": ["EGGS", "GLUTEN", "MILK"],
+    "pieceGrams": 10,
+    "allergensTypical": true
+  },
+  "ciqual:24035": {
+    "namePl": "Ciastka śniadaniowe z obniżoną zawartością cukru",
+    "nameEn": "Reduced sugar breakfast cookies",
+    "categoryCode": "SWEETS",
+    "allergens": ["EGGS", "GLUTEN", "MILK"],
+    "pieceGrams": 10,
+    "allergensTypical": true
+  },
+  "ciqual:24441": {
+    "namePl": "Ciastka langue de chat",
+    "nameEn": "Langue de chat cookies",
+    "categoryCode": "SWEETS",
+    "allergens": ["EGGS", "GLUTEN", "MILK"],
+    "pieceGrams": 8,
+    "allergensTypical": true
+  },
+  "ciqual:24016": {
+    "namePl": "Ciastka w czekoladzie",
+    "nameEn": "Chocolate-coated cookies",
+    "categoryCode": "SWEETS",
+    "allergens": ["EGGS", "GLUTEN", "MILK", "SOY"],
+    "pieceGrams": 12,
+    "allergensTypical": true
+  },
+  "ciqual:24687": {
+    "namePl": "Ciastka z kawałkami czekolady i kokosem",
+    "nameEn": "Chocolate chip coconut cookies",
+    "categoryCode": "SWEETS",
+    "allergens": ["EGGS", "GLUTEN", "MILK"],
+    "pieceGrams": 15,
+    "allergensTypical": true
+  },
+  "ciqual:24231": {
+    "namePl": "Ciastka z kremem czekoladowym",
+    "nameEn": "Chocolate cream sandwich cookies",
+    "categoryCode": "SWEETS",
+    "allergens": ["GLUTEN", "MILK", "SOY"],
+    "pieceGrams": 10,
+    "allergensTypical": true
+  },
+  "ciqual:24240": {
+    "namePl": "Ciastka z nadzieniem owocowym",
+    "nameEn": "Fruit filled sandwich cookies",
+    "categoryCode": "SWEETS",
+    "allergens": ["GLUTEN", "MILK"],
+    "pieceGrams": 10,
+    "allergensTypical": true
+  },
+  "usda:172723": {
+    "namePl": "Ciastka z piankami marshmallow w czekoladzie",
+    "nameEn": "Marshmallow chocolate-coated cookies",
+    "categoryCode": "SWEETS",
+    "allergens": ["EGGS", "GLUTEN", "MILK", "SOY"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:24656": {
+    "namePl": "Ciastka żurawinowe z białą czekoladą",
+    "nameEn": "Cranberry white chocolate cookies",
+    "categoryCode": "SWEETS",
+    "allergens": ["EGGS", "GLUTEN", "MILK", "SOY"],
+    "pieceGrams": 15,
+    "allergensTypical": true
+  },
+  "usda:170674": {
+    "namePl": "Cukier turbinado",
+    "nameEn": "Turbinado sugar",
+    "categoryCode": "SWEETS",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:31128": {
+    "namePl": "Cukierki twarde bez cukru",
+    "nameEn": "Sugar-free hard candy",
+    "categoryCode": "SWEETS",
+    "allergens": [],
+    "pieceGrams": 4,
+    "allergensTypical": true
+  },
+  "ciqual:31059": {
+    "namePl": "Cukierki twarde i lizaki",
+    "nameEn": "Hard candy and lollipops",
+    "categoryCode": "SWEETS",
+    "allergens": [],
+    "pieceGrams": 5,
+    "allergensTypical": true
+  },
+  "ciqual:31010": {
+    "namePl": "Czekolada biała",
+    "nameEn": "White chocolate",
+    "categoryCode": "SWEETS",
+    "allergens": ["MILK", "SOY"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:31026": {
+    "namePl": "Czekolada biała z bakaliami",
+    "nameEn": "White chocolate with dried fruits and nuts",
+    "categoryCode": "SWEETS",
+    "allergens": ["GLUTEN", "MILK", "NUTS", "SOY"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:170271": {
+    "namePl": "Czekolada gorzka 45-59%",
+    "nameEn": "Dark chocolate 45-59%",
+    "categoryCode": "SWEETS",
+    "allergens": ["SOY"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:170272": {
+    "namePl": "Czekolada gorzka 60-69%",
+    "nameEn": "Dark chocolate 60-69%",
+    "categoryCode": "SWEETS",
+    "allergens": ["SOY"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:31030": {
+    "namePl": "Czekolada gorzka bez cukru",
+    "nameEn": "Dark chocolate, no added sugar",
+    "categoryCode": "SWEETS",
+    "allergens": ["SOY"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:31080": {
+    "namePl": "Czekolada gorzka nadziewana pralinem",
+    "nameEn": "Dark chocolate with praline filling",
+    "categoryCode": "SWEETS",
+    "allergens": ["MILK", "NUTS", "SOY"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:31070": {
+    "namePl": "Czekolada gorzka z bakaliami",
+    "nameEn": "Dark chocolate with dried fruits and nuts",
+    "categoryCode": "SWEETS",
+    "allergens": ["MILK", "NUTS", "SOY"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:31072": {
+    "namePl": "Czekolada gorzka z nadzieniem miętowym",
+    "nameEn": "Dark chocolate with mint filling",
+    "categoryCode": "SWEETS",
+    "allergens": ["MILK", "SOY"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:31069": {
+    "namePl": "Czekolada gorzka z owocami",
+    "nameEn": "Dark chocolate with fruit",
+    "categoryCode": "SWEETS",
+    "allergens": ["SOY"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:31004": {
+    "namePl": "Czekolada mleczna",
+    "nameEn": "Milk chocolate",
+    "categoryCode": "SWEETS",
+    "allergens": ["MILK", "SOY"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:31020": {
+    "namePl": "Czekolada mleczna bez cukru",
+    "nameEn": "Milk chocolate, no added sugar",
+    "categoryCode": "SWEETS",
+    "allergens": ["MILK", "SOY"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:31084": {
+    "namePl": "Czekolada mleczna nadziewana pralinem",
+    "nameEn": "Milk chocolate with praline filling",
+    "categoryCode": "SWEETS",
+    "allergens": ["MILK", "NUTS", "SOY"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:31018": {
+    "namePl": "Czekolada mleczna z bakaliami",
+    "nameEn": "Milk chocolate with dried fruits and nuts",
+    "categoryCode": "SWEETS",
+    "allergens": ["GLUTEN", "MILK", "NUTS", "SOY"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:168754": {
+    "namePl": "Czekolada mleczna z migdałami",
+    "nameEn": "Milk chocolate with almonds",
+    "categoryCode": "SWEETS",
+    "allergens": ["MILK", "NUTS", "SOY"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:168755": {
+    "namePl": "Czekolada mleczna z płatkami ryżowymi",
+    "nameEn": "Milk chocolate with rice cereal",
+    "categoryCode": "SWEETS",
+    "allergens": ["MILK", "SOY"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:167976": {
+    "namePl": "Czekolada półgorzka",
+    "nameEn": "Semisweet chocolate",
+    "categoryCode": "SWEETS",
+    "allergens": ["SOY"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:31120": {
+    "namePl": "Czekolada mleczna",
+    "nameEn": "Milk chocolate",
+    "categoryCode": "SWEETS",
+    "allergens": ["MILK", "SOY"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:31040": {
+    "namePl": "Dulce de leche",
+    "nameEn": "Dulce de leche",
+    "categoryCode": "SWEETS",
+    "allergens": ["MILK"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:169879": {
+    "namePl": "Dżem bez cukru",
+    "nameEn": "Sugar-free jam",
+    "categoryCode": "SWEETS",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:170645": {
+    "namePl": "Dżem morelowy",
+    "nameEn": "Apricot jam",
+    "categoryCode": "SWEETS",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:23477": {
+    "namePl": "Eklerka",
+    "nameEn": "Eclair",
+    "categoryCode": "SWEETS",
+    "allergens": ["EGGS", "GLUTEN", "MILK"],
+    "pieceGrams": 80,
+    "allergensTypical": true
+  },
+  "usda:167991": {
+    "namePl": "Fasolki żelkowe",
+    "nameEn": "Jelly beans",
+    "categoryCode": "SWEETS",
+    "allergens": [],
+    "pieceGrams": 1.1,
+    "allergensTypical": true
+  },
+  "usda:167986": {
+    "namePl": "Fondant",
+    "nameEn": "Fondant",
+    "categoryCode": "BAKING",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:167987": {
+    "namePl": "Fudge czekoladowy",
+    "nameEn": "Chocolate fudge",
+    "categoryCode": "SWEETS",
+    "allergens": ["MILK"],
+    "pieceGrams": 17,
+    "allergensTypical": true
+  },
+  "usda:167988": {
+    "namePl": "Fudge czekoladowy z orzechami",
+    "nameEn": "Chocolate nut fudge",
+    "categoryCode": "SWEETS",
+    "allergens": ["MILK", "NUTS"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:169642": {
+    "namePl": "Galaretka",
+    "nameEn": "Jelly",
+    "categoryCode": "SWEETS",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:169691": {
+    "namePl": "Galaretka w proszku",
+    "nameEn": "Gelatin dessert mix",
+    "categoryCode": "BAKING",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:31121": {
+    "namePl": "Guma do żucia",
+    "nameEn": "Chewing gum",
+    "categoryCode": "SWEETS",
+    "allergens": [],
+    "pieceGrams": 2,
+    "allergensTypical": true
+  },
+  "ciqual:31054": {
+    "namePl": "Guma do żucia bez cukru",
+    "nameEn": "Sugar-free chewing gum",
+    "categoryCode": "SWEETS",
+    "allergens": [],
+    "pieceGrams": 1.5,
+    "allergensTypical": true
+  },
+  "usda:167996": {
+    "namePl": "Chałwa sezamowa",
+    "nameEn": "Sesame halva",
+    "categoryCode": "SWEETS",
+    "allergens": ["SESAME"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:24000": {
+    "namePl": "Herbatniki",
+    "nameEn": "Biscuits",
+    "categoryCode": "SWEETS",
+    "allergens": ["EGGS", "GLUTEN", "MILK"],
+    "pieceGrams": 8,
+    "allergensTypical": true
+  },
+  "ciqual:24015": {
+    "namePl": "Herbatniki maślane",
+    "nameEn": "Butter biscuits",
+    "categoryCode": "SWEETS",
+    "allergens": ["EGGS", "GLUTEN", "MILK"],
+    "pieceGrams": 6,
+    "allergensTypical": true
+  },
+  "ciqual:24021": {
+    "namePl": "Herbatniki maślane pełnoziarniste",
+    "nameEn": "Wholewheat butter biscuits",
+    "categoryCode": "SWEETS",
+    "allergens": ["EGGS", "GLUTEN", "MILK"],
+    "pieceGrams": 6,
+    "allergensTypical": true
+  },
+  "ciqual:24017": {
+    "namePl": "Herbatniki maślane z czekoladą",
+    "nameEn": "Butter biscuits with chocolate",
+    "categoryCode": "SWEETS",
+    "allergens": ["EGGS", "GLUTEN", "MILK", "SOY"],
+    "pieceGrams": 7,
+    "allergensTypical": true
+  },
+  "usda:167974": {
+    "namePl": "Karmelki",
+    "nameEn": "Caramel candies",
+    "categoryCode": "SWEETS",
+    "allergens": ["MILK"],
+    "pieceGrams": 10,
+    "allergensTypical": true
+  },
+  "ciqual:31122": {
+    "namePl": "Karmelki w czekoladzie",
+    "nameEn": "Chocolate-coated caramel chews",
+    "categoryCode": "SWEETS",
+    "allergens": ["MILK", "SOY"],
+    "pieceGrams": 8,
+    "allergensTypical": true
+  },
+  "ciqual:31082": {
+    "namePl": "Konfitura niskosłodzona",
+    "nameEn": "Low-sugar fruit spread",
+    "categoryCode": "SWEETS",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:31129": {
+    "namePl": "Konfitura owocowa mieszana",
+    "nameEn": "Mixed fruit preserve",
+    "categoryCode": "SWEETS",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:31032": {
+    "namePl": "Krem czekoladowo-orzechowy",
+    "nameEn": "Chocolate hazelnut spread",
+    "categoryCode": "SWEETS",
+    "allergens": ["GLUTEN", "MILK", "NUTS", "SOY"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:169586": {
+    "namePl": "Krokant z orzeszkami ziemnymi",
+    "nameEn": "Peanut brittle",
+    "categoryCode": "SWEETS",
+    "allergens": ["PEANUTS"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:31081": {
+    "namePl": "Krówki",
+    "nameEn": "Milk fudge candies",
+    "categoryCode": "SWEETS",
+    "allergens": ["MILK"],
+    "pieceGrams": 20,
+    "allergensTypical": true
+  },
+  "usda:167990": {
+    "namePl": "Landrynki",
+    "nameEn": "Hard candies",
+    "categoryCode": "SWEETS",
+    "allergens": [],
+    "pieceGrams": 5,
+    "allergensTypical": true
+  },
+  "usda:169880": {
+    "namePl": "Landrynki bez cukru",
+    "nameEn": "Sugar-free hard candies",
+    "categoryCode": "SWEETS",
+    "allergens": [],
+    "pieceGrams": 3,
+    "allergensTypical": true
+  },
+  "ciqual:15201": {
+    "namePl": "Marcepan",
+    "nameEn": "Marzipan",
+    "categoryCode": "BAKING",
+    "allergens": ["NUTS"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:31039": {
+    "namePl": "Marmolada pomarańczowa",
+    "nameEn": "Orange marmalade",
+    "categoryCode": "SWEETS",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:31036": {
+    "namePl": "Migdały w karmelu",
+    "nameEn": "Caramelized almonds",
+    "categoryCode": "SWEETS",
+    "allergens": ["NUTS"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:31042": {
+    "namePl": "Orzeszki ziemne w czekoladzie",
+    "nameEn": "Chocolate coated peanuts",
+    "categoryCode": "SWEETS",
+    "allergens": ["MILK", "PEANUTS", "SOY"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:168001": {
+    "namePl": "Orzeszki ziemne w czekoladzie mlecznej",
+    "nameEn": "Milk chocolate coated peanuts",
+    "categoryCode": "SWEETS",
+    "allergens": ["MILK", "PEANUTS", "SOY"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:15058": {
+    "namePl": "Orzeszki ziemne w karmelu",
+    "nameEn": "Candied peanuts",
+    "categoryCode": "SWEETS",
+    "allergens": ["PEANUTS"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:31027": {
+    "namePl": "Owoce kandyzowane",
+    "nameEn": "Candied fruit",
+    "categoryCode": "SWEETS",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:24657": {
+    "namePl": "Paluszki w czekoladzie",
+    "nameEn": "Chocolate coated biscuit sticks",
+    "categoryCode": "SWEETS",
+    "allergens": ["EGGS", "GLUTEN", "MILK", "SOY"],
+    "pieceGrams": 8,
+    "allergensTypical": true
+  },
+  "ciqual:31050": {
+    "namePl": "Pianki marshmallow",
+    "nameEn": "Marshmallows",
+    "categoryCode": "SWEETS",
+    "allergens": ["EGGS", "GLUTEN"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:174956": {
+    "namePl": "Pierniczki imbirowe",
+    "nameEn": "Gingersnap cookies",
+    "categoryCode": "SWEETS",
+    "allergens": ["EGGS", "GLUTEN"],
+    "pieceGrams": 10,
+    "allergensTypical": true
+  },
+  "ciqual:23200": {
+    "namePl": "Piernik",
+    "nameEn": "Gingerbread",
+    "categoryCode": "SWEETS",
+    "allergens": ["EGGS", "GLUTEN", "MILK"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:23220": {
+    "namePl": "Piernik nadziewany",
+    "nameEn": "Filled gingerbread",
+    "categoryCode": "SWEETS",
+    "allergens": ["EGGS", "GLUTEN", "MILK"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:168841": {
+    "namePl": "Polewa karmelowa",
+    "nameEn": "Caramel topping",
+    "categoryCode": "SWEETS",
+    "allergens": ["MILK"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:11510": {
+    "namePl": "Posypka kolorowa",
+    "nameEn": "Rainbow sprinkles",
+    "categoryCode": "SWEETS",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:173156": {
+    "namePl": "Precle w czekoladzie",
+    "nameEn": "Chocolate-coated pretzels",
+    "categoryCode": "SWEETS",
+    "allergens": ["GLUTEN", "MILK", "SOY"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:169650": {
+    "namePl": "Pudding bananowy w proszku",
+    "nameEn": "Banana pudding mix",
+    "categoryCode": "BAKING",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:23033": {
+    "namePl": "Kokosanka",
+    "nameEn": "Coconut macaroon",
+    "categoryCode": "SWEETS",
+    "allergens": ["EGGS", "GLUTEN"],
+    "pieceGrams": 15,
+    "allergensTypical": true
+  },
+  "usda:169576": {
+    "namePl": "Rodzynki w czekoladzie mlecznej",
+    "nameEn": "Milk chocolate covered raisins",
+    "categoryCode": "SWEETS",
+    "allergens": ["MILK", "SOY"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:24685": {
+    "namePl": "Rożki waflowe do lodów",
+    "nameEn": "Ice cream wafer cones",
+    "categoryCode": "SWEETS",
+    "allergens": ["GLUTEN", "MILK"],
+    "pieceGrams": 10,
+    "allergensTypical": true
+  },
+  "ciqual:31021": {
+    "namePl": "Skórka pomarańczowa kandyzowana",
+    "nameEn": "Candied orange peel",
+    "categoryCode": "BAKING",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:31087": {
+    "namePl": "Stewia w proszku",
+    "nameEn": "Stevia sweetener",
+    "categoryCode": "BAKING",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:168088": {
+    "namePl": "Syrop grenadine",
+    "nameEn": "Grenadine syrup",
+    "categoryCode": "BEVERAGES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:170277": {
+    "namePl": "Syrop z agawy",
+    "nameEn": "Agave syrup",
+    "categoryCode": "SWEETS",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:169671": {
+    "namePl": "Toffi",
+    "nameEn": "Toffee",
+    "categoryCode": "SWEETS",
+    "allergens": ["MILK"],
+    "pieceGrams": 8,
+    "allergensTypical": true
+  },
+  "ciqual:24300": {
+    "namePl": "Wafelki bez nadzienia",
+    "nameEn": "Plain wafer biscuits",
+    "categoryCode": "SWEETS",
+    "allergens": ["GLUTEN"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:24312": {
+    "namePl": "Wafelki orzechowe w czekoladzie",
+    "nameEn": "Hazelnut wafers with chocolate",
+    "categoryCode": "SWEETS",
+    "allergens": ["GLUTEN", "MILK", "NUTS", "SOY"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:24311": {
+    "namePl": "Wafelki w czekoladzie",
+    "nameEn": "Chocolate coated wafers",
+    "categoryCode": "SWEETS",
+    "allergens": ["GLUTEN", "MILK", "SOY"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:172736": {
+    "namePl": "Wafelki z kremem",
+    "nameEn": "Sugar wafers with cream filling",
+    "categoryCode": "SWEETS",
+    "allergens": ["GLUTEN", "MILK", "SOY"],
+    "pieceGrams": 10,
+    "allergensTypical": true
+  },
+  "usda:174088": {
+    "namePl": "Wafelki z kremem kakaowym w czekoladzie",
+    "nameEn": "Chocolate-coated sugar wafers",
+    "categoryCode": "SWEETS",
+    "allergens": ["GLUTEN", "MILK", "SOY"],
+    "pieceGrams": 20,
+    "allergensTypical": true
+  },
+  "ciqual:23849": {
+    "namePl": "Wafelki z miodem",
+    "nameEn": "Honey wafers",
+    "categoryCode": "SWEETS",
+    "allergens": ["GLUTEN", "MILK", "SOY"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:169634": {
+    "namePl": "Ziarna kawy w czekoladzie gorzkiej",
+    "nameEn": "Dark chocolate coated coffee beans",
+    "categoryCode": "SWEETS",
+    "allergens": ["SOY"],
+    "pieceGrams": 2,
+    "allergensTypical": true
+  },
+  "usda:169637": {
+    "namePl": "Ziarna kawy w czekoladzie mlecznej",
+    "nameEn": "Milk chocolate coated coffee beans",
+    "categoryCode": "SWEETS",
+    "allergens": ["MILK", "SOY"],
+    "pieceGrams": 2,
+    "allergensTypical": true
+  },
+  "usda:169404": {
+    "namePl": "Brokuł chiński (gai lan)",
+    "nameEn": "Chinese broccoli",
+    "categoryCode": "VEGETABLES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:20204": {
+    "namePl": "Brokuł mrożony",
+    "nameEn": "Frozen broccoli",
+    "categoryCode": "VEGETABLES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:169972": {
+    "namePl": "Brukselka mrożona",
+    "nameEn": "Frozen Brussels sprouts",
+    "categoryCode": "VEGETABLES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:20235": {
+    "namePl": "Cebula mrożona",
+    "nameEn": "Frozen onion",
+    "categoryCode": "VEGETABLES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:168469": {
+    "namePl": "Cukinia mrożona",
+    "nameEn": "Frozen zucchini",
+    "categoryCode": "VEGETABLES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:168473": {
+    "namePl": "Dynia piżmowa mrożona",
+    "nameEn": "Butternut squash, frozen",
+    "categoryCode": "VEGETABLES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:20070": {
+    "namePl": "Fasolka szparagowa mrożona",
+    "nameEn": "Frozen green beans",
+    "categoryCode": "VEGETABLES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:169374": {
+    "namePl": "Fasolka szparagowa żółta konserwowa",
+    "nameEn": "Canned yellow beans",
+    "categoryCode": "VEGETABLES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:20084": {
+    "namePl": "Groszek zielony mrożony",
+    "nameEn": "Frozen green peas",
+    "categoryCode": "VEGETABLES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:169239": {
+    "namePl": "Jarmuż mrożony",
+    "nameEn": "Frozen kale",
+    "categoryCode": "VEGETABLES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:20082": {
+    "namePl": "Kalafior mrożony",
+    "nameEn": "Frozen cauliflower",
+    "categoryCode": "VEGETABLES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:20290": {
+    "namePl": "Kalafior romanesco",
+    "nameEn": "Romanesco cauliflower",
+    "categoryCode": "VEGETABLES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:20049": {
+    "namePl": "Kukurydza gotowana na kolbie",
+    "nameEn": "Corn on the cob, cooked",
+    "categoryCode": "VEGETABLES",
+    "allergens": [],
+    "pieceGrams": 250,
+    "allergensTypical": true
+  },
+  "usda:168544": {
+    "namePl": "Kukurydza mrożona",
+    "nameEn": "Frozen sweet corn",
+    "categoryCode": "VEGETABLES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:20108": {
+    "namePl": "Kukurydza mrożona w kolbach",
+    "nameEn": "Frozen corn on the cob",
+    "categoryCode": "VEGETABLES",
+    "allergens": [],
+    "pieceGrams": 250,
+    "allergensTypical": true
+  },
+  "ciqual:20271": {
+    "namePl": "Macedonia warzywna mrożona",
+    "nameEn": "Frozen mixed vegetables",
+    "categoryCode": "VEGETABLES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:20007": {
+    "namePl": "Marchew konserwowa, odsączona",
+    "nameEn": "Canned carrot, drained",
+    "categoryCode": "VEGETABLES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:20092": {
+    "namePl": "Marchew suszona",
+    "nameEn": "Dried carrot",
+    "categoryCode": "VEGETABLES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:170471": {
+    "namePl": "Mieszanka warzyw mrożona",
+    "nameEn": "Frozen mixed vegetables",
+    "categoryCode": "VEGETABLES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:168547": {
+    "namePl": "Papryka czerwona mrożona",
+    "nameEn": "Frozen red pepper",
+    "categoryCode": "VEGETABLES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:169290": {
+    "namePl": "Patisony, gotowane",
+    "nameEn": "Scallop squash, cooked",
+    "categoryCode": "VEGETABLES",
+    "allergens": ["MOLLUSCS"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:169289": {
+    "namePl": "Patison, surowy",
+    "nameEn": "Scallop squash, raw",
+    "categoryCode": "VEGETABLES",
+    "allergens": ["MOLLUSCS"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:168566": {
+    "namePl": "Pomidorillo (miechunka pomidorowa)",
+    "nameEn": "Tomatillo",
+    "categoryCode": "VEGETABLES",
+    "allergens": [],
+    "pieceGrams": 34,
+    "allergensTypical": true
+  },
+  "usda:170461": {
+    "namePl": "Pomidor w proszku",
+    "nameEn": "Tomato powder",
+    "categoryCode": "VEGETABLES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:20031": {
+    "namePl": "Sałata",
+    "nameEn": "Lettuce",
+    "categoryCode": "VEGETABLES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:169384": {
+    "namePl": "Suszone pomidory w oleju",
+    "nameEn": "Sun-dried tomatoes in oil",
+    "categoryCode": "VEGETABLES",
+    "allergens": [],
+    "pieceGrams": 5,
+    "allergensTypical": true
+  },
+  "ciqual:20282": {
+    "namePl": "Szparagi białe",
+    "nameEn": "White asparagus",
+    "categoryCode": "VEGETABLES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:20083": {
+    "namePl": "Szpinak mrożony",
+    "nameEn": "Frozen spinach",
+    "categoryCode": "VEGETABLES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:20270": {
+    "namePl": "Szpinak baby, młode liście",
+    "nameEn": "Baby spinach leaves",
+    "categoryCode": "VEGETABLES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:26110": {
+    "namePl": "Barwena gotowana na parze",
+    "nameEn": "Red mullet, steamed",
+    "categoryCode": "FISH",
+    "allergens": ["FISH"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:26015": {
+    "namePl": "Czarniak gotowany",
+    "nameEn": "Cooked saithe",
+    "categoryCode": "FISH",
+    "allergens": ["FISH"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:27031": {
+    "namePl": "Dorada pieczona",
+    "nameEn": "Gilthead seabream, baked",
+    "categoryCode": "FISH",
+    "allergens": ["FISH"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:25997": {
+    "namePl": "Dorsz gotowany",
+    "nameEn": "Cooked cod",
+    "categoryCode": "FISH",
+    "allergens": ["FISH"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:26024": {
+    "namePl": "Dorsz solony, gotowany",
+    "nameEn": "Salted cod, boiled",
+    "categoryCode": "FISH",
+    "allergens": ["FISH"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:26023": {
+    "namePl": "Dorsz pieczony",
+    "nameEn": "Cod, baked",
+    "categoryCode": "FISH",
+    "allergens": ["FISH"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:174201": {
+    "namePl": "Halibut pieczony",
+    "nameEn": "Halibut, baked",
+    "categoryCode": "FISH",
+    "allergens": ["FISH"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:27004": {
+    "namePl": "Karp pieczony",
+    "nameEn": "Baked carp",
+    "categoryCode": "FISH",
+    "allergens": ["FISH"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:27030": {
+    "namePl": "Labraks pieczony",
+    "nameEn": "European seabass, baked",
+    "categoryCode": "FISH",
+    "allergens": ["FISH"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:26147": {
+    "namePl": "Lucjan gotowany",
+    "nameEn": "Snapper, cooked",
+    "categoryCode": "FISH",
+    "allergens": ["FISH"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:171998": {
+    "namePl": "Łosoś dziki pieczony",
+    "nameEn": "Baked wild salmon",
+    "categoryCode": "FISH",
+    "allergens": ["FISH"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:173716": {
+    "namePl": "Łosoś hodowlany gotowany",
+    "nameEn": "Farmed salmon, cooked",
+    "categoryCode": "FISH",
+    "allergens": ["FISH"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:26230": {
+    "namePl": "Łosoś hodowlany pieczony",
+    "nameEn": "Farmed salmon, baked",
+    "categoryCode": "FISH",
+    "allergens": ["FISH"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:25990": {
+    "namePl": "Mahi-mahi gotowane",
+    "nameEn": "Mahi-mahi, cooked",
+    "categoryCode": "FISH",
+    "allergens": ["FISH"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:26019": {
+    "namePl": "Makrela pieczona",
+    "nameEn": "Baked mackerel",
+    "categoryCode": "FISH",
+    "allergens": ["FISH"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:26020": {
+    "namePl": "Makrela smażona",
+    "nameEn": "Fried mackerel",
+    "categoryCode": "FISH",
+    "allergens": ["FISH"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:174217": {
+    "namePl": "Małże (omułki) gotowane",
+    "nameEn": "Blue mussels, cooked",
+    "categoryCode": "FISH",
+    "allergens": ["MOLLUSCS"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:173704": {
+    "namePl": "Miecznik gotowany",
+    "nameEn": "Swordfish, cooked",
+    "categoryCode": "FISH",
+    "allergens": ["FISH"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:26192": {
+    "namePl": "Mintaj gotowany",
+    "nameEn": "Pollock, cooked",
+    "categoryCode": "FISH",
+    "allergens": ["FISH"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:26234": {
+    "namePl": "Molwa gotowana",
+    "nameEn": "Cooked ling",
+    "categoryCode": "FISH",
+    "allergens": ["FISH"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:175126": {
+    "namePl": "Okoń morski gotowany",
+    "nameEn": "Ocean perch, cooked",
+    "categoryCode": "FISH",
+    "allergens": ["FISH"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:27005": {
+    "namePl": "Okoń pieczony",
+    "nameEn": "Baked perch",
+    "categoryCode": "FISH",
+    "allergens": ["FISH"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:175171": {
+    "namePl": "Ostrygi pieczone",
+    "nameEn": "Baked oysters",
+    "categoryCode": "FISH",
+    "allergens": ["MOLLUSCS"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:27015": {
+    "namePl": "Pstrąg gotowany na parze",
+    "nameEn": "Steamed rainbow trout",
+    "categoryCode": "FISH",
+    "allergens": ["FISH"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:26998": {
+    "namePl": "Pstrąg łososiowy smażony",
+    "nameEn": "Pan-fried salmon trout",
+    "categoryCode": "FISH",
+    "allergens": ["FISH"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:27014": {
+    "namePl": "Pstrąg pieczony",
+    "nameEn": "Baked rainbow trout",
+    "categoryCode": "FISH",
+    "allergens": ["FISH"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:26061": {
+    "namePl": "Sola gotowana",
+    "nameEn": "Boiled sole",
+    "categoryCode": "FISH",
+    "allergens": ["FISH"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:26248": {
+    "namePl": "Sola grillowana",
+    "nameEn": "Grilled sole",
+    "categoryCode": "FISH",
+    "allergens": ["FISH"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:26062": {
+    "namePl": "Sola smażona",
+    "nameEn": "Fried sole",
+    "categoryCode": "FISH",
+    "allergens": ["FISH"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:27002": {
+    "namePl": "Szczupak pieczony",
+    "nameEn": "Baked pike",
+    "categoryCode": "FISH",
+    "allergens": ["FISH"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:26014": {
+    "namePl": "Śledź grillowany",
+    "nameEn": "Grilled herring",
+    "categoryCode": "FISH",
+    "allergens": ["FISH"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:26012": {
+    "namePl": "Śledź smażony",
+    "nameEn": "Fried herring",
+    "categoryCode": "FISH",
+    "allergens": ["FISH"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:175177": {
+    "namePl": "Tilapia pieczona",
+    "nameEn": "Baked tilapia",
+    "categoryCode": "FISH",
+    "allergens": ["FISH"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:26999": {
+    "namePl": "Węgorz gotowany",
+    "nameEn": "Cooked eel",
+    "categoryCode": "FISH",
+    "allergens": ["FISH"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:26021": {
+    "namePl": "Witlinek smażony",
+    "nameEn": "Fried whiting",
+    "categoryCode": "FISH",
+    "allergens": ["FISH"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:171996": {
+    "namePl": "Żabnica pieczona",
+    "nameEn": "Baked monkfish",
+    "categoryCode": "FISH",
+    "allergens": ["FISH"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:53101": {
+    "namePl": "Banan plantan gotowany",
+    "nameEn": "Cooked plantain",
+    "categoryCode": "FRUITS",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:13176": {
+    "namePl": "Jabłko gotowane",
+    "nameEn": "Cooked apple",
+    "categoryCode": "FRUITS",
+    "allergens": [],
+    "pieceGrams": 150,
+    "allergensTypical": true
+  },
+  "ciqual:13175": {
+    "namePl": "Jabłko pieczone",
+    "nameEn": "Baked apple",
+    "categoryCode": "FRUITS",
+    "allergens": [],
+    "pieceGrams": 150,
+    "allergensTypical": true
+  },
+  "ciqual:13203": {
+    "namePl": "Rabarbar gotowany",
+    "nameEn": "Cooked rhubarb",
+    "categoryCode": "FRUITS",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:173265": {
+    "namePl": "Makaron bezglutenowy kukurydziano-ryżowy gotowany",
+    "nameEn": "Gluten-free corn and rice pasta, cooked",
+    "categoryCode": "GRAINS",
+    "allergens": ["GLUTEN"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:172144": {
+    "namePl": "Antrykot wołowy grillowany",
+    "nameEn": "Grilled beef ribeye",
+    "categoryCode": "MEAT",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:28504": {
+    "namePl": "Boczek gotowany w kostce",
+    "nameEn": "Cooked pork lardons",
+    "categoryCode": "MEAT",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:168322": {
+    "namePl": "Boczek smażony",
+    "nameEn": "Bacon, pan-fried",
+    "categoryCode": "MEAT",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:167914": {
+    "namePl": "Boczek wieprzowy, pieczony",
+    "nameEn": "Pork bacon, baked",
+    "categoryCode": "MEAT",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:167917": {
+    "namePl": "Golonka wieprzowa, pieczona",
+    "nameEn": "Pork shank, roasted",
+    "categoryCode": "MEAT",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:34002": {
+    "namePl": "Królik, gotowany",
+    "nameEn": "Rabbit, cooked",
+    "categoryCode": "MEAT",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:172522": {
+    "namePl": "Królik, pieczony",
+    "nameEn": "Rabbit, roasted",
+    "categoryCode": "MEAT",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:173117": {
+    "namePl": "Polędwica wołowa, grillowana",
+    "nameEn": "Beef tenderloin steak, broiled",
+    "categoryCode": "MEAT",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:28203": {
+    "namePl": "Polędwiczka wieprzowa, gotowana",
+    "nameEn": "Pork tenderloin, cooked",
+    "categoryCode": "MEAT",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:168313": {
+    "namePl": "Polędwiczka wieprzowa, grillowana",
+    "nameEn": "Pork tenderloin, grilled",
+    "categoryCode": "MEAT",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:168250": {
+    "namePl": "Polędwiczka wieprzowa, pieczona",
+    "nameEn": "Pork tenderloin, roasted",
+    "categoryCode": "MEAT",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:28905": {
+    "namePl": "Szynka pieczona na kości",
+    "nameEn": "Roasted ham on the bone",
+    "categoryCode": "MEAT",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:21519": {
+    "namePl": "Udziec jagnięcy, duszony",
+    "nameEn": "Lamb leg, braised",
+    "categoryCode": "MEAT",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:169193": {
+    "namePl": "Wieprzowina mielona chuda, gotowana",
+    "nameEn": "Cooked lean ground pork",
+    "categoryCode": "MEAT",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:20125": {
+    "namePl": "Pieczarki smażone bez tłuszczu",
+    "nameEn": "Sautéed button mushrooms",
+    "categoryCode": "MUSHROOMS",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:15021": {
+    "namePl": "Kasztany jadalne, pieczone",
+    "nameEn": "Roasted chestnuts",
+    "categoryCode": "NUTS_SEEDS",
+    "allergens": ["NUTS"],
+    "pieceGrams": 10,
+    "allergensTypical": true
+  },
+  "ciqual:10037": {
+    "namePl": "Kalmary, gotowane",
+    "nameEn": "Squid, boiled",
+    "categoryCode": "FISH",
+    "allergens": ["MOLLUSCS"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:10015": {
+    "namePl": "Langusta, surowa",
+    "nameEn": "Spiny lobster, raw",
+    "categoryCode": "FISH",
+    "allergens": ["CRUSTACEANS"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:10027": {
+    "namePl": "Małże, gotowane",
+    "nameEn": "Clams, boiled",
+    "categoryCode": "FISH",
+    "allergens": ["MOLLUSCS"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:171117": {
+    "namePl": "Kurczak mielony, smażony",
+    "nameEn": "Ground chicken, pan-browned",
+    "categoryCode": "POULTRY",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:171476": {
+    "namePl": "Pierś z kurczaka ze skórą, smażona w mące",
+    "nameEn": "Chicken breast with skin, floured, fried",
+    "categoryCode": "POULTRY",
+    "allergens": ["GLUTEN"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:174497": {
+    "namePl": "Podudzie z kurczaka ze skórą, duszone",
+    "nameEn": "Chicken drumstick with skin, braised",
+    "categoryCode": "POULTRY",
+    "allergens": [],
+    "pieceGrams": 110,
+    "allergensTypical": true
+  },
+  "usda:171061": {
+    "namePl": "Wątróbka drobiowa, duszona",
+    "nameEn": "Chicken liver, stewed",
+    "categoryCode": "POULTRY",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:20002": {
+    "namePl": "Bakłażan gotowany",
+    "nameEn": "Eggplant, cooked",
+    "categoryCode": "VEGETABLES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:20300": {
+    "namePl": "Bakłażan pieczony",
+    "nameEn": "Eggplant, roasted",
+    "categoryCode": "VEGETABLES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:4102": {
+    "namePl": "Batat gotowany",
+    "nameEn": "Boiled sweet potato",
+    "categoryCode": "VEGETABLES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:169392": {
+    "namePl": "Brokuł chiński (gai lan), gotowany",
+    "nameEn": "Chinese broccoli, cooked",
+    "categoryCode": "VEGETABLES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:20304": {
+    "namePl": "Brokuł gotowany na parze",
+    "nameEn": "Broccoli, steamed",
+    "categoryCode": "VEGETABLES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:168511": {
+    "namePl": "Brokuł mrożony, gotowany",
+    "nameEn": "Frozen broccoli, cooked",
+    "categoryCode": "VEGETABLES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:20350": {
+    "namePl": "Brokuł gotowany",
+    "nameEn": "Broccoli, boiled",
+    "categoryCode": "VEGETABLES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:168455": {
+    "namePl": "Brukiew gotowana",
+    "nameEn": "Rutabaga, cooked",
+    "categoryCode": "VEGETABLES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:20309": {
+    "namePl": "Brukselka gotowana",
+    "nameEn": "Brussels sprouts, boiled",
+    "categoryCode": "VEGETABLES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:20324": {
+    "namePl": "Cebula czerwona smażona",
+    "nameEn": "Red onion, sautéed",
+    "categoryCode": "VEGETABLES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:20322": {
+    "namePl": "Cebula smażona bez tłuszczu",
+    "nameEn": "Onion, sautéed",
+    "categoryCode": "VEGETABLES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:20313": {
+    "namePl": "Cukinia pieczona",
+    "nameEn": "Zucchini, roasted",
+    "categoryCode": "VEGETABLES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:11306": {
+    "namePl": "Czosnek pieczony",
+    "nameEn": "Roasted garlic",
+    "categoryCode": "VEGETABLES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:169299": {
+    "namePl": "Dynia makaronowa, gotowana",
+    "nameEn": "Spaghetti squash, cooked",
+    "categoryCode": "VEGETABLES",
+    "allergens": ["GLUTEN"],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:20332": {
+    "namePl": "Dynia pieczona",
+    "nameEn": "Pumpkin, roasted",
+    "categoryCode": "VEGETABLES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:20141": {
+    "namePl": "Dynia piżmowa, gotowana",
+    "nameEn": "Butternut squash, boiled",
+    "categoryCode": "VEGETABLES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:20357": {
+    "namePl": "Dynia hokkaido, gotowana",
+    "nameEn": "Red kuri squash, cooked",
+    "categoryCode": "VEGETABLES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:168449": {
+    "namePl": "Dynia, gotowana",
+    "nameEn": "Pumpkin, cooked",
+    "categoryCode": "VEGETABLES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:20071": {
+    "namePl": "Fasolka szparagowa mrożona, gotowana",
+    "nameEn": "Frozen green beans, cooked",
+    "categoryCode": "VEGETABLES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:20318": {
+    "namePl": "Fasolka szparagowa żółta gotowana",
+    "nameEn": "Yellow beans, boiled",
+    "categoryCode": "VEGETABLES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:20030": {
+    "namePl": "Fasolka szparagowa, gotowana",
+    "nameEn": "Green beans, cooked",
+    "categoryCode": "VEGETABLES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:20243": {
+    "namePl": "Groszek cukrowy, gotowany",
+    "nameEn": "Cooked snow peas",
+    "categoryCode": "VEGETABLES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:20326": {
+    "namePl": "Groszek zielony gotowany",
+    "nameEn": "Green peas, boiled",
+    "categoryCode": "VEGETABLES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:20124": {
+    "namePl": "Groszek zielony mrożony, gotowany",
+    "nameEn": "Frozen green peas, cooked",
+    "categoryCode": "VEGETABLES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:168524": {
+    "namePl": "Jarmuż mrożony, gotowany",
+    "nameEn": "Frozen kale, cooked",
+    "categoryCode": "VEGETABLES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:20219": {
+    "namePl": "Jarmuż gotowany",
+    "nameEn": "Curly kale, cooked",
+    "categoryCode": "VEGETABLES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:20017": {
+    "namePl": "Kalafior gotowany",
+    "nameEn": "Cauliflower, cooked",
+    "categoryCode": "VEGETABLES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:168521": {
+    "namePl": "Kalafior mrożony, gotowany",
+    "nameEn": "Frozen cauliflower, cooked",
+    "categoryCode": "VEGETABLES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:168425": {
+    "namePl": "Kalarepa gotowana",
+    "nameEn": "Kohlrabi, boiled",
+    "categoryCode": "VEGETABLES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:20310": {
+    "namePl": "Kapusta czerwona duszona",
+    "nameEn": "Red cabbage, braised",
+    "categoryCode": "VEGETABLES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:20221": {
+    "namePl": "Kapusta pekińska smażona",
+    "nameEn": "Chinese cabbage, sautéed",
+    "categoryCode": "VEGETABLES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:169366": {
+    "namePl": "Kukurydza na kolbie mrożona, gotowana",
+    "nameEn": "Frozen corn on the cob, cooked",
+    "categoryCode": "VEGETABLES",
+    "allergens": [],
+    "pieceGrams": 200,
+    "allergensTypical": true
+  },
+  "usda:168519": {
+    "namePl": "Marchew mrożona, gotowana",
+    "nameEn": "Frozen carrots, cooked",
+    "categoryCode": "VEGETABLES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:168548": {
+    "namePl": "Papryka czerwona mrożona, gotowana",
+    "nameEn": "Frozen red pepper, cooked",
+    "categoryCode": "VEGETABLES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:20329": {
+    "namePl": "Papryka czerwona smażona",
+    "nameEn": "Red bell pepper, sautéed",
+    "categoryCode": "VEGETABLES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:20330": {
+    "namePl": "Papryka zielona smażona",
+    "nameEn": "Green bell pepper, sautéed",
+    "categoryCode": "VEGETABLES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:20086": {
+    "namePl": "Papryka zielona gotowana",
+    "nameEn": "Green bell pepper, cooked",
+    "categoryCode": "VEGETABLES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:20328": {
+    "namePl": "Papryka żółta smażona",
+    "nameEn": "Yellow bell pepper, sautéed",
+    "categoryCode": "VEGETABLES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:20325": {
+    "namePl": "Pasternak duszony",
+    "nameEn": "Parsnip, braised",
+    "categoryCode": "VEGETABLES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:20358": {
+    "namePl": "Pomidor gotowany",
+    "nameEn": "Tomato, cooked",
+    "categoryCode": "VEGETABLES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:168494": {
+    "namePl": "Szparagi mrożone, gotowane",
+    "nameEn": "Frozen asparagus, cooked",
+    "categoryCode": "VEGETABLES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "ciqual:20027": {
+    "namePl": "Szpinak gotowany",
+    "nameEn": "Spinach, cooked",
+    "categoryCode": "VEGETABLES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:170142": {
+    "namePl": "Warzywa mieszane mrożone, gotowane",
+    "nameEn": "Mixed vegetables, frozen, cooked",
+    "categoryCode": "VEGETABLES",
+    "allergens": [],
+    "pieceGrams": null,
+    "allergensTypical": true
+  },
+  "usda:170435": {
+    "namePl": "Ziemniaki czerwone pieczone",
+    "nameEn": "Baked red potatoes",
+    "categoryCode": "VEGETABLES",
+    "allergens": [],
+    "pieceGrams": 150,
+    "allergensTypical": true
+  },
+  "ciqual:4048": {
+    "namePl": "Ziemniaki gotowane",
+    "nameEn": "Boiled potatoes",
+    "categoryCode": "VEGETABLES",
+    "allergens": [],
+    "pieceGrams": 100,
+    "allergensTypical": true
+  },
+  "ciqual:4007": {
+    "namePl": "Ziemniaki młode, gotowane",
+    "nameEn": "New potatoes, boiled",
+    "categoryCode": "VEGETABLES",
+    "allergens": [],
+    "pieceGrams": 50,
+    "allergensTypical": true
+  },
+  "ciqual:4026": {
+    "namePl": "Ziemniaki pieczone",
+    "nameEn": "Potatoes, roasted",
+    "categoryCode": "VEGETABLES",
+    "allergens": [],
+    "pieceGrams": 150,
+    "allergensTypical": true
+  }
+}

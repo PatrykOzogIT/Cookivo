@@ -1097,7 +1097,8 @@
       "pending": "czeka na zatwierdzenie",
       "hint": "Jeśli to ten sam produkt, użyj istniejącego zamiast dodawać nowy."
     },
-    "sourceLabel": "Wartości z etykiety produktu, dodane przez użytkownika {{username}}."
+    "sourceLabel": "Wartości z etykiety produktu, dodane przez użytkownika {{username}}.",
+    "allergensTypical": "Alergeny typowe dla tego rodzaju produktu – skład zależy od producenta, sprawdź etykietę."
   },
   "profile": {
     "lead": "Na podstawie tych danych wyliczymy Twoje dzienne zapotrzebowanie na kalorie i makroskładniki.",

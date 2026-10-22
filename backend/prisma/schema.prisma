@@ -185,6 +185,8 @@ model Ingredient {
   salt         Float?
   /// Gęstość w g/ml - tylko dla płynów
   density      Float?
+  /// Alergeny typowe dla rodzaju produktu (import z recenzją AI) - karta prosi o sprawdzenie etykiety
+  allergensTypical Boolean @default(false) @map("allergens_typical")
 
   createdById     String?   @map("created_by_id") @db.Uuid
   createdBy       User?     @relation("IngredientCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)

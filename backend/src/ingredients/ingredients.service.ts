@@ -200,6 +200,8 @@ export class IngredientsService {
             // Poprawiony przez autora wraca do kolejki; admin zatwierdza od razu
             status: admin ? existing.status : 'PENDING',
             rejectionReason: admin ? existing.rejectionReason : null,
+            // Zapis w formularzu = alergeny sprawdzone przez człowieka
+            allergensTypical: false,
             allergens: { create: allergens },
             units: { create: dto.units.map((u) => ({ unitCode: u.code, grams: u.grams })) },
           },
@@ -365,6 +367,7 @@ export function toDto(row: IngredientRow, user?: AuthUser, personal?: Personal) 
     status: row.status,
     source: row.source,
     sourceRef: row.sourceRef,
+    allergensTypical: row.allergensTypical,
     nutrition: {
       kcal: row.kcal,
       protein: row.protein,

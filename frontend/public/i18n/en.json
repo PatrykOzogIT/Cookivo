@@ -1097,7 +1097,8 @@
       "pending": "awaiting approval",
       "hint": "If it's the same product, use the existing one instead of adding a new one."
     },
-    "sourceLabel": "Values from the product label, added by {{username}}."
+    "sourceLabel": "Values from the product label, added by {{username}}.",
+    "allergensTypical": "Allergens typical for this kind of product – the recipe depends on the producer, check the label."
   },
   "profile": {
     "lead": "We use these details to calculate your daily calorie and macronutrient needs.",

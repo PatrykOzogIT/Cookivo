@@ -46,6 +46,8 @@ export interface Ingredient extends Localized {
   status: IngredientStatus;
   source: 'USDA' | 'CIQUAL' | 'USER' | 'LABEL';
   sourceRef: string | null;
+  /** Alergeny typowe dla rodzaju produktu - sprawdzić etykietę konkretnego wyrobu */
+  allergensTypical: boolean;
   nutrition: Nutrition;
   density: number | null;
   allergens: Allergen[];

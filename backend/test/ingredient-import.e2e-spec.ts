@@ -182,6 +182,34 @@ describe('Import składników do bazy (e2e)', () => {
     await t.prisma.user.delete({ where: { id: user.id } });
   });
 
+  it('alergeny typowe (recenzja AI): flaga w API, zapis w formularzu przez admina ją czyści', async () => {
+    await runImport(db, [rec(1, { allergensTypical: true, review: ['ZWERYFIKOWANY_AI'] })], {
+      dryRun: false,
+    });
+    const row = await t.prisma.ingredient.findFirstOrThrow({ where: { seedKey: 'import:usda:t1' } });
+    const res = await t.api().get(`/api/ingredients/${row.id}`).expect(200);
+    expect(res.body.allergensTypical).toBe(true);
+    const admin = await t.login('importadmin', { role: 'ADMIN' });
+    await t
+      .api()
+      .patch(`/api/ingredients/${row.id}`)
+      .set({ Authorization: `Bearer ${admin}` })
+      .send({
+        namePl: row.namePl,
+        categoryCode: 'VEGETABLES',
+        kcal: 40,
+        protein: 1,
+        fat: 0.2,
+        carbs: 8,
+        allergens: [],
+        units: [],
+      })
+      .expect(200);
+    expect((await t.prisma.ingredient.findUniqueOrThrow({ where: { id: row.id } })).allergensTypical).toBe(
+      false,
+    );
+  });
+
   it('duży import: 3000 rekordów partiami', async () => {
     const records = Array.from({ length: 3000 }, (_, i) =>
       rec(i + 100, { allergens: i % 2 ? ['MILK'] : [] }),

@@ -110,6 +110,9 @@
           } @else {
             <p class="muted">{{ t('ingredients.noAllergens') }}</p>
           }
+          @if (i.allergensTypical) {
+            <p class="muted small">{{ t('ingredients.allergensTypical') }}</p>
+          }
         </section>
 
         @if (i.units.length || i.density) {
