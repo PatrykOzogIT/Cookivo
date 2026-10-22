@@ -29,6 +29,10 @@ export function strictKey(f: Features): string {
 function better(a: SourceFood, b: SourceFood): SourceFood {
   const filled = (s: SourceFood) => NUTRIENT_KEYS.filter((k) => s.values[k] !== null).length;
   const words = (s: SourceFood) => s.nameEn.split(/[\s,]+/).length;
+  // Warianty "z solą" / "bez soli" / niskosodowe scalamy - zostaje zwykła wersja produktu
+  const salty = (s: SourceFood) =>
+    Number(/\b(with salt|without salt|no salt|salt added|unsalted|sodium)\b/i.test(s.nameEn));
+  if (salty(a) !== salty(b)) return salty(a) < salty(b) ? a : b;
   if (filled(a) !== filled(b)) return filled(a) > filled(b) ? a : b;
   if (words(a) !== words(b)) return words(a) < words(b) ? a : b;
   return a.key < b.key ? a : b;

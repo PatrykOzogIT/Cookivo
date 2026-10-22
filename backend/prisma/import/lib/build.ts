@@ -1,6 +1,6 @@
 import { normalizeSearch } from '../../../src/common/text.js';
 import { similarName } from '../../../src/ai/ingredient-names.js';
-import type { AiCache } from './ai-schema.js';
+import { CATEGORY_CODES, type AiCache } from './ai-schema.js';
 import { allergensFromName, simpleCategory } from './allergens.js';
 import type { Candidate } from './dedupe.js';
 import type { ImportRecord } from './record.js';
@@ -52,6 +52,8 @@ export function buildRecords(candidates: Candidate[], cache: AiCache, existingNa
     }
 
     const review: string[] = [];
+    const category = (CATEGORY_CODES as readonly string[]).includes(ai.category) ? ai.category : 'OTHER';
+    if (category !== ai.category) review.push(`KATEGORIA_NIEZNANA:${ai.category}`);
     // Alergeny: reguła z nazwy (pewna) ∪ propozycja AI; różnica = do weryfikacji
     const fromRule = allergensFromName(`${c.nameEn} ${ai.nameEn}`);
     const allergens = [...new Set([...fromRule, ...ai.allergens])].sort();
@@ -60,7 +62,7 @@ export function buildRecords(candidates: Candidate[], cache: AiCache, existingNa
     if (aiOnly.length) review.push(`ALERGENY_TYLKO_AI:${aiOnly.join(',')}`);
     if (ruleOnly.length) review.push(`ALERGENY_TYLKO_REGULA:${ruleOnly.join(',')}`);
     if (ai.variableComposition) review.push('ZMIENNY_SKLAD');
-    if (!simpleCategory(ai.category)) review.push(`KATEGORIA_ZLOZONA:${ai.category}`);
+    if (!simpleCategory(category)) review.push(`KATEGORIA_ZLOZONA:${category}`);
 
     const missing = NUTRIENT_KEYS.filter((k) => c.values[k] === null);
     if (REQUIRED_NUTRIENTS.some((k) => c.values[k] === null)) {
@@ -96,7 +98,7 @@ export function buildRecords(candidates: Candidate[], cache: AiCache, existingNa
         seedKey: `import:${c.importKey}`,
         namePl,
         nameEn: ai.nameEn ? cleanName(ai.nameEn).slice(0, 120) : null,
-        categoryCode: ai.category,
+        categoryCode: category,
         status: 'PENDING',
         source: c.source,
         sourceRef: c.ref,

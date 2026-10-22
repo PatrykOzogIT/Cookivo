@@ -38,8 +38,6 @@ const TAG_PATTERNS: [RegExp, string][] = [
   [/\blactose[- ]free\b/i, 'variant:lactosefree'],
   [/\blight\b|\breduced fat\b|\blow fat\b|\blowfat\b/i, 'variant:light'],
   [/\bwhole ?grain\b|\bwholemeal\b|\bwhole wheat\b/i, 'variant:wholegrain'],
-  [/\bwithout salt\b|\bunsalted\b|\bno added salt\b|\bno salt\b/i, 'variant:nosalt'],
-  [/\bwith salt\b/i, 'variant:salt'],
   [/\bskim(med)?\b|\bnonfat\b|\bfat[- ]free\b/i, 'fat:0'],
   [/\bsemi-skimmed\b/i, 'fat:semi'],
   [/\bwhole milk\b|\bwhole\b(?=.*\bmilk\b)/i, 'fat:whole'],
@@ -47,7 +45,7 @@ const TAG_PATTERNS: [RegExp, string][] = [
 
 /** Szum w nazwach (klasy mięsa, opisy techniczne) - nie odróżnia składników w kuchni */
 const NOISE =
-  /\b(year round average|all grades|choice|select|prime|separable lean (and fat|only)|trimmed to [\d/]+"? fat|composite of (trimmed )?retail cuts|includes [^,]+|average|nfs|ns as to [^,]+|unenriched|enriched|with added [^,]+|without added [^,]+|prepacked|from supermarket|bulk|retail|commercial|regular pack|solids and liquids|drained solids|drained|ready-to-eat|ready to eat|rte)\b/gi;
+  /\b(year round average|all grades|choice|select|prime|separable lean (and fat|only)|trimmed to [\d/]+"? fat|composite of (trimmed )?retail cuts|includes [^,]+|average|nfs|ns as to [^,]+|unenriched|enriched|with added [^,]+|without added [^,]+|prepacked|from supermarket|bulk|retail|commercial|regular pack|solids and liquids|drained solids|drained|ready-to-eat|ready to eat|rte|with(out)? (added )?salt|no (added )?salt( added)?|unsalted|salted|low sodium|reduced sodium|very low sodium|sodium[- ]free|lower sodium|reduced salt|low salt)\b/gi;
 
 export function singular(word: string): string {
   const w = word.toLowerCase();

@@ -51,7 +51,8 @@ export const AiItemSchema = z.object({
   namePl: z.string(),
   /** Krótka nazwa po angielsku w tym samym stylu */
   nameEn: z.string(),
-  category: z.enum(CATEGORY_CODES),
+  /** Kod z listy kategorii (nieznany kod zamieniamy przy budowie na OTHER + weryfikacja) */
+  category: z.string(),
   /** Alergeny UE typowe dla tego produktu */
   allergens: z.array(z.enum(ALLERGEN_CODES)),
   /** true = skład (i alergeny) zależy od producenta (sosy, wędliny, słodycze, pieczywo słodkie) */
