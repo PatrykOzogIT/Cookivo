@@ -15,3 +15,6 @@ test-results/
 blob-report/
 *.tsbuildinfo
 backend/deploy/
+
+# Import składników - raporty i pliki robocze (plik importowy i cache AI są w repozytorium)
+backend/prisma/import/out/

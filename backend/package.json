@@ -29,7 +29,11 @@
     "create-super-admin": "tsx scripts/create-super-admin.ts",
     "postinstall": "prisma generate",
     "db:seed": "tsx prisma/seed/run-seed.ts",
-    "db:usda": "tsx prisma/seed/tools/usda-extract.ts"
+    "db:usda": "tsx prisma/seed/tools/usda-extract.ts",
+    "ingredients:etl": "tsx prisma/import/etl.ts",
+    "ingredients:ai": "tsx prisma/import/ai.ts",
+    "ingredients:build": "tsx prisma/import/build.ts",
+    "ingredients:import": "tsx prisma/import/import.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "0.131.0",

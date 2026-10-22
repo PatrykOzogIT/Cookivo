@@ -266,12 +266,26 @@ export class ReceiptImportService {
     };
   }
 
-  /** Zatwierdzone składniki dla AI (nazwy po jednej w linii) - w pamięci na godzinę, żeby prefiks był stały */
+  /**
+   * Zatwierdzone składniki dla AI (nazwy po jednej w linii) - w pamięci na godzinę, żeby prefiks był stały.
+   * Z dużego importu (seedKey "import:…") tylko używane w przepisach, lodówkach, na listach i w powiązaniach
+   * z paragonów - pełna baza podniosłaby koszt każdego odczytu i pogorszyła trafność.
+   */
   private async catalog(): Promise<Catalog> {
     if (this.catalogCache && Date.now() - this.catalogCache.at < CATALOG_TTL_MS)
       return this.catalogCache.value;
     const rows = await this.prisma.ingredient.findMany({
-      where: { status: 'APPROVED' },
+      where: {
+        status: 'APPROVED',
+        OR: [
+          { seedKey: null },
+          { NOT: { seedKey: { startsWith: 'import:' } } },
+          { usedIn: { some: {} } },
+          { pantryItems: { some: {} } },
+          { shoppingItems: { some: {} } },
+          { receiptAliasVotes: { some: {} } },
+        ],
+      },
       select: { id: true, namePl: true },
       orderBy: { namePl: 'asc' },
     });

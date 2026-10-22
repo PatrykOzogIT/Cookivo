@@ -1,0 +1,75 @@
+# Import składników do bazy - uruchamiany wyłącznie ręcznie (Actions → "Import składników" → Run workflow).
+# Plik importowy (backend/prisma/import/ingredients.import.jsonl) jest w repozytorium; zadanie go
+# nie przetwarza ponownie - tylko porównuje z bazą i wstawia brakujące rekordy (idempotentnie).
+name: Import składników
+
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: 'Baza docelowa'
+        type: choice
+        options: [test, production]
+        default: test
+      mode:
+        description: 'Tryb (dry-run = raport bez zapisu)'
+        type: choice
+        options: [dry-run, import, undo-dry-run, undo]
+        default: dry-run
+      limit:
+        description: 'Najwyżej tyle rekordów (puste = wszystkie)'
+        required: false
+        default: ''
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ingredient-import-${{ inputs.target }}
+  cancel-in-progress: false
+
+jobs:
+  import:
+    name: ${{ inputs.mode }} → ${{ inputs.target }}
+    runs-on: ubuntu-latest
+    # Produkcja: te same sekrety i zabezpieczenia co wdrożenie
+    environment: ${{ inputs.target == 'production' && 'production' || 'import-test' }}
+    env:
+      DATABASE_URL: postgresql://build:build@localhost:5432/build
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: backend/package-lock.json
+      - name: Zależności
+        run: npm ci --prefix backend
+
+      - name: Import
+        working-directory: backend
+        env:
+          # Test: gałąź Neon (sekret repozytorium), produkcja: bezpośrednie połączenie jak przy migracjach
+          IMPORT_DATABASE_URL: ${{ inputs.target == 'production' && secrets.DATABASE_URL_DIRECT || secrets.NEON_IMPORT_TEST_URL }}
+          MODE: ${{ inputs.mode }}
+          LIMIT: ${{ inputs.limit }}
+        run: |
+          if [ -z "$IMPORT_DATABASE_URL" ]; then
+            echo "::error::Brak adresu bazy (sekret NEON_IMPORT_TEST_URL albo DATABASE_URL_DIRECT)" >&2; exit 1
+          fi
+          case "$MODE" in
+            dry-run) ARGS="--dry-run" ;;
+            import) ARGS="--commit" ;;
+            undo-dry-run) ARGS="--undo" ;;
+            undo) ARGS="--undo --commit" ;;
+          esac
+          if [ -n "$LIMIT" ]; then ARGS="$ARGS --limit $LIMIT"; fi
+          npm run ingredients:import -- $ARGS
+
+      - name: Raport
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: raport-importu-${{ inputs.target }}-${{ inputs.mode }}
+          path: backend/prisma/import/out/
+          if-no-files-found: ignore

@@ -117,6 +117,20 @@ export async function seed(prisma: PrismaClient): Promise<{ ingredients: number 
       ...item.nutrition,
     };
 
+    // Nowa pozycja katalogu, a ta nazwa jest już zajęta (np. przez import składników albo
+    // zatwierdzony składnik użytkownika) - pomijamy, żeby wdrożenie nie padło na unikalnej nazwie
+    const own = await prisma.ingredient.findUnique({ where: { seedKey }, select: { id: true } });
+    if (!own) {
+      const taken = await prisma.ingredient.findFirst({
+        where: { status: 'APPROVED', namePl: { equals: item.pl, mode: 'insensitive' } },
+        select: { id: true },
+      });
+      if (taken) {
+        console.warn(`Seed: pomijam "${item.pl}" - nazwa już zajęta w bazie.`);
+        continue;
+      }
+    }
+
     await prisma.$transaction(async (tx) => {
       const ingredient = await tx.ingredient.upsert({
         where: { seedKey },
