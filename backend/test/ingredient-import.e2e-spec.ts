@@ -73,7 +73,9 @@ describe('Import składników do bazy (e2e)', () => {
       }),
     ];
     const first = await runImport(db, records, { dryRun: false });
-    expect(first).toMatchObject({ planned: 3, inserted: 3, approved: 2, pending: 1 });
+    // Rekord do weryfikacji (PENDING) czeka na przegląd - nie trafia do bazy
+    expect(first).toMatchObject({ planned: 2, inserted: 2, approved: 2, pending: 0 });
+    expect(await t.prisma.ingredient.count({ where: { seedKey: 'import:usda:t2' } })).toBe(0);
 
     const seler = await t.prisma.ingredient.findFirstOrThrow({
       where: { seedKey: 'import:usda:t1' },
@@ -90,16 +92,22 @@ describe('Import składników do bazy (e2e)', () => {
     expect(seler.reviewedAt).not.toBeNull();
     expect(seler.allergens.map((a) => a.allergen.code)).toEqual(['CELERY']);
     expect(seler.units).toEqual([expect.objectContaining({ unitCode: 'PIECE', grams: 40 })]);
-    expect(
-      (await t.prisma.ingredient.findFirstOrThrow({ where: { seedKey: 'import:usda:t2' } })).status,
-    ).toBe('PENDING');
     // Polskie znaki bez zmian
     expect(
-      (await t.prisma.ingredient.findFirstOrThrow({ where: { seedKey: 'import:usda:t2' } })).namePl,
-    ).toBe('Testowy składnik żółć 2');
+      (await t.prisma.ingredient.findFirstOrThrow({ where: { seedKey: 'import:usda:t3' } })).namePl,
+    ).toBe('Testowy składnik żółć 3');
 
     const again = await runImport(db, records, { dryRun: false });
-    expect(again).toMatchObject({ planned: 0, inserted: 0, skipped: { ALREADY_IMPORTED: 3 } });
+    expect(again).toMatchObject({ planned: 0, inserted: 0, skipped: { ALREADY_IMPORTED: 2 } });
+    expect(await imported()).toBe(2);
+
+    // Po ręcznej weryfikacji rekord jest zatwierdzony i dochodzi przy kolejnym imporcie
+    const reviewed = [
+      records[0],
+      { ...records[1], status: 'APPROVED' as const, review: ['ZWERYFIKOWANY_RECZNIE'] },
+      records[2],
+    ];
+    expect(await runImport(db, reviewed, { dryRun: false })).toMatchObject({ inserted: 1, approved: 1 });
     expect(await imported()).toBe(3);
   });
 

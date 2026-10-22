@@ -59,10 +59,14 @@ const RULES: [AllergenCode, RegExp, RegExp?][] = [
 
 /** Alergeny z nazwy (EN; dla Ciqual także FR po angielskiej nazwie wystarczy) */
 export function allergensFromName(nameEn: string): AllergenCode[] {
+  // Reguły są w liczbie pojedynczej - sprawdzamy też nazwę bez końcówek liczby mnogiej ("muffins", "cashews")
+  const singular = nameEn.replace(/\b([a-z]{3,}?)(ies)\b/gi, '$1y').replace(/\b([a-z]{3,}?[^s])s\b/gi, '$1');
   const out: AllergenCode[] = [];
   for (const [code, include, exclude] of RULES) {
-    const text = exclude ? nameEn.replace(new RegExp(exclude.source, 'gi'), ' ') : nameEn;
-    if (include.test(text)) out.push(code);
+    const hit = [nameEn, singular].some((name) =>
+      include.test(exclude ? name.replace(new RegExp(exclude.source, 'gi'), ' ') : name),
+    );
+    if (hit) out.push(code);
   }
   return out;
 }

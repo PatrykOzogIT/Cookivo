@@ -6,6 +6,7 @@ import { dedupe } from './dedupe.js';
 import { featureKey, features } from './features.js';
 import { plan, uuidv7 } from './importer.js';
 import { validateRecord, type ImportRecord } from './record.js';
+import { applyDecisions, exportReview, readReview } from './review.js';
 import { isBranded, selectFood } from './select.js';
 import { emptyNutrition, mapUsdaPortion, parseCiqualValue, usdaToEu } from './sources.js';
 import type { Nutrition, SourceFood } from './types.js';
@@ -154,6 +155,10 @@ describe('alergeny z nazwy', () => {
     expect(allergensFromName('Nutmeg, ground')).toEqual([]);
     expect(allergensFromName('Shrimp, cooked')).toEqual(['CRUSTACEANS']);
     expect(allergensFromName('Cheese, cheddar')).toEqual(['MILK']);
+    expect(allergensFromName('Plain English muffins')).toEqual(['GLUTEN']);
+    expect(allergensFromName('Nuts, cashews, raw')).toEqual(['NUTS']);
+    expect(allergensFromName('Eggs, scrambled')).toEqual(['EGGS']);
+    expect(allergensFromName('Peas, green')).toEqual([]);
   });
 });
 
@@ -307,5 +312,67 @@ describe('plan importu względem bazy', () => {
 
   it('UUID v7', () => {
     expect(uuidv7()).toMatch(/^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/);
+  });
+});
+
+describe('ręczna weryfikacja w CSV', () => {
+  const base = {
+    seedKey: 'import:usda:1',
+    nameEn: 'Ketchup',
+    categoryCode: 'SAUCES',
+    status: 'PENDING',
+    source: 'USDA',
+    sourceRef: '1',
+    allergens: ['CELERY'],
+    units: [{ code: 'PIECE', grams: 5, basis: 'AI' }],
+    review: ['ZMIENNY_SKLAD', 'ALERGENY_TYLKO_AI:CELERY'],
+    kcal: 100,
+    protein: 1,
+    fat: 0.1,
+    carbs: 25,
+  } as unknown as ImportRecord;
+
+  it('eksport z polskimi nazwami, wczytanie decyzji z Excela (średnik, cudzysłowy, poprawki)', () => {
+    const records = [
+      { ...base, importKey: 'usda:1', namePl: 'Ketchup łagodny' },
+      { ...base, importKey: 'usda:2', namePl: 'Ketchup ostry' },
+    ] as ImportRecord[];
+    const out = exportReview(records);
+    expect(out).toContain('Ketchup łagodny');
+    expect(out).toContain('Seler');
+    expect(out).toContain('alergen tylko od AI: Seler');
+    // Użytkownik: OK przy pierwszym, poprawia nazwę i alergeny (polskie nazwy), usuwa wagę sztuki
+    const edited = [
+      out.split('\n')[0],
+      'tak;usda:1;"Ketchup łagodny; pikantny";Ketchup;Sosy i dodatki;Seler, Gorczyca;;"x | y";100;1;0,1;25;USDA 1',
+      ';usda:2;Ketchup ostry;Ketchup;Sosy i dodatki;Seler;5;;100;1;0,1;25;USDA 2',
+    ].join('\r\n');
+    const res = readReview(records, edited);
+    expect(res).toMatchObject({ approved: 1, skipped: 1, errors: [] });
+    expect(res.decisions['usda:1']).toEqual({
+      namePl: 'Ketchup łagodny; pikantny',
+      nameEn: 'Ketchup',
+      categoryCode: 'SAUCES',
+      allergens: ['CELERY', 'MUSTARD'],
+      pieceGrams: null,
+    });
+    expect(applyDecisions(records, res.decisions)).toBe(1);
+    expect(records[0]).toMatchObject({ status: 'APPROVED', units: [], review: ['ZWERYFIKOWANY_RECZNIE'] });
+    expect(records[1].status).toBe('PENDING');
+  });
+
+  it('błędy: nieznany alergen i kategoria', () => {
+    const records = [{ ...base, importKey: 'usda:1', namePl: 'Ketchup' }] as ImportRecord[];
+    const header = exportReview(records).split('\n')[0];
+    const res = readReview(
+      records,
+      [
+        header,
+        'tak;usda:1;Ketchup;;Sosy i dodatki;Selerowiec;;;1;1;1;1;x',
+        'tak;usda:1;Ketchup;;Zupy;;;;1;1;1;1;x',
+      ].join('\n'),
+    );
+    expect(res.approved).toBe(0);
+    expect(res.errors).toHaveLength(2);
   });
 });

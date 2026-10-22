@@ -66,6 +66,16 @@ katalog USDA (sprawdzane po fragmentach nazw i testem unikalności).
 Dalej według zgłoszeń użytkowników
 (najczęściej dodawane własne składniki = kandydaci do katalogu).
 
+## Duży import (Ciqual + USDA, narzędzia w `backend/prisma/import/`)
+
+Jednorazowy, powtarzalny import całych tabel - uruchamiany ręcznie, bez crona.
+
+1. `npm run ingredients:etl -- <ciqual-xml> <usda-csv>` - selekcja (bez dań, żywności dla niemowląt, fast foodów, marek, wariantów technicznych), deduplikacja po cechach produktu (stan, forma, % tłuszczu, zalewa…), Ciqual ma pierwszeństwo, USDA uzupełnia tylko braki i jednostki; pomija to, co już jest w katalogu.
+2. `npm run ingredients:ai` - polskie nazwy, kategorie, przydatność w polskiej kuchni, propozycje alergenów i wagi sztuki (Haiku, wsadowo, cache w `ai-cache.json`; wartości odżywcze zawsze ze źródła).
+3. `npm run ingredients:build` - plik `ingredients.import.jsonl` + raporty w `out/`. APPROVED tylko pewne rekordy (wartości kompletne i spójne, alergeny z reguły zgodne z AI, prosty produkt, brak podobnego w bazie); reszta PENDING z powodami.
+4. Weryfikacja PENDING w Excelu: `npx tsx prisma/import/review.ts export` → `review/do-weryfikacji.csv` (kolumna OK, poprawki nazwy, kategorii, alergenów, wagi sztuki) → `review.ts apply <plik>` → `review-decisions.json` → build.
+5. Import: GitHub Actions → „Import składników” (cel test = gałąź Neon z sekretem `NEON_IMPORT_TEST_URL` albo production; tryb dry-run / import / undo). Do bazy idą tylko APPROVED; `seedKey` = `import:<źródło>:<kod>` (idempotentnie, seed ich nie nadpisuje); cofnięcie usuwa tylko nieużywane.
+
 ## Jak wygląda jedna paczka
 
 1. **Lista kandydatów** (Claude): nazwy PL/EN, kategoria, źródło i dopasowana pozycja ze źródła.

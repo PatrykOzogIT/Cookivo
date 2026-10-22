@@ -74,7 +74,9 @@ export function plan(records: ImportRecord[], existing: Existing[]): PlannedReco
     // Podobny do istniejącego (także dodanego przez użytkownika) - dodajemy, ale do weryfikacji
     const similar = live.find((e) => similarName(record.namePl, { namePl: e.name_pl, nameEn: null }));
     if (similar) base.review.push(`PODOBNY_ISTNIEJACY:${similar.name_pl}`);
-    return { ...base, action: 'INSERT', detail: '', status: base.review.length ? 'PENDING' : record.status };
+    // Zweryfikowany ręcznie zostaje zatwierdzony - podobieństwo człowiek już widział
+    const manual = record.review.includes('ZWERYFIKOWANY_RECZNIE');
+    return { ...base, action: 'INSERT', detail: '', status: similar && !manual ? 'PENDING' : record.status };
   });
 }
 
@@ -138,7 +140,11 @@ export async function runImport(
       'SELECT seed_key, source::text AS source, source_ref, name_pl, status::text AS status FROM ingredients',
     )
   ).rows;
-  const planned = plan(records, existing);
+  // Do bazy idą tylko rekordy zatwierdzone (pewne albo zweryfikowane w CSV); reszta czeka na przegląd
+  const planned = plan(
+    records.filter((r) => r.status === 'APPROVED'),
+    existing,
+  );
   const toInsert = planned.filter((p) => p.action === 'INSERT').slice(0, opts.limit ?? Infinity);
   const rows = toInsert.map((p, i) => ({
     id: uuidv7(),

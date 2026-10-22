@@ -6,15 +6,24 @@
  * Wynik: prisma/import/ingredients.import.jsonl (w repozytorium - import nie wymaga ponownego
  * przetwarzania źródeł) oraz raporty CSV i raport.md w prisma/import/out/.
  */
-import { mkdirSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { ALLERGENS, CATEGORIES, UNITS } from '../seed/reference-data.js';
 import { catalogNames, readCache, readCandidates } from './ai.js';
 import { buildRecords } from './lib/build.js';
 import { validateRecord, type ImportRecord } from './lib/record.js';
 import { csv } from './lib/report.js';
+import { applyDecisions, type Decision } from './lib/review.js';
 
 export const IMPORT_FILE = join(import.meta.dirname, 'ingredients.import.jsonl');
+/** Decyzje z ręcznej weryfikacji (review.ts apply) - stosowane przy każdej przebudowie */
+export const DECISIONS_FILE = join(import.meta.dirname, 'review-decisions.json');
+
+export function readDecisions(): Record<string, Decision> {
+  return existsSync(DECISIONS_FILE)
+    ? (JSON.parse(readFileSync(DECISIONS_FILE, 'utf8')) as Record<string, Decision>)
+    : {};
+}
 const OUT = join(import.meta.dirname, 'out');
 
 export const dictionaries = () => ({
@@ -27,6 +36,8 @@ function main() {
   const candidates = readCandidates();
   const cache = readCache('');
   const { records, skipped } = buildRecords(candidates, cache, catalogNames());
+  const reviewed = applyDecisions(records, readDecisions());
+  if (reviewed) console.log(`Zastosowano ręczne decyzje: ${reviewed}`);
   const d = dictionaries();
   const valid: ImportRecord[] = [];
   const invalid: { r: ImportRecord; errors: string[] }[] = [];
