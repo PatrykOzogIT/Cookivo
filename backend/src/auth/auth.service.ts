@@ -20,6 +20,8 @@ const VERIFY_TTL_MS = 24 * 60 * 60 * 1000;
 const DAY_MS = 24 * 60 * 60 * 1000;
 const STALE_SESSION_MS = 30 * DAY_MS;
 const RESET_TTL_MS = 60 * 60 * 1000;
+/** Poprzedni refresh token przyjmujemy jeszcze tyle po wymianie (zgubiona odpowiedź) */
+const REUSE_GRACE_MS = 2 * 60 * 1000;
 
 /** Parametry argon2id wg rekomendacji OWASP. */
 export const ARGON_OPTIONS = {
@@ -199,6 +201,17 @@ export class AuthService {
     });
 
     if (!session) {
+      // Poprzedni token tuż po wymianie: odpowiedź z nowym ciasteczkiem mogła nie dotrzeć
+      // (uśpiony serwer, zerwane połączenie) - wydajemy nowy zamiast unieważniać sesję.
+      const recent = await this.prisma.session.findFirst({
+        where: {
+          previousHash: hash,
+          revokedAt: null,
+          lastUsedAt: { gte: new Date(Date.now() - REUSE_GRACE_MS) },
+        },
+        include: { user: true },
+      });
+      if (recent && recent.expiresAt >= new Date()) return this.rotate(recent, hash, meta);
       // Token już raz zrotowany = ktoś ma kopię. Unieważniamy całą sesję.
       await this.prisma.session.updateMany({
         where: { previousHash: hash, revokedAt: null },
@@ -209,6 +222,15 @@ export class AuthService {
     if (session.revokedAt || session.expiresAt < new Date()) {
       throw new UnauthorizedException({ code: 'SESSION_EXPIRED' });
     }
+    return this.rotate(session, hash, meta);
+  }
+
+  /** Nowy refresh token dla sesji; previousHash = token, którym przyszło żądanie */
+  private async rotate(
+    session: Prisma.SessionGetPayload<{ include: { user: true } }>,
+    presentedHash: string,
+    meta: RequestMeta,
+  ): Promise<AuthResult> {
     const block = activeBlock(session.user);
     if (block) throw blockedError(block);
 
@@ -217,7 +239,7 @@ export class AuthService {
       where: { id: session.id },
       data: {
         tokenHash: hashToken(newToken),
-        previousHash: hash,
+        previousHash: presentedHash,
         lastUsedAt: new Date(),
         ip: meta.ip,
         userAgent: meta.userAgent?.slice(0, 512),

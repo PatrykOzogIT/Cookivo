@@ -126,4 +126,22 @@ describe('AuthService + authInterceptor', () => {
     expect(auth.hasRole('ADMIN')).toBe(true);
     expect(auth.isAdmin()).toBe(true);
   });
+
+  it('odświeżenie bez ciasteczka (204) ustawia gościa bez błędu', async () => {
+    const promise = auth.restoreSession();
+    await flushMicrotasks();
+    backend.expectOne('/api/auth/refresh').flush(null, { status: 204, statusText: 'No Content' });
+    await promise;
+    expect(auth.status()).toBe('anonymous');
+  });
+
+  it('start nie czeka bez końca na odświeżenie; sesja podpina się, gdy odpowiedź dotrze', async () => {
+    await auth.restoreSession(20);
+    expect(auth.status()).toBe('unknown');
+    const settled = auth.settled();
+    backend.expectOne('/api/auth/refresh').flush(session('LATE'));
+    await settled;
+    expect(auth.isLoggedIn()).toBe(true);
+    expect(auth.token).toBe('LATE');
+  });
 });

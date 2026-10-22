@@ -48,8 +48,14 @@ export class AuthController {
   @Post('refresh')
   @HttpCode(HttpStatus.OK)
   async refresh(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
+    // Gość bez ciasteczka sesji: pusta odpowiedź zamiast 401 (bez czerwonego błędu w konsoli)
+    const token = readCookie(req);
+    if (!token) {
+      res.status(HttpStatus.NO_CONTENT);
+      return;
+    }
     try {
-      return this.withCookie(res, await this.auth.refresh(readCookie(req), meta(req)));
+      return this.withCookie(res, await this.auth.refresh(token, meta(req)));
     } catch (err) {
       res.clearCookie(REFRESH_COOKIE, this.cookieOptions());
       throw err;

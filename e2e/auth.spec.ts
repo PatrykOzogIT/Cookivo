@@ -100,3 +100,27 @@ test.describe('Konto', () => {
     await expect(page).toHaveURL('/');
   });
 });
+
+test.describe('Start po przerwie', () => {
+  test('zawieszone odświeżanie sesji nie blokuje strony - najpierw ekran ładowania, potem treść', async ({
+    page,
+  }) => {
+    // Uśpiony serwer: odświeżenie sesji nie odpowiada
+    await page.route('**/api/auth/refresh', () => {});
+    await page.goto('/');
+    await expect(page.getByRole('status').filter({ hasText: 'Ładowanie…' })).toBeVisible();
+    await expect(page.getByRole('link', { name: 'Zaloguj', exact: true }).first()).toBeVisible({
+      timeout: 15_000,
+    });
+  });
+
+  test('gość bez ciasteczka sesji: odświeżenie bez błędu 401', async ({ page }) => {
+    const statuses: number[] = [];
+    page.on('response', (r) => {
+      if (r.url().endsWith('/api/auth/refresh')) statuses.push(r.status());
+    });
+    await page.goto('/');
+    await expect(page.getByRole('link', { name: 'Zaloguj', exact: true }).first()).toBeVisible();
+    expect(statuses).toEqual([204]);
+  });
+});

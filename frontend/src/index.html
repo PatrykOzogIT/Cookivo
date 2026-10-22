@@ -33,8 +33,56 @@
         if (l === 'pl' || l === 'en') document.documentElement.lang = l;
       } catch (e) {}
     </script>
+    <style>
+      /* Ekran startowy pokazuje się dopiero po chwili - przy szybkim starcie nie miga */
+      .boot {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        font:
+          600 1rem system-ui,
+          sans-serif;
+        color: var(--ck-text-muted, #526357);
+        opacity: 0;
+        animation: boot-in 0.3s ease-out 0.4s forwards;
+      }
+      .boot button {
+        min-height: 44px;
+        padding: 0 20px;
+        border: 0;
+        border-radius: 999px;
+        font: inherit;
+        color: var(--ck-cta-text, #fff);
+        background: var(--ck-cta-from, #237a53);
+        cursor: pointer;
+      }
+      @keyframes boot-in {
+        to {
+          opacity: 1;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .boot {
+          animation: none;
+          opacity: 1;
+        }
+      }
+    </style>
   </head>
   <body>
-    <app-root></app-root>
+    <app-root>
+      <!-- Do startu aplikacji (Angular podmienia zawartość) - zamiast pustego tła -->
+      <div class="boot" role="status">
+        <img src="favicon.svg" alt="" width="48" height="48" />
+        <span id="boot-text">Ładowanie…</span>
+      </div>
+    </app-root>
+    <script>
+      if (document.documentElement.lang === 'en')
+        document.getElementById('boot-text').textContent = 'Loading…';
+    </script>
   </body>
 </html>

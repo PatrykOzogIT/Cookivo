@@ -9,6 +9,10 @@ import type { AccountBlock } from './account-block';
 export type AuthStatus = 'unknown' | 'authenticated' | 'anonymous';
 
 const API = '/api/auth';
+/** Najdłużej czekamy na przywrócenie sesji przy starcie (potem strona i tak się pokazuje) */
+const RESTORE_WAIT_MS = 8000;
+/** Najdłużej czekamy na blokadę odświeżania trzymaną przez inną kartę */
+const LOCK_WAIT_MS = 5000;
 
 /**
  * Stan logowania. Access token trzymamy tylko w pamięci (odporny na XSS
@@ -40,9 +44,18 @@ export class AuthService {
     return hasRole(this.userState(), role);
   }
 
-  /** Przy starcie aplikacji: próbujemy odtworzyć sesję z ciasteczka. */
-  async restoreSession(): Promise<void> {
-    await this.refresh();
+  /**
+   * Przy starcie aplikacji: próbujemy odtworzyć sesję z ciasteczka, ale strona nie czeka dłużej
+   * niż kilka sekund (uśpiony serwer po przerwie, blokada trzymana przez uśpioną kartę).
+   * Odświeżenie kończy się w tle - sesja podepnie się, gdy wróci odpowiedź.
+   */
+  async restoreSession(maxWaitMs = RESTORE_WAIT_MS): Promise<void> {
+    await Promise.race([this.refresh(), new Promise((resolve) => setTimeout(resolve, maxWaitMs))]);
+  }
+
+  /** Czeka na trwające przywracanie sesji (strażnicy tras przy starcie) */
+  async settled(): Promise<void> {
+    if (this.refreshInFlight) await this.refreshInFlight;
   }
 
   async login(login: string, password: string): Promise<User> {
@@ -109,8 +122,13 @@ export class AuthService {
   private async doRefresh(): Promise<boolean> {
     try {
       const res = await firstValueFrom(
-        this.http.post<AuthResponse>(`${API}/refresh`, {}, { withCredentials: true }),
+        this.http.post<AuthResponse | null>(`${API}/refresh`, {}, { withCredentials: true }),
       );
+      // 204 = brak ciasteczka sesji (gość)
+      if (!res?.accessToken) {
+        this.clearSession();
+        return false;
+      }
       this.applySession(res);
       return true;
     } catch {
@@ -125,8 +143,20 @@ export class AuthService {
     this.statusState.set('authenticated');
   }
 
-  private withCrossTabLock<T>(fn: () => Promise<T>): Promise<T> {
+  /**
+   * Blokada między kartami - ale nie dłużej niż kilka sekund: uśpiona karta w tle potrafi trzymać
+   * ją bez końca. Wtedy odświeżamy bez niej (serwer toleruje poprzedni token tuż po wymianie).
+   */
+  private async withCrossTabLock<T>(fn: () => Promise<T>): Promise<T> {
     const locks = typeof navigator !== 'undefined' ? navigator.locks : undefined;
-    return locks ? locks.request('cookivo-auth-refresh', fn) : fn();
+    if (!locks || typeof AbortSignal?.timeout !== 'function') return fn();
+    try {
+      return await locks.request('cookivo-auth-refresh', { signal: AbortSignal.timeout(LOCK_WAIT_MS) }, fn);
+    } catch (err) {
+      if ((err as DOMException)?.name === 'TimeoutError' || (err as DOMException)?.name === 'AbortError') {
+        return fn();
+      }
+      throw err;
+    }
   }
 }

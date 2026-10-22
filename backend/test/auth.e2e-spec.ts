@@ -188,9 +188,26 @@ describe('Auth (e2e)', () => {
       const second = refreshCookie(refreshed)!.split(';')[0];
       expect(second).not.toBe(first);
 
-      // Ktoś użył starego tokenu - cała sesja zostaje unieważniona, także nowy token.
+      // Ktoś użył starego tokenu po oknie tolerancji - cała sesja zostaje unieważniona, także nowy token.
+      await prisma.session.updateMany({ data: { lastUsedAt: new Date(Date.now() - 3 * 60_000) } });
       await api().post('/api/auth/refresh').set('Cookie', first).expect(401);
       await api().post('/api/auth/refresh').set('Cookie', second).expect(401);
+    });
+
+    it('zgubiona odpowiedź: poprzedni token tuż po wymianie dostaje nowy, sesja zostaje', async () => {
+      await registerAndVerify();
+      const login = await api().post('/api/auth/login').send({ login: 'kasia_gotuje', password: PASSWORD });
+      const first = refreshCookie(login)!.split(';')[0];
+      // Serwer wymienił token, ale odpowiedź nie dotarła do przeglądarki (np. uśpiony serwer)
+      await api().post('/api/auth/refresh').set('Cookie', first).expect(200);
+      const retried = await api().post('/api/auth/refresh').set('Cookie', first).expect(200);
+      const third = refreshCookie(retried)!.split(';')[0];
+      await api().post('/api/auth/refresh').set('Cookie', third).expect(200);
+    });
+
+    it('odświeżenie bez ciasteczka sesji: pusta odpowiedź zamiast 401', async () => {
+      const res = await api().post('/api/auth/refresh').expect(204);
+      expect(res.body).toEqual({});
     });
 
     it('wylogowanie unieważnia refresh token', async () => {
