@@ -33,7 +33,12 @@
     "ingredients:etl": "tsx prisma/import/etl.ts",
     "ingredients:ai": "tsx prisma/import/ai.ts",
     "ingredients:build": "tsx prisma/import/build.ts",
-    "ingredients:import": "tsx prisma/import/import.ts"
+    "ingredients:import": "tsx prisma/import/import.ts",
+    "recipes:fetch": "tsx prisma/recipes-import/fetch.ts",
+    "recipes:ai": "tsx prisma/recipes-import/ai.ts",
+    "recipes:build": "tsx prisma/recipes-import/build.ts",
+    "recipes:photos": "tsx prisma/recipes-import/photos.ts",
+    "recipes:import": "tsx prisma/recipes-import/import.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "0.131.0",

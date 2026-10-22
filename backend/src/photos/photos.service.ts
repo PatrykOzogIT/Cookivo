@@ -12,10 +12,11 @@ import sharp, { type Metadata } from 'sharp';
 import type { AuthUser } from '../common/auth.decorators.js';
 import type { Env } from '../config/env.js';
 import { PrismaService } from '../prisma/prisma.service.js';
+import { PHOTO_WIDTHS, webpVariants } from './webp.js';
+
+export { PHOTO_WIDTHS } from './webp.js';
 
 export const MAX_PHOTO_BYTES = 5 * 1024 * 1024;
-/** Szerokości wersji WebP: miniatura na liście, widok przepisu, pełny ekran */
-export const PHOTO_WIDTHS = { small: 400, medium: 900, large: 1600 } as const;
 const ACCEPTED_FORMATS = new Set(['jpeg', 'png', 'webp']);
 /** Nieprzypięte do przepisu zdjęcia (porzucony formularz) usuwamy po dobie */
 const ORPHAN_TTL_MS = 24 * 60 * 60 * 1000;
@@ -25,6 +26,8 @@ export interface PhotoDto {
   width: number;
   height: number;
   urls: Record<keyof typeof PHOTO_WIDTHS, string>;
+  /** Zdjęcie z otwartej licencji - podpis z autorem i licencją */
+  credit?: { author: string | null; license: string; licenseUrl: string | null; sourceUrl: string | null };
 }
 
 export function photoUrls(id: string): PhotoDto['urls'] {
@@ -32,8 +35,31 @@ export function photoUrls(id: string): PhotoDto['urls'] {
   return { small: url(PHOTO_WIDTHS.small), medium: url(PHOTO_WIDTHS.medium), large: url(PHOTO_WIDTHS.large) };
 }
 
-export function toPhotoDto(p: { id: string; width: number; height: number }): PhotoDto {
-  return { id: p.id, width: p.width, height: p.height, urls: photoUrls(p.id) };
+export function toPhotoDto(p: {
+  id: string;
+  width: number;
+  height: number;
+  creditAuthor?: string | null;
+  creditLicense?: string | null;
+  creditLicenseUrl?: string | null;
+  creditSourceUrl?: string | null;
+}): PhotoDto {
+  return {
+    id: p.id,
+    width: p.width,
+    height: p.height,
+    urls: photoUrls(p.id),
+    ...(p.creditLicense
+      ? {
+          credit: {
+            author: p.creditAuthor ?? null,
+            license: p.creditLicense,
+            licenseUrl: p.creditLicenseUrl ?? null,
+            sourceUrl: p.creditSourceUrl ?? null,
+          },
+        }
+      : {}),
+  };
 }
 
 @Injectable()
@@ -71,19 +97,9 @@ export class PhotosService {
     });
 
     try {
-      let bytes = 0;
-      let size = { width: 0, height: 0 };
-      for (const width of Object.values(PHOTO_WIDTHS)) {
-        const { data, info } = await base
-          .clone()
-          .resize({ width, withoutEnlargement: true })
-          .webp({ quality: 80 })
-          .toBuffer({ resolveWithObject: true });
-        await writeFile(join(this.dir, `${photo.id}-${width}.webp`), data);
-        bytes += data.length;
-        if (width === PHOTO_WIDTHS.large) size = { width: info.width, height: info.height };
-      }
-      const saved = await this.prisma.photo.update({ where: { id: photo.id }, data: { ...size, bytes } });
+      const { files, ...size } = await webpVariants(base);
+      for (const f of files) await writeFile(join(this.dir, `${photo.id}-${f.width}.webp`), f.data);
+      const saved = await this.prisma.photo.update({ where: { id: photo.id }, data: size });
       void this.cleanupOrphans();
       return toPhotoDto(saved);
     } catch (err) {

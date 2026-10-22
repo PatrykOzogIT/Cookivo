@@ -715,6 +715,25 @@
       "unit": "This unit doesn't fit the ingredient - choose another one.",
       "amount": "No amount - enter it (e.g. a pinch, 1 teaspoon).",
       "uncertain": "Uncertain reading - check the name and amount."
+    },
+    "source": {
+      "title": "Source and licence",
+      "from": "This recipe comes from the page",
+      "adaptedFrom": "This is a version of the recipe from the page",
+      "authors": "authors:",
+      "contributors": "{{name}} contributors",
+      "license": "Licence:",
+      "photo": "Photo:",
+      "unknownAuthor": "unknown author",
+      "shareAlike": "You may copy and adapt this recipe under the same licence, crediting the source.",
+      "changes": {
+        "TRANSLATED": "Recipe translated and adapted to the Cookivo format.",
+        "RESTRUCTURED": "Content organised into ingredients and steps.",
+        "UNITS_CONVERTED": "Measures converted to the units used in Cookivo.",
+        "VARIANT": "Modified by the author of this version.",
+        "TO_TASTE": "Seasoning “to taste” and frying fat have a nominal amount (a pinch, a tablespoon).",
+        "SERVED_WITH": "Serving suggestions without amounts are in the description."
+      }
     }
   },
   "placeholder": {

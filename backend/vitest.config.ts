@@ -5,7 +5,7 @@ export default defineConfig({
   test: {
     globals: true,
     root: './',
-    include: ['src/**/*.spec.ts', 'prisma/import/**/*.spec.ts'],
+    include: ['src/**/*.spec.ts', 'prisma/import/**/*.spec.ts', 'prisma/recipes-import/**/*.spec.ts'],
     coverage: {
       provider: 'v8',
       include: ['src/**/*.ts'],

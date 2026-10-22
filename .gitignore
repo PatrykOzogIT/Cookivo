@@ -18,3 +18,6 @@ backend/deploy/
 
 # Import składników - raporty i pliki robocze (plik importowy i cache AI są w repozytorium)
 backend/prisma/import/out/
+
+# Import przepisów - treści stron i raporty robocze (rejestr, plik importowy i cache AI są w repozytorium)
+backend/prisma/recipes-import/out/

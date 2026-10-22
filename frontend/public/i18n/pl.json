@@ -715,6 +715,25 @@
       "unit": "Ta jednostka nie pasuje do składnika - wybierz inną.",
       "amount": "Brak ilości - wpisz ją (np. szczypta, 1 łyżeczka).",
       "uncertain": "Odczyt niepewny - sprawdź nazwę i ilość."
+    },
+    "source": {
+      "title": "Źródło i licencja",
+      "from": "Przepis pochodzi ze strony",
+      "adaptedFrom": "To wersja przepisu ze strony",
+      "authors": "autorzy:",
+      "contributors": "współtwórcy {{name}}",
+      "license": "Licencja:",
+      "photo": "Zdjęcie:",
+      "unknownAuthor": "autor nieznany",
+      "shareAlike": "Treść przepisu możesz kopiować i zmieniać na warunkach tej samej licencji, podając źródło.",
+      "changes": {
+        "TRANSLATED": "Przepis przetłumaczony i dostosowany do formatu Cookivo.",
+        "RESTRUCTURED": "Treść uporządkowana w składniki i kroki.",
+        "UNITS_CONVERTED": "Miary przeliczone na jednostki używane w Cookivo.",
+        "VARIANT": "Zmieniony przez autora tej wersji.",
+        "TO_TASTE": "Przyprawy „do smaku” i tłuszcz do smażenia mają umowną ilość (szczypta, łyżka).",
+        "SERVED_WITH": "Dodatki do podania bez ilości są w opisie."
+      }
     }
   },
   "placeholder": {

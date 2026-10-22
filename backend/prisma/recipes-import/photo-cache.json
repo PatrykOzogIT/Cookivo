@@ -1,0 +1,465 @@
+{
+  "Oven.jpg": {
+    "ok": true,
+    "info": {
+      "name": "Oven.jpg",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:Oven.jpg",
+      "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/0/0f/Oven.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "width": 768,
+      "height": 1024,
+      "mime": "image/jpeg",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
+      "author": "M.Minderhoud",
+      "attributionRequired": true
+    }
+  },
+  "Hartkeks offen.jpg": {
+    "ok": false,
+    "reason": "licencja wymaga autora, a go brak"
+  },
+  "1-2-3-4 Cake ingredients.JPG": {
+    "ok": true,
+    "info": {
+      "name": "1-2-3-4 Cake ingredients.JPG",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:1-2-3-4_Cake_ingredients.JPG",
+      "thumbUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/46/1-2-3-4_Cake_ingredients.JPG/1920px-1-2-3-4_Cake_ingredients.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 2304,
+      "height": 1712,
+      "mime": "image/jpeg",
+      "license": "CC BY-SA 2.5",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.5",
+      "author": "me (w:User:pfctdayelise)",
+      "attributionRequired": true
+    }
+  },
+  "1-2-3-4 Cake cooking implements.JPG": {
+    "ok": true,
+    "info": {
+      "name": "1-2-3-4 Cake cooking implements.JPG",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:1-2-3-4_Cake_cooking_implements.JPG",
+      "thumbUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/01/1-2-3-4_Cake_cooking_implements.JPG/1920px-1-2-3-4_Cake_cooking_implements.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 2304,
+      "height": 1712,
+      "mime": "image/jpeg",
+      "license": "CC BY-SA 2.5",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.5",
+      "author": "me (w:User:pfctdayelise)",
+      "attributionRequired": true
+    }
+  },
+  "Creaming butter - step 1.JPG": {
+    "ok": true,
+    "info": {
+      "name": "Creaming butter - step 1.JPG",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:Creaming_butter_-_step_1.JPG",
+      "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/d/df/Creaming_butter_-_step_1.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "width": 1712,
+      "height": 2304,
+      "mime": "image/jpeg",
+      "license": "CC BY-SA 2.5",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.5",
+      "author": "me (w:User:pfctdayelise)",
+      "attributionRequired": true
+    }
+  },
+  "Cracking an egg.JPG": {
+    "ok": true,
+    "info": {
+      "name": "Cracking an egg.JPG",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:Cracking_an_egg.JPG",
+      "thumbUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/32/Cracking_an_egg.JPG/1920px-Cracking_an_egg.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 2304,
+      "height": 1712,
+      "mime": "image/jpeg",
+      "license": "CC BY-SA 2.5",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.5",
+      "author": "me (w:User:pfctdayelise)",
+      "attributionRequired": true
+    }
+  },
+  "1-2-3-4 Cake after beating in eggs.JPG": {
+    "ok": true,
+    "info": {
+      "name": "1-2-3-4 Cake after beating in eggs.JPG",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:1-2-3-4_Cake_after_beating_in_eggs.JPG",
+      "thumbUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5a/1-2-3-4_Cake_after_beating_in_eggs.JPG/1920px-1-2-3-4_Cake_after_beating_in_eggs.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 2304,
+      "height": 1712,
+      "mime": "image/jpeg",
+      "license": "CC BY-SA 2.5",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.5",
+      "author": "me (w:User:pfctdayelise)",
+      "attributionRequired": true
+    }
+  },
+  "Flour and milk.JPG": {
+    "ok": true,
+    "info": {
+      "name": "Flour and milk.JPG",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:Flour_and_milk.JPG",
+      "thumbUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/72/Flour_and_milk.JPG/1920px-Flour_and_milk.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 2304,
+      "height": 1712,
+      "mime": "image/jpeg",
+      "license": "CC BY-SA 2.5",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.5",
+      "author": "me (w:User:pfctdayelise)",
+      "attributionRequired": true
+    }
+  },
+  "Beating flour into cake mixture.JPG": {
+    "ok": true,
+    "info": {
+      "name": "Beating flour into cake mixture.JPG",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:Beating_flour_into_cake_mixture.JPG",
+      "thumbUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/67/Beating_flour_into_cake_mixture.JPG/1920px-Beating_flour_into_cake_mixture.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 2304,
+      "height": 1712,
+      "mime": "image/jpeg",
+      "license": "CC BY-SA 2.5",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.5",
+      "author": "me (w:User:pfctdayelise)",
+      "attributionRequired": true
+    }
+  },
+  "Beating milk into cake mixture.JPG": {
+    "ok": true,
+    "info": {
+      "name": "Beating milk into cake mixture.JPG",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:Beating_milk_into_cake_mixture.JPG",
+      "thumbUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bd/Beating_milk_into_cake_mixture.JPG/1920px-Beating_milk_into_cake_mixture.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 2304,
+      "height": 1712,
+      "mime": "image/jpeg",
+      "license": "CC BY-SA 2.5",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.5",
+      "author": "me (w:User:pfctdayelise)",
+      "attributionRequired": true
+    }
+  },
+  "1-2-3-4 Cake mixture.JPG": {
+    "ok": true,
+    "info": {
+      "name": "1-2-3-4 Cake mixture.JPG",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:1-2-3-4_Cake_mixture.JPG",
+      "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/4/4d/1-2-3-4_Cake_mixture.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "width": 1712,
+      "height": 2304,
+      "mime": "image/jpeg",
+      "license": "CC BY-SA 2.5",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.5",
+      "author": "me (w:User:pfctdayelise)",
+      "attributionRequired": true
+    }
+  },
+  "Cake mixture in tin.JPG": {
+    "ok": true,
+    "info": {
+      "name": "Cake mixture in tin.JPG",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:Cake_mixture_in_tin.JPG",
+      "thumbUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cc/Cake_mixture_in_tin.JPG/1920px-Cake_mixture_in_tin.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 2304,
+      "height": 1712,
+      "mime": "image/jpeg",
+      "license": "CC BY-SA 2.5",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.5",
+      "author": "me (w:User:pfctdayelise)",
+      "attributionRequired": true
+    }
+  },
+  "Checking if cake is done.JPG": {
+    "ok": true,
+    "info": {
+      "name": "Checking if cake is done.JPG",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:Checking_if_cake_is_done.JPG",
+      "thumbUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8f/Checking_if_cake_is_done.JPG/1920px-Checking_if_cake_is_done.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 2304,
+      "height": 1712,
+      "mime": "image/jpeg",
+      "license": "CC BY-SA 2.5",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.5",
+      "author": "me (w:User:pfctdayelise)",
+      "attributionRequired": true
+    }
+  },
+  "Dirty knife from cake.JPG": {
+    "ok": true,
+    "info": {
+      "name": "Dirty knife from cake.JPG",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:Dirty_knife_from_cake.JPG",
+      "thumbUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/de/Dirty_knife_from_cake.JPG/1920px-Dirty_knife_from_cake.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 2304,
+      "height": 1712,
+      "mime": "image/jpeg",
+      "license": "CC BY-SA 2.5",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.5",
+      "author": "me (w:User:pfctdayelise)",
+      "attributionRequired": true
+    }
+  },
+  "1-2-3-4 cake.JPG": {
+    "ok": true,
+    "info": {
+      "name": "1-2-3-4 cake.JPG",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:1-2-3-4_cake.JPG",
+      "thumbUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4d/1-2-3-4_cake.JPG/1920px-1-2-3-4_cake.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 2304,
+      "height": 1712,
+      "mime": "image/jpeg",
+      "license": "CC BY-SA 2.5",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.5",
+      "author": "me (w:User:pfctdayelise)",
+      "attributionRequired": true
+    }
+  },
+  "1-2-3-4 cake slice with chocolate sour cream icing.JPG": {
+    "ok": true,
+    "info": {
+      "name": "1-2-3-4 cake slice with chocolate sour cream icing.JPG",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:1-2-3-4_cake_slice_with_chocolate_sour_cream_icing.JPG",
+      "thumbUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fe/1-2-3-4_cake_slice_with_chocolate_sour_cream_icing.JPG/1920px-1-2-3-4_cake_slice_with_chocolate_sour_cream_icing.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 2304,
+      "height": 1712,
+      "mime": "image/jpeg",
+      "license": "CC BY-SA 2.5",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.5",
+      "author": "me (w:User:pfctdayelise)",
+      "attributionRequired": true
+    },
+    "photo": {
+      "id": "01a165aa-b696-74d6-a37b-9d1969840340",
+      "file": "1-2-3-4 cake slice with chocolate sour cream icing.JPG",
+      "thumbUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fe/1-2-3-4_cake_slice_with_chocolate_sour_cream_icing.JPG/1920px-1-2-3-4_cake_slice_with_chocolate_sour_cream_icing.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 1600,
+      "height": 1189,
+      "bytes": 144448,
+      "author": "me (w:User:pfctdayelise)",
+      "license": "CC BY-SA 2.5",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.5",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:1-2-3-4_cake_slice_with_chocolate_sour_cream_icing.JPG"
+    }
+  },
+  "Ciabatta.jpg": {
+    "ok": true,
+    "info": {
+      "name": "Ciabatta.jpg",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:Ciabatta.jpg",
+      "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/f/fe/Ciabatta.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "width": 636,
+      "height": 435,
+      "mime": "image/jpeg",
+      "license": "CC BY 2.5",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.5",
+      "author": "Laurent van Roy",
+      "attributionRequired": true
+    }
+  },
+  "Risotto bowl.jpg": {
+    "ok": true,
+    "info": {
+      "name": "Risotto bowl.jpg",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:Risotto_bowl.jpg",
+      "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/b/bd/Risotto_bowl.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "width": 1280,
+      "height": 960,
+      "mime": "image/jpeg",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "author": "frank wouters from antwerpen, belgium",
+      "attributionRequired": true
+    },
+    "photo": {
+      "id": "01a165aa-b8de-7c4d-9c45-9cfb3359ec2c",
+      "file": "Risotto bowl.jpg",
+      "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/b/bd/Risotto_bowl.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "width": 1280,
+      "height": 960,
+      "bytes": 215468,
+      "author": "frank wouters from antwerpen, belgium",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Risotto_bowl.jpg"
+    }
+  },
+  "Ciabatta beef pastrami.jpg": {
+    "ok": true,
+    "info": {
+      "name": "Ciabatta beef pastrami.jpg",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:Ciabatta_beef_pastrami.jpg",
+      "thumbUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/84/Ciabatta_beef_pastrami.jpg/1920px-Ciabatta_beef_pastrami.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 2048,
+      "height": 1536,
+      "mime": "image/jpeg",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
+      "author": "Chensiyuan",
+      "attributionRequired": true
+    }
+  },
+  "Gulyas080.jpg": {
+    "ok": true,
+    "info": {
+      "name": "Gulyas080.jpg",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:Gulyas080.jpg",
+      "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/5/5c/Gulyas080.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "width": 1280,
+      "height": 960,
+      "mime": "image/jpeg",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
+      "author": "Lily15",
+      "attributionRequired": true
+    },
+    "photo": {
+      "id": "01a165aa-be8d-7118-b4b8-8d336c680eba",
+      "file": "Gulyas080.jpg",
+      "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/5/5c/Gulyas080.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "width": 1280,
+      "height": 960,
+      "bytes": 485726,
+      "author": "Lily15",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Gulyas080.jpg"
+    }
+  },
+  "Zlot.zimowy.2007.zupa.JPG": {
+    "ok": true,
+    "info": {
+      "name": "Zlot.zimowy.2007.zupa.JPG",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:Zlot.zimowy.2007.zupa.JPG",
+      "thumbUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d8/Zlot.zimowy.2007.zupa.JPG/1920px-Zlot.zimowy.2007.zupa.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 2048,
+      "height": 1536,
+      "mime": "image/jpeg",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "author": "Julo",
+      "attributionRequired": false
+    }
+  },
+  "Grochowa.jpg": {
+    "ok": true,
+    "info": {
+      "name": "Grochowa.jpg",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:Grochowa.jpg",
+      "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/8/88/Grochowa.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "width": 955,
+      "height": 959,
+      "mime": "image/jpeg",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "author": "Mariuszjbie",
+      "attributionRequired": true
+    },
+    "photo": {
+      "id": "01a165aa-bc2f-7d15-a3b6-52e030f5f969",
+      "file": "Grochowa.jpg",
+      "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/8/88/Grochowa.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "width": 955,
+      "height": 959,
+      "bytes": 338312,
+      "author": "Mariuszjbie",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Grochowa.jpg"
+    }
+  },
+  "Ciabatta cut.JPG": {
+    "ok": true,
+    "info": {
+      "name": "Ciabatta cut.JPG",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:Ciabatta_cut.JPG",
+      "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/b/b2/Ciabatta_cut.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "width": 1200,
+      "height": 1600,
+      "mime": "image/jpeg",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
+      "author": "Vincent Talleu",
+      "attributionRequired": true
+    },
+    "photo": {
+      "id": "01a165aa-ba98-7a49-b25e-0307b7e6ec81",
+      "file": "Ciabatta cut.JPG",
+      "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/b/b2/Ciabatta_cut.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "width": 1200,
+      "height": 1600,
+      "bytes": 439284,
+      "author": "Vincent Talleu",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Ciabatta_cut.JPG"
+    }
+  },
+  "Ukrainian potato pancakes.jpg": {
+    "ok": true,
+    "info": {
+      "name": "Ukrainian potato pancakes.jpg",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:Ukrainian_potato_pancakes.jpg",
+      "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/1/14/Ukrainian_potato_pancakes.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "width": 1600,
+      "height": 1200,
+      "mime": "image/jpeg",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
+      "author": "Kagor at Ukrainian Wikipedia",
+      "attributionRequired": true
+    },
+    "photo": {
+      "id": "01a165aa-bd51-77ab-935a-8ed78d61f7e8",
+      "file": "Ukrainian potato pancakes.jpg",
+      "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/1/14/Ukrainian_potato_pancakes.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "width": 1600,
+      "height": 1200,
+      "bytes": 198630,
+      "author": "Kagor at Ukrainian Wikipedia",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Ukrainian_potato_pancakes.jpg"
+    }
+  },
+  "Submarine sandwich.jpg": {
+    "ok": true,
+    "info": {
+      "name": "Submarine sandwich.jpg",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:Submarine_sandwich.jpg",
+      "thumbUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/69/Submarine_sandwich.jpg/1920px-Submarine_sandwich.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 3884,
+      "height": 1836,
+      "mime": "image/jpeg",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "author": "Tanzboot",
+      "attributionRequired": false
+    }
+  },
+  "Orgeatsyrup.jpg": {
+    "ok": true,
+    "info": {
+      "name": "Orgeatsyrup.jpg",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:Orgeatsyrup.jpg",
+      "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/3/3c/Orgeatsyrup.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "width": 1024,
+      "height": 768,
+      "mime": "image/jpeg",
+      "license": "CC BY-SA 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+      "author": "Kevin Bryant (Flickr user: sultmhoor) ( https://www.flickr.com/photos/sultmhoor/ )",
+      "attributionRequired": true
+    },
+    "photo": {
+      "id": "01a165aa-bf88-7423-a97c-70daaffe73ee",
+      "file": "Orgeatsyrup.jpg",
+      "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/3/3c/Orgeatsyrup.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "width": 1024,
+      "height": 768,
+      "bytes": 65148,
+      "author": "Kevin Bryant (Flickr user: sultmhoor) ( https://www.flickr.com/photos/sultmhoor/ )",
+      "license": "CC BY-SA 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Orgeatsyrup.jpg"
+    }
+  }
+}

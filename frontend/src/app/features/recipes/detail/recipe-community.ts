@@ -125,7 +125,7 @@ export class RecipeCommunityComponent {
 
   private async load(r: RecipeDetail): Promise<void> {
     const [variants] = await Promise.all([
-      r.variantsCount > 0 || r.variantOf ? this.api.variants(r.id).catch(() => null) : null,
+      r.variantsCount > 0 || r.variantOf ? this.api.variants(r.id, this.lang()).catch(() => null) : null,
       this.loadRatings(1).catch(() => undefined),
     ]);
     this.variants.set(variants?.items ?? []);

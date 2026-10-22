@@ -1,0 +1,97 @@
+# Import biblioteki przepisów - uruchamiany wyłącznie ręcznie (Actions → "Import przepisów" → Run workflow).
+# Plik importowy (backend/prisma/recipes-import/recipes.import.jsonl) jest w repozytorium; zadanie go
+# nie przetwarza ponownie - porównuje z bazą i wstawia brakujące przepisy (idempotentnie, po źródle).
+# Produkcja: najpierw zdjęcia (WebP z Wikimedia Commons) przez FTP do katalogu zdjęć, potem baza.
+name: Import przepisów
+
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: 'Baza docelowa'
+        type: choice
+        options: [test, production]
+        default: test
+      mode:
+        description: 'Tryb (dry-run = raport bez zapisu)'
+        type: choice
+        options: [dry-run, import, undo-dry-run, undo]
+        default: dry-run
+      limit:
+        description: 'Najwyżej tyle przepisów (puste = wszystkie)'
+        required: false
+        default: ''
+
+permissions:
+  contents: read
+
+concurrency:
+  group: recipes-import-${{ inputs.target }}
+  cancel-in-progress: false
+
+jobs:
+  import:
+    name: ${{ inputs.mode }} → ${{ inputs.target }}
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.target == 'production' && 'production' || 'import-test' }}
+    env:
+      DATABASE_URL: postgresql://build:build@localhost:5432/build
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: backend/package-lock.json
+      - name: Zależności
+        run: npm ci --prefix backend
+
+      # Zdjęcia tylko przy zapisie na produkcji: pliki z Commons → WebP → FTP (bez nadpisywania i usuwania)
+      - name: Zdjęcia (WebP)
+        if: inputs.target == 'production' && inputs.mode == 'import'
+        working-directory: backend
+        run: npm run recipes:photos -- files --dir "$RUNNER_TEMP/photos"
+      - name: Wgranie zdjęć (FTP)
+        if: inputs.target == 'production' && inputs.mode == 'import'
+        env:
+          FTP_SERVER: ${{ secrets.FTP_SERVER }}
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+          FTP_UPLOADS_DIR: ${{ vars.FTP_UPLOADS_DIR }}
+        run: |
+          if [ -z "$FTP_UPLOADS_DIR" ]; then
+            echo "::error::Ustaw zmienną FTP_UPLOADS_DIR (katalog UPLOADS_DIR widziany z FTP)" >&2; exit 1
+          fi
+          sudo apt-get install -y -qq lftp > /dev/null
+          # Hasło w pliku .netrc zamiast w argumentach polecenia
+          printf 'machine %s login %s password %s\n' "$FTP_SERVER" "$FTP_USERNAME" "$FTP_PASSWORD" > ~/.netrc
+          chmod 600 ~/.netrc
+          lftp -e "set ftp:ssl-force true; set ssl:verify-certificate yes; mirror -R --only-missing --no-perms --parallel=4 $RUNNER_TEMP/photos $FTP_UPLOADS_DIR; quit" "$FTP_SERVER"
+          rm ~/.netrc
+
+      - name: Import
+        working-directory: backend
+        env:
+          IMPORT_DATABASE_URL: ${{ inputs.target == 'production' && secrets.DATABASE_URL_DIRECT || secrets.NEON_IMPORT_TEST_URL }}
+          MODE: ${{ inputs.mode }}
+          LIMIT: ${{ inputs.limit }}
+        run: |
+          if [ -z "$IMPORT_DATABASE_URL" ]; then
+            echo "::error::Brak adresu bazy (sekret NEON_IMPORT_TEST_URL albo DATABASE_URL_DIRECT)" >&2; exit 1
+          fi
+          case "$MODE" in
+            dry-run) ARGS="--dry-run" ;;
+            import) ARGS="--commit" ;;
+            undo-dry-run) ARGS="--undo" ;;
+            undo) ARGS="--undo --commit" ;;
+          esac
+          if [ -n "$LIMIT" ]; then ARGS="$ARGS --limit $LIMIT"; fi
+          npm run recipes:import -- $ARGS
+
+      - name: Raport
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: raport-importu-przepisow-${{ inputs.target }}-${{ inputs.mode }}
+          path: backend/prisma/recipes-import/out/import-*.json
+          if-no-files-found: ignore

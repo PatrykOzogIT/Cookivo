@@ -13,7 +13,7 @@ import {
 } from '@nestjs/common';
 import { CurrentUser, Public, Roles, type AuthUser } from '../common/auth.decorators.js';
 import { RequireVerifiedEmail } from '../common/verified-email.guard.js';
-import { HideRecipeDto, ListRecipesQuery, SaveRecipeDto } from './recipes.dto.js';
+import { HideRecipeDto, LangQuery, ListRecipesQuery, SaveRecipeDto } from './recipes.dto.js';
 import { RecipesService } from './recipes.service.js';
 
 @Controller('recipes')
@@ -28,8 +28,8 @@ export class RecipesController {
 
   @Public()
   @Get(':id')
-  get(@Param('id', ParseUUIDPipe) id: string, @CurrentUser() user?: AuthUser) {
-    return this.recipes.get(id, user);
+  get(@Param('id', ParseUUIDPipe) id: string, @Query() q: LangQuery, @CurrentUser() user?: AuthUser) {
+    return this.recipes.get(id, user, q.lang);
   }
 
   @RequireVerifiedEmail()
@@ -59,8 +59,8 @@ export class RecipesController {
 
   @Public()
   @Get(':id/variants')
-  variants(@Param('id', ParseUUIDPipe) id: string, @CurrentUser() user?: AuthUser) {
-    return this.recipes.variants(id, user);
+  variants(@Param('id', ParseUUIDPipe) id: string, @Query() q: LangQuery, @CurrentUser() user?: AuthUser) {
+    return this.recipes.variants(id, user, q.lang);
   }
 
   /** Admin ukrywa przepis (np. nieodpowiednia treść) - widzi go dalej autor z podanym powodem */

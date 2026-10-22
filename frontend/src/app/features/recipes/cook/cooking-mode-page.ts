@@ -102,7 +102,7 @@ export class CookingModePage implements OnInit, OnDestroy {
 
   async ngOnInit(): Promise<void> {
     try {
-      const r = await this.api.get(this.id());
+      const r = await this.api.get(this.id(), this.lang());
       this.recipe.set(r);
       this.title.setTitle(`${this.transloco.translate('recipes.cook.title')}: ${r.title} · Cookivo`);
       await this.requestWakeLock();

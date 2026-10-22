@@ -401,6 +401,10 @@ model Recipe {
   planCooks   PlanCook[]
   photos      Photo[]
   allergens   RecipeAllergen[]
+  /// Tłumaczenia (inne języki niż w polach przepisu)
+  translations RecipeTranslation[]
+  /// Pochodzenie i licencja przepisu z otwartego źródła (biblioteka startowa)
+  source       RecipeSource?
 
   @@index([visibility, hiddenAt])
   @@index([authorId])
@@ -459,6 +463,49 @@ model RecipeStep {
   @@map("recipe_steps")
 }
 
+/// Tłumaczenie przepisu na inny język. Kroki i pozycje składników w tej samej kolejności co w przepisie;
+/// zmiana przepisu w formularzu usuwa tłumaczenia (byłyby nieaktualne).
+model RecipeTranslation {
+  recipeId    String  @map("recipe_id") @db.Uuid
+  recipe      Recipe  @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+  locale      Locale
+  title       String  @db.VarChar(150)
+  description String? @db.VarChar(2000)
+  /// Teksty kroków (string[])
+  steps       Json
+  /// Pozycje składników: { groupName, note }[]
+  lines       Json
+
+  @@id([recipeId, locale])
+  @@map("recipe_translations")
+}
+
+/// Źródło przepisu z otwartej licencji (np. Wikibooks): atrybucja wymagana przez licencję
+model RecipeSource {
+  recipeId       String   @id @map("recipe_id") @db.Uuid
+  recipe         Recipe   @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+  /// Stały identyfikator strony źródła, np. "wikibooks-pl:1234" - import nie dubluje przepisów
+  externalId     String   @unique @map("external_id") @db.VarChar(100)
+  revisionId     String?  @map("revision_id") @db.VarChar(40)
+  /// Np. "Wikibooks"
+  sourceName     String   @map("source_name") @db.VarChar(100)
+  sourceLocale   Locale   @map("source_locale")
+  /// Tytuł strony w źródle
+  sourceTitle    String   @map("source_title") @db.VarChar(300)
+  url            String   @db.VarChar(500)
+  historyUrl     String?  @map("history_url") @db.VarChar(500)
+  /// Autorzy (null = współtwórcy serwisu, lista w historii zmian)
+  authors        String?  @db.VarChar(300)
+  license        String   @db.VarChar(60)
+  licenseUrl     String   @map("license_url") @db.VarChar(300)
+  /// Zmiany względem oryginału (kody): TRANSLATED, UNITS_CONVERTED, RESTRUCTURED
+  changes        String[]
+  datasetVersion String   @map("dataset_version") @db.VarChar(40)
+  importedAt     DateTime @default(now()) @map("imported_at")
+
+  @@map("recipe_sources")
+}
+
 /// Zestaw alergenów przepisu (także z podprzepisów) - przeliczany przy zapisie
 model RecipeAllergen {
   recipeId   String   @map("recipe_id") @db.Uuid
@@ -485,6 +532,11 @@ model Photo {
   width     Int
   height    Int
   bytes     Int
+  /// Zdjęcie z otwartej licencji (np. Wikimedia Commons): autor, licencja i strona pliku
+  creditAuthor     String?     @map("credit_author") @db.VarChar(300)
+  creditLicense    String?     @map("credit_license") @db.VarChar(60)
+  creditLicenseUrl String?     @map("credit_license_url") @db.VarChar(300)
+  creditSourceUrl  String?     @map("credit_source_url") @db.VarChar(500)
   createdAt DateTime    @default(now()) @map("created_at")
   step      RecipeStep? @relation("StepPhoto")
 

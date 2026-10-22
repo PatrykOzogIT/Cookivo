@@ -84,12 +84,14 @@ export class RecipeDetailPage implements OnInit {
   protected readonly servings = signal(1);
 
   constructor() {
-    // Ta sama strona dla innego przepisu (Angular używa ponownie komponentu) - wczytujemy od nowa
-    let loadedId: string | undefined;
+    // Ta sama strona dla innego przepisu (Angular używa ponownie komponentu) albo zmiana języka
+    // (tłumaczenie treści) - wczytujemy od nowa
+    let loaded: string | undefined;
     effect(() => {
       const id = this.id();
-      if (loadedId !== undefined && id !== loadedId) untracked(() => void this.load(id));
-      loadedId = id;
+      const key = `${id}|${this.lang()}`;
+      if (loaded !== undefined && key !== loaded) untracked(() => void this.load(id));
+      loaded = key;
     });
     // Koszt przeliczamy po zmianie porcji (z krótkim opóźnieniem przy szybkim klikaniu)
     effect(() => {
@@ -178,16 +180,20 @@ export class RecipeDetailPage implements OnInit {
 
   /** Wczytanie przepisu - także po przejściu na inny przepis z tej samej strony (link do oryginału, podprzepisu) */
   private async load(id: string): Promise<void> {
+    // Ten sam przepis w innym języku - zostają porcje i wybrane zdjęcie
+    const same = this.recipe()?.id === id;
     this.error.set(null);
     this.shoppingResult.set(null);
-    this.cost.set(undefined);
-    this.photoIndex.set(0);
     this.confirmDelete.set(false);
     this.hiding.set(false);
+    if (!same) {
+      this.cost.set(undefined);
+      this.photoIndex.set(0);
+    }
     try {
-      const r = await this.api.get(id);
+      const r = await this.api.get(id, this.lang());
       this.recipe.set(r);
-      this.servings.set(r.servings);
+      if (!same) this.servings.set(r.servings);
       this.title.setTitle(`${r.title} · Cookivo`);
     } catch (err) {
       this.error.set(apiErrorCode(err));

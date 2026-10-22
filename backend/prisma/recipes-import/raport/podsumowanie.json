@@ -1,0 +1,31 @@
+{
+  "pages": {
+    "INCOMPLETE": 3239,
+    "NEW": 2920,
+    "PROCESSED": 40
+  },
+  "recipes": {
+    "READY": 17,
+    "WAITING_INGREDIENT": 12,
+    "REJECTED": 11,
+    "WAITING_UNIT": 8
+  },
+  "ready": 17,
+  "readyByWiki": {
+    "pl": 13,
+    "en": 4
+  },
+  "readyByCourse": {
+    "SOUP": 4,
+    "MAIN": 3,
+    "BREAD": 2,
+    "SIDE": 2,
+    "SAUCE": 2,
+    "CAKE": 1,
+    "OTHER": 1,
+    "DRINK": 1,
+    "DESSERT": 1
+  },
+  "readyWithPhoto": 7,
+  "toTranslate": 0
+}

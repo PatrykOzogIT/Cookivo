@@ -12,6 +12,30 @@ export interface Photo {
   width: number;
   height: number;
   urls: { small: string; medium: string; large: string };
+  /** Zdjęcie z otwartej licencji (np. Wikimedia Commons) */
+  credit?: PhotoCredit;
+}
+
+export interface PhotoCredit {
+  author: string | null;
+  license: string;
+  licenseUrl: string | null;
+  sourceUrl: string | null;
+}
+
+/** Przepis z otwartego źródła (biblioteka startowa) - atrybucja wymagana przez licencję */
+export interface RecipeSource {
+  name: string;
+  locale: 'pl' | 'en';
+  title: string;
+  url: string;
+  historyUrl: string | null;
+  authors: string | null;
+  license: string;
+  licenseUrl: string;
+  changes: string[];
+  /** To wersja przepisu z tego źródła */
+  adapted: boolean;
 }
 
 export type Difficulty = 'EASY' | 'MEDIUM' | 'HARD';
@@ -109,6 +133,7 @@ export interface RecipeDetail extends RecipeSummary {
   variantOf: { id: string; title: string; author: string | null; viewable: boolean } | null;
   variantsCount: number;
   myRating: MyRating | null;
+  source: RecipeSource | null;
   canEdit: boolean;
   hiddenReason: string | null;
   createdAt: string;

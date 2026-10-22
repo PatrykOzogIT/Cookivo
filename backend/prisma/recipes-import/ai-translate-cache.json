@@ -1,0 +1,333 @@
+{
+  "version": 1,
+  "items": {
+    "wikibooks-en:124457#1": {
+      "hash": "cc138bde08a62a7b2c1fa3b538c99e39e0bc5ecc",
+      "model": "claude-sonnet-5-5",
+      "output": {
+        "title": "Risotto (podstawowe)",
+        "description": "Podstawowe włoskie risotto, danie z ryżu z północy Włoch, powoli gotowane na bulionie z cebulą, białym winem i masłem.",
+        "groups": [],
+        "notes": [
+          "ryż do risotto",
+          "drobno posiekana",
+          "wytrawne białe wino",
+          "najlepsze jest dobre, tłuste masło",
+          "Około 1 litra; więcej, niż potrzeba"
+        ],
+        "steps": [
+          "Bardzo delikatnie zeszklij cebulę na średnim ogniu na odrobinie masła lub oliwy, nie pozwalając jej się zarumienić. We Włoszech nazywa się to soffritto.",
+          "Dodaj ryż i smaż, aż stanie się szklisty (nie powinno to trwać długo). Dodaj trochę soli i pieprzu.",
+          "Dodaj wino. Gorąca patelnia sprawi, że alkohol odparuje szybciej, ale uważaj, żeby nie przypalić ryżu ani soffritto.",
+          "Gdy wino odparowuje, zobaczysz, że pozostały płyn gęstnieje, ponieważ wchłania skrobię z ryżu. Gdy prawie całkiem odparuje, dodaj trochę bulionu. Nie dodawaj zbyt dużo bulionu. Ryż nigdy nie powinien być zanurzony w bulionie. Mieszaj i dolewaj kolejne porcje bulionu, w miarę jak odparowuje.",
+          "Spróbuj, czy ryż jest gotowy. Ryż powinien być miękki, ale na tyle twardawy, by wyczuć pojedyncze ziarna. Po położeniu na talerzu powinien powoli się rozlewać. Jeśli stoi w miejscu, potrzebuje więcej bulionu; jeśli z risotto wypływa płyn, trzeba je jeszcze trochę odparować.",
+          "Gdy będzie gotowe, odstaw je na około minutę.",
+          "Energicznie wmieszaj masło, dodając je po trochu w małych kawałkach i próbując, aby dobrać odpowiednią ilość masła. Dopraw do smaku większą ilością soli i pieprzu. Ten etap nazywa się mantecatura.",
+          "Podawaj natychmiast."
+        ]
+      }
+    },
+    "wikibooks-en:9082#1": {
+      "hash": "70750ef192715af5849c51ef981b99c890aee031",
+      "model": "claude-sonnet-5-5",
+      "output": {
+        "title": "Sucharki żeglarskie",
+        "description": "Proste krakersy z mąki i wody, upieczone na twardo, dzięki czemu przechowywane w suchym miejscu zachowują świeżość przez wiele miesięcy; dawniej brano je w długie rejsy morskie i na kampanie wojskowe.",
+        "groups": [],
+        "notes": ["", "", "opcjonalnie"],
+        "steps": [
+          "Wymieszaj wszystkie składniki na ciasto i wyłóż je na natłuszczoną blachę, dociskając do grubości ok. 1,3 cm.",
+          "Piecz w nagrzanym piekarniku w temperaturze 205°C przez pół godziny. Na razie nie kroję.",
+          "Wyjmij z piekarnika i pokrój ciasto na kwadraty o boku 7,5 cm. Zrób w cieście cztery rzędy dziurek, po cztery dziurki w każdym rzędzie (dobrze sprawdzi się widelec).",
+          "Odwróć sucharki i włóż je z powrotem do piekarnika na kolejne pół godziny."
+        ]
+      }
+    },
+    "wikibooks-pl:25341#1": {
+      "hash": "b984d82041c426849793d80cd525a7ca22023907",
+      "model": "claude-sonnet-5-5",
+      "output": {
+        "title": "Orgeat Syrup",
+        "description": "A sweet drink made from tiger nuts and sugar, served chilled.",
+        "groups": [],
+        "notes": ["sweet", "", "water or milk, max 1 liter"],
+        "steps": [
+          "Crush, pound, or grind the almonds together with the sugar and a little water.",
+          "Pour water over the ground mixture.",
+          "Stir, set aside, and strain, pressing out the almonds.",
+          "Serve the drink chilled."
+        ]
+      }
+    },
+    "wikibooks-pl:6257#2": {
+      "hash": "b6fabe6773f698ac83cba3b6271baac0837b6017",
+      "model": "claude-sonnet-5-5",
+      "output": {
+        "title": "Traditional Split Pea Soup",
+        "description": "A thick soup made with peas, smoked bacon and vegetables, blended and finished with garlic.",
+        "groups": [],
+        "notes": ["", "", "120 g", "70 g", "clove, 30 g", "white part", "70 g", "", "", "", "", "", ""],
+        "steps": [
+          "Sort the peas, rinse them, cover with three cups of cold boiled water and set aside overnight.",
+          "In the morning, wash the bacon; clean and wash the carrot, parsley root, celery and leek.",
+          "Cover the prepared vegetables with four cups of water and cook for 25 minutes.",
+          "Cook the peas for about 30 minutes in the water they soaked in.",
+          "Add the bacon and cook for another hour.",
+          "Remove the tender bacon, cut it into small cubes and fry in butter.",
+          "Blend the peas; remove the vegetables from the broth.",
+          "Cut the carrot into strips and add it to the peas along with the broth and the bacon.",
+          "Peel the onion, dice it, lightly brown it in the fat left from frying the bacon and combine it with the soup.",
+          "Season with marjoram and pepper.",
+          "Peel the garlic, crush it with salt and add it to the soup."
+        ]
+      }
+    },
+    "wikibooks-pl:13055#5": {
+      "hash": "5387cf0e7115145bfd57f74fc0cce5d2bea57740",
+      "model": "claude-sonnet-5-5",
+      "output": {
+        "title": "Apple Sauce for Potato Pancakes",
+        "description": "A sauce made from apples, water and sugar, stewed until mushy.",
+        "groups": [],
+        "notes": ["", "3/4-1", "1/4-1/2"],
+        "steps": [
+          "Rinse the apples, cut them into cubes, put them in a wok, then add the sugar and water.",
+          "Stew uncovered, stirring, until the water evaporates and the apples cook down into a mush."
+        ]
+      }
+    },
+    "wikibooks-pl:13765#1": {
+      "hash": "d15e861328ee51e98aa980fbd8e3638a15ee6419",
+      "model": "claude-sonnet-5-5",
+      "output": {
+        "title": "Old Polish Onion Soup",
+        "description": "Traditional onion soup made with rye bread, enriched with egg yolks and cream.",
+        "groups": [],
+        "notes": ["without the crust", "", "", "", "", ""],
+        "steps": [
+          "Cut the bread crumb into cubes, place them in a frying pan, add half of the butter next to them, and put in the oven until the bread is browned and slightly dried.",
+          "Peel and chop the onion, then sauté it in the remaining butter.",
+          "Add the bread, pour in 6 cups of boiled water, and cook for about 30 minutes.",
+          "Pass the soup through a sieve, bring it to a boil, and thicken it with egg yolks mixed with cream.",
+          "Season with salt."
+        ]
+      }
+    },
+    "wikibooks-pl:13055#1": {
+      "hash": "6baf25e0a7887fe966bab47ee6e21dc9a161d899",
+      "model": "claude-sonnet-5-5",
+      "output": {
+        "title": "Traditional Potato Pancakes – Bambrzaki",
+        "description": "Potato pancakes, known as Ukrainian pancakes or bambrzaki, baked on a baking sheet from raw grated potatoes with egg and flour.",
+        "groups": [],
+        "notes": ["", "", "", "1-2", "", "", "3-4"],
+        "steps": [
+          "Wash, peel, and grate the potatoes on a fine grater.",
+          "Then add the flour, eggs, baking soda, salt, and sugar, and mix well.",
+          "Spread the batter onto a greased baking sheet to a thickness of 2 cm, and brush the top with melted fat.",
+          "Bake at 250 °C until golden, for about half an hour."
+        ]
+      }
+    },
+    "wikibooks-pl:6257#1": {
+      "hash": "59ea76bc0a67d001358a7ca09ab78eec9612cd8c",
+      "model": "claude-sonnet-5-5",
+      "output": {
+        "title": "Country-Style Split Pea Soup",
+        "description": "Yellow split pea soup with smoked meat, potatoes and onion.",
+        "groups": [],
+        "notes": ["dried yellow", "", "", "", "", "", ""],
+        "steps": [
+          "Cover the peas with water, add 2/3 of the smoked meat and cook until the peas are completely soft and falling apart.",
+          "Then add the diced potatoes.",
+          "Render the rest of the bacon in a frying pan until crispy, add the chopped onion, brown it and add to the soup.",
+          "Season to taste with salt, pepper and marjoram."
+        ]
+      }
+    },
+    "wikibooks-pl:16854#1": {
+      "hash": "f294ba05eb3af9e7e3ee5fb048854476dacd1771",
+      "model": "claude-sonnet-5-5",
+      "output": {
+        "title": "Bogrács",
+        "description": "A Hungarian goulash soup traditionally prepared in a cauldron over an open fire.",
+        "groups": ["Dough"],
+        "notes": ["", "", "", "large", "", "", "", "", "", "approx. 1½ cups", "", "", ""],
+        "steps": [
+          "In hot lard, fry the diced meat and chopped onion, sprinkled with ground paprika and mixed together.",
+          "Then add finely chopped (or pressed) garlic and a small amount of water, and simmer covered over low heat until the meat is tender.",
+          "Add the diced potatoes and tomatoes and the peppers cut into strips, pour in a little more water, and simmer until the potatoes are tender.",
+          "Finally, add to the soup the dough kneaded from egg, salt and flour and pinched with your fingers into small dumplings (csipetke; you can also make poured noodles).",
+          "The bogrács is ready to eat once the dumplings float to the surface."
+        ]
+      }
+    },
+    "wikibooks-pl:13055#4": {
+      "hash": "f2c34e6841a2de8c0fdb0e200fae2930caf9f0ad",
+      "model": "claude-sonnet-5-5",
+      "output": {
+        "title": "Potato Pancakes Like Omelets",
+        "description": "Thin pancakes made of grated potatoes with eggs and flour, fried like omelets.",
+        "groups": [],
+        "notes": ["", "", "", "", ""],
+        "steps": [
+          "Rinse the potatoes, peel them thinly with a peeler, rinse again, and grate on the large holes of a grater.",
+          "Add the eggs, flour, and salt, and mix.",
+          "Spoon portions of the batter with a tablespoon onto hot fat in a frying pan.",
+          "Fry the pancakes on both sides until golden brown, flipping them over, preferably with frying spatulas.",
+          "Each time before putting the next portion of pancakes into the pan, thoroughly stir the remaining batter in the bowl."
+        ]
+      }
+    },
+    "wikibooks-pl:4648#2": {
+      "hash": "21ef4e5f10240cbb5edda6030e5102c2314d1138",
+      "model": "claude-sonnet-5-5",
+      "output": {
+        "title": "Classic Bolognese",
+        "description": "Classic Bolognese beef sauce with carrot, celery, bacon, milk and wine, served with tagliatelle and Parmesan.\n\nTo serve: pasta (about 80–100 g per person), preferably tagliatelle, and grated Parmesan; pasta (about 80–100 g per person), preferably tagliatelle, and grated Parmesan.",
+        "groups": [],
+        "notes": [
+          "",
+          "medium",
+          "",
+          "medium",
+          "2-3",
+          "50-70 g",
+          "",
+          "",
+          "or 1 can and 1 small jar of tomato purée",
+          "",
+          "",
+          "sugar, peppercorns"
+        ],
+        "steps": [
+          "Peel the carrot and grate it on the large holes of a grater.",
+          "Finely dice the celery stalks, and finely chop the onion and garlic.",
+          "Finely cut the bacon into thin cubes and blend the canned tomatoes.",
+          "Heat the olive oil in a lidded pan and fry the bacon until golden, then add the onion and garlic and cook until the onion turns translucent.",
+          "Add the carrot and celery, stirring thoroughly and frying for a few minutes until softened.",
+          "Add the beef and stir to combine all the ingredients as it browns.",
+          "When all the beef is thoroughly browned, pour the milk into the pan, stir, and let it reduce a little.",
+          "Add the wine and again let it reduce a little.",
+          "When the wine has reduced, add the tomatoes to the pan and mix thoroughly.",
+          "Add the bay leaves and a few peppercorns.",
+          "Reduce the heat to the lowest setting, cover with the lid and simmer the sauce for at least 2 hours, stirring from time to time so the sauce does not stick to the bottom.",
+          "While cooking, you can add a little sugar to get the right acidity in the sauce.",
+          "Finally, season the dish with salt to taste."
+        ]
+      }
+    },
+    "wikibooks-en:4696#1": {
+      "hash": "7b655db55b6c3fbc85b64dc90119074034520162",
+      "model": "claude-sonnet-5-5",
+      "output": {
+        "title": "Ciasto 1-2-3-4",
+        "description": "Tradycyjne amerykańskie proste żółte ciasto, którego nazwa pochodzi od objętościowych proporcji masła, cukru, mąki i jajek.",
+        "groups": [],
+        "notes": ["", "", "", "", "", "", "", ""],
+        "steps": [
+          "Rozgrzej piekarnik do 175 °C.",
+          "Utrzyj masło z cukrem na puszystą masę.",
+          "Dodaj wanilię i jajka, jedno po drugim, dokładnie mieszając ciasto po każdym jajku.",
+          "Stopniowo przesiewaj składniki suche, na przemian z niewielkimi porcjami mleka.",
+          "Przełóż ciasto do natłuszczonej i oprószonej mąką formy.",
+          "Piecz w 175 °C, aż patyczek wbity w ciasto będzie wychodził bez wilgotnych okruchów."
+        ]
+      }
+    },
+    "wikibooks-pl:22024#2": {
+      "hash": "7812ba3817a6848126f97fe535d541770d4ceae4",
+      "model": "claude-sonnet-5-5",
+      "output": {
+        "title": "Crepes - Variation II (Extended)",
+        "description": "Thin crepes made with a batter of flour, water, milk, eggs and kefir.",
+        "groups": [],
+        "notes": ["", "can be sparkling", "", "", "", "flat", "", ""],
+        "steps": [
+          "Whisk the milk, water and eggs together in a bowl (you can beat the egg whites separately and add them at the very end).",
+          "Gradually add the flour while mixing the batter.",
+          "Finally, add the salt, sugar, kefir and oil. Mix everything well. The batter should be runny, with the consistency of thin cream.",
+          "Refrigerate it for 1 hour, then fry. The crepes should be as thin as possible."
+        ]
+      }
+    },
+    "wikibooks-pl:13055#3": {
+      "hash": "f976012f349570d2f04f8f768dd6e56509513687",
+      "model": "claude-sonnet-5-5",
+      "output": {
+        "title": "Quick and Easy Potato Pancakes",
+        "description": "Quick pancakes made from grated potatoes with onion, egg and flour, fried in a pan.",
+        "groups": [],
+        "notes": ["", "", "", "", "", ""],
+        "steps": [
+          "Rinse the potatoes, peel them thinly with a peeler, and rinse again.",
+          "Grate into a bowl using the large holes of a grater.",
+          "Add the finely diced onion, egg, flour and salt.",
+          "Stir thoroughly with a spoon until the salt draws liquid out of the potatoes and onion and the batter takes on a gluey consistency.",
+          "Spoon portions of the batter onto hot fat in a frying pan.",
+          "Fry the pancakes on both sides until golden brown, turning them over with frying spatulas.",
+          "Before putting the next portion of pancakes into the pan, stir the remaining batter in the bowl thoroughly."
+        ]
+      }
+    },
+    "wikibooks-pl:13055#2": {
+      "hash": "fcf8454d9fdefd01c82297d45400e17af6ec723b",
+      "model": "claude-sonnet-5-5",
+      "output": {
+        "title": "Seasoned Potato Pancakes",
+        "description": "Pancakes made from grated potatoes with egg, onion and spices, fried in a pan.",
+        "groups": [],
+        "notes": ["large", "", "3-4", "", "", "", "", "", ""],
+        "steps": [
+          "Wash and peel the potatoes.",
+          "Grate them on the coarse side of a grater.",
+          "Mix with the flour, egg, chopped onion and spices: garlic, salt, pepper, herbs.",
+          "You can add a spoonful of sour cream to the batter to make the pancakes fluffier.",
+          "Heat a pan with oil over high heat.",
+          "Fry the pancakes on both sides.",
+          "To get rid of excess fat, place them on a paper towel."
+        ]
+      }
+    },
+    "wikibooks-en:219405#1": {
+      "hash": "c755292a58c6468945120b6698bd977b826e79e9",
+      "model": "claude-sonnet-5-5",
+      "output": {
+        "title": "Ciabatta",
+        "description": "Włoski biały chleb z mąki pszennej i drożdży, o wydłużonym, spłaszczonym kształcie.",
+        "groups": [],
+        "notes": ["przesiana", "letnia", "", "opcjonalnie", "suche aktywne"],
+        "steps": [
+          "Rozpuść sól i drożdże w letniej wodzie.",
+          "Dodaj przesianą mąkę pszenną i oliwę z oliwek do letniej wody. Wymieszaj.",
+          "Gdy składniki zostaną dokładnie wymieszane i powstanie ciasto o jednolitej konsystencji, przykryj je i odstaw w ciepłe miejsce na 45 minut.",
+          "Wyjmij ciasto i ponownie zacznij je wyrabiać, rozciągając je i składając na siebie z czterech stron; podsypuj powierzchnię mąką, aby ciasto się nie przyklejało. Przykryj i odstaw na około 30 minut, w trakcie których ciasto będzie rosło.",
+          "Powtórz ten proces, rozciągając ciasto i składając je na siebie ze wszystkich stron, tak aby utworzyły się pęcherzyki powietrza (dzięki nim chleb po upieczeniu będzie puszysty). Przykryj i odstaw na 30 minut.",
+          "Powtórz powyższy proces jeszcze raz i zostaw ciasto przykryte na 30 minut, aby odpoczęło.",
+          "Weź ciasto i połóż je na blasze do pieczenia, a następnie podziel na równe części, z których uformujesz mniejsze, oddzielne, wydłużone bochenki.",
+          "Włóż ciasto do nagrzanego piekarnika i piecz w temperaturze 220 °C przez 18 minut."
+        ]
+      }
+    },
+    "wikibooks-pl:62038#1": {
+      "hash": "edd4a6abc8b3764ed1c1c3db7c23dee97048c2c1",
+      "model": "claude-sonnet-5-5",
+      "output": {
+        "title": "Vizier's Fingers",
+        "description": "Cookies in syrup, a type of dessert from Arab cuisine.",
+        "groups": ["Dough", "Syrup"],
+        "notes": ["", "", "", "", "", "", "for frying", "", "", ""],
+        "steps": [
+          "Make a thick syrup from the sugar, water and lemon juice, then set aside to cool.",
+          "Heat the butter in a saucepan, add the water and salt, then bring to a boil.",
+          "Reduce the heat, add all the flour and stir with a wooden spoon until the dough starts to pull away from the sides of the pot, then remove from the heat and let cool.",
+          "Add the eggs and the egg yolk, and beat the mixture with a wooden spoon for about 10 minutes.",
+          "Pinch off balls of dough and roll them between your palms greased with olive oil, shaping them into small rolls (little fingers).",
+          "Fry the cookies in olive oil until golden, then remove with a slotted spoon and drain on parchment paper.",
+          "Once cooled, dip them in the syrup for 15 minutes.",
+          "Drain again, then arrange on a platter and serve."
+        ]
+      }
+    }
+  }
+}

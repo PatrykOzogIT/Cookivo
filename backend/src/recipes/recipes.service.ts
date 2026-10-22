@@ -31,6 +31,7 @@ const LIST_INCLUDE = {
   allergens: { include: { allergen: true }, orderBy: { allergen: { sortOrder: 'asc' } } },
   photos: { where: { position: { not: null } }, orderBy: { position: 'asc' }, take: 1 },
   groups: { select: { groupId: true, group: { select: { name: true } } } },
+  translations: { select: { locale: true, title: true } },
 } satisfies Prisma.RecipeInclude;
 
 /** Grupy przepisu - wystarczą id do sprawdzenia widoczności */
@@ -39,6 +40,8 @@ const GROUP_IDS = { select: { groupId: true } } as const;
 const DETAIL_INCLUDE = {
   ...LIST_INCLUDE,
   photos: { where: { position: { not: null } }, orderBy: { position: 'asc' } },
+  translations: true,
+  source: true,
   steps: { include: { photo: true }, orderBy: { position: 'asc' } },
   ingredients: {
     orderBy: { position: 'asc' },
@@ -72,6 +75,7 @@ const DETAIL_INCLUDE = {
       authorId: true,
       groups: GROUP_IDS,
       author: { select: { id: true, username: true, nameHiddenAt: true } },
+      source: true,
     },
   },
 } satisfies Prisma.RecipeInclude;
@@ -149,7 +153,8 @@ export class RecipesService {
       newest: Prisma.sql`r.created_at DESC`,
       kcal: Prisma.sql`r.kcal_per_serving ASC`,
       time: Prisma.sql`coalesce(r.prep_minutes, 0) + coalesce(r.cook_minutes, 0) ASC`,
-      name: Prisma.sql`r.title COLLATE ${collate}`,
+      name: Prisma.sql`coalesce((SELECT t.title FROM recipe_translations t
+          WHERE t.recipe_id = r.id AND t.locale = ${query.lang}::"Locale"), r.title) COLLATE ${collate}`,
       // Dopasowanie: upodobania (moje / gospodarstwa) + moja ocena przepisu (5 gwiazdek podbija, 1 obniża)
       forYou: user
         ? Prisma.sql`(${Prisma.join((us?.memberIds ?? [user.id]).map(recipeScore), ' + ')}
@@ -181,14 +186,15 @@ export class RecipesService {
     ]);
     const byId = new Map(found.map((f) => [f.id, f]));
     return {
-      items: ids.map((id) => toListDto(byId.get(id)!, user, mine, viewer)),
+      items: ids.map((id) => toListDto(byId.get(id)!, user, mine, viewer, query.lang)),
       total: Number(count),
       page: query.page,
       pageSize: query.pageSize,
     };
   }
 
-  async get(id: string, user?: AuthUser) {
+  /** `lang` - tytuł, opis, kroki i uwagi z tłumaczenia (bez niego: treść tak, jak ją zapisano - do formularza) */
+  async get(id: string, user?: AuthUser, lang?: Lang) {
     const [recipe, viewer] = await Promise.all([
       this.prisma.recipe.findUnique({ where: { id }, include: DETAIL_INCLUDE }),
       this.viewer(user),
@@ -205,7 +211,7 @@ export class RecipesService {
       }),
     ]);
     return {
-      ...toDetailDto(recipe, user, await this.myAllergens(user), viewer),
+      ...toDetailDto(recipe, user, await this.myAllergens(user), viewer, lang),
       myRating: myRating ? { stars: myRating.stars, comment: myRating.comment } : null,
       /** Publiczne warianty oryginału (bez samego siebie, jeśli to wariant) */
       variantsCount:
@@ -256,11 +262,23 @@ export class RecipesService {
       where: { id: created.id },
       data: { variantOfId: source.variantOfId ?? original.id },
     });
+    // Kopia ma te same kroki i składniki - tłumaczenia pasują bez zmian
+    const translations = await this.prisma.recipeTranslation.findMany({ where: { recipeId: id } });
+    if (translations.length) {
+      await this.prisma.recipeTranslation.createMany({
+        data: translations.map((t) => ({
+          ...t,
+          recipeId: created.id,
+          steps: t.steps as Prisma.InputJsonValue,
+          lines: t.lines as Prisma.InputJsonValue,
+        })),
+      });
+    }
     return this.get(created.id, user);
   }
 
   /** Oryginał i jego warianty widoczne dla czytającego (do sekcji "Alternatywy") */
-  async variants(id: string, user?: AuthUser) {
+  async variants(id: string, user?: AuthUser, lang?: Lang) {
     const current = await this.get(id, user);
     const rootId = current.variantOf?.id ?? id;
     const viewer = await this.viewer(user);
@@ -274,7 +292,7 @@ export class RecipesService {
     return {
       originalId: rootId,
       items: visible.map((r) => ({
-        ...toListDto(r, user, mine, viewer),
+        ...toListDto(r, user, mine, viewer, lang),
         variantNote: r.variantNote,
         isOriginal: r.id === rootId,
       })),
@@ -315,6 +333,8 @@ export class RecipesService {
     const removedPhotos = await this.prisma.$transaction(
       async (tx) => {
         await tx.recipe.update({ where: { id }, data: recipeFields(dto) });
+        // Tłumaczenia byłyby nieaktualne po zmianie treści
+        await tx.recipeTranslation.deleteMany({ where: { recipeId: id } });
         // Grupy sprawdzamy względem autora (admin poprawiający przepis nie musi być w jego grupach)
         return this.writeContent(tx, id, dto, user, false, existing.authorId ?? user.id);
       },
@@ -695,11 +715,19 @@ function totals(r: DetailRow | ListRow): NutritionValues {
   };
 }
 
-function toListDto(r: ListRow, user?: AuthUser, myAllergens = new Set<string>(), viewer: Viewer = NO_VIEWER) {
+type Lang = 'pl' | 'en';
+
+function toListDto(
+  r: ListRow,
+  user?: AuthUser,
+  myAllergens = new Set<string>(),
+  viewer: Viewer = NO_VIEWER,
+  lang?: Lang,
+) {
   const own = !!user && r.authorId === user.id;
   return {
     id: r.id,
-    title: r.title,
+    title: r.translations.find((t) => t.locale === lang)?.title ?? r.title,
     servings: r.servings,
     prepMinutes: r.prepMinutes,
     cookMinutes: r.cookMinutes,
@@ -731,8 +759,10 @@ function toDetailDto(
   user?: AuthUser,
   myAllergens = new Set<string>(),
   viewer: Viewer = NO_VIEWER,
+  lang?: Lang,
 ) {
   const own = !!user && r.authorId === user.id;
+  const tr = translationFor(r, lang);
   const derived = derivedNutrition({
     totals: totals(r),
     totalGrams: r.totalGrams,
@@ -740,19 +770,19 @@ function toDetailDto(
     servings: r.servings,
   });
   return {
-    ...toListDto(r, user, myAllergens, viewer),
-    description: r.description,
+    ...toListDto(r, user, myAllergens, viewer, lang),
+    description: tr ? tr.description : r.description,
     cookedGrams: r.cookedGrams,
     totalGrams: r.totalGrams,
     nutrition: { total: totals(r), ...derived },
     photos: r.photos.map(toPhotoDto),
-    ingredients: r.ingredients.map((l) => ({
+    ingredients: r.ingredients.map((l, i) => ({
       id: l.id,
-      groupName: l.groupName,
+      groupName: tr ? (tr.lines[i]?.groupName ?? null) : l.groupName,
       amount: l.amount,
       unitCode: l.unitCode,
       grams: l.grams,
-      note: l.note,
+      note: tr ? (tr.lines[i]?.note ?? null) : l.note,
       ingredient: l.ingredient
         ? {
             id: l.ingredient.id,
@@ -773,8 +803,8 @@ function toDetailDto(
           }
         : null,
     })),
-    steps: r.steps.map((s) => ({
-      text: s.text,
+    steps: r.steps.map((s, i) => ({
+      text: tr?.steps[i] ?? s.text,
       timerMinutes: s.timerMinutes,
       photo: s.photo ? toPhotoDto(s.photo) : null,
     })),
@@ -789,6 +819,8 @@ function toDetailDto(
           viewable: canView(r.variantOf, user, viewer),
         }
       : null,
+    /** Źródło z otwartej licencji; wersja takiego przepisu pokazuje źródło oryginału (utwór zależny) */
+    source: sourceDto(r.source ?? r.variantOf?.source ?? null, !r.source && !!r.variantOf?.source),
     canEdit: canEdit(r, user),
     hiddenReason: own || isAdmin(user) ? r.hiddenReason : null,
     createdAt: r.createdAt,
@@ -797,3 +829,36 @@ function toDetailDto(
 }
 
 export type RecipeDetailDto = ReturnType<typeof toDetailDto>;
+
+interface TranslationContent {
+  description: string | null;
+  steps: string[];
+  lines: { groupName: string | null; note: string | null }[];
+}
+
+/** Tłumaczenie w języku czytającego - tylko gdy pasuje do przepisu (ta sama liczba kroków i pozycji) */
+function translationFor(r: DetailRow, lang?: Lang): TranslationContent | null {
+  const t = r.translations.find((x) => x.locale === lang);
+  if (!t) return null;
+  const steps = t.steps as string[];
+  const lines = t.lines as TranslationContent['lines'];
+  if (steps.length !== r.steps.length || lines.length !== r.ingredients.length) return null;
+  return { description: t.description, steps, lines };
+}
+
+function sourceDto(s: DetailRow['source'], adapted: boolean) {
+  if (!s) return null;
+  return {
+    name: s.sourceName,
+    locale: s.sourceLocale,
+    title: s.sourceTitle,
+    url: s.url,
+    historyUrl: s.historyUrl,
+    authors: s.authors,
+    license: s.license,
+    licenseUrl: s.licenseUrl,
+    changes: s.changes,
+    /** Przepis jest wersją (wariantem) przepisu z tego źródła */
+    adapted,
+  };
+}

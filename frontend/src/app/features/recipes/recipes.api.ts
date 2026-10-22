@@ -32,8 +32,10 @@ export class RecipesApi {
     return firstValueFrom(this.http.get<Page<RecipeSummary>>('/api/recipes', { params }));
   }
 
-  get(id: string): Promise<RecipeDetail> {
-    return firstValueFrom(this.http.get<RecipeDetail>(`/api/recipes/${id}`));
+  /** `lang` - treść w języku czytającego (tłumaczenie); bez niego treść tak, jak ją zapisano (formularz) */
+  get(id: string, lang?: string): Promise<RecipeDetail> {
+    const params = lang ? new HttpParams().set('lang', lang) : undefined;
+    return firstValueFrom(this.http.get<RecipeDetail>(`/api/recipes/${id}`, { params }));
   }
 
   create(data: SaveRecipe): Promise<RecipeDetail> {
@@ -49,9 +51,12 @@ export class RecipesApi {
     return firstValueFrom(this.http.post<RecipeDetail>(`/api/recipes/${id}/variant`, {}));
   }
 
-  variants(id: string): Promise<{ originalId: string; items: VariantSummary[] }> {
+  variants(id: string, lang?: string): Promise<{ originalId: string; items: VariantSummary[] }> {
+    const params = lang ? new HttpParams().set('lang', lang) : undefined;
     return firstValueFrom(
-      this.http.get<{ originalId: string; items: VariantSummary[] }>(`/api/recipes/${id}/variants`),
+      this.http.get<{ originalId: string; items: VariantSummary[] }>(`/api/recipes/${id}/variants`, {
+        params,
+      }),
     );
   }
 

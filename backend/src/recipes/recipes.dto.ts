@@ -279,3 +279,10 @@ export class HideRecipeDto {
   @Length(3, 500)
   reason!: string;
 }
+
+/** Język treści przepisu (tłumaczenie); bez parametru - treść tak, jak ją zapisano */
+export class LangQuery {
+  @IsOptional()
+  @IsIn(['pl', 'en'])
+  lang?: 'pl' | 'en';
+}

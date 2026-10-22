@@ -115,6 +115,24 @@
               [height]="p.height"
               [alt]="t('recipes.photoAlt', { title: r.title, n: photoIndex() + 1 })"
             />
+            @if (p.credit; as c) {
+              <p class="credit">
+                {{ t('recipes.source.photo') }}
+                @if (c.sourceUrl) {
+                  <a [href]="c.sourceUrl" target="_blank" rel="noopener">{{
+                    c.author || t('recipes.source.unknownAuthor')
+                  }}</a>
+                } @else {
+                  {{ c.author || t('recipes.source.unknownAuthor') }}
+                }
+                ,
+                @if (c.licenseUrl) {
+                  <a [href]="c.licenseUrl" target="_blank" rel="noopener license">{{ c.license }}</a>
+                } @else {
+                  {{ c.license }}
+                }
+              </p>
+            }
             @if (r.photos.length > 1) {
               <div class="thumbs" role="group" [attr.aria-label]="t('recipes.gallery')">
                 @for (th of r.photos; track th.id; let i = $index) {
@@ -372,6 +390,46 @@
           {{ t('recipes.notMedical') }}
         </p>
       </section>
+
+      @if (r.source; as s) {
+        <section class="ck-card box source" aria-labelledby="source-title">
+          <h2 id="source-title">{{ t('recipes.source.title') }}</h2>
+          <p>
+            @if (s.adapted) {
+              {{ t('recipes.source.adaptedFrom') }}
+            } @else {
+              {{ t('recipes.source.from') }}
+            }
+            <a [href]="s.url" target="_blank" rel="noopener">{{ s.title }}</a> ({{ s.name }}),
+            {{ t('recipes.source.authors') }}
+            @if (s.historyUrl) {
+              <a [href]="s.historyUrl" target="_blank" rel="noopener">{{
+                s.authors || t('recipes.source.contributors', { name: s.name })
+              }}</a
+              >.
+            } @else {
+              {{ s.authors || t('recipes.source.contributors', { name: s.name }) }}.
+            }
+            {{ t('recipes.source.license') }}
+            <a [href]="s.licenseUrl" target="_blank" rel="noopener license">{{ s.license }}</a
+            >.
+          </p>
+          @if (s.changes.length || s.adapted || s.locale !== lang()) {
+            <p>
+              @if (s.locale !== lang()) {
+                {{ t('recipes.source.changes.TRANSLATED') }}
+              }
+              @for (c of s.changes; track c) {
+                {{ t('recipes.source.changes.' + c) }}
+              }
+              @if (s.adapted) {
+                {{ t('recipes.source.changes.VARIANT') }}
+              }
+            </p>
+          }
+          <p class="muted small">{{ t('recipes.source.shareAlike') }}</p>
+        </section>
+      }
 
       <app-recipe-community [recipe]="r" [lang]="lang()" (rated)="onRated($event)" />
 

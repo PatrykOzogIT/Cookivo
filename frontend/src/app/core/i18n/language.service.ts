@@ -26,9 +26,14 @@ export class LanguageService {
   }
 
   use(lang: Language): void {
-    this.transloco.setActiveLang(lang);
-    this.document.documentElement.lang = lang;
-    safeStorage.set(STORAGE_KEY, lang);
+    // Najpierw plik tłumaczeń, potem zmiana języka - pipe'y z językiem w argumencie (np. amountLabel)
+    // przeliczają się raz, już z gotowymi tłumaczeniami
+    const activate = () => {
+      this.transloco.setActiveLang(lang);
+      this.document.documentElement.lang = lang;
+      safeStorage.set(STORAGE_KEY, lang);
+    };
+    this.transloco.load(lang).subscribe({ complete: activate, error: activate });
   }
 
   toggle(): void {
