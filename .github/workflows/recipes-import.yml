@@ -1,17 +1,12 @@
 # Import biblioteki przepisów - uruchamiany wyłącznie ręcznie (Actions → "Import przepisów" → Run workflow).
 # Plik importowy (backend/prisma/recipes-import/recipes.import.jsonl) jest w repozytorium; zadanie go
 # nie przetwarza ponownie - porównuje z bazą i wstawia brakujące przepisy (idempotentnie, po źródle).
-# Produkcja: najpierw zdjęcia (WebP z Wikimedia Commons) przez FTP do katalogu zdjęć, potem baza.
+# Zawsze produkcja (dry-run cofa wszystkie zapisy). Najpierw zdjęcia (WebP z Wikimedia Commons) przez FTP do katalogu zdjęć, potem baza.
 name: Import przepisów
 
 on:
   workflow_dispatch:
     inputs:
-      target:
-        description: 'Baza docelowa'
-        type: choice
-        options: [test, production]
-        default: test
       mode:
         description: 'Tryb (dry-run = raport bez zapisu)'
         type: choice
@@ -26,14 +21,14 @@ permissions:
   contents: read
 
 concurrency:
-  group: recipes-import-${{ inputs.target }}
+  group: recipes-import
   cancel-in-progress: false
 
 jobs:
   import:
-    name: ${{ inputs.mode }} → ${{ inputs.target }}
+    name: ${{ inputs.mode }} → produkcja
     runs-on: ubuntu-latest
-    environment: ${{ inputs.target == 'production' && 'production' || 'import-test' }}
+    environment: production
     env:
       DATABASE_URL: postgresql://build:build@localhost:5432/build
     steps:
@@ -46,13 +41,13 @@ jobs:
       - name: Zależności
         run: npm ci --prefix backend
 
-      # Zdjęcia tylko przy zapisie na produkcji: pliki z Commons → WebP → FTP (bez nadpisywania i usuwania)
+      # Zdjęcia tylko przy zapisie: pliki z Commons → WebP → FTP (bez nadpisywania i usuwania)
       - name: Zdjęcia (WebP)
-        if: inputs.target == 'production' && inputs.mode == 'import'
+        if: inputs.mode == 'import'
         working-directory: backend
         run: npm run recipes:photos -- files --dir "$RUNNER_TEMP/photos"
       - name: Wgranie zdjęć (FTP)
-        if: inputs.target == 'production' && inputs.mode == 'import'
+        if: inputs.mode == 'import'
         env:
           FTP_SERVER: ${{ secrets.FTP_SERVER }}
           FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
@@ -72,12 +67,12 @@ jobs:
       - name: Import
         working-directory: backend
         env:
-          IMPORT_DATABASE_URL: ${{ inputs.target == 'production' && secrets.DATABASE_URL_DIRECT || secrets.NEON_IMPORT_TEST_URL }}
+          IMPORT_DATABASE_URL: ${{ secrets.DATABASE_URL_DIRECT }}
           MODE: ${{ inputs.mode }}
           LIMIT: ${{ inputs.limit }}
         run: |
           if [ -z "$IMPORT_DATABASE_URL" ]; then
-            echo "::error::Brak adresu bazy (sekret NEON_IMPORT_TEST_URL albo DATABASE_URL_DIRECT)" >&2; exit 1
+            echo "::error::Brak adresu bazy (sekret DATABASE_URL_DIRECT)" >&2; exit 1
           fi
           case "$MODE" in
             dry-run) ARGS="--dry-run" ;;
@@ -92,6 +87,6 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: raport-importu-przepisow-${{ inputs.target }}-${{ inputs.mode }}
+          name: raport-importu-przepisow-${{ inputs.mode }}
           path: backend/prisma/recipes-import/out/import-*.json
           if-no-files-found: ignore

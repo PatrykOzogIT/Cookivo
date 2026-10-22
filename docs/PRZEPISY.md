@@ -22,7 +22,7 @@ Startowa biblioteka publicznych przepisów pochodzi z polskich i angielskich Wik
 | 5. Składanie             | `npm run recipes:build -- --target 1000 --cap 0.15`: kontrola jakości, miary, dopasowanie składników, duble, limity kategorii, raporty                                                  | 0                     |
 | 6. Tłumaczenia           | `npm run recipes:ai -- translate submit`, potem `translate fetch`. Sonnet przez Batch API: PL→EN i EN→PL.                                                                               | ~0,0075 USD / przepis |
 | 7. Zdjęcia               | `npm run recipes:photos -- meta`: licencje z Commons, wymiary; potem znowu krok 5                                                                                                       | 0                     |
-| 8. Import                | workflow **Import przepisów** (test / produkcja, dry-run → import). Produkcja najpierw wgrywa zdjęcia przez FTP (`vars.FTP_UPLOADS_DIR`).                                               | 0                     |
+| 8. Import                | workflow **Import przepisów** (produkcja: dry-run → import; dry-run cofa wszystkie zapisy). Import najpierw wgrywa zdjęcia przez FTP (`vars.FTP_UPLOADS_DIR`).                          | 0                     |
 
 Wyniki AI są w cache w repozytorium (`ai-structure-cache.json`, `ai-translate-cache.json`, `photo-cache.json`), więc ponowne uruchomienie nie płaci drugi raz.
 
