@@ -149,7 +149,7 @@ export class AuthService {
    */
   private async withCrossTabLock<T>(fn: () => Promise<T>): Promise<T> {
     const locks = typeof navigator !== 'undefined' ? navigator.locks : undefined;
-    if (!locks || typeof AbortSignal?.timeout !== 'function') return fn();
+    if (!locks || !AbortSignal?.timeout) return fn();
     try {
       return await locks.request('cookivo-auth-refresh', { signal: AbortSignal.timeout(LOCK_WAIT_MS) }, fn);
     } catch (err) {
