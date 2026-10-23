@@ -72,14 +72,18 @@ Projekt `cookivo`, region AWS Europe Central 1 (Frankfurt). Potrzebne dwa adresy
 
 **Variables**
 
-| Nazwa              | Przykład                                                        |
-| ------------------ | --------------------------------------------------------------- |
-| `APP_URL`          | `https://cookivo.pl`                                            |
-| `MAIL_FROM`        | `Cookivo <no-reply@cookivo.pl>`                                 |
-| `UPLOADS_DIR`      | `../cookivo-data/uploads`                                       |
-| `FTP_BACKEND_DIR`  | `cookivo-api/` (z ukośnikiem na końcu)                          |
-| `FTP_FRONTEND_DIR` | `public_html/`                                                  |
-| `FTP_PROTOCOL`     | `ftps` (domyślnie) albo `ftp`, jeśli hosting nie obsługuje FTPS |
+| Nazwa              | Przykład                                                                               |
+| ------------------ | -------------------------------------------------------------------------------------- |
+| `APP_URL`          | `https://cookivo.pl`                                                                   |
+| `MAIL_FROM`        | `Cookivo <no-reply@cookivo.pl>`                                                        |
+| `UPLOADS_DIR`      | `../cookivo-data/uploads`                                                              |
+| `FTP_BACKEND_DIR`  | `cookivo-api/` (z ukośnikiem na końcu)                                                 |
+| `FTP_FRONTEND_DIR` | `public_html/`                                                                         |
+| `FTP_PROTOCOL`     | `ftps` (domyślnie) albo `ftp`, jeśli hosting nie obsługuje FTPS                        |
+| `FTP_UPLOADS_DIR`  | `cookivo-data/uploads` (katalog `UPLOADS_DIR` widziany z FTP - import przepisów)       |
+| `FORCE_SEED`       | `true` wymusza seed przy wdrożeniu (domyślnie tylko po zmianie `backend/prisma/seed/`) |
+
+CI: Playwright działa w obrazie `mcr.microsoft.com/playwright` (wersja jak `@playwright/test` w `package-lock.json` - zmieniać razem) i w 4 równoległych częściach; każde zadanie ma limit czasu, więc zawieszony krok kończy się błędem.
 
 Na końcu w **Settings → Secrets and variables → Actions → Variables** (poziom repozytorium) ustaw `DEPLOY_ENABLED` = `true`. Bez tego zadanie wdrożenia jest pomijane.
 

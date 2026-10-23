@@ -17,6 +17,7 @@ jobs:
   format:
     name: Formatowanie
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v5
@@ -29,6 +30,7 @@ jobs:
   backend:
     name: Backend (lint, typy, testy) - Node ${{ matrix.node }}
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     strategy:
       fail-fast: false
       matrix:
@@ -73,6 +75,7 @@ jobs:
   frontend:
     name: Frontend (lint, testy, build)
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     defaults:
       run:
         working-directory: frontend
@@ -89,9 +92,18 @@ jobs:
       - run: npm run build
 
   e2e:
-    name: E2E + dostępność (Playwright)
+    name: E2E + dostępność (Playwright) ${{ matrix.shard }}/4
     runs-on: ubuntu-latest
     needs: [backend, frontend]
+    timeout-minutes: 25
+    # Obraz z przeglądarkami i bibliotekami systemowymi - bez `playwright install --with-deps` (apt potrafi wisieć).
+    # Wersja = @playwright/test z package-lock.json (zmieniać razem).
+    container: mcr.microsoft.com/playwright:v1.63.0-noble
+    strategy:
+      fail-fast: false
+      matrix:
+        # Testy dzielone na 4 równoległe zadania (każde z własną bazą i serwerami)
+        shard: [1, 2, 3, 4]
     services:
       postgres:
         image: postgres:17-alpine
@@ -99,18 +111,20 @@ jobs:
           POSTGRES_USER: cookivo
           POSTGRES_PASSWORD: cookivo
           POSTGRES_DB: cookivo
-        ports: ['5433:5432']
         options: >-
           --health-cmd "pg_isready -U cookivo" --health-interval 5s --health-timeout 5s --health-retries 10
       mailpit:
         image: axllent/mailpit:latest
-        ports: ['1025:1025', '8025:8025']
     env:
       CI: true
-      DATABASE_URL: postgresql://cookivo:cookivo@localhost:5433/cookivo?schema=public
+      # Zadanie działa w kontenerze - usługi pod nazwami, nie localhost
+      DATABASE_URL: postgresql://cookivo:cookivo@postgres:5432/cookivo?schema=public
+      SMTP_HOST: mailpit
+      MAILPIT_URL: http://mailpit:8025
       JWT_ACCESS_SECRET: ci-only-secret-ci-only-secret-ci-only-secret
       APP_URL: http://localhost:4200
       HIBP_ENABLED: 'false'
+      HOME: /root
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v5
@@ -124,21 +138,18 @@ jobs:
       - run: npm ci && npm ci --prefix backend && npm ci --prefix frontend
       - run: npm run db:deploy --prefix backend
       - run: npm run db:seed --prefix backend
-      - run: npx playwright install --with-deps chromium webkit
-      - run: npx playwright test
+      - run: npx playwright test --shard=${{ matrix.shard }}/4
       - uses: actions/upload-artifact@v5
         if: ${{ !cancelled() }}
         with:
-          name: playwright-report
+          name: playwright-report-${{ matrix.shard }}
           path: playwright-report/
           retention-days: 14
 
-  # Wdrożenie na cookivo.pl: tylko push do main i tylko gdy wszystkie testy są zielone.
-  # Hosting bez SSH: pliki przez FTP, restart aplikacji Node (Passenger) przez tmp/restart.txt.
-  # Włączane zmienną repozytorium DEPLOY_ENABLED=true (Settings → Secrets and variables → Actions → Variables).
   deploy:
     name: Wdrożenie (cookivo.pl)
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     needs: [format, backend, frontend, e2e]
     if: github.event_name == 'push' && github.ref == 'refs/heads/main' && vars.DEPLOY_ENABLED == 'true'
     environment:
@@ -152,6 +163,9 @@ jobs:
       DATABASE_URL: postgresql://build:build@localhost:5432/build
     steps:
       - uses: actions/checkout@v5
+        with:
+          # Pełna historia - porównanie z poprzednim pushem (czy zmienił się katalog składników)
+          fetch-depth: 0
       - uses: actions/setup-node@v5
         with:
           node-version: ${{ env.NODE_VERSION }}
@@ -173,7 +187,18 @@ jobs:
         working-directory: backend
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL_DIRECT }}
-        run: npx prisma migrate deploy && npm run db:seed
+          BEFORE: ${{ github.event.before }}
+          FORCE_SEED: ${{ vars.FORCE_SEED }}
+        run: |
+          npx prisma migrate deploy
+          # Seed tylko, gdy od poprzedniego pushu zmieniły się pliki katalogu (albo nie da się tego sprawdzić,
+          # albo zmienna FORCE_SEED=true) - pełny seed w Neon trwa ok. 7 min
+          if [ "$FORCE_SEED" = "true" ] || ! git cat-file -e "$BEFORE^{commit}" 2>/dev/null \
+            || ! git diff --quiet "$BEFORE" HEAD -- prisma/seed; then
+            npm run db:seed
+          else
+            echo "Katalog składników bez zmian - seed pominięty."
+          fi
 
       - name: Konfiguracja aplikacji (.env)
         env:
