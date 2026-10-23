@@ -1,19 +1,954 @@
 ﻿skladnik;liczba_przepisow
-ciasto kruche;2
+nasiona gorczycy;17
+garam masala;17
+lody waniliowe;16
+papryka wędzona;16
+lód;15
+płatki chili;15
+bulion warzywny;15
+ocet ryżowy;14
+pieprz cytrynowy;12
+papryczka habanero;11
+ciasto kruche;10
+kmin mielony;10
+asafetyda;10
+liść curry;9
+ostry sos;9
+mieszanka przypraw berbere;9
+musztarda w proszku;8
+goździk;8
+suszona skórka cytrynowa;8
+syrop złoty;7
+nasiona kminu;7
+woda różana;7
+kminek mielony;7
+sól czosnkowa;7
+sos tabasco;7
+kwas cytrynowy;7
+ser żółty;7
+mirin;6
+kolendra mielona;6
+ocet winny biały;6
+cebula w proszku;5
+zupa krem z pieczarek;5
+liść limonki kaffir;5
+syrop kukurydziany;5
+pasta imbirowo-czosnkowa;5
+kostka lodu;5
+barwnik spożywczy czerwony;5
+spray do pieczenia;5
+chleb kukurydziany;5
+kostki lodu;5
+przyprawa berbere;5
+olejek cytrynowy;5
+sake;4
+ziarno pieprzu czarnego;4
+pasta curry czerwona;4
+ghee;4
+pasta chili;4
+liść pandanu;4
+przyprawy;4
+mięso mielone;4
+przyprawa włoska;4
+sól przyprawowa;4
+lody;4
+chipotle w proszku;4
+przyprawa barbecue;4
+bulion rybny;4
+mąka migdałowa;4
+kofeina;4
+injera;4
+olejek pomarańczowy;4
+bulion wieprzowy;3
+skórka cytrynowa suszona;3
+zupa krem z kurczaka;3
+ekstrakt cytrynowy;3
+spód do ciasta;3
+sos ostry;3
+ser paneer;3
+fasola refried;3
+filet z białej ryby;3
+ser kaszkawał;3
+przyprawa do tacos;3
+bourbon;3
+galangal;3
+crème fraîche;3
+łój wołowy;3
+ekstrakt migdałowy;3
+wiśnia maraschino;3
+wino ryżowe;3
+mąka ryżowa kleista;3
+tequila;3
+liść bananowca;3
+sok wiśniowy;3
+barwnik spożywczy;3
+laska wanilii;3
+mieszanka do ciasta żółtego;3
+czarnuszka;3
+malina;3
+wino ryżowe shaoxing;3
+kostka bulionu;3
+mieszanka przypraw;3
+kawałki drewna hikorowego;3
+drewno jabłoniowe;3
+proszek chipotle;3
+chipotle w sosie adobo;3
+sos adobo;3
+galaretka jabłkowa;3
+oregano świeże;3
+drewno mesquite;3
+przyprawa bbq hickory;3
+ser pepper jack;3
+mąka z manioku;3
+suszony rak mielony;3
+olejek kolendrowy;3
+olejek muszkatołowy;3
+barwnik karmelowy;3
+włoszczyzna;3
+herbatnik graham;2
+liście curry;2
+ekstrakt pomarańczowy;2
+sos chili z czosnkiem;2
+ryba biała;2
+makaron instant;2
+syrop czekoladowy;2
+sos pieprzowy ostry;2
+sok z limonki lub cytryny;2
+pieprz syczuański;2
+tłuszcz roślinny stały;2
+tłuszcz z boczku;2
+musztarda sucha;2
+mieszanka garam masala;2
+mąka macowa;2
+zupa krem z selera w puszce;2
+oliwka;2
+tłuszcz roślinny do ciast;2
 olej gorczycowy;2
-garam masala;2
+świeże zioła;2
+płatki ryżowe;2
+purée z dyni;2
+olej orzechowy;2
+bulgur;2
+mąka tapioka;2
+cukier z cynamonem;2
+liście kozieradki;2
+orzech pekan;2
+asafetyda w proszku;2
+glutaminian sodu;2
+ekstrakt drożdżowy;2
+kiełki pszenicy;2
+pistacje lub migdały;2
+sos sałatkowy;2
+skórka z limonki;2
+zupa serowa cheddar;2
+chutney mango;2
+estragon świeży;2
+sos sałatkowy włoski;2
+substytut cukru;2
+imbir kandyzowany;2
+tłuszcz roślinny;2
+truskawka;2
+sherry;2
+przyprawa lemon pepper;2
+spray do smarowania;2
+zioła mieszane;2
+puri;2
+sev;2
+koncentrat soku pomarańczowego;2
+porzeczka suszona;2
+cream of tartar;2
+bukiet garni;2
+zielona papryczka chili;2
+płatki papryki chili;2
+ocet słodowy;2
+wiórki drzewa mesquite;2
+przyprawa do grillowania;2
+przyprawa do drobiu;2
+aromat dymny w płynie;2
+drewno hikorowe;2
+sól o smaku masła;2
+chorizo;2
+kwiat bananowca;2
+groch gołębi łuskany;2
+urad dal;2
+lód kruszony;2
+fasola pinto sucha;2
+cukier palmowy;2
+woda z kwiatu pomarańczy;2
+aromat pomarańczowy;2
+zakwas;2
+orzech tygrysi;2
+spray do smażenia;2
+filet rybny;2
+lód w kostkach;2
+bulion warzywny lub drobiowy;2
+kostka rosołowa;2
+suszone raki mielone;2
+papryczka scotch bonnet;2
+olejek cynamonowy;2
+ekstrakt sodowy;2
+olejek limonkowy;2
+przyprawa do zup;2
+bakalie;2
+płatki migdałowe;2
+grzyby suszone;2
+patyczek do szaszłyków;2
 pico de gallo;1
+krem winnego kamienia;1
+ciasto na biszkopty mrożone;1
+spód do ciasta z ciastek graham;1
+bakalie suszone;1
+pieprz w ziarnach;1
+żołądek wieprzowy;1
+zagęszczona zupa krem z kurczaka;1
+zagęszczona zupa krem z selera;1
+cielęcina bez kości;1
+osłonka do kiełbasy;1
+mieszanka przypraw do piernika;1
+chana dhal;1
+czerwona papryka ostra;1
+zamiennik mięsa mielonego;1
+guma ksantanowa;1
+zupa pomidorowa z puszki;1
+tapioka perłowa;1
+tater tots;1
+czerwona papryka w proszku;1
+wieprzowina marynowana;1
+zwijka paproci;1
+owoce miękkie;1
+biały kurczak w puszce;1
+przyprawa orientalna;1
+posypka kolorowa lub orzechy;1
+pasta curry kaeng chu chee;1
+ciasto naleśnikowe;1
+ravioli mrożone;1
+sok tamaryndowy;1
+"krewetki, tofu, kurczak, kalmary lub wołowina";1
+mieszane warzywa;1
+kostka bulionu grzybowego;1
+mięso cielęce lub kurczak;1
+sorbet pomarańczowy;1
+imitacja boczku;1
+aromat dymny (hickory);1
+sos do poutine w puszce;1
+świeży ser cheddar w postaci twarogu serowego;1
+whisky lub koniak;1
 guanciale lub pancetta;1
+dodatki;1
+sos włoski do sałatek;1
+sól czosnkowo-ziołowa;1
+masala;1
+przyprawa five spice;1
+guacamole;1
+kiełbasa z kurczaka ostra gotowana;1
+proszek cebulowy;1
+sok z ogórków konserwowych słodkich;1
+jagody jałowca;1
+papryczka pepperoncini;1
+oliwki kalamata;1
+krem marshmallow;1
+pasta z fasoli azuki;1
+urad dal bez łupiny;1
+zakwas do fermentacji;1
+ciasto cynamonowe w puszce;1
+imbir marynowany;1
+achiote (annatto);1
+pasta z krewetek (bagoong alamang);1
+płatki czerwonej papryki;1
+sól smakowa;1
+suszona papryka chili w płatkach;1
+woda różana lub woda pomarańczowa;1
+ość rybia;1
+orzech;1
+sok pomarańczowy skoncentrowany;1
+torebka herbaty;1
+kwas cytrynowy w kryształkach;1
+imbir w syropie;1
+suszone grzyby kurki czarne;1
+zupa grzybowa w puszce;1
+sól cebulowa;1
+pasta z zielonego curry tajskiego;1
 kurczak tikka ugotowany;1
 pasta tandoori masala;1
-woda różana;1
-barwnik spożywczy;1
-pistacje lub migdały;1
+zagęszczona zupa krem z pieczarek;1
+ostra papryczka cherry w słoiku;1
+jeżyna;1
+papryka czerwona mielona;1
+nadzienie;1
+sok pomarańczowy mrożony;1
+mięso bizona mielone;1
+spód do ciasta z krakersów;1
+wanilia w proszku;1
+liście gorczycy;1
+sos z czarnej fasoli i czosnku;1
+zielona papryczka chili nowomeksykańska;1
+liść herbaty czarnej;1
+esencja pandan;1
+proszek czosnkowy;1
+owoce dzikiej róży;1
+miąższ dzikiej róży;1
+suszona czarna porzeczka;1
+suszone mango;1
+shortening;1
+habanero;1
+ocet słodowy biały;1
+biały ser tarty;1
+mieszanka na naleśniki;1
+suszony anchois;1
+tempoyak (sfermentowana pasta z durianu);1
+świeży korzeń kurkumy;1
+nasiona petai;1
+durian;1
+nasiona achiote;1
+gotowe ciasto na tartę;1
+jogurt cytrynowy beztłuszczowy;1
+fasola w sosie pomidorowym;1
+kość szpikowa;1
+brandy jabłkowa;1
+wołowina solona w plastrach;1
+sos russian dressing;1
+sos z serem pleśniowym;1
+krew wieprzowa;1
+nasiono czarnuszki;1
+sok tamarynd;1
+mąka z urdu (czarnej fasoli);1
+sos anchois;1
+za'atar;1
+posypka czekoladowa;1
+fasola jaś sucha;1
+spłaszczony ryż (pohe);1
+barwnik do sosu w płynie;1
+mięso z homara gotowane;1
+skorupa z ogona homara;1
+płatki śniadaniowe owocowe;1
+wiśnie maraschino;1
+sok tamarynd lub ananasowy;1
+pasta chili sambal oelek;1
+herbatniki imbirowe;1
+sok z buraka;1
+grzyby shiitake suszone w proszku;1
+cebula smażona w cienkich plastrach z puszki;1
+kwiat lawendy;1
+cynamon z cukrem;1
+wołowina suszona;1
 kremor winny;1
-tłuszcz roślinny do ciast;1
+kiełbasa bolońska;1
+mąka z orzechów laskowych;1
+sól rogowa (wodorowęglan amonu);1
+krakersy sezamowe;1
 przyprawa tandoori;1
+przyprawa jerk;1
+dressing miodowo-musztardowy;1
+olej szafranowy;1
+dżem malinowy;1
+knoephla z 2 szklanek mąki;1
+papryczka chipotle;1
+papryczka ancho;1
+orzech kemiri;1
+korzeń galangalu;1
+gula jawa;1
+terasi;1
+urad dhal;1
+channa dhal;1
+ekstrakt z tamaryndowca;1
+łój nerkowy wołowy;1
+kumin mielony;1
+tat soi;1
+przyprawa montreal do steków;1
+fasola z boczkiem w puszce;1
+papier ryżowy;1
+mięso wieprzowe lub kurczak gotowane;1
+nadzienie wiśniowe do ciasta;1
+wykałaczka;1
+drożdże ragi tapai;1
+pasta pandanowa;1
+mieszanka ziół włoskich suszona;1
+grzyby leśne;1
+olej truflowy;1
+ser boursin;1
+winegret szampański;1
+aromat smakowy;1
+sos char siu;1
+tenderyzator do mięsa;1
+ciasto rogalikowe mrożone;1
+sos picante;1
+"ciasto do pie, schłodzone";1
+aromat migdałowy;1
+mięso mielone z kurczaka lub wieprzowe;1
+krem z kamienia nazębnego (cream of tartar);1
+barwnik spożywczy w płynie lub paście;1
+lukier królewski;1
+drożdże nieaktywne w płatkach;1
+wędzony aromat w płynie;1
+tortellini z trzema serami;1
+spód do tarty;1
+mieszanka do brownie;1
+jogurt waniliowy;1
+budyń bananowy w proszku;1
+spód do ciasta z krakersów czekoladowych;1
+sos ranch z kawałkami sera pleśniowego;1
+musztarda creole;1
+przyprawa creole;1
+pasta chili z fasoli;1
+borówki mrożone;1
+orzechy mieszane;1
+chipsy z bajgla;1
+beztłuszczowy włoski dressing do sałatek;1
+włoska mieszanka ziół;1
+nadzienie wiśniowe do pieców;1
+mięso z kraba;1
+sherry wytrawne;1
+mieszanka włoskich ziół suszonych;1
+ciasto chlebowe pszenne mrożone;1
+nasiona cebuli;1
+liść recao (kulantro);1
+ají dulce;1
+papryka cubanelle;1
+pieróg mięsny;1
+zupa grochowa z puszki;1
+ryba mielona;1
+orzech kandlenut;1
+liść salam;1
+cukier kokosowy;1
+parówka wołowa;1
+przyprawa butter chicken masala w proszku;1
+pięć smaków (przyprawa);1
+hogao;1
+naleśnik;1
+fermentowane czarne fasolki;1
+mango zielone;1
+berberei;1
+peperoncino;1
+mączka z macy;1
+syrop z czarnej porzeczki;1
+wędzony łupacz;1
+ser monterey jack tarty;1
+przyprawa florida bay;1
+koncentrat soku jabłkowego mrożony;1
+ser sznurowy;1
+kiełbasa włoska;1
+zupa krem z kurczaka w puszce;1
+mięso wołowe lub wieprzowe;1
+salsa verde;1
+wołowina w sosie gotowa;1
+zupa krem z pieczarek w puszce;1
+ciasto croissant w rolkach;1
+przyprawy do pizzy;1
+wołowina pieczeniowa;1
+ciasto kruche na podwójną skórkę;1
+"dodatek (np. szynka, boczek, salami, pepperoni, kiełbasa)";1
+makaron shirataki;1
+mieszanka przypraw (rub);1
+chutney tamarindowy;1
+chutney korzenny z kolendry;1
+mieszanka do zupy z czarnej fasoli;1
+natka pietruszki lub koperek;1
+tłuszcz roślinny do ciasta;1
+wywar z krewetek;1
+sok z małży;1
+kiełbasa andouille;1
+woda z kwiatu pomarańczy (lub woda różana);1
+gorczyca (nasiona);1
+mieszanka marchwi i brukwi;1
+"wołowina, udziec bez kości";1
+nasiona gorczycy żółtej;1
+wiśnie suszone;1
+grzyb straw;1
+wołowina solona (corned beef);1
+cebula smażona w puszce;1
+pasta krewetkowa;1
+papryczka chili zielona;1
+trassi;1
+pasta z krewetek (trassi);1
+nasiono kminu;1
+przecier pomidorowy;1
+tortellini mrożone;1
+bita śmietana roślinna;1
+spód do ciasta z ciastek czekoladowych;1
+gorący sos czekoladowy fudge;1
+skórka z cytryny i pomarańczy;1
+hard sauce;1
+purée dyniowe;1
+śmietanka kremówka;1
+nasiona anyżu;1
+wiśnia kandyzowana;1
+substytut mięsa mielonego;1
 herbata earl grey;1
 syrop waniliowy;1
-bakalie;1
-kostka rosołowa;1
-ser żółty;1
+udziec wieprzowy;1
+zioła i przyprawy;1
+imbir krystalizowany;1
+herbata z dzikiej róży;1
+ekstrakt z kwiatu pomarańczy;1
+makaron zielony wstążkowy;1
+khoa;1
+agnolotti;1
+makaron cappelletti;1
+sherry słodkie;1
+fasola z puszki w sosie pomidorowym;1
+shortening roślinny;1
+wiśniówka;1
+kość cielęca;1
+kość szpikowa cielęca;1
+karkas z kurczaka;1
+purée pomidorowe;1
+odpadki rybne;1
+przyprawa chai masala;1
+ciastko vol-au-vent;1
+"mięso mielone (cielęcina, kurczak lub indyk)";1
+"świeże zioła (bazylia, szczypiorek, natka pietruszki, tymianek)";1
+muszla ślimaka;1
+przyprawa czteroskładnikowa;1
+epazote;1
+kiełbasa chorizo;1
+ser bryndza;1
+krem cukierniczy;1
+bulion warzywny lub rybny;1
+wołowina konserwowa;1
+mieszanka do ciasta białego;1
+fasola chili w puszce;1
+chleb macy;1
+syrop kukurydziany jasny;1
+mąka z fasoli mung;1
+imbir w paście;1
+ryż dmuchany;1
+chat masala;1
+miąższ tamaryndowca;1
+berberys suszony;1
+"świeży tymianek, majeranek i natka pietruszki";1
+ryba solona;1
+wegetariański zamiennik sosu ostrygowego;1
+fishball;1
+przyprawa do żeberek (rib rub);1
+hot sauce;1
+chipotle w adobo;1
+wiórki drzewa hikorowego;1
+przyprawa do kurczaka barbecue;1
+whipped topping;1
+wióry drewna hikory;1
+mieszanka przypraw firecracker rub;1
+dym w płynie (liquid smoke);1
+suchy rub do żeberek;1
+przyprawa country roast chicken;1
+purée z chipotle;1
+przyprawa barbecue (rub);1
+suche kawałki drewna hikorowego;1
+konfitura brzoskwiniowa;1
+proszek z wędzenia hikory;1
+chop rub;1
+twinkies;1
+kawałek drewna jabłoniowego;1
+kotlet wieprzowy;1
+suchy rub do kotletów;1
+wiórki drewna jabłoniowego;1
+przyprawa bbq chipotle;1
+skrzydełko kurczaka;1
+proszek hickory smoke;1
+przyprawa old bay;1
+sos worcestershire w proszku;1
+proszek z dymu mesquite;1
+suchta barbecue;1
+ostry sos na bazie chipotle;1
+oregano świeży;1
+fasola w sosie pomidorowym z wieprzowiną;1
+przyprawa do pieczonego kurczaka;1
+sos chipotle;1
+pasta tikka masala;1
+cebulka perłowa;1
+mieszanka suszonych ziół;1
+chipotle;1
+bułka ziemniaczana mini;1
+proszek o smaku dymu mesquite;1
+ostry sos chipotle;1
+węgiel drzewny;1
+wiórki mesquite;1
+ziarna rajskie;1
+ręcznik żaroodporny;1
+malina mrożona;1
+lody lub owoce;1
+kotlet wieprzowy żeberkowy;1
+proszek z papryki ancho;1
+suszona skórka limonkowa;1
+anyż gwiazdkowaty mielony;1
+mandarynka z puszki w syropie;1
+ręcznik ogniotrwały;1
+filet z pompano;1
+chleb cynamonowy;1
+dym hickory w proszku;1
+proszek z papryczki habanero;1
+proszek z papryczki ancho;1
+ciastka imbirowe;1
+papryczka chipotle w adobo;1
+filet z halibut;1
+ser ricotta;1
+chili habanero lub serrano;1
+kurczak gotowany lub wieprzowina gotowana;1
+płynny dym o smaku hikoria;1
+przyprawa o smaku hikoria;1
+proszek dymny mesquite;1
+przyprawa do owoców morza;1
+przyprawa cajun;1
+pieprz z cytryną;1
+wiórki drzewa hikory;1
+syrop orzechowy;1
+olej chili;1
+pasta z ostrej papryki;1
+cytryna konserwowana;1
+łagodny sos chili;1
+przyprawa tandoori w proszku;1
+sól ziołowa;1
+suszona papryczka piri-piri;1
+przyprawa sambar;1
+pulpa tamaryndowca;1
+zielone chili;1
+wędzona kość wieprzowa z szyi;1
+nasiona annatto;1
+ryż prażony mielony;1
+pasta z krewetek (bagoong);1
+"bukiet garni (liść laurowy, tymianek, zioła prowansalskie)";1
+wino czerwone portowe;1
+proszek do napojów czekoladowy;1
+kremer w proszku;1
+biltong;1
+mieszanka do zupy;1
+liść kulantro;1
+przyprawa adobo;1
+"czekolada w kawałkach, orzeszki piniowe lub orzechy laskowe";1
+wanilia i/lub cynamon;1
+kardamon czarny;1
+wieprzowina pieczona;1
+sos wątrobowy;1
+sumak w proszku;1
+pokrzywa;1
+serek kremowy z łososiem wędzonym;1
+jagody huckleberry;1
+kurka;1
+spray do pieczenia antyadhezyjny;1
+sos do steków;1
+tuńczyk w oliwie;1
+natka pietruszki lub bazylia;1
+sherry kremowe;1
+pasta z imbiru i zielonego chili;1
+czerwone chili;1
+żołędzie;1
+liście methi (kozieradki);1
+asafetyda (hing);1
+pasta z zielonej papryczki chili i imbiru;1
+kabaczek żołędziowy;1
+paneer;1
+wiśnia glacé;1
+barwnik spożywczy różowy;1
+kość z szynki;1
+mięso krabowe;1
+ser tarty;1
+pasta z imbiru i czosnku;1
+łapka wieprzowa;1
+słodki czarny ocet;1
+likier pomarańczowy;1
+grzyby jadalne;1
+pasta z krewetek;1
+pasta curry czerwona tajska;1
+mięso mielone wołowo-wieprzowe;1
+proszek z zielonego mango;1
+przyprawa speculaas;1
+przyprawa uniwersalna;1
+przyprawa solna;1
+przyprawa do kurczaka;1
+lemoniada;1
+sos sojowy kokosowy;1
+drożdże odżywcze;1
+pasta z czerwonej papryki;1
+sucuk (turecka kiełbasa);1
+tabasco;1
+owoc palmyry;1
+aromat cytrynowy;1
+opłatki piernikowe;1
+kiełbasa jagnięca;1
+woda pomarańczowa z kwiatów;1
+pestki wiśni;1
+liście werbeny suszone;1
+mleko wielbłądzie;1
+mahaleb (zmielone pestki wiśni);1
+przyprawa do mięsa kraba;1
+ciastka mleczne;1
+szpinak i rukola;1
+wini kamień;1
+suszone liście limonki kaffir;1
+kwiaty wierzbówki kiprzycy;1
+pieprz czarny ziarnisty;1
+mąka z jamu;1
+mleko odparowane;1
+przyprawa suya;1
+ryba suszona wędzona;1
+chrupiące chili w oleju;1
+skrobia z manioku;1
+purée z papryczki chili i pomidorów;1
+słodzik;1
+liście ashwe (roselle);1
+orzech palmowy;1
+trufla lub inny grzyb;1
+olej z suszonych pomidorów;1
+sól sezamowa;1
+sos jabłkowy;1
+orzech włoski;1
+nasiona kozieradki;1
+nasiona gorczycy czarnej;1
+urad dal (czarna fasola mung);1
+pasta tamarynd;1
+drewno winorośli lub hikory;1
+zasmażka brązowa;1
+mieszanka warzyw mirepoix;1
+lemon curd;1
+lemoniada różowa;1
+świeży krem waniliowy;1
+bułka z czekoladą i słonym karmelem;1
+sos czekoladowy deserowy;1
+czekoladowe jajko wielkanocne;1
+kawałki jabłka z truskawkami;1
+przyprawa ziołowa;1
+przyprawa do kurczaka z ziołami;1
+tłuszcz roślinny suet;1
+krem waniliowy;1
+mieszanka do naleśników;1
+miąższ z papai;1
+nasiona kminu rzymskiego;1
+napój w proszku o smaku lemoniady;1
+syrop z kwiatu czarnego bzu;1
+jagody świeże;1
+woda jaśminowa;1
+imbir konserwowy;1
+czekoladka;1
+guma guar;1
+inulina w proszku;1
+mieszanka owoców;1
+owoc cytrusowy;1
+ciasto na biszkopty maślankowe w tubie;1
+mieszanka cukru z cynamonem;1
+dashi;1
+pasta miso;1
+nasiona czarnuszki;1
+"mięso kozie, jagnięce, wołowe lub kurczak";1
+suszone raki w proszku;1
+kurczak lub ryba;1
+"mięso wołowe, jagnięce lub kurczak";1
+suszone płatki hibiskusa;1
+filet z ryby bonga;1
+miąższ owocu baobabu;1
+witamina c w proszku;1
+molokhia (liście jutu);1
+ryż lub chleb;1
+wędzona ryba;1
+kokoyam (taro);1
+przyprawa cebulowa;1
+pasta harissa;1
+baranina bez kości;1
+wołowina lub jagnięcina bez kości w kostce;1
+ponmo (wołowa skóra);1
+kostka bulionowa;1
+pasta imbirowo-czosnkowo-cebulowa;1
+skrzydełko indyka;1
+fasola czarnooka sucha;1
+suszony liść łodygi prosa;1
+przyprawy do ryb;1
+nasiona djansang;1
+attieke;1
+jagnięcina lub wołowina;1
+niter kibbeh;1
+wołowina lub jagnięcina;1
+sos awaze;1
+liść maniokowy;1
+ryba biała lub sum;1
+nasiona njansan;1
+przyprawa mbongo;1
+łuska babki jajowatej w proszku;1
+łupinka babki jajowatej;1
+łuska babki jajowatej w proszku lub guma ksantanowa;1
+mięso wołowe lub kurczak;1
+bulion wołowy lub drobiowy;1
+zielone warzywa liściaste;1
+dodatki opcjonalne;1
+kurczak lub wołowina;1
+mięso lub owoce morza;1
+mielony suszony raczek;1
+wieprzowina lub wołowina gotowana;1
+bulion rybny w kostce;1
+filet rybny świeży;1
+fasola gotowana;1
+bulion warzywny lub woda;1
+natka pietruszki lub kolendra świeża;1
+liść manioku;1
+mieszane warzywa tarte;1
+mąka prosowa;1
+mieszanka zielonych liści;1
+nasiona agushi;1
+suszone krewetki mielone;1
+likier orzechowy;1
+likier z czarnych malin;1
+płatki ryżowe prażone;1
+ziarna kefirowe;1
+skórka pomarańczowa suszona mielona;1
+skórka pomarańczowa suszona;1
+wołowina korned beef;1
+tuwer;1
+syrop prosty;1
+mięso bez kości;1
+hatxora (shatkora);1
+warzywa pokrojone do podania;1
+sos czosnkowo-pomidorowy z naga;1
+wegetariański bekon;1
+liquid aminos;1
+drożdże odżywcze w płatkach;1
+skrobia tapioczna;1
+zupa krem z grzybów;1
+pęczek ziół;1
+pasta krewetkowa bagoong alamang;1
+fasola mung czerwona w syropie;1
+nata de coco;1
+kaong w syropie;1
+lody ube;1
+leche flan;1
+pinipig;1
+kalamansi;1
+papryczka ancho suszona;1
+tempero baiano;1
+pieprz togarashi;1
+proszek czekoladowy do napoju;1
+nasiona kardamonu czarnego;1
+nasiona kardamonu zielonego;1
+płatki róży;1
+perełki sago;1
+barwnik spożywczy zielony;1
+napój czarna porzeczka;1
+suszona ryba;1
+pasta z taro;1
+ogiri (fermentowana pasta z nasion melona);1
+liście okazi lub uziza;1
+liście ugu;1
+skórka mandarynki;1
+mieszanka do ciasta;1
+"dodatki, np. kawałki czekolady";1
+mąka kokosowa;1
+suszony kwiat hibiskusa;1
+wołowina lub koźlina;1
+kostka przyprawy;1
+pasta z orzeszków ziemnych;1
+fermentowane nasiona roślin strąkowych (daddawa);1
+suszona lub wędzona ryba;1
+fiołek polny;1
+potaż jadalny (kanwa);1
+sok z cytryny lub ocet;1
+konfitura z cebuli;1
+spód do quiche;1
+ciasto na quiche (masa jajeczna);1
+cukier z palmy kokosowej;1
+kawałki czekolady;1
+papryka chili suszona;1
+ser świeży meksykański;1
+liść wintergreen;1
+korzeń sarsaparilli;1
+kencur (imbir aromatyczny);1
+spirytus neutralny 150+ proof;1
+olejek neroli;1
+ekstrakt z herbaty zielonej;1
+alkohol spożywczy bezsmakowy;1
+olejek petit grain;1
+kwas fosforowy;1
+czereśnia mrożona;1
+syrop glukozowy;1
+ekstrakt miętowy;1
+drożdże szampańskie lub ziarna kefirowe;1
+igła sosny jadalnej;1
+syrop daktylowy;1
+alkohol neutralny o mocy 150+ proof;1
+spirytus bezsmakowy 150 proof;1
+proszek z marchewki;1
+szalotka smażona;1
+syrop owocowy;1
+fenchol;1
+olejek z kasji;1
+olejek z drzewa herbacianego;1
+spirytus niearomatyzowany 150+ proof;1
+taniny winne;1
+kwas fosforowy 85%;1
+glicerol;1
+sum świeży;1
+ogiri okpei;1
+ehuru mielony;1
+liście uziza;1
+suszona ryba stockfish;1
+"mięso wołowe, kozie lub mieszane";1
+krew zwierzęca;1
+"bulion rybny, drobiowy lub woda";1
+stek z mięsa żółwia;1
+ocet biały;1
+kostka przyprawowa;1
+ślimaki morskie lub krewetki;1
+bulion w kostce;1
+ryba świeża lub mięso;1
+oscypek;1
+konopie;1
+serek mascarpone;1
+likier amaretto;1
+esencja rumowa;1
+zielenina;1
+zieleniny;1
+śmietana kremówka;1
+śnieżka;1
+ajerkoniak;1
+strąk kardamonu;1
+syrop z róży;1
+polędwica wieprzowa;1
+"zioła (majeranek, tymianek)";1
+rosół;1
+wino czerwone słodkie;1
+ocet malinowy;1
+halibut wędzony;1
+mięso drobiowe;1
+tłuszcz do formy;1
+gałązka lubczyku;1
+jałowiec;1
+pikle z czosnku;1
+konfitura różana;1
+draże dekoracyjne;1
+wędzonka góralska;1
+sok malinowy;1
+melisa;1
+śmietana 22%;1
+gąska;1
+esencja migdałowa;1
+rzodkiew biała;1
+winegret;1
+poziomka;1
+śmietana rzadka;1
+jagoda czarna;1
+cuszka;1
+kostka bulionu warzywnego;1
+ostra papryka;1
+wywar warzywny;1
+kwaśna śmietana;1
+sól i pieprz;1
+ser havarti;1
+ser średnio ostry;1
+maliny i czerwone winogrona;1
+wódka anyżowa (uzo);1
+przyprawa;1
+ocet estragonowy;1
+ocet koperkowy;1
+zioła świeże;1
+grzyb leśny;1
+wiśnia suszona;1
+owoc dzikiej róży;1
+uniwersalna przyprawa do drobiu;1
+mieszane owoce morza;1
+kurka świeża;1
+szparag biały;1
+szparag zielony;1
+bulion cielęcy;1
+bulwa kopru włoskiego;1
+ryż arborio;1
+krewetka;1
+masa makowa;1
+konfitura wiśniowa;1
+ciastko karmelowe korzenne;1
+krem karmelowy korzenny;1
+udko gęsie;1

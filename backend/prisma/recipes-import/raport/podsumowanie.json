@@ -1,31 +1,38 @@
 {
   "pages": {
     "INCOMPLETE": 3239,
-    "NEW": 2920,
-    "PROCESSED": 40
+    "PROCESSED": 2926,
+    "NEW": 30,
+    "REJECTED": 4
   },
   "recipes": {
-    "READY": 17,
-    "WAITING_INGREDIENT": 12,
-    "REJECTED": 11,
-    "WAITING_UNIT": 8
+    "WAITING_INGREDIENT": 968,
+    "REJECTED": 817,
+    "WAITING_UNIT": 664,
+    "READY": 480,
+    "DUPLICATE": 31,
+    "WAITING_TRANSLATION": 2
   },
-  "ready": 17,
+  "ready": 480,
   "readyByWiki": {
-    "pl": 13,
-    "en": 4
+    "en": 389,
+    "pl": 91
   },
   "readyByCourse": {
-    "SOUP": 4,
-    "MAIN": 3,
-    "BREAD": 2,
-    "SIDE": 2,
-    "SAUCE": 2,
-    "CAKE": 1,
-    "OTHER": 1,
-    "DRINK": 1,
-    "DESSERT": 1
+    "MAIN": 93,
+    "DESSERT": 75,
+    "BREAD": 51,
+    "SAUCE": 49,
+    "SIDE": 46,
+    "CAKE": 40,
+    "SOUP": 37,
+    "DRINK": 21,
+    "SALAD": 19,
+    "OTHER": 18,
+    "BREAKFAST": 16,
+    "SNACK": 12,
+    "PRESERVE": 3
   },
-  "readyWithPhoto": 7,
-  "toTranslate": 0
+  "readyWithPhoto": 101,
+  "toTranslate": 2
 }

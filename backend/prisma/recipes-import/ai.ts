@@ -113,7 +113,10 @@ export function textChecks(output: PageOutput, source: string): string[][] {
 async function structureSubmit(pl: number, en: number) {
   const catalog = readCatalog();
   const cache = readStructureCache();
-  const fresh = [...catalog.values()].filter((e) => e.status === 'NEW' && !cache.items[e.key]);
+  // Strona, której odczyt nie udał się dwa razy, nie wraca (raport: cache.failed)
+  const fresh = [...catalog.values()].filter(
+    (e) => e.status === 'NEW' && !cache.items[e.key] && (cache.failed?.[e.key] ?? 0) < 2,
+  );
   const byViews = (wiki: Wiki) =>
     fresh.filter((e) => e.wiki === wiki).sort((a, b) => (b.views ?? -1) - (a.views ?? -1));
   const chosen = [...byViews('pl').slice(0, pl), ...byViews('en').slice(0, en)];
