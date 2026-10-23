@@ -67,7 +67,7 @@ describe('ilości i jednostki', () => {
   });
 
   it('przeliczenia: metryczne dokładnie, amerykańskie zaokrąglone i oznaczone', () => {
-    expect(toCookivo(2, 'kg')).toEqual({ amount: 2000, unitCode: 'g', converted: false });
+    expect(toCookivo(2, 'kg')).toEqual({ amount: 2, unitCode: 'kg', converted: false });
     expect(toCookivo(1.5, 'dl')).toEqual({ amount: 150, unitCode: 'ml', converted: false });
     expect(toCookivo(8, 'OZ')).toEqual({ amount: 225, unitCode: 'g', converted: true });
     expect(toCookivo(2, 'CUP')).toEqual({ amount: 2, unitCode: 'GLASS', converted: true });
@@ -132,8 +132,8 @@ describe('pozycje przepisu', () => {
     });
     expect(resolveLine(line({ name: 'ziemniak', amount: 2, unit: 'kg' }), index, null).line).toMatchObject({
       ingredient: 'Ziemniaki',
-      amount: 2000,
-      unitCode: 'g',
+      amount: 2,
+      unitCode: 'kg',
     });
     expect(resolveLine(line({ name: 'szafran' }), index, null)).toEqual({ missing: 'szafran' });
   });

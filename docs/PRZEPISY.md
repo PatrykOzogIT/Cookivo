@@ -31,7 +31,7 @@ Wyniki AI są w cache w repozytorium (`ai-structure-cache.json`, `ai-translate-c
 - AI (Haiku) tylko porządkuje treść: składniki (linia ze strony, ilość, jednostka ze strony, nazwa PL, nazwa z listy składników Cookivo) i kroki. Niczego nie dopisuje.
 - Kod sprawdza odczyt z tekstem strony. Każda ilość musi być w swojej linii (`amountInText`), a słowa linii składników i kroków muszą pochodzić ze strony (`overlap`). Inaczej przepis jest odrzucany (`AMOUNT_NOT_IN_SOURCE`, `LINE_NOT_IN_SOURCE`, `STEP_NOT_IN_SOURCE`).
 - Odrzucane są też: problemy zgłoszone przez model (brak ilości lub kroków, przepis urwany, napój alkoholowy, nie jedzenie, metoda niebezpieczna), mniej niż 2 składniki, brak porcji, za długie pola.
-- Miary: metryczne przeliczamy dokładnie (kg → g, dl → ml). Amerykańskie zaokrąglamy (oz, lb, stick, fl oz, pint), a cup zamieniamy na szklankę. Przepis dostaje wtedy zmianę `UNITS_CONVERTED`.
+- Miary: kg i l zostają, dag, mg, dl i cl przeliczamy dokładnie na g i ml. Amerykańskie zaokrąglamy (oz, lb, stick, fl oz, pint), a cup zamieniamy na szklankę. Przepis dostaje wtedy zmianę `UNITS_CONVERTED`.
 - Bez ilości przechodzą tylko przyprawy „do smaku” (szczypta albo 1 g) i tłuszcz do smażenia (łyżka albo 10 g). Przepis dostaje zmianę `TO_TASTE`. Każdy inny brak ilości odrzuca przepis.
 - Porcje: gdy strona ich nie podaje, model je szacuje (`servingsEstimated`).
 - Duble: ten sam rodzaj dania i zestaw składników podobny w ≥ 85% (także między językami), ten sam polski tytuł albo tytuł istniejącego przepisu publicznego. Zostaje ważniejszy przepis: z poprzedniego pliku importu, potem polski, potem z większą liczbą wyświetleń.

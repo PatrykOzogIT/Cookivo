@@ -37,6 +37,14 @@ describe('gramsFor', () => {
     expect(gramsFor(1, 'GLASS', { ingredient: milk }, unitMl)).toBeCloseTo(257.5);
   });
 
+  it('kilogramy i litry (litr tylko z gęstością)', () => {
+    expect(gramsFor(1.5, 'kg', { ingredient: egg }, unitMl)).toBe(1500);
+    expect(gramsFor(0.5, 'l', { ingredient: milk }, unitMl)).toBeCloseTo(515);
+    expect(gramsFor(1, 'l', { ingredient: egg }, unitMl)).toBe('UNIT_NOT_ALLOWED');
+    const broth: SubRecipeForMath = { servings: 4, totalGrams: 2400, cookedGrams: null, totals: n({}) };
+    expect(gramsFor(1, 'kg', { subRecipe: broth }, unitMl)).toBe(1000);
+  });
+
   it('jednostka zdefiniowana przy składniku ma pierwszeństwo przed gęstością', () => {
     expect(gramsFor(2, 'TABLESPOON', { ingredient: honey }, unitMl)).toBe(42);
   });

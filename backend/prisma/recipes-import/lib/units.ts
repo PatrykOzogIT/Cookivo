@@ -8,12 +8,10 @@ export interface CookivoAmount {
   converted: boolean;
 }
 
-/** Miary metryczne → g / ml dokładnie; amerykańskie → g / ml z zaokrągleniem; cup → szklanka */
+/** kg i l zostają; dag, mg, dl, cl → g / ml dokładnie; amerykańskie → g / ml z zaokrągleniem; cup → szklanka */
 const FACTORS: Partial<Record<SourceUnit, { unit: 'g' | 'ml'; factor: number; exact: boolean }>> = {
-  kg: { unit: 'g', factor: 1000, exact: true },
   dag: { unit: 'g', factor: 10, exact: true },
   mg: { unit: 'g', factor: 0.001, exact: true },
-  l: { unit: 'ml', factor: 1000, exact: true },
   dl: { unit: 'ml', factor: 100, exact: true },
   cl: { unit: 'ml', factor: 10, exact: true },
   OZ: { unit: 'g', factor: 28.35, exact: false },

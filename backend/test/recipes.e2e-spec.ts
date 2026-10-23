@@ -99,6 +99,29 @@ describe('Przepisy (e2e)', () => {
       expect(exact.nutrition.per100g.kcal).toBeCloseTo((approx.nutrition.total.kcal * 100) / 400, 0);
     });
 
+    it('kilogramy i litry: gramy jak dla g i ml, ilość zostaje w jednostce autora', async () => {
+      const r = (
+        await post(
+          author,
+          recipe({
+            ingredients: [
+              { ingredientId: ids.chicken, amount: 1.5, unitCode: 'kg' },
+              { ingredientId: ids.water, amount: 2, unitCode: 'l' },
+            ],
+          }),
+        ).expect(201)
+      ).body;
+      expect(r.ingredients[0]).toMatchObject({ amount: 1.5, unitCode: 'kg', grams: 1500 });
+      expect(r.ingredients[1]).toMatchObject({ amount: 2, unitCode: 'l' });
+      expect(r.ingredients[1].grams).toBeGreaterThan(1900);
+      // Litr bez gęstości - jak ml
+      const res = await post(
+        author,
+        recipe({ ingredients: [{ ingredientId: ids.flour, amount: 1, unitCode: 'l' }] }),
+      ).expect(400);
+      expect(res.body).toMatchObject({ code: 'UNIT_NOT_ALLOWED', index: 0 });
+    });
+
     it('odrzuca jednostkę, której nie da się przeliczyć, wskazując pozycję', async () => {
       const res = await post(
         author,

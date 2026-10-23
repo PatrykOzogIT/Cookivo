@@ -42,8 +42,8 @@ export function unitOptions(item: LineItem | null, dictionary: Unit[]): LineUnit
 }
 
 /**
- * Jednostki przy zakupach (lista, lodówka, cennik, paragon): jak w przepisach plus kg i l
- * (backend przelicza je przez `normalizePackageUnit`).
+ * Opcje z kg i l (po g i ml): przepisy, lista, lodówka, cennik, paragon.
+ * Backend liczy kg i l w `gramsFor` (przepisy) i `normalizePackageUnit` (zakupy).
  */
 export function unitOptionsWithBulk(item: LineItem, dictionary: Unit[]): LineUnitOption[] {
   const options: LineUnitOption[] = [];
@@ -72,6 +72,9 @@ export function scaleAmount(amount: number, factor: number, unitCode: string): n
     if (v >= 10) return Math.round(v);
     return Math.round(v * 10) / 10;
   }
+  // kg i l: co 50 g / 50 ml, poniżej 1 co 10
+  if (unitCode === 'kg' || unitCode === 'l')
+    return v >= 1 ? Math.round(v * 20) / 20 : Math.max(0.01, Math.round(v * 100) / 100);
   return Math.max(0.25, Math.round(v * 4) / 4);
 }
 

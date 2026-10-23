@@ -1,6 +1,13 @@
 import { formatClock, pause, resume, secondsLeft, startTimer } from './cook/timers';
 import { groupLines } from './detail/recipe-detail-page';
-import { defaultUnit, prettyFraction, scaleAmount, unitOptions, type LineItem } from './recipe-units';
+import {
+  defaultUnit,
+  prettyFraction,
+  scaleAmount,
+  unitOptions,
+  unitOptionsWithBulk,
+  type LineItem,
+} from './recipe-units';
 import type { RecipeLine } from './recipes.models';
 import { pluralForm, pluralIndex } from './unit-plural';
 
@@ -33,6 +40,9 @@ describe('skalowanie ilości', () => {
   it('gramy zaokrągla po kuchennemu, sztuki i łyżki do ćwiartek', () => {
     expect(scaleAmount(150, 1.5, 'g')).toBe(225);
     expect(scaleAmount(333, 1, 'g')).toBe(335);
+    expect(scaleAmount(1, 1.5, 'kg')).toBe(1.5);
+    expect(scaleAmount(0.5, 0.666, 'l')).toBe(0.33);
+    expect(scaleAmount(2, 1.33, 'kg')).toBe(2.65);
     expect(scaleAmount(7, 0.5, 'g')).toBe(3.5);
     expect(scaleAmount(1.5, 1.5, 'GLASS')).toBe(2.25);
     expect(scaleAmount(1, 0.1, 'PIECE')).toBe(0.25); // nie schodzimy do zera
@@ -73,6 +83,9 @@ describe('jednostki pozycji przepisu', () => {
 
   it('podprzepis: porcja albo gramy', () => {
     expect(unitOptions(broth, units).map((u) => u.code)).toEqual(['SERVING', 'g']);
+    // Formularz przepisu: też kg i l
+    expect(unitOptionsWithBulk(milk, units).map((u) => u.code)).toEqual(['g', 'kg', 'ml', 'l', 'TABLESPOON']);
+    expect(unitOptionsWithBulk(broth, units).map((u) => u.code)).toEqual(['SERVING', 'g', 'kg']);
     expect(defaultUnit(broth)).toBe('SERVING');
   });
 });

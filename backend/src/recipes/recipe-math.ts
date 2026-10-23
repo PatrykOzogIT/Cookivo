@@ -43,9 +43,9 @@ export function effectiveGrams(r: { totalGrams: number; cookedGrams: number | nu
 
 /**
  * Ile gramów to `amount` w danej jednostce.
- * Składnik: g, ml (z gęstością), jednostka zdefiniowana przy składniku
+ * Składnik: g / kg, ml / l (z gęstością), jednostka zdefiniowana przy składniku
  * albo jednostka objętościowa (łyżka = 15 ml) przeliczona gęstością.
- * Podprzepis: g albo SERVING (porcja gotowej potrawy).
+ * Podprzepis: g / kg albo SERVING (porcja gotowej potrawy).
  */
 export function gramsFor(
   amount: number,
@@ -54,6 +54,7 @@ export function gramsFor(
   unitMl: Record<string, number | null>,
 ): number | UnitProblem {
   if (unitCode === 'g') return amount;
+  if (unitCode === 'kg') return amount * 1000;
 
   if ('subRecipe' in item) {
     if (unitCode !== 'SERVING') return 'UNIT_NOT_ALLOWED';
@@ -63,6 +64,7 @@ export function gramsFor(
 
   const { density, units } = item.ingredient;
   if (unitCode === 'ml') return density ? amount * density : 'UNIT_NOT_ALLOWED';
+  if (unitCode === 'l') return density ? amount * 1000 * density : 'UNIT_NOT_ALLOWED';
   if (units[unitCode] !== undefined) return amount * units[unitCode];
   const ml = unitMl[unitCode];
   if (ml && density) return amount * ml * density;

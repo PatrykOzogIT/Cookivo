@@ -26,7 +26,13 @@ import { GroupsApi } from '../../groups/groups.api';
 import { HouseholdApi } from '../../household/household.api';
 import { IngredientsApi } from '../../ingredients/ingredients.api';
 import { decimalValidator } from '../../ingredients/form/nutrition-validators';
-import { defaultUnit, unitOptions, type LineItem, type LineUnitOption } from '../recipe-units';
+import {
+  defaultUnit,
+  unitOptions,
+  unitOptionsWithBulk,
+  type LineItem,
+  type LineUnitOption,
+} from '../recipe-units';
 import { RecipesApi } from '../recipes.api';
 import type { Difficulty, Photo, RecipeDetail, SaveRecipe, Visibility } from '../recipes.models';
 import { LineItemPickerComponent } from './line-item-picker';
@@ -265,7 +271,8 @@ export class RecipeFormPage implements OnInit {
   }
 
   protected unitsFor(row: LineGroup): LineUnitOption[] {
-    return unitOptions(row.controls.item.value, this.dictionaries()?.units ?? []);
+    const item = row.controls.item.value;
+    return item ? unitOptionsWithBulk(item, this.dictionaries()?.units ?? []) : unitOptions(null, []);
   }
 
   protected rowGrams(row: LineGroup): number | null {
