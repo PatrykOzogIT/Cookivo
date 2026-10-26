@@ -16,6 +16,7 @@ import { GroupsModule } from './groups/groups.module.js';
 import { AssistantModule } from './assistant/assistant.module.js';
 import { IngredientRequestsModule } from './ingredient-requests/ingredient-requests.module.js';
 import { LabelImportModule } from './label-import/label-import.module.js';
+import { UnitEstimatesModule } from './unit-estimates/unit-estimates.module.js';
 import { ReceiptImportModule } from './receipt-import/receipt-import.module.js';
 import { RecipeImportModule } from './recipe-import/recipe-import.module.js';
 import { PlannerModule } from './planner/planner.module.js';
@@ -69,6 +70,7 @@ import { PrismaModule } from './prisma/prisma.module.js';
     RecipeImportModule,
     ReceiptImportModule,
     LabelImportModule,
+    UnitEstimatesModule,
     IngredientRequestsModule,
     AssistantModule,
     PlannerModule,

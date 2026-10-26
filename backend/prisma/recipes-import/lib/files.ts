@@ -13,6 +13,10 @@ export const IMPORT_FILE = join(DIR, 'recipes.import.jsonl');
 export const STRUCTURE_CACHE = join(DIR, 'ai-structure-cache.json');
 export const TRANSLATE_CACHE = join(DIR, 'ai-translate-cache.json');
 export const PHOTO_CACHE = join(DIR, 'photo-cache.json');
+/** Szacunki wag miar kuchennych składników (AI, sprawdzone zakresami) - importer zapisze je w bazie */
+export const UNIT_ESTIMATES = join(DIR, 'unit-estimates.json');
+/** Miary do oszacowania, z build.ts */
+export const UNIT_REQUESTS = join(OUT, 'unit-requests.json');
 /** Zatwierdzone składniki z produkcji (publiczne API) - do dopasowania nazw */
 export const INGREDIENTS_SNAPSHOT = join(OUT, 'ingredients.json');
 /** Tytuły publicznych przepisów z produkcji - do wykrywania dubli */

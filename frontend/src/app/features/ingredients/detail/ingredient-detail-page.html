@@ -122,7 +122,12 @@
               @for (u of i.units; track u.code) {
                 <li>
                   <span>1 {{ u | localized: lang() }}</span>
-                  <strong>{{ u.grams | num: lang() }} g</strong>
+                  <strong
+                    >{{ u.basis === 'AI' ? '≈ ' : '' }}{{ u.grams | num: lang() }} g
+                    @if (u.basis === 'AI') {
+                      <span class="estimate">{{ t('ingredients.unitEstimate') }}</span>
+                    }
+                  </strong>
                 </li>
               }
               @if (i.density) {
@@ -133,6 +138,9 @@
               }
             </ul>
             <p class="muted small">{{ t('ingredients.conversionsNote') }}</p>
+            @if (hasEstimate(i)) {
+              <p class="muted small">{{ t('ingredients.unitEstimateNote') }}</p>
+            }
           </section>
         }
 

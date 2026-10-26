@@ -134,6 +134,13 @@
         </section>
       </ng-template>
     </mat-tab>
+    <mat-tab [label]="t('admin.units.tab', { count: adminTodo()?.unitSuggestions ?? 0 })">
+      <ng-template matTabContent>
+        <section class="ck-card box" aria-labelledby="units-title">
+          <app-admin-units-panel />
+        </section>
+      </ng-template>
+    </mat-tab>
     <mat-tab [label]="t('admin.users.title')">
       <ng-template matTabContent>
         <section class="ck-card box" aria-labelledby="users-title">

@@ -72,7 +72,9 @@ describe('Składniki (e2e)', () => {
       const egg = res.body.items.find((i: { namePl: string }) => i.namePl === 'Jajko');
       expect(egg.nutrition).toMatchObject({ kcal: 143, protein: 12.6, fat: 9.5 });
       expect(egg.allergens.map((a: { code: string }) => a.code)).toEqual(['EGGS']);
-      expect(egg.units).toEqual([{ code: 'PIECE', namePl: 'sztuka', nameEn: 'piece', grams: 50 }]);
+      expect(egg.units).toEqual([
+        { code: 'PIECE', namePl: 'sztuka', nameEn: 'piece', grams: 50, basis: 'SOURCE' },
+      ]);
       expect(egg.source).toBe('USDA');
       expect(egg.canEdit).toBe(false);
     });

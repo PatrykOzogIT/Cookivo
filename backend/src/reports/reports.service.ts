@@ -104,18 +104,20 @@ export class ReportsService {
    * (kilka zgłoszeń tego samego przepisu = jedna sprawa), składniki do akceptacji i prośby o składniki.
    */
   async summary() {
-    const [[{ count }], pendingIngredients, ingredientRequests] = await Promise.all([
+    const [[{ count }], pendingIngredients, ingredientRequests, unitSuggestions] = await Promise.all([
       this.prisma.$queryRaw<{ count: bigint }[]>`SELECT count(*) FROM (
         SELECT DISTINCT target_type, recipe_id, target_user_id FROM reports WHERE status = 'OPEN') t`,
       this.prisma.ingredient.count({ where: { status: 'PENDING' } }),
       this.prisma.ingredientRequest.count({ where: { status: 'OPEN' } }),
+      this.prisma.unitSuggestion.count({ where: { status: 'PENDING' } }),
     ]);
     const openReports = Number(count);
     return {
       openReports,
       pendingIngredients,
       ingredientRequests,
-      total: openReports + pendingIngredients + ingredientRequests,
+      unitSuggestions,
+      total: openReports + pendingIngredients + ingredientRequests + unitSuggestions,
     };
   }
 

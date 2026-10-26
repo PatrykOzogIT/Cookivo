@@ -76,6 +76,7 @@ model User {
   aiImports          AiImport[]
   receiptAliasVotes  ReceiptAliasVote[]
   ingredientRequests IngredientRequest[]
+  unitSuggestions    UnitSuggestion[]
   friendGroups       FriendGroupMember[] @relation("FriendGroupMember")
   friendGroupInvited FriendGroupMember[] @relation("FriendGroupInvitedBy")
   friendGroupInvites FriendGroupInvite[]
@@ -137,7 +138,8 @@ model Unit {
   ml        Float?
   sortOrder Int    @default(0) @map("sort_order")
 
-  ingredients IngredientUnit[]
+  ingredients     IngredientUnit[]
+  unitSuggestions UnitSuggestion[]
 
   @@map("units")
 }
@@ -175,30 +177,34 @@ model Ingredient {
   /// Stały klucz składników z seeda - pozwala bezpiecznie powtarzać seed
   seedKey    String?            @unique @map("seed_key") @db.VarChar(160)
 
-  kcal         Float
-  protein      Float
-  fat          Float
-  saturatedFat Float? @map("saturated_fat")
-  carbs        Float
-  sugars       Float?
-  fiber        Float?
-  salt         Float?
+  kcal             Float
+  protein          Float
+  fat              Float
+  saturatedFat     Float?  @map("saturated_fat")
+  carbs            Float
+  sugars           Float?
+  fiber            Float?
+  salt             Float?
   /// Gęstość w g/ml - tylko dla płynów
-  density      Float?
+  density          Float?
   /// Alergeny typowe dla rodzaju produktu (import z recenzją AI) - karta prosi o sprawdzenie etykiety
   allergensTypical Boolean @default(false) @map("allergens_typical")
 
-  createdById     String?   @map("created_by_id") @db.Uuid
-  createdBy       User?     @relation("IngredientCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
-  reviewedById    String?   @map("reviewed_by_id") @db.Uuid
-  reviewedBy      User?     @relation("IngredientReviewedBy", fields: [reviewedById], references: [id], onDelete: SetNull)
-  reviewedAt      DateTime? @map("reviewed_at")
-  rejectionReason String?   @map("rejection_reason") @db.VarChar(500)
-  createdAt       DateTime  @default(now()) @map("created_at")
-  updatedAt       DateTime  @updatedAt @map("updated_at")
+  createdById      String?   @map("created_by_id") @db.Uuid
+  createdBy        User?     @relation("IngredientCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
+  reviewedById     String?   @map("reviewed_by_id") @db.Uuid
+  reviewedBy       User?     @relation("IngredientReviewedBy", fields: [reviewedById], references: [id], onDelete: SetNull)
+  reviewedAt       DateTime? @map("reviewed_at")
+  rejectionReason  String?   @map("rejection_reason") @db.VarChar(500)
+  /// Kiedy AI szacowało wagi miar kuchennych (nie pytamy drugi raz) i miary, które do składnika nie pasują
+  unitsEstimatedAt DateTime? @map("units_estimated_at")
+  unitsNotFit      String[]  @default([]) @map("units_not_fit")
+  createdAt        DateTime  @default(now()) @map("created_at")
+  updatedAt        DateTime  @updatedAt @map("updated_at")
 
   allergens         IngredientAllergen[]
   units             IngredientUnit[]
+  unitSuggestions   UnitSuggestion[]
   pantryItems       PantryItem[]
   shoppingItems     ShoppingItem[]
   priceObservations PriceObservation[]
@@ -231,9 +237,44 @@ model IngredientUnit {
   unit         Unit       @relation(fields: [unitCode], references: [code])
   /// Ile gramów waży jedna jednostka tego składnika
   grams        Float
+  /// Skąd waga: tabele / autor składnika, szacunek AI (oznaczony na karcie), sprawdzona przez admina
+  basis        UnitBasis  @default(SOURCE)
 
   @@id([ingredientId, unitCode])
   @@map("ingredient_units")
+}
+
+enum UnitBasis {
+  SOURCE
+  AI
+  ADMIN
+}
+
+enum UnitSuggestionStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+/// Waga miary kuchennej podana przez użytkownika w przepisie (np. 1 łyżeczka kaszy = 5 g).
+/// Działa tylko w jego przepisie (recipe_ingredients.unit_grams); dla wszystkich po akceptacji admina.
+/// Jedna oczekująca propozycja od osoby na parę składnik + miara (indeks częściowy w migracji).
+model UnitSuggestion {
+  id           String               @id @default(uuid(7)) @db.Uuid
+  ingredientId String               @map("ingredient_id") @db.Uuid
+  ingredient   Ingredient           @relation(fields: [ingredientId], references: [id], onDelete: Cascade)
+  unitCode     String               @map("unit_code") @db.VarChar(32)
+  unit         Unit                 @relation(fields: [unitCode], references: [code])
+  grams        Float
+  userId       String?              @map("user_id") @db.Uuid
+  user         User?                @relation(fields: [userId], references: [id], onDelete: SetNull)
+  status       UnitSuggestionStatus @default(PENDING)
+  createdAt    DateTime             @default(now()) @map("created_at")
+  decidedAt    DateTime?            @map("decided_at")
+
+  @@index([status])
+  @@index([ingredientId, unitCode])
+  @@map("unit_suggestions")
 }
 
 enum ConsentType {
@@ -394,13 +435,13 @@ model Recipe {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  mealTypes   RecipeMealType[]
-  ingredients RecipeIngredient[] @relation("RecipeLines")
-  usedIn      RecipeIngredient[] @relation("SubRecipe")
-  steps       RecipeStep[]
-  planCooks   PlanCook[]
-  photos      Photo[]
-  allergens   RecipeAllergen[]
+  mealTypes    RecipeMealType[]
+  ingredients  RecipeIngredient[]  @relation("RecipeLines")
+  usedIn       RecipeIngredient[]  @relation("SubRecipe")
+  steps        RecipeStep[]
+  planCooks    PlanCook[]
+  photos       Photo[]
+  allergens    RecipeAllergen[]
   /// Tłumaczenia (inne języki niż w polach przepisu)
   translations RecipeTranslation[]
   /// Pochodzenie i licencja przepisu z otwartego źródła (biblioteka startowa)
@@ -441,6 +482,8 @@ model RecipeIngredient {
   grams        Float
   /// Np. "posiekana", "do smaku"
   note         String?     @db.VarChar(120)
+  /// Waga 1 jednostki podana przez autora, gdy składnik jej nie zna (np. 1 łyżeczka kaszy = 5 g)
+  unitGrams    Float?      @map("unit_grams")
 
   @@index([recipeId])
   @@index([ingredientId])
@@ -521,24 +564,24 @@ model RecipeAllergen {
 /// Zdjęcie w WebP (kilka rozmiarów na dysku). Po wysłaniu nie jest przypięte (recipeId = null),
 /// przypinamy je przy zapisie przepisu; nieprzypięte starsze niż doba są sprzątane.
 model Photo {
-  id        String      @id @default(uuid(7)) @db.Uuid
+  id               String      @id @default(uuid(7)) @db.Uuid
   /// null = autor usunął konto (zdjęcie zostaje przy zanonimizowanym przepisie publicznym)
-  ownerId   String?     @map("owner_id") @db.Uuid
-  owner     User?       @relation(fields: [ownerId], references: [id], onDelete: SetNull)
-  recipeId  String?     @map("recipe_id") @db.Uuid
-  recipe    Recipe?     @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+  ownerId          String?     @map("owner_id") @db.Uuid
+  owner            User?       @relation(fields: [ownerId], references: [id], onDelete: SetNull)
+  recipeId         String?     @map("recipe_id") @db.Uuid
+  recipe           Recipe?     @relation(fields: [recipeId], references: [id], onDelete: Cascade)
   /// Kolejność w galerii (null = zdjęcie kroku)
-  position  Int?
-  width     Int
-  height    Int
-  bytes     Int
+  position         Int?
+  width            Int
+  height           Int
+  bytes            Int
   /// Zdjęcie z otwartej licencji (np. Wikimedia Commons): autor, licencja i strona pliku
   creditAuthor     String?     @map("credit_author") @db.VarChar(300)
   creditLicense    String?     @map("credit_license") @db.VarChar(60)
   creditLicenseUrl String?     @map("credit_license_url") @db.VarChar(300)
   creditSourceUrl  String?     @map("credit_source_url") @db.VarChar(500)
-  createdAt DateTime    @default(now()) @map("created_at")
-  step      RecipeStep? @relation("StepPhoto")
+  createdAt        DateTime    @default(now()) @map("created_at")
+  step             RecipeStep? @relation("StepPhoto")
 
   @@index([recipeId])
   @@index([ownerId, recipeId])
@@ -1062,6 +1105,8 @@ enum AiImportKind {
   ASSISTANT_ROUTE
   /// Odczyt etykiety produktu ze zdjęcia (formularz składnika)
   LABEL
+  /// Szacunek wag miar kuchennych składnika (łyżka, łyżeczka, szklanka, szczypta, sztuka)
+  UNIT_ESTIMATE
 }
 
 /**

@@ -1,4 +1,4 @@
-import type { Allergen, Localized, Nutrition, Page } from '../ingredients/ingredients.models';
+import type { Allergen, Localized, Nutrition, Page, UnitBasis } from '../ingredients/ingredients.models';
 
 export type { Page };
 
@@ -102,13 +102,15 @@ export interface RecipeLine {
   amount: number;
   unitCode: string;
   grams: number;
+  /** Waga 1 miary podana przez autora, gdy składnik jej nie zna */
+  unitGrams: number | null;
   note: string | null;
   ingredient: {
     id: string;
     namePl: string;
     nameEn: string | null;
     density: number | null;
-    units: (Localized & { code: string; grams: number })[];
+    units: (Localized & { code: string; grams: number; basis?: UnitBasis })[];
     allergens: string[];
   } | null;
   subRecipe: { id: string; title: string; servings: number; viewable: boolean } | null;
@@ -180,6 +182,8 @@ export interface SaveRecipe {
     subRecipeId?: string;
     amount: number;
     unitCode: string;
+    /** Waga 1 miary od autora, gdy składnik jej nie zna */
+    unitGrams?: number;
     groupName?: string;
     note?: string;
   }[];

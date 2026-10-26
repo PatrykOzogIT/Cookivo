@@ -9,6 +9,9 @@ const DAY_MS = 24 * 60 * 60 * 1000;
 const KEEP_MS = 90 * DAY_MS;
 /** Rozpoznanie prośby do asystenta jest tanie, ale też ma sufit (ochrona przed nadużyciem) */
 const ROUTE_DAILY_LIMIT = 30;
+/** Szacunek miar kuchennych: tani i zapisywany na stałe przy składniku - osobne limity */
+const UNIT_ESTIMATE_DAILY_LIMIT = 20;
+const UNIT_ESTIMATE_MONTHLY_LIMIT = 3000;
 
 /**
  * Limity i licznik odczytów przez AI (tabela `ai_imports`): dzienny na osobę osobno dla przepisów,
@@ -31,6 +34,8 @@ export class AiUsageService {
         return this.config.get('ASSISTANT_DAILY_LIMIT', { infer: true });
       case 'ASSISTANT_ROUTE':
         return ROUTE_DAILY_LIMIT;
+      case 'UNIT_ESTIMATE':
+        return UNIT_ESTIMATE_DAILY_LIMIT;
       default:
         return this.config.get('RECIPE_IMPORT_DAILY_LIMIT', { infer: true });
     }
@@ -38,6 +43,7 @@ export class AiUsageService {
 
   /** Miesięczny limit serwisu: importy zdjęć razem, asystent osobno */
   private monthly(kind: AiImportKind): { kinds: AiImportKind[]; limit: number } {
+    if (kind === 'UNIT_ESTIMATE') return { kinds: [kind], limit: UNIT_ESTIMATE_MONTHLY_LIMIT };
     return kind === 'ASSISTANT' || kind === 'ASSISTANT_ROUTE'
       ? { kinds: ['ASSISTANT'], limit: this.config.get('ASSISTANT_MONTHLY_LIMIT', { infer: true }) }
       : {

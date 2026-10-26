@@ -222,6 +222,43 @@ describe('Biblioteka przepisów - import (e2e)', () => {
     expect(after.title).toBe('Moje placki');
   });
 
+  it('miara z szacunku AI: zapisana w bazie razem z przepisem (bez niej - pominięty)', async () => {
+    const r = rec(10, {
+      ingredients: [
+        { ingredient: 'Jajko', amount: 2, unitCode: 'PIECE', groupName: null, note: null },
+        { ingredient: 'Ziemniaki', amount: 3, unitCode: 'TEASPOON', groupName: null, note: null },
+      ],
+      translation: {
+        ...rec(10).translation,
+        lines: [
+          { groupName: null, note: null },
+          { groupName: null, note: null },
+        ],
+      },
+    });
+    expect(await runImport(prisma, [r], { dryRun: true })).toMatchObject({
+      skipped: { UNIT_NOT_ALLOWED: 1 },
+    });
+    const unitEstimates = { ziemniaki: { grams: { TEASPOON: 6 }, notFit: [] } };
+    const dry = await runImport(prisma, [r], { dryRun: true, unitEstimates });
+    expect(dry).toMatchObject({ inserted: 1, estimatedUnits: 1 });
+    const potatoes = await t.prisma.ingredient.findFirstOrThrow({ where: { namePl: 'Ziemniaki' } });
+    const unitKey = { ingredientId_unitCode: { ingredientId: potatoes.id, unitCode: 'TEASPOON' } };
+    // Dry run cofa także miarę
+    expect(await t.prisma.ingredientUnit.findUnique({ where: unitKey })).toBeNull();
+
+    await runImport(prisma, [r], { dryRun: false, unitEstimates });
+    expect(await t.prisma.ingredientUnit.findUniqueOrThrow({ where: unitKey })).toMatchObject({
+      grams: 6,
+      basis: 'AI',
+    });
+    const line = await t.prisma.recipeIngredient.findFirstOrThrow({
+      where: { recipe: { source: { externalId: r.key } }, unitCode: 'TEASPOON' },
+    });
+    expect(line.grams).toBe(18);
+    await t.prisma.ingredientUnit.delete({ where: unitKey });
+  });
+
   it('cofnięcie usuwa tylko nieużywane przepisy z biblioteki', async () => {
     await runImport(prisma, [rec(8), rec(9)], { dryRun: false });
     const used = await t.prisma.recipeSource.findUniqueOrThrow({

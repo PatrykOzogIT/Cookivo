@@ -368,3 +368,41 @@ legend {
     gap: 6px;
   }
 }
+
+// Miara kuchenna do ustalenia: komunikat / pytanie o wagę pod wierszem
+.unit-unknown {
+  margin-left: 6px;
+  font-size: 0.8125rem;
+  color: var(--ck-text-muted);
+}
+.unit-note {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 8px 0 0;
+  font-size: 0.875rem;
+  color: var(--ck-text-muted);
+  .material-symbols-rounded {
+    font-size: 18px;
+  }
+  &.warn {
+    color: var(--ck-text);
+    .material-symbols-rounded {
+      color: var(--ck-danger);
+    }
+  }
+}
+.unit-ask {
+  margin-top: 10px;
+  .unit-question {
+    margin: 0 0 8px;
+    font-weight: 600;
+  }
+  mat-form-field {
+    width: min(100%, 360px);
+  }
+  .small {
+    margin: 6px 0 0;
+    font-size: 0.8125rem;
+  }
+}

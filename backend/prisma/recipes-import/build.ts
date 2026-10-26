@@ -14,6 +14,7 @@ import { mkdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { normalizeSearch } from '../../src/common/text.js';
 import { UNITS } from '../seed/reference-data.js';
+import { isKitchenUnit } from '../../src/ingredients/kitchen-units.js';
 import {
   TO_TRANSLATE,
   inputHash,
@@ -25,6 +26,8 @@ import {
   candidatePriority,
   evaluate,
   ingredientIndex,
+  withEstimates,
+  type UnitEstimates,
   jaccard,
   sourceTexts,
   toRecord,
@@ -38,6 +41,8 @@ import {
   INGREDIENTS_SNAPSHOT,
   PHOTO_CACHE,
   RECIPES_SNAPSHOT,
+  UNIT_ESTIMATES,
+  UNIT_REQUESTS,
   ensureOut,
   readCatalog,
   readJson,
@@ -78,9 +83,15 @@ function main() {
   const photos = readJson<PhotoCache>(PHOTO_CACHE, {});
   const snapshot = readJson<(CatalogIngredient & { category: { code: string } })[]>(INGREDIENTS_SNAPSHOT, []);
   if (!snapshot.length) throw new Error('Brak listy składników - uruchom: fetch.ts snapshot');
+  const unitMl = Object.fromEntries(UNITS.map((u) => [u.code, u.ml]));
+  // Szacunki miar (units.ts) - przepisy czekające na łyżkę / szklankę / sztukę wracają bez nowych odczytów
   const ing = ingredientIndex(
-    snapshot.map((i) => ({ ...i, category: i.category.code })),
-    Object.fromEntries(UNITS.map((u) => [u.code, u.ml])),
+    withEstimates(
+      snapshot.map((i) => ({ ...i, category: i.category.code })),
+      readJson<UnitEstimates>(UNIT_ESTIMATES, {}),
+      unitMl,
+    ),
+    unitMl,
   );
   const existingTitles = new Map(
     readJson<{ id: string; title: string }[]>(RECIPES_SNAPSHOT, []).map((r) => [
@@ -211,6 +222,15 @@ function main() {
   writeJsonl(IMPORT_FILE, records);
   ensureOut();
   writeJson(TO_TRANSLATE, toTranslate);
+  // Miary kuchenne do oszacowania (units.ts submit): składnik → kody miar
+  const needs: Record<string, string[]> = {};
+  for (const e of evaluated) {
+    for (const n of e.unitNeeds ?? []) {
+      if (!isKitchenUnit(n.unitCode)) continue;
+      needs[n.ingredient] = [...new Set([...(needs[n.ingredient] ?? []), n.unitCode])];
+    }
+  }
+  writeJson(UNIT_REQUESTS, needs);
 
   // 5. Raporty
   mkdirSync(REPORT_DIR, { recursive: true });

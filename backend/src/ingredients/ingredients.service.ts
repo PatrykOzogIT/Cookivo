@@ -193,6 +193,12 @@ export class IngredientsService {
       .$transaction(async (tx) => {
         await tx.ingredientAllergen.deleteMany({ where: { ingredientId: id } });
         await tx.ingredientUnit.deleteMany({ where: { ingredientId: id } });
+        // Niezmieniona waga zachowuje pochodzenie (np. szacunek AI); zmieniona przez admina = sprawdzona
+        const basisOf = (u: { code: string; grams: number }) => {
+          const old = existing.units.find((o) => o.unitCode === u.code);
+          if (old && old.grams === u.grams) return old.basis;
+          return admin ? ('ADMIN' as const) : ('SOURCE' as const);
+        };
         return tx.ingredient.update({
           where: { id },
           data: {
@@ -203,7 +209,9 @@ export class IngredientsService {
             // Zapis w formularzu = alergeny sprawdzone przez człowieka
             allergensTypical: false,
             allergens: { create: allergens },
-            units: { create: dto.units.map((u) => ({ unitCode: u.code, grams: u.grams })) },
+            units: {
+              create: dto.units.map((u) => ({ unitCode: u.code, grams: u.grams, basis: basisOf(u) })),
+            },
           },
           include: INCLUDE,
         });
@@ -385,11 +393,13 @@ export function toDto(row: IngredientRow, user?: AuthUser, personal?: Personal) 
       nameEn: a.nameEn,
       icon: a.icon,
     })),
-    units: row.units.map(({ unit: u, grams }) => ({
+    units: row.units.map(({ unit: u, grams, basis }) => ({
       code: u.code,
       namePl: u.namePl,
       nameEn: u.nameEn,
       grams,
+      /** SOURCE - tabele / autor, AI - szacunek (oznaczony na karcie), ADMIN - sprawdzona */
+      basis,
     })),
     createdBy: row.createdBy ? { username: row.createdBy.username } : null,
     isOwn: own,

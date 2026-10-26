@@ -6,33 +6,33 @@
     "REJECTED": 4
   },
   "recipes": {
-    "WAITING_INGREDIENT": 968,
+    "WAITING_INGREDIENT": 969,
     "REJECTED": 817,
-    "WAITING_UNIT": 664,
-    "READY": 480,
+    "READY": 765,
+    "WAITING_UNIT": 378,
     "DUPLICATE": 31,
     "WAITING_TRANSLATION": 2
   },
-  "ready": 480,
+  "ready": 765,
   "readyByWiki": {
-    "en": 389,
-    "pl": 91
+    "en": 642,
+    "pl": 123
   },
   "readyByCourse": {
-    "MAIN": 93,
-    "DESSERT": 75,
-    "BREAD": 51,
-    "SAUCE": 49,
-    "SIDE": 46,
-    "CAKE": 40,
-    "SOUP": 37,
-    "DRINK": 21,
-    "SALAD": 19,
-    "OTHER": 18,
-    "BREAKFAST": 16,
-    "SNACK": 12,
-    "PRESERVE": 3
+    "MAIN": 150,
+    "DESSERT": 106,
+    "SAUCE": 90,
+    "SIDE": 83,
+    "BREAD": 74,
+    "CAKE": 71,
+    "SOUP": 44,
+    "SALAD": 33,
+    "DRINK": 29,
+    "SNACK": 29,
+    "OTHER": 29,
+    "BREAKFAST": 23,
+    "PRESERVE": 4
   },
-  "readyWithPhoto": 101,
+  "readyWithPhoto": 146,
   "toTranslate": 2
 }

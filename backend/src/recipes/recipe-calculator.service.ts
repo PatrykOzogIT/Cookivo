@@ -103,7 +103,7 @@ export class RecipeCalculatorService {
       let grams = line.grams;
       if (line.ingredient) {
         const ingredient = ingredientForMath(line.ingredient);
-        const g = gramsFor(line.amount, line.unitCode, { ingredient }, unitMl);
+        const g = gramsFor(line.amount, line.unitCode, { ingredient }, unitMl, line.unitGrams);
         if (typeof g === 'number') grams = g;
         lines.push({ grams, ingredient });
         line.ingredient.allergens.forEach((a) => allergenIds.add(a.allergenId));

@@ -52,6 +52,19 @@ export function gramsFor(
   unitCode: string,
   item: { ingredient: IngredientForMath } | { subRecipe: SubRecipeForMath },
   unitMl: Record<string, number | null>,
+  /** Waga 1 jednostki podana w przepisie, gdy składnik jej nie zna (np. 1 łyżeczka kaszy = 5 g) */
+  lineUnitGrams?: number | null,
+): number | UnitProblem {
+  const known = baseGramsFor(amount, unitCode, item, unitMl);
+  if (known === 'UNIT_NOT_ALLOWED' && lineUnitGrams && 'ingredient' in item) return amount * lineUnitGrams;
+  return known;
+}
+
+function baseGramsFor(
+  amount: number,
+  unitCode: string,
+  item: { ingredient: IngredientForMath } | { subRecipe: SubRecipeForMath },
+  unitMl: Record<string, number | null>,
 ): number | UnitProblem {
   if (unitCode === 'g') return amount;
   if (unitCode === 'kg') return amount * 1000;

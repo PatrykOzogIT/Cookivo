@@ -40,6 +40,9 @@ export interface Nutrition {
 
 export type IngredientStatus = 'PENDING' | 'APPROVED' | 'REJECTED';
 
+/** Skąd waga miary składnika */
+export type UnitBasis = 'SOURCE' | 'AI' | 'ADMIN';
+
 export interface Ingredient extends Localized {
   id: string;
   category: Category;
@@ -51,7 +54,8 @@ export interface Ingredient extends Localized {
   nutrition: Nutrition;
   density: number | null;
   allergens: Allergen[];
-  units: (Localized & { code: string; grams: number })[];
+  /** `basis`: SOURCE - tabele / autor, AI - szacunek (oznaczony), ADMIN - sprawdzona */
+  units: (Localized & { code: string; grams: number; basis?: UnitBasis })[];
   createdBy: { username: string } | null;
   isOwn: boolean;
   canEdit: boolean;

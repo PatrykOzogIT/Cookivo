@@ -47,6 +47,11 @@ export class IngredientDetailPage implements OnInit {
   private readonly adminSummary = inject(AdminSummaryService);
   protected readonly lang = inject(LanguageService).current;
 
+  /** Czy któraś waga miary to szacunek AI (dopisek pod przelicznikami) */
+  protected hasEstimate(i: Ingredient): boolean {
+    return i.units.some((u) => u.basis === 'AI');
+  }
+
   /** Parametr trasy :id */
   readonly id = input.required<string>();
 

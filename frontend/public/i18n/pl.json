@@ -161,7 +161,8 @@
     "ASSISTANT_EMPTY": "Napisz, w czym pomóc.",
     "PREP_NO_STEPS": "Wybrane przepisy nie mają kroków - nie ma czego ułożyć.",
     "LABEL_NOT_LABEL": "To nie wygląda na etykietę produktu spożywczego. Zrób zdjęcie tabeli wartości i składu.",
-    "LABEL_TOO_MANY": "Wybierz najwyżej 2 zdjęcia: tabelę wartości i skład."
+    "LABEL_TOO_MANY": "Wybierz najwyżej 2 zdjęcia: tabelę wartości i skład.",
+    "UNIT_GRAMS_INVALID": "Waga miary jest spoza rozsądnego zakresu."
   },
   "auth": {
     "fields": {
@@ -596,7 +597,15 @@
       "allGroups": "Wszystkie moje grupy"
     },
     "units": {
-      "serving": "porcja"
+      "serving": "porcja",
+      "toSettle": "(do ustalenia)",
+      "estimating": "Ustalam, ile waży 1 {{unit}} – {{name}}…",
+      "notFit": "Miara „{{unit}}” nie pasuje do składnika „{{name}}”. Wybierz inną, np. gramy.",
+      "askLabel": "Ile waży 1 {{unit}} – {{name}}?",
+      "askHint": "Zwykle {{min}}–{{max}} g. Możesz sprawdzić na opakowaniu albo w internecie.",
+      "askError": "Podaj wagę od {{min}} do {{max}} g",
+      "askNote": "Ta waga liczy się w Twoim przepisie. Dla wszystkich zapisze ją administrator po sprawdzeniu.",
+      "weight": "Waga"
     },
     "unitForms": {
       "PIECE": "sztuka|sztuki|sztuk",
@@ -1117,7 +1126,9 @@
       "hint": "Jeśli to ten sam produkt, użyj istniejącego zamiast dodawać nowy."
     },
     "sourceLabel": "Wartości z etykiety produktu, dodane przez użytkownika {{username}}.",
-    "allergensTypical": "Alergeny typowe dla tego rodzaju produktu – skład zależy od producenta, sprawdź etykietę."
+    "allergensTypical": "Alergeny typowe dla tego rodzaju produktu – skład zależy od producenta, sprawdź etykietę.",
+    "unitEstimate": "(szacunek)",
+    "unitEstimateNote": "Wagi oznaczone jako szacunek ustaliło AI na podstawie typowych produktów - administrator może je poprawić."
   },
   "profile": {
     "lead": "Na podstawie tych danych wyliczymy Twoje dzienne zapotrzebowanie na kalorie i makroskładniki.",
@@ -1726,6 +1737,27 @@
       "link": "Wskaż istniejący",
       "reject": "Odrzuć",
       "statusLabel": "Status próśb"
+    },
+    "units": {
+      "tab": "Miary ({{count}})",
+      "title": "Miary kuchenne",
+      "lead": "Ile waży łyżka, łyżeczka, szklanka, szczypta albo sztuka składnika. Propozycje użytkowników działają tylko w ich przepisach, dopóki ich nie zatwierdzisz; zatwierdzona waga obowiązuje wszystkich i przelicza przepisy.",
+      "suggestions": "Propozycje użytkowników",
+      "noSuggestions": "Brak propozycji do sprawdzenia.",
+      "loading": "Wczytywanie…",
+      "proposed": "Propozycja: {{grams}} g",
+      "current": "teraz w bazie: {{grams}} g",
+      "by": "od: {{name}}",
+      "grams": "Waga",
+      "approve": "Zatwierdź",
+      "reject": "Odrzuć",
+      "estimates": "Szacunki AI",
+      "estimatesLead": "Te wagi są już używane (z dopiskiem „szacunek” na karcie składnika). Potwierdź albo popraw - wtedy staną się sprawdzone.",
+      "search": "Szukaj składnika",
+      "confirm": "Zatwierdź",
+      "estimatesCount": "Pokazano {{shown}} z {{total}}",
+      "more": "Pokaż więcej",
+      "noEstimates": "Brak szacunków do sprawdzenia."
     }
   },
   "groups": {

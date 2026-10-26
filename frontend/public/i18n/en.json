@@ -161,7 +161,8 @@
     "ASSISTANT_EMPTY": "Tell me what you need help with.",
     "PREP_NO_STEPS": "The selected recipes have no steps - there's nothing to schedule.",
     "LABEL_NOT_LABEL": "This doesn't look like a food product label. Take a photo of the nutrition table and ingredients.",
-    "LABEL_TOO_MANY": "Choose up to 2 photos: the nutrition table and the ingredients."
+    "LABEL_TOO_MANY": "Choose up to 2 photos: the nutrition table and the ingredients.",
+    "UNIT_GRAMS_INVALID": "The weight of this measure is outside a sensible range."
   },
   "auth": {
     "fields": {
@@ -596,7 +597,15 @@
       "allGroups": "All my groups"
     },
     "units": {
-      "serving": "serving"
+      "serving": "serving",
+      "toSettle": "(to be set)",
+      "estimating": "Working out how much 1 {{unit}} of {{name}} weighs…",
+      "notFit": "The measure “{{unit}}” does not suit “{{name}}”. Choose another one, e.g. grams.",
+      "askLabel": "How much does 1 {{unit}} of {{name}} weigh?",
+      "askHint": "Usually {{min}}–{{max}} g. Check the package or the internet.",
+      "askError": "Enter a weight between {{min}} and {{max}} g",
+      "askNote": "This weight applies to your recipe. An administrator will save it for everyone after checking.",
+      "weight": "Weight"
     },
     "unitForms": {
       "PIECE": "piece|pieces|pieces",
@@ -1117,7 +1126,9 @@
       "hint": "If it's the same product, use the existing one instead of adding a new one."
     },
     "sourceLabel": "Values from the product label, added by {{username}}.",
-    "allergensTypical": "Allergens typical for this kind of product – the recipe depends on the producer, check the label."
+    "allergensTypical": "Allergens typical for this kind of product – the recipe depends on the producer, check the label.",
+    "unitEstimate": "(estimate)",
+    "unitEstimateNote": "Weights marked as an estimate were set by AI from typical products - an administrator may correct them."
   },
   "profile": {
     "lead": "We use these details to calculate your daily calorie and macronutrient needs.",
@@ -1726,6 +1737,27 @@
       "link": "Choose existing",
       "reject": "Reject",
       "statusLabel": "Request status"
+    },
+    "units": {
+      "tab": "Measures ({{count}})",
+      "title": "Kitchen measures",
+      "lead": "How much a tablespoon, teaspoon, glass, pinch or piece of an ingredient weighs. User suggestions apply only to their recipes until you approve them; an approved weight applies to everyone and recalculates recipes.",
+      "suggestions": "User suggestions",
+      "noSuggestions": "No suggestions to review.",
+      "loading": "Loading…",
+      "proposed": "Suggested: {{grams}} g",
+      "current": "currently: {{grams}} g",
+      "by": "by: {{name}}",
+      "grams": "Weight",
+      "approve": "Approve",
+      "reject": "Reject",
+      "estimates": "AI estimates",
+      "estimatesLead": "These weights are already in use (marked as an estimate on the ingredient page). Confirm or correct them to mark them as checked.",
+      "search": "Search ingredient",
+      "confirm": "Confirm",
+      "estimatesCount": "Showing {{shown}} of {{total}}",
+      "more": "Show more",
+      "noEstimates": "No estimates to review."
     }
   },
   "groups": {

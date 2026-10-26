@@ -11,6 +11,8 @@ export interface AdminSummary {
   pendingIngredients: number;
   /** Otwarte prośby o dodanie składnika */
   ingredientRequests: number;
+  /** Propozycje wag miar kuchennych od użytkowników */
+  unitSuggestions: number;
   total: number;
 }
 

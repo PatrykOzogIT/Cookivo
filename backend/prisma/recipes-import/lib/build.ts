@@ -23,6 +23,28 @@ export interface Ingredients {
   unitMl: Record<string, number | null>;
 }
 
+/** Szacunki wag miar kuchennych (units.ts) - klucz: nazwa składnika */
+export type UnitEstimates = Record<string, { grams: Partial<Record<string, number>>; notFit: string[] }>;
+
+/**
+ * Składniki uzupełnione o szacunki miar (w pamięci): tylko miary, których składnik nie zna
+ * i których nie da się policzyć z gęstości. Importer zapisze je w bazie jako szacunek AI.
+ */
+export function withEstimates(
+  list: CatalogIngredient[],
+  estimates: UnitEstimates,
+  unitMl: Record<string, number | null>,
+): CatalogIngredient[] {
+  return list.map((i) => {
+    const e = estimates[normalizeSearch(i.namePl)];
+    if (!e) return i;
+    const extra = Object.entries(e.grams)
+      .filter(([code]) => !i.units.some((u) => u.code === code) && !(i.density && unitMl[code]))
+      .map(([code, grams]) => ({ code, grams: grams! }));
+    return extra.length ? { ...i, units: [...i.units, ...extra] } : i;
+  });
+}
+
 export function ingredientIndex(
   list: CatalogIngredient[],
   unitMl: Record<string, number | null>,
@@ -44,6 +66,8 @@ export interface LineResult {
   line?: RecipeRecord['ingredients'][number];
   missing?: string;
   missingUnit?: string;
+  /** Brakująca waga miary składnika (do szacunku: units.ts) */
+  unitNeed?: { ingredient: string; unitCode: string };
   reject?: string;
   converted?: boolean;
   assumed?: boolean;
@@ -105,7 +129,10 @@ export function resolveLine(l: StructuredLine, ing: Ingredients, group: string |
 
   const c = toCookivo(l.amount!, l.unit ?? 'PIECE');
   if (!allowed(c.unitCode)) {
-    return { missingUnit: `${found.namePl} (${UNIT_LABEL[c.unitCode] ?? c.unitCode})` };
+    return {
+      missingUnit: `${found.namePl} (${UNIT_LABEL[c.unitCode] ?? c.unitCode})`,
+      unitNeed: { ingredient: found.namePl, unitCode: c.unitCode },
+    };
   }
   return { line: { ...base, amount: c.amount, unitCode: c.unitCode }, converted: c.converted };
 }
@@ -129,6 +156,8 @@ export interface Evaluated {
   status: RecipeStatus;
   reason?: string;
   missing?: string[];
+  /** Brakujące wagi miar (składnik + miara) - wejście szacunku hurtowego */
+  unitNeeds?: { ingredient: string; unitCode: string }[];
   /** Przepis po kontroli: bez dodatków do podania (są w opisie) */
   recipe: StructuredRecipe;
   lines: RecipeRecord['ingredients'];
@@ -143,6 +172,7 @@ export function evaluate(c: Candidate, ing: Ingredients): Evaluated {
   const servedWith: string[] = [];
   const missing = new Set<string>();
   const missingUnits = new Set<string>();
+  const unitNeeds: { ingredient: string; unitCode: string }[] = [];
   let converted = false;
   let assumed = false;
   for (const l of c.recipe.ingredients) {
@@ -155,6 +185,7 @@ export function evaluate(c: Candidate, ing: Ingredients): Evaluated {
     if (res.reject) reasons.push(res.reject);
     if (res.missing) missing.add(res.missing);
     if (res.missingUnit) missingUnits.add(res.missingUnit);
+    if (res.unitNeed) unitNeeds.push(res.unitNeed);
     if (res.line) lines.push(res.line);
     converted ||= !!res.converted;
     assumed ||= !!res.assumed;
@@ -188,7 +219,7 @@ export function evaluate(c: Candidate, ing: Ingredients): Evaluated {
   if (missing.size)
     return { c, recipe: r, status: 'WAITING_INGREDIENT', missing: [...missing], lines, changes };
   if (missingUnits.size) {
-    return { c, recipe: r, status: 'WAITING_UNIT', missing: [...missingUnits], lines, changes };
+    return { c, recipe: r, status: 'WAITING_UNIT', missing: [...missingUnits], unitNeeds, lines, changes };
   }
   return { c, recipe: r, status: 'READY', lines, changes };
 }

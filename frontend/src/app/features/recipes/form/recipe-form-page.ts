@@ -17,7 +17,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { Router, RouterLink } from '@angular/router';
-import { TranslocoDirective } from '@jsverse/transloco';
+import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 import { apiErrorCode } from '../../../core/api-error';
 import { AuthService } from '../../../core/auth/auth.service';
 import { LocalizedPipe, NumberPipe, formatNumber, parseDecimal } from '../../../core/i18n/format.pipes';
@@ -26,14 +26,9 @@ import { GroupsApi } from '../../groups/groups.api';
 import { HouseholdApi } from '../../household/household.api';
 import { IngredientsApi } from '../../ingredients/ingredients.api';
 import { decimalValidator } from '../../ingredients/form/nutrition-validators';
-import {
-  defaultUnit,
-  unitOptions,
-  unitOptionsWithBulk,
-  type LineItem,
-  type LineUnitOption,
-} from '../recipe-units';
-import { RecipesApi } from '../recipes.api';
+import { defaultUnit, recipeUnitOptions, type LineItem, type LineUnitOption } from '../recipe-units';
+import { RecipesApi, type UnitEstimateResult } from '../recipes.api';
+import { UNIT_RANGES, unitGramsValidator } from '../kitchen-units';
 import type { Difficulty, Photo, RecipeDetail, SaveRecipe, Visibility } from '../recipes.models';
 import { LineItemPickerComponent } from './line-item-picker';
 import { PhotoPickerComponent } from './photo-picker';
@@ -45,9 +40,14 @@ type LineGroup = FormGroup<{
   item: FormControl<LineItem | null>;
   amount: FormControl<string>;
   unitCode: FormControl<string>;
+  /** Waga 1 miary od autora, gdy składnik jej nie zna i AI jej nie ustaliło */
+  unitGrams: FormControl<string>;
   groupName: FormControl<string>;
   note: FormControl<string>;
 }>;
+
+/** Ustalanie wagi miary kuchennej w wierszu: trwa szacunek / miara nie pasuje / pytamy autora */
+type UnitState = { kind: 'loading' } | { kind: 'notFit' } | { kind: 'ask'; range: [number, number] };
 
 /** Co sprawdzić w pozycji odczytanej ze zdjęcia */
 interface ImportNote {
@@ -253,13 +253,19 @@ export class RecipeFormPage implements OnInit {
 
   // --- Składniki ---------------------------------------------------------------
 
+  /**
+   * `checkUnit` - od razu ustal wagę wybranej miary (szkic ze zdjęcia); przy wczytaniu zapisanego
+   * przepisu stan ustawia `fill`.
+   */
   protected addLine(
     value?: Partial<{ item: LineItem; amount: string; unitCode: string; groupName: string; note: string }>,
+    checkUnit = true,
   ) {
     const row: LineGroup = this.fb.group({
       item: this.fb.control<LineItem | null>(value?.item ?? null, [Validators.required]),
       amount: this.fb.control(value?.amount ?? '', [Validators.required, decimalValidator(0.001, 100000)]),
       unitCode: this.fb.control(value?.unitCode ?? 'g', [Validators.required]),
+      unitGrams: this.fb.control(''),
       groupName: this.fb.control(value?.groupName ?? ''),
       note: this.fb.control(value?.note ?? '', [Validators.maxLength(120)]),
     });
@@ -267,19 +273,104 @@ export class RecipeFormPage implements OnInit {
     row.controls.item.valueChanges.subscribe((item) => {
       if (item) row.controls.unitCode.setValue(defaultUnit(item));
     });
+    row.controls.unitCode.valueChanges.subscribe(() => void this.checkUnit(row));
     this.lines.push(row);
+    if (checkUnit && value?.item) void this.checkUnit(row);
   }
 
   protected unitsFor(row: LineGroup): LineUnitOption[] {
-    const item = row.controls.item.value;
-    return item ? unitOptionsWithBulk(item, this.dictionaries()?.units ?? []) : unitOptions(null, []);
+    return recipeUnitOptions(row.controls.item.value, this.dictionaries()?.units ?? []);
   }
 
   protected rowGrams(row: LineGroup): number | null {
     const amount = parseDecimal(row.controls.amount.value);
     const option = this.unitsFor(row).find((o) => o.code === row.controls.unitCode.value);
-    if (amount === null || Number.isNaN(amount) || !option?.grams) return null;
-    return amount * option.grams;
+    const unitGrams = option?.unknown ? parseDecimal(row.controls.unitGrams.value) : option?.grams;
+    if (amount === null || Number.isNaN(amount) || !unitGrams || Number.isNaN(unitGrams)) return null;
+    return amount * unitGrams;
+  }
+
+  // --- Miary kuchenne: szacunek AI albo waga od autora ------------------------
+
+  private readonly unitStates = signal(new Map<LineGroup, UnitState>());
+  private readonly transloco = inject(TranslocoService);
+
+  protected unitState(row: LineGroup): UnitState | undefined {
+    return this.unitStates().get(row);
+  }
+
+  /** Zakres wagi miary, o którą pytamy autora */
+  protected askRange(row: LineGroup): [number, number] {
+    const st = this.unitState(row);
+    return st?.kind === 'ask' ? st.range : (UNIT_RANGES[row.controls.unitCode.value] ?? [0.01, 5000]);
+  }
+
+  protected unitName(row: LineGroup): string {
+    const option = this.unitsFor(row).find((o) => o.code === row.controls.unitCode.value);
+    if (option?.key) return this.transloco.translate(option.key, {}, this.lang());
+    return option?.name ? localizedName(option.name, this.lang()) : row.controls.unitCode.value;
+  }
+
+  protected itemName(row: LineGroup): string {
+    const item = row.controls.item.value;
+    return item ? localizedName(item.name, this.lang()) : '';
+  }
+
+  private setUnitState(row: LineGroup, state: UnitState | null): void {
+    this.unitStates.update((m) => {
+      const next = new Map(m);
+      if (state) next.set(row, state);
+      else next.delete(row);
+      return next;
+    });
+    const grams = row.controls.unitGrams;
+    if (state?.kind === 'ask') {
+      grams.setValidators([Validators.required, unitGramsValidator(state.range)]);
+    } else {
+      grams.clearValidators();
+      grams.setValue('', { emitEvent: false });
+    }
+    grams.updateValueAndValidity({ emitEvent: false });
+    if (state?.kind === 'notFit') row.controls.unitCode.setErrors({ notFit: true });
+  }
+
+  /** Wybrana miara, której składnik nie zna → szacunek (zapisany dla wszystkich) albo pytanie do autora */
+  private async checkUnit(row: LineGroup): Promise<void> {
+    const item = row.controls.item.value;
+    const code = row.controls.unitCode.value;
+    const option = this.unitsFor(row).find((o) => o.code === code);
+    if (!item || item.kind !== 'ingredient' || !option?.unknown) {
+      this.setUnitState(row, null);
+      return;
+    }
+    this.setUnitState(row, { kind: 'loading' });
+    let result: UnitEstimateResult;
+    try {
+      result = await this.api.estimateUnit(item.id, code);
+    } catch {
+      result = { status: 'ASK', range: UNIT_RANGES[code] };
+    }
+    // W międzyczasie zmieniono pozycję albo miarę
+    if (row.controls.unitCode.value !== code || row.controls.item.value?.id !== item.id) return;
+    if (result.status === 'KNOWN') {
+      const unit = this.dictionaries()?.units.find((u) => u.code === code);
+      const units = [
+        ...(item.units ?? []),
+        {
+          code,
+          namePl: unit?.namePl ?? code,
+          nameEn: unit?.nameEn ?? null,
+          grams: result.grams,
+          basis: result.basis,
+        },
+      ];
+      row.controls.item.setValue({ ...item, units }, { emitEvent: false });
+      this.setUnitState(row, null);
+    } else if (result.status === 'NOT_FIT') {
+      this.setUnitState(row, { kind: 'notFit' });
+    } else {
+      this.setUnitState(row, { kind: 'ask', range: result.range });
+    }
   }
 
   protected move(array: FormArray<LineGroup> | FormArray<StepGroup>, index: number, delta: number): void {
@@ -412,6 +503,7 @@ export class RecipeFormPage implements OnInit {
         ...(l.item!.kind === 'recipe' ? { subRecipeId: l.item!.id } : { ingredientId: l.item!.id }),
         amount: parseDecimal(l.amount)!,
         unitCode: l.unitCode,
+        ...(l.unitGrams.trim() ? { unitGrams: parseDecimal(l.unitGrams)! } : {}),
         groupName: l.groupName.trim() || undefined,
         note: l.note.trim() || undefined,
       })),
@@ -457,15 +549,24 @@ export class RecipeFormPage implements OnInit {
             name: { namePl: l.subRecipe!.title },
             servings: l.subRecipe!.servings,
           };
-      this.addLine({
-        item,
-        amount: decimal(l.amount),
-        unitCode: l.unitCode,
-        groupName: l.groupName ?? '',
-        note: l.note ?? '',
-      });
+      this.addLine(
+        {
+          item,
+          amount: decimal(l.amount),
+          unitCode: l.unitCode,
+          groupName: l.groupName ?? '',
+          note: l.note ?? '',
+        },
+        false,
+      );
+      const row = this.lines.at(-1);
       // addLine ustawia jednostkę domyślną przy zmianie pozycji - przywracamy zapisaną
-      this.lines.at(-1).controls.unitCode.setValue(l.unitCode);
+      row.controls.unitCode.setValue(l.unitCode, { emitEvent: false });
+      // Waga miary od autora (składnik jej nie zna) - pokazujemy ją do poprawy
+      if (l.unitGrams !== null && UNIT_RANGES[l.unitCode]) {
+        this.setUnitState(row, { kind: 'ask', range: UNIT_RANGES[l.unitCode] });
+        row.controls.unitGrams.setValue(decimal(l.unitGrams));
+      }
     }
     for (const s of r.steps)
       this.addStep({ text: s.text, timerMinutes: text(s.timerMinutes), photo: s.photo });
@@ -476,3 +577,6 @@ export class RecipeFormPage implements OnInit {
     );
   }
 }
+
+const localizedName = (v: { namePl: string; nameEn?: string | null }, lang: string) =>
+  lang === 'en' && v.nameEn ? v.nameEn : v.namePl;

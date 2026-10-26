@@ -1,0 +1,2086 @@
+{
+  "dzem morelowy": {
+    "grams": {
+      "TEASPOON": 7,
+      "TABLESPOON": 21,
+      "GLASS": 340
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "mascarpone": {
+    "grams": {
+      "TEASPOON": 5,
+      "TABLESPOON": 15,
+      "GLASS": 240
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "proszek do pieczenia": {
+    "grams": {
+      "TEASPOON": 4,
+      "TABLESPOON": 12,
+      "GLASS": 200
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "ser gouda": {
+    "grams": {},
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "pomidor": {
+    "grams": {
+      "PIECE": 125
+    },
+    "notFit": ["TEASPOON", "TABLESPOON", "GLASS", "PINCH"]
+  },
+  "sok z cytryny": {
+    "grams": {
+      "TEASPOON": 5,
+      "TABLESPOON": 15,
+      "GLASS": 250
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "rodzynki": {
+    "grams": {
+      "TEASPOON": 3,
+      "TABLESPOON": 10,
+      "GLASS": 150
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "herbata lisciasta": {
+    "grams": {
+      "TEASPOON": 2,
+      "TABLESPOON": 6,
+      "GLASS": 80
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "maka pszenna samorosnaca": {
+    "grams": {
+      "TEASPOON": 3.5,
+      "TABLESPOON": 9,
+      "GLASS": 125
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "serek smietankowy": {
+    "grams": {
+      "TEASPOON": 5,
+      "TABLESPOON": 15,
+      "GLASS": 240
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "gozdziki mielone": {
+    "grams": {
+      "TEASPOON": 2.3,
+      "TABLESPOON": 6.9,
+      "GLASS": 105,
+      "PINCH": 0.3
+    },
+    "notFit": ["PIECE"]
+  },
+  "por": {
+    "grams": {
+      "TEASPOON": 3,
+      "TABLESPOON": 9,
+      "GLASS": 100,
+      "PIECE": 180
+    },
+    "notFit": ["PINCH"]
+  },
+  "tahini pasta sezamowa": {
+    "grams": {
+      "TEASPOON": 5,
+      "TABLESPOON": 15,
+      "GLASS": 240
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "bagietka pszenna do dopieczenia": {
+    "grams": {
+      "PIECE": 250
+    },
+    "notFit": ["TEASPOON", "TABLESPOON", "GLASS", "PINCH"]
+  },
+  "orzeszki piniowe": {
+    "grams": {},
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "kalafior": {
+    "grams": {
+      "PIECE": 700
+    },
+    "notFit": ["TEASPOON", "TABLESPOON", "GLASS", "PINCH"]
+  },
+  "imbir mielony": {
+    "grams": {
+      "TEASPOON": 2.5,
+      "TABLESPOON": 7.5,
+      "GLASS": 160,
+      "PINCH": 0.4
+    },
+    "notFit": ["PIECE"]
+  },
+  "krab": {
+    "grams": {
+      "TEASPOON": 3,
+      "TABLESPOON": 9,
+      "GLASS": 130
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "ser brie de meaux": {
+    "grams": {
+      "TEASPOON": 5,
+      "TABLESPOON": 15,
+      "GLASS": 180
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "maslo": {
+    "grams": {
+      "TEASPOON": 4.6,
+      "TABLESPOON": 13.7,
+      "GLASS": 228
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "kaczka mieso": {
+    "grams": {},
+    "notFit": ["TEASPOON", "TABLESPOON", "GLASS", "PINCH", "PIECE"]
+  },
+  "mleko w proszku": {
+    "grams": {
+      "TEASPOON": 2.5,
+      "TABLESPOON": 7.5,
+      "GLASS": 125
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "kawa mielona": {
+    "grams": {
+      "TEASPOON": 2,
+      "TABLESPOON": 6,
+      "GLASS": 85
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "maka ziemniaczana": {
+    "grams": {
+      "TEASPOON": 3,
+      "TABLESPOON": 10,
+      "GLASS": 140
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "piers z kurczaka": {
+    "grams": {},
+    "notFit": ["TEASPOON", "TABLESPOON", "GLASS", "PINCH", "PIECE"]
+  },
+  "kakao": {
+    "grams": {
+      "TEASPOON": 2.5,
+      "TABLESPOON": 7.5,
+      "GLASS": 105
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "krolik": {
+    "grams": {},
+    "notFit": ["TEASPOON", "TABLESPOON", "GLASS", "PINCH", "PIECE"]
+  },
+  "papryczka serrano": {
+    "grams": {
+      "TEASPOON": 3,
+      "TABLESPOON": 9,
+      "GLASS": 150,
+      "PIECE": 10
+    },
+    "notFit": ["PINCH"]
+  },
+  "wolowina udziec": {
+    "grams": {},
+    "notFit": ["TEASPOON", "TABLESPOON", "GLASS", "PINCH", "PIECE"]
+  },
+  "natka pietruszki suszona": {
+    "grams": {
+      "TEASPOON": 1,
+      "TABLESPOON": 3,
+      "GLASS": 30,
+      "PINCH": 0.3
+    },
+    "notFit": ["PIECE"]
+  },
+  "chili w proszku": {
+    "grams": {
+      "TEASPOON": 2.7,
+      "TABLESPOON": 8,
+      "GLASS": 115,
+      "PINCH": 0.3
+    },
+    "notFit": ["PIECE"]
+  },
+  "semolina z pszenicy durum": {
+    "grams": {
+      "TEASPOON": 3.5,
+      "TABLESPOON": 11,
+      "GLASS": 175
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "ziemniaki gotowane": {
+    "grams": {
+      "TEASPOON": 5,
+      "TABLESPOON": 15,
+      "GLASS": 180,
+      "PIECE": 100
+    },
+    "notFit": ["PINCH"]
+  },
+  "sol": {
+    "grams": {
+      "TEASPOON": 6,
+      "TABLESPOON": 18,
+      "GLASS": 300,
+      "PINCH": 0.4
+    },
+    "notFit": ["PIECE"]
+  },
+  "ciasto na pizze cienkie surowe": {
+    "grams": {},
+    "notFit": ["TEASPOON", "TABLESPOON", "GLASS", "PINCH", "PIECE"]
+  },
+  "kardamon": {
+    "grams": {
+      "TEASPOON": 2,
+      "TABLESPOON": 6,
+      "GLASS": 115,
+      "PINCH": 0.3
+    },
+    "notFit": ["PIECE"]
+  },
+  "ser brie": {
+    "grams": {
+      "TEASPOON": 5,
+      "TABLESPOON": 15
+    },
+    "notFit": ["GLASS", "PINCH", "PIECE"]
+  },
+  "papryczka chili": {
+    "grams": {
+      "TEASPOON": 2,
+      "TABLESPOON": 6,
+      "PIECE": 8
+    },
+    "notFit": ["GLASS", "PINCH"]
+  },
+  "herbata czarna parzona": {
+    "grams": {
+      "TEASPOON": 5,
+      "TABLESPOON": 15,
+      "GLASS": 250
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "cukier trzcinowy brazowy": {
+    "grams": {
+      "TEASPOON": 4,
+      "TABLESPOON": 12,
+      "GLASS": 200
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "oregano suszone": {
+    "grams": {
+      "PINCH": 0.3
+    },
+    "notFit": ["PIECE"]
+  },
+  "cukinia": {
+    "grams": {
+      "PIECE": 200
+    },
+    "notFit": ["TEASPOON", "TABLESPOON", "GLASS", "PINCH"]
+  },
+  "dzem": {
+    "grams": {
+      "TEASPOON": 7,
+      "TABLESPOON": 20,
+      "GLASS": 330
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "wieprzowina poledwica pieczona": {
+    "grams": {},
+    "notFit": ["TEASPOON", "TABLESPOON", "GLASS", "PINCH", "PIECE"]
+  },
+  "cielecina golen": {
+    "grams": {},
+    "notFit": ["TEASPOON", "TABLESPOON", "GLASS", "PINCH", "PIECE"]
+  },
+  "bulion miesno warzywny w proszku": {
+    "grams": {
+      "TEASPOON": 4,
+      "TABLESPOON": 12,
+      "GLASS": 150,
+      "PINCH": 0.5
+    },
+    "notFit": ["PIECE"]
+  },
+  "czekolada polgorzka": {
+    "grams": {
+      "TEASPOON": 4,
+      "TABLESPOON": 12,
+      "GLASS": 170
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "maslanka": {
+    "grams": {
+      "TEASPOON": 5,
+      "TABLESPOON": 15,
+      "GLASS": 258
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "ser gruyere": {
+    "grams": {
+      "TEASPOON": 2,
+      "TABLESPOON": 6,
+      "GLASS": 100
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "wolowina poledwica surowa": {
+    "grams": {},
+    "notFit": ["TEASPOON", "TABLESPOON", "GLASS", "PINCH", "PIECE"]
+  },
+  "serek wiejski": {
+    "grams": {
+      "TEASPOON": 5,
+      "TABLESPOON": 16,
+      "GLASS": 230
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "pomidory z puszki": {
+    "grams": {
+      "TEASPOON": 5,
+      "TABLESPOON": 16,
+      "GLASS": 260
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "aromat waniliowy sztuczny": {
+    "grams": {
+      "TEASPOON": 5,
+      "TABLESPOON": 15,
+      "GLASS": 250
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "schab kotlet schabowy": {
+    "grams": {
+      "PIECE": 150
+    },
+    "notFit": ["TEASPOON", "TABLESPOON", "GLASS", "PINCH"]
+  },
+  "papryka zielona": {
+    "grams": {
+      "PIECE": 120
+    },
+    "notFit": ["TEASPOON", "TABLESPOON", "GLASS", "PINCH"]
+  },
+  "szczaw": {
+    "grams": {},
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "fasola pinto gotowana": {
+    "grams": {
+      "TEASPOON": 5,
+      "TABLESPOON": 15,
+      "GLASS": 170
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "boczek smazony": {
+    "grams": {
+      "TEASPOON": 3,
+      "TABLESPOON": 9,
+      "GLASS": 90,
+      "PIECE": 8
+    },
+    "notFit": ["PINCH"]
+  },
+  "papryka slodka mielona": {
+    "grams": {
+      "TEASPOON": 2.3,
+      "TABLESPOON": 7,
+      "GLASS": 100,
+      "PINCH": 0.5
+    },
+    "notFit": ["PIECE"]
+  },
+  "ogorek konserwowy": {
+    "grams": {
+      "TEASPOON": 3,
+      "TABLESPOON": 9,
+      "GLASS": 150,
+      "PIECE": 65
+    },
+    "notFit": ["PINCH"]
+  },
+  "bulion wolowy": {
+    "grams": {
+      "TEASPOON": 5,
+      "TABLESPOON": 15,
+      "GLASS": 250
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "twarog tlusty": {
+    "grams": {
+      "TEASPOON": 5,
+      "TABLESPOON": 16,
+      "GLASS": 260
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "mus jablkowy slodzony": {
+    "grams": {
+      "TEASPOON": 5,
+      "TABLESPOON": 16,
+      "GLASS": 255
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "curry": {
+    "grams": {
+      "TEASPOON": 2.1,
+      "TABLESPOON": 6.3,
+      "GLASS": 115,
+      "PINCH": 0.5
+    },
+    "notFit": ["PIECE"]
+  },
+  "szynka wieprzowa surowa": {
+    "grams": {},
+    "notFit": ["TEASPOON", "TABLESPOON", "GLASS", "PINCH", "PIECE"]
+  },
+  "oliwki zielone": {
+    "grams": {
+      "TEASPOON": 3,
+      "TABLESPOON": 10,
+      "GLASS": 150,
+      "PIECE": 4
+    },
+    "notFit": ["PINCH"]
+  },
+  "czosnek granulowany": {
+    "grams": {
+      "TEASPOON": 3,
+      "TABLESPOON": 9,
+      "GLASS": 130,
+      "PINCH": 0.5
+    },
+    "notFit": ["PIECE"]
+  },
+  "czekolada mleczna": {
+    "grams": {
+      "TEASPOON": 4,
+      "TABLESPOON": 12,
+      "GLASS": 170
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "batat": {
+    "grams": {
+      "PIECE": 180
+    },
+    "notFit": ["TEASPOON", "TABLESPOON", "GLASS", "PINCH"]
+  },
+  "cukier": {
+    "grams": {
+      "TEASPOON": 4,
+      "TABLESPOON": 12.5,
+      "GLASS": 200
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "ricotta": {
+    "grams": {
+      "TEASPOON": 5,
+      "TABLESPOON": 15,
+      "GLASS": 250
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "ciasto francuskie maslane": {
+    "grams": {},
+    "notFit": ["TEASPOON", "TABLESPOON", "GLASS", "PINCH", "PIECE"]
+  },
+  "majonez": {
+    "grams": {
+      "TEASPOON": 4.5,
+      "TABLESPOON": 14,
+      "GLASS": 230
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "fasolka szparagowa zolta": {
+    "grams": {
+      "TEASPOON": 3,
+      "TABLESPOON": 9,
+      "GLASS": 110
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "pieprz bialy mielony": {
+    "grams": {
+      "PINCH": 0.5
+    },
+    "notFit": ["PIECE"]
+  },
+  "galka muszkatolowa": {
+    "grams": {
+      "TEASPOON": 2.1,
+      "TABLESPOON": 6.3,
+      "GLASS": 112,
+      "PINCH": 0.3
+    },
+    "notFit": ["PIECE"]
+  },
+  "rabarbar": {
+    "grams": {
+      "TEASPOON": 2.5,
+      "TABLESPOON": 8,
+      "GLASS": 120
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "estragon suszony": {
+    "grams": {
+      "TEASPOON": 1.2,
+      "TABLESPOON": 3.8,
+      "GLASS": 45,
+      "PINCH": 0.3
+    },
+    "notFit": ["PIECE"]
+  },
+  "tymianek suszony": {
+    "grams": {
+      "PINCH": 0.3
+    },
+    "notFit": ["PIECE"]
+  },
+  "rzezucha": {
+    "grams": {},
+    "notFit": ["TEASPOON", "TABLESPOON", "GLASS", "PINCH", "PIECE"]
+  },
+  "cielecina kotlet surowy": {
+    "grams": {
+      "PIECE": 250
+    },
+    "notFit": ["TEASPOON", "TABLESPOON", "GLASS", "PINCH"]
+  },
+  "daktyle medjool": {
+    "grams": {},
+    "notFit": ["TEASPOON", "TABLESPOON", "GLASS", "PINCH", "PIECE"]
+  },
+  "orzechy nerkowca": {
+    "grams": {
+      "TEASPOON": 3,
+      "TABLESPOON": 9,
+      "GLASS": 140,
+      "PIECE": 1.5
+    },
+    "notFit": ["PINCH"]
+  },
+  "imbir swiezy": {
+    "grams": {
+      "TEASPOON": 3,
+      "TABLESPOON": 9,
+      "GLASS": 150,
+      "PIECE": 20
+    },
+    "notFit": ["PINCH"]
+  },
+  "chleb wloski": {
+    "grams": {
+      "PIECE": 60
+    },
+    "notFit": ["TEASPOON", "TABLESPOON", "GLASS", "PINCH"]
+  },
+  "cebula suszona": {
+    "grams": {
+      "TEASPOON": 2.5,
+      "TABLESPOON": 7.5,
+      "GLASS": 125,
+      "PINCH": 0.3
+    },
+    "notFit": ["PIECE"]
+  },
+  "pieprz cayenne": {
+    "grams": {
+      "TEASPOON": 2.3,
+      "TABLESPOON": 6.9,
+      "GLASS": 115,
+      "PINCH": 0.3
+    },
+    "notFit": ["PIECE"]
+  },
+  "mandarynka": {
+    "grams": {
+      "PIECE": 88
+    },
+    "notFit": ["TEASPOON", "TABLESPOON", "GLASS", "PINCH"]
+  },
+  "kokos swiezy miazsz": {
+    "grams": {
+      "TEASPOON": 1.6,
+      "TABLESPOON": 4.8,
+      "GLASS": 80
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "jablko": {
+    "grams": {
+      "PIECE": 150
+    },
+    "notFit": ["TEASPOON", "TABLESPOON", "GLASS", "PINCH"]
+  },
+  "banan": {
+    "grams": {
+      "TEASPOON": 5,
+      "TABLESPOON": 15,
+      "GLASS": 240,
+      "PIECE": 120
+    },
+    "notFit": ["PINCH"]
+  },
+  "borowik szlachetny": {
+    "grams": {
+      "PIECE": 30
+    },
+    "notFit": ["PINCH"]
+  },
+  "pieprz czarny mielony": {
+    "grams": {
+      "TEASPOON": 2.3,
+      "TABLESPOON": 6.9,
+      "GLASS": 115,
+      "PINCH": 0.3
+    },
+    "notFit": ["PIECE"]
+  },
+  "kapary": {
+    "grams": {
+      "TEASPOON": 4,
+      "TABLESPOON": 11,
+      "GLASS": 150
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "kukurydza konserwowa": {
+    "grams": {
+      "TEASPOON": 4,
+      "TABLESPOON": 11,
+      "GLASS": 175
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "sok z limonki": {
+    "grams": {
+      "TEASPOON": 5,
+      "TABLESPOON": 15,
+      "GLASS": 258,
+      "PIECE": 30
+    },
+    "notFit": ["PINCH"]
+  },
+  "sok pomaranczowy": {
+    "grams": {
+      "TEASPOON": 5,
+      "TABLESPOON": 15,
+      "GLASS": 250
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "oliwki czarne": {
+    "grams": {
+      "TEASPOON": 4,
+      "TABLESPOON": 12,
+      "GLASS": 150,
+      "PIECE": 4
+    },
+    "notFit": ["PINCH"]
+  },
+  "tluszcz kaczy": {
+    "grams": {
+      "TEASPOON": 4.5,
+      "TABLESPOON": 13.5,
+      "GLASS": 227
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "tofu naturalne": {
+    "grams": {
+      "TEASPOON": 5,
+      "TABLESPOON": 15,
+      "GLASS": 250
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "margaryna": {
+    "grams": {
+      "TEASPOON": 4.6,
+      "TABLESPOON": 14,
+      "GLASS": 230
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "makaron pszenny": {
+    "grams": {
+      "TEASPOON": 3,
+      "TABLESPOON": 9,
+      "GLASS": 120
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "groszek konserwowy": {
+    "grams": {
+      "TEASPOON": 4.5,
+      "TABLESPOON": 14,
+      "GLASS": 160
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "ziele angielskie": {
+    "grams": {
+      "TEASPOON": 2.2,
+      "TABLESPOON": 6.5,
+      "GLASS": 110,
+      "PINCH": 0.4
+    },
+    "notFit": ["PIECE"]
+  },
+  "espresso": {
+    "grams": {
+      "TEASPOON": 5,
+      "TABLESPOON": 15,
+      "GLASS": 250
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "smietana 18%": {
+    "grams": {
+      "TEASPOON": 5,
+      "TABLESPOON": 15,
+      "GLASS": 230
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "papryka czerwona": {
+    "grams": {},
+    "notFit": ["TEASPOON", "TABLESPOON", "GLASS", "PINCH", "PIECE"]
+  },
+  "pieczarki portobello": {
+    "grams": {
+      "PIECE": 90
+    },
+    "notFit": ["TEASPOON", "TABLESPOON", "GLASS", "PINCH"]
+  },
+  "ser cheddar": {
+    "grams": {
+      "TEASPOON": 2.5,
+      "TABLESPOON": 7.5,
+      "GLASS": 110
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "stek wolowy": {
+    "grams": {},
+    "notFit": ["TEASPOON", "TABLESPOON", "GLASS", "PINCH", "PIECE"]
+  },
+  "salata zielona": {
+    "grams": {},
+    "notFit": ["TEASPOON", "TABLESPOON", "GLASS", "PINCH", "PIECE"]
+  },
+  "grzyby shiitake": {
+    "grams": {
+      "TEASPOON": 2,
+      "TABLESPOON": 6,
+      "GLASS": 70,
+      "PIECE": 15
+    },
+    "notFit": ["PINCH"]
+  },
+  "smietanka lekka 12 25% gesta uht": {
+    "grams": {
+      "TEASPOON": 5,
+      "TABLESPOON": 15,
+      "GLASS": 245
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "poledwica wolowa": {
+    "grams": {},
+    "notFit": ["TEASPOON", "TABLESPOON", "GLASS", "PINCH", "PIECE"]
+  },
+  "boczek surowy": {
+    "grams": {},
+    "notFit": ["TEASPOON", "TABLESPOON", "GLASS", "PINCH", "PIECE"]
+  },
+  "brandy armagnac lub koniak": {
+    "grams": {
+      "TEASPOON": 4.7,
+      "TABLESPOON": 14,
+      "GLASS": 237
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "chalka": {
+    "grams": {
+      "PIECE": 400
+    },
+    "notFit": ["TEASPOON", "TABLESPOON", "GLASS", "PINCH"]
+  },
+  "kurczak mielony": {
+    "grams": {},
+    "notFit": ["TEASPOON", "TABLESPOON", "GLASS", "PINCH", "PIECE"]
+  },
+  "maslo z nerkowcow": {
+    "grams": {
+      "TEASPOON": 5,
+      "TABLESPOON": 16,
+      "GLASS": 256
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "cynamon": {
+    "grams": {
+      "TEASPOON": 2.6,
+      "TABLESPOON": 7.8,
+      "GLASS": 130,
+      "PINCH": 0.4
+    },
+    "notFit": ["PIECE"]
+  },
+  "piers z indyka": {
+    "grams": {},
+    "notFit": ["TEASPOON", "TABLESPOON", "GLASS", "PINCH", "PIECE"]
+  },
+  "eskariola": {
+    "grams": {
+      "TEASPOON": 1,
+      "TABLESPOON": 3,
+      "GLASS": 50
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "zoltko jaja": {
+    "grams": {
+      "TEASPOON": 5,
+      "TABLESPOON": 16,
+      "GLASS": 258,
+      "PIECE": 17
+    },
+    "notFit": ["PINCH"]
+  },
+  "skrobia kukurydziana": {
+    "grams": {
+      "TEASPOON": 3.2,
+      "TABLESPOON": 9.6,
+      "GLASS": 150
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "pistacje": {
+    "grams": {
+      "TEASPOON": 2.5,
+      "TABLESPOON": 8,
+      "GLASS": 125
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "kmin rzymski": {
+    "grams": {
+      "TEASPOON": 2.1,
+      "TABLESPOON": 6.3,
+      "GLASS": 95,
+      "PINCH": 0.3
+    },
+    "notFit": ["PIECE"]
+  },
+  "trawa cytrynowa": {
+    "grams": {
+      "TEASPOON": 2,
+      "TABLESPOON": 6,
+      "GLASS": 100,
+      "PIECE": 25
+    },
+    "notFit": ["PINCH"]
+  },
+  "ocet jablkowy": {
+    "grams": {
+      "TEASPOON": 5,
+      "TABLESPOON": 15,
+      "GLASS": 250
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "karkowka lopatka wieprzowa": {
+    "grams": {},
+    "notFit": ["TEASPOON", "TABLESPOON", "GLASS", "PINCH", "PIECE"]
+  },
+  "drob gotowany": {
+    "grams": {
+      "TEASPOON": 3,
+      "TABLESPOON": 9,
+      "GLASS": 140
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "czekolada biala": {
+    "grams": {
+      "TEASPOON": 3.5,
+      "TABLESPOON": 10,
+      "GLASS": 150
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "ogorek": {
+    "grams": {
+      "PIECE": 150
+    },
+    "notFit": ["TEASPOON", "TABLESPOON", "GLASS", "PINCH"]
+  },
+  "ketchup": {
+    "grams": {
+      "TEASPOON": 5,
+      "TABLESPOON": 18,
+      "GLASS": 260
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "fasolka szparagowa": {
+    "grams": {},
+    "notFit": ["TEASPOON", "TABLESPOON", "GLASS", "PINCH", "PIECE"]
+  },
+  "koncentrat pomidorowy": {
+    "grams": {
+      "TEASPOON": 5.5,
+      "TABLESPOON": 17,
+      "GLASS": 275
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "natka pietruszki": {
+    "grams": {
+      "TEASPOON": 1,
+      "TABLESPOON": 3,
+      "GLASS": 40,
+      "PINCH": 0.5
+    },
+    "notFit": ["PIECE"]
+  },
+  "cebula czerwona": {
+    "grams": {
+      "TEASPOON": 3.5,
+      "TABLESPOON": 10.5,
+      "GLASS": 160,
+      "PIECE": 110
+    },
+    "notFit": ["PINCH"]
+  },
+  "jarmuz": {
+    "grams": {
+      "TEASPOON": 1,
+      "TABLESPOON": 4,
+      "GLASS": 60
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "skorka pomaranczowa kandyzowana": {
+    "grams": {
+      "TEASPOON": 3.5,
+      "TABLESPOON": 10,
+      "GLASS": 150
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "polenta gotowana": {
+    "grams": {
+      "TEASPOON": 5,
+      "TABLESPOON": 15,
+      "GLASS": 250
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "ziola prowansalskie": {
+    "grams": {
+      "TEASPOON": 1.5,
+      "TABLESPOON": 4.5,
+      "GLASS": 50,
+      "PINCH": 0.5
+    },
+    "notFit": ["PIECE"]
+  },
+  "kminek": {
+    "grams": {
+      "TEASPOON": 2,
+      "TABLESPOON": 6,
+      "GLASS": 100,
+      "PINCH": 0.3
+    },
+    "notFit": ["PIECE"]
+  },
+  "sos brazowy w proszku": {
+    "grams": {
+      "TEASPOON": 3.5,
+      "TABLESPOON": 10.5,
+      "GLASS": 125
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "woda gazowana": {
+    "grams": {
+      "TEASPOON": 5,
+      "TABLESPOON": 15,
+      "GLASS": 250
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "okra": {
+    "grams": {
+      "TEASPOON": 2,
+      "TABLESPOON": 6,
+      "GLASS": 100,
+      "PIECE": 12
+    },
+    "notFit": ["PINCH"]
+  },
+  "slonina": {
+    "grams": {
+      "TEASPOON": 4.5,
+      "TABLESPOON": 13.5,
+      "GLASS": 220
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "maslo klarowane": {
+    "grams": {
+      "TEASPOON": 4.5,
+      "TABLESPOON": 13.5,
+      "GLASS": 225
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "galaretka": {
+    "grams": {
+      "TEASPOON": 4,
+      "TABLESPOON": 12,
+      "GLASS": 160
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "kurkuma": {
+    "grams": {
+      "TEASPOON": 3,
+      "TABLESPOON": 9,
+      "GLASS": 130,
+      "PINCH": 0.5
+    },
+    "notFit": ["PIECE"]
+  },
+  "orzeszki ziemne prazone solone": {
+    "grams": {
+      "TEASPOON": 3,
+      "TABLESPOON": 9,
+      "GLASS": 146
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "bulion drobiowy": {
+    "grams": {
+      "TEASPOON": 5,
+      "TABLESPOON": 15,
+      "GLASS": 250
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "woda": {
+    "grams": {
+      "TEASPOON": 5,
+      "TABLESPOON": 15,
+      "GLASS": 250
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "mleko 1%": {
+    "grams": {
+      "TEASPOON": 5.2,
+      "TABLESPOON": 15.5,
+      "GLASS": 258
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "anyz nasiona": {
+    "grams": {
+      "PINCH": 0.3
+    },
+    "notFit": ["PIECE"]
+  },
+  "rukola": {
+    "grams": {
+      "TEASPOON": 1.5,
+      "TABLESPOON": 4
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "ocet spirytusowy": {
+    "grams": {
+      "TEASPOON": 5,
+      "TABLESPOON": 15,
+      "GLASS": 250
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "ser feta": {
+    "grams": {
+      "TEASPOON": 3,
+      "TABLESPOON": 10,
+      "GLASS": 150
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "maniok kasawa": {
+    "grams": {
+      "TEASPOON": 3,
+      "TABLESPOON": 10,
+      "GLASS": 150,
+      "PIECE": 500
+    },
+    "notFit": ["PINCH"]
+  },
+  "maslo orzechowe": {
+    "grams": {
+      "TEASPOON": 5,
+      "TABLESPOON": 16,
+      "GLASS": 260
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "cytryna": {
+    "grams": {
+      "PIECE": 100
+    },
+    "notFit": ["TEASPOON", "TABLESPOON", "GLASS", "PINCH"]
+  },
+  "kakao alkalizowane": {
+    "grams": {
+      "TEASPOON": 2.5,
+      "TABLESPOON": 7.5,
+      "GLASS": 100
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "kolendra suszona": {
+    "grams": {
+      "TEASPOON": 1,
+      "TABLESPOON": 3,
+      "PINCH": 0.3
+    },
+    "notFit": ["PIECE"]
+  },
+  "pesto bazyliowe": {
+    "grams": {
+      "TEASPOON": 5,
+      "TABLESPOON": 15,
+      "GLASS": 240
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "parmezan tarty": {
+    "grams": {
+      "TEASPOON": 1.7,
+      "TABLESPOON": 5.1,
+      "GLASS": 85
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "groszek zielony mrozony": {
+    "grams": {
+      "TEASPOON": 3,
+      "TABLESPOON": 9,
+      "GLASS": 150
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "ryz preparowany": {
+    "grams": {
+      "TEASPOON": 0.7,
+      "TABLESPOON": 2.2,
+      "GLASS": 35
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "pedy bambusa": {
+    "grams": {
+      "TEASPOON": 3,
+      "TABLESPOON": 10,
+      "GLASS": 150
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "musztarda z ziarnami": {
+    "grams": {
+      "TEASPOON": 5.5,
+      "TABLESPOON": 17,
+      "GLASS": 260
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "wolowina zeberka surowe": {
+    "grams": {},
+    "notFit": ["TEASPOON", "TABLESPOON", "GLASS", "PINCH", "PIECE"]
+  },
+  "smietanka 30%": {
+    "grams": {
+      "TEASPOON": 5,
+      "TABLESPOON": 15,
+      "GLASS": 250
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "musztarda": {
+    "grams": {
+      "TEASPOON": 5,
+      "TABLESPOON": 16,
+      "GLASS": 260
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "kawa rozpuszczalna": {
+    "grams": {
+      "TEASPOON": 2,
+      "TABLESPOON": 6,
+      "GLASS": 90
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "marchew": {
+    "grams": {
+      "TEASPOON": 3,
+      "TABLESPOON": 10,
+      "GLASS": 150,
+      "PIECE": 61
+    },
+    "notFit": ["PINCH"]
+  },
+  "pestki dyni": {
+    "grams": {
+      "TEASPOON": 3,
+      "TABLESPOON": 9,
+      "GLASS": 120
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "orzechy wloskie": {
+    "grams": {
+      "TEASPOON": 3,
+      "TABLESPOON": 8,
+      "GLASS": 100,
+      "PIECE": 4
+    },
+    "notFit": ["PINCH"]
+  },
+  "maka gryczana": {
+    "grams": {
+      "TEASPOON": 2.5,
+      "TABLESPOON": 8,
+      "GLASS": 120
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "zarodki pszenne": {
+    "grams": {},
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "ciasto filo": {
+    "grams": {},
+    "notFit": ["TEASPOON", "TABLESPOON", "GLASS", "PINCH", "PIECE"]
+  },
+  "rzepa": {
+    "grams": {
+      "PIECE": 120
+    },
+    "notFit": ["TEASPOON", "TABLESPOON", "GLASS", "PINCH"]
+  },
+  "fasola czerwona gotowana": {
+    "grams": {
+      "TEASPOON": 3.6,
+      "TABLESPOON": 11,
+      "GLASS": 180
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "olej roslinny": {
+    "grams": {
+      "TEASPOON": 4.6,
+      "TABLESPOON": 13.8,
+      "GLASS": 230
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "pieczarki": {
+    "grams": {
+      "PIECE": 18
+    },
+    "notFit": ["PINCH"]
+  },
+  "arbuz": {
+    "grams": {},
+    "notFit": ["TEASPOON", "TABLESPOON", "GLASS", "PINCH", "PIECE"]
+  },
+  "parmezan": {
+    "grams": {
+      "TEASPOON": 1.7,
+      "TABLESPOON": 5,
+      "GLASS": 85
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "syrop grenadine": {
+    "grams": {
+      "TEASPOON": 7,
+      "TABLESPOON": 20,
+      "GLASS": 330
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "jezyk wolowy gotowany": {
+    "grams": {},
+    "notFit": ["TEASPOON", "TABLESPOON", "GLASS", "PINCH", "PIECE"]
+  },
+  "szalotka": {
+    "grams": {
+      "TEASPOON": 3,
+      "TABLESPOON": 9,
+      "GLASS": 140,
+      "PIECE": 30
+    },
+    "notFit": ["PINCH"]
+  },
+  "wolowina gulaszowa": {
+    "grams": {},
+    "notFit": ["TEASPOON", "TABLESPOON", "GLASS", "PINCH", "PIECE"]
+  },
+  "kolendra nasiona": {
+    "grams": {
+      "TEASPOON": 2,
+      "TABLESPOON": 6,
+      "GLASS": 110,
+      "PINCH": 0.3
+    },
+    "notFit": ["PIECE"]
+  },
+  "tapioka perelki": {
+    "grams": {
+      "TEASPOON": 3.5,
+      "TABLESPOON": 11,
+      "GLASS": 180
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "sezam": {
+    "grams": {
+      "TEASPOON": 3.2,
+      "TABLESPOON": 9.8,
+      "GLASS": 160
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "kielki fasoli mung": {
+    "grams": {
+      "TEASPOON": 2,
+      "TABLESPOON": 6,
+      "GLASS": 100
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "opuncja figowa": {
+    "grams": {
+      "TEASPOON": 5,
+      "TABLESPOON": 14,
+      "GLASS": 160,
+      "PIECE": 120
+    },
+    "notFit": ["PINCH"]
+  },
+  "cebula": {
+    "grams": {
+      "TEASPOON": 3,
+      "TABLESPOON": 10,
+      "PIECE": 110
+    },
+    "notFit": ["GLASS", "PINCH"]
+  },
+  "jagniecina udziec surowy": {
+    "grams": {},
+    "notFit": ["TEASPOON", "TABLESPOON", "GLASS", "PINCH", "PIECE"]
+  },
+  "serek kremowy do smarowania": {
+    "grams": {
+      "TEASPOON": 5,
+      "TABLESPOON": 15,
+      "GLASS": 250
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "dymka szczypior z cebulka": {
+    "grams": {
+      "TEASPOON": 2,
+      "TABLESPOON": 6,
+      "GLASS": 100,
+      "PIECE": 15
+    },
+    "notFit": ["PINCH"]
+  },
+  "szynka w kostce": {
+    "grams": {
+      "TEASPOON": 4,
+      "TABLESPOON": 13,
+      "GLASS": 150
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "orzeszki ziemne": {
+    "grams": {
+      "TEASPOON": 3,
+      "TABLESPOON": 9,
+      "GLASS": 145
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "papryczka jalapeno": {
+    "grams": {
+      "TEASPOON": 3,
+      "TABLESPOON": 9,
+      "GLASS": 150,
+      "PIECE": 15
+    },
+    "notFit": ["PINCH"]
+  },
+  "ziemniaki": {
+    "grams": {
+      "PIECE": 150
+    },
+    "notFit": ["TEASPOON", "TABLESPOON", "GLASS", "PINCH"]
+  },
+  "chleb brioche": {
+    "grams": {
+      "PIECE": 50
+    },
+    "notFit": ["TEASPOON", "TABLESPOON", "GLASS", "PINCH"]
+  },
+  "drozdze suszone": {
+    "grams": {
+      "TEASPOON": 3.1,
+      "TABLESPOON": 9.3,
+      "GLASS": 144
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "sos pomidorowy do pizzy": {
+    "grams": {
+      "TEASPOON": 5.4,
+      "TABLESPOON": 16,
+      "GLASS": 270
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "krewetki": {
+    "grams": {
+      "PIECE": 15
+    },
+    "notFit": ["TEASPOON", "TABLESPOON", "GLASS", "PINCH"]
+  },
+  "krem czekoladowo orzechowy": {
+    "grams": {
+      "TEASPOON": 6,
+      "TABLESPOON": 18,
+      "GLASS": 300
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "batat gotowany": {
+    "grams": {
+      "TEASPOON": 4,
+      "TABLESPOON": 11,
+      "GLASS": 170,
+      "PIECE": 120
+    },
+    "notFit": ["PINCH"]
+  },
+  "mieso z kurczaka": {
+    "grams": {},
+    "notFit": ["TEASPOON", "TABLESPOON", "GLASS", "PINCH", "PIECE"]
+  },
+  "twarog poltlusty": {
+    "grams": {
+      "TEASPOON": 5,
+      "TABLESPOON": 16,
+      "GLASS": 260
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "cukier waniliowy": {
+    "grams": {
+      "TEASPOON": 4,
+      "TABLESPOON": 12,
+      "GLASS": 200
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "szafran": {
+    "grams": {
+      "TEASPOON": 1,
+      "TABLESPOON": 3,
+      "GLASS": 50,
+      "PINCH": 0.1
+    },
+    "notFit": ["PIECE"]
+  },
+  "seler naciowy": {
+    "grams": {
+      "TEASPOON": 2,
+      "TABLESPOON": 6,
+      "GLASS": 100,
+      "PIECE": 40
+    },
+    "notFit": ["PINCH"]
+  },
+  "grzanki czosnkowe": {
+    "grams": {
+      "TEASPOON": 1.5,
+      "TABLESPOON": 4.5,
+      "GLASS": 75,
+      "PIECE": 3
+    },
+    "notFit": ["PINCH"]
+  },
+  "brokul": {
+    "grams": {
+      "TEASPOON": 2,
+      "TABLESPOON": 6,
+      "GLASS": 90,
+      "PIECE": 300
+    },
+    "notFit": ["PINCH"]
+  },
+  "platki drozdzowe": {
+    "grams": {
+      "TEASPOON": 1.5,
+      "TABLESPOON": 4.5,
+      "GLASS": 70
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "czekolada mleczna z bakaliami": {
+    "grams": {
+      "TEASPOON": 4,
+      "TABLESPOON": 11,
+      "GLASS": 160
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "ciasto francuskie mrozone": {
+    "grams": {
+      "PIECE": 275
+    },
+    "notFit": ["TEASPOON", "TABLESPOON", "GLASS", "PINCH"]
+  },
+  "liscie winogron": {
+    "grams": {
+      "TEASPOON": 1,
+      "TABLESPOON": 3,
+      "GLASS": 35,
+      "PIECE": 8
+    },
+    "notFit": ["PINCH"]
+  },
+  "czekolada do pieczenia 100%": {
+    "grams": {
+      "TEASPOON": 3,
+      "TABLESPOON": 9,
+      "GLASS": 150,
+      "PIECE": 28
+    },
+    "notFit": ["PINCH"]
+  },
+  "czekolada gorzka 45 59%": {
+    "grams": {
+      "TEASPOON": 3.5,
+      "TABLESPOON": 10,
+      "GLASS": 160
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "bazylia swieza": {
+    "grams": {
+      "TEASPOON": 1,
+      "TABLESPOON": 3.5
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "papryka wegierska": {
+    "grams": {
+      "PIECE": 60
+    },
+    "notFit": ["TEASPOON", "TABLESPOON", "GLASS", "PINCH"]
+  },
+  "ser topiony w plastrach": {
+    "grams": {
+      "PIECE": 20
+    },
+    "notFit": ["TEASPOON", "TABLESPOON", "GLASS", "PINCH"]
+  },
+  "oliwki zielone nadziewane anchois": {
+    "grams": {
+      "TEASPOON": 4,
+      "TABLESPOON": 13,
+      "GLASS": 150,
+      "PIECE": 4
+    },
+    "notFit": ["PINCH"]
+  },
+  "tamarynd surowy": {
+    "grams": {
+      "TEASPOON": 5,
+      "TABLESPOON": 16,
+      "GLASS": 250,
+      "PIECE": 12
+    },
+    "notFit": ["PINCH"]
+  },
+  "dynia": {
+    "grams": {
+      "GLASS": 130
+    },
+    "notFit": ["TEASPOON", "TABLESPOON", "PINCH", "PIECE"]
+  },
+  "baklazan": {
+    "grams": {
+      "PIECE": 250
+    },
+    "notFit": ["TEASPOON", "TABLESPOON", "GLASS", "PINCH"]
+  },
+  "koperek suszony": {
+    "grams": {
+      "TEASPOON": 0.8,
+      "TABLESPOON": 2.5,
+      "PINCH": 0.3
+    },
+    "notFit": ["PIECE"]
+  },
+  "anchois solone w oleju slonecznikowym": {
+    "grams": {
+      "TEASPOON": 5,
+      "TABLESPOON": 15,
+      "GLASS": 150,
+      "PIECE": 4
+    },
+    "notFit": ["PINCH"]
+  },
+  "szynka surowa dojrzewajaca": {
+    "grams": {
+      "TEASPOON": 3,
+      "TABLESPOON": 9,
+      "GLASS": 125
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "anchois w oleju": {
+    "grams": {
+      "TEASPOON": 5,
+      "TABLESPOON": 15,
+      "GLASS": 150,
+      "PIECE": 3
+    },
+    "notFit": ["PINCH"]
+  },
+  "daktyle suszone": {
+    "grams": {
+      "TEASPOON": 3,
+      "TABLESPOON": 10,
+      "GLASS": 160,
+      "PIECE": 8
+    },
+    "notFit": ["PINCH"]
+  },
+  "mieta swieza": {
+    "grams": {
+      "TEASPOON": 1,
+      "TABLESPOON": 3,
+      "GLASS": 30
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "kerwel suszony": {
+    "grams": {
+      "TEASPOON": 1,
+      "TABLESPOON": 3,
+      "GLASS": 30,
+      "PINCH": 0.3
+    },
+    "notFit": ["PIECE"]
+  },
+  "kolendra swieza liscie": {
+    "grams": {
+      "TEASPOON": 1,
+      "TABLESPOON": 3
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "bita smietana w sprayu": {
+    "grams": {
+      "TEASPOON": 1.5,
+      "TABLESPOON": 4.5,
+      "GLASS": 75
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "kalafior gotowany": {
+    "grams": {
+      "TEASPOON": 2.6,
+      "TABLESPOON": 8,
+      "GLASS": 130
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "wolowina mielona 10% tluszczu smazona": {
+    "grams": {
+      "TEASPOON": 4,
+      "TABLESPOON": 12,
+      "GLASS": 160
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "chleb pszenny": {
+    "grams": {
+      "PIECE": 30
+    },
+    "notFit": ["TEASPOON", "TABLESPOON", "GLASS", "PINCH"]
+  },
+  "wasabi korzen": {
+    "grams": {
+      "TEASPOON": 3,
+      "TABLESPOON": 9,
+      "GLASS": 100,
+      "PIECE": 30
+    },
+    "notFit": ["PINCH"]
+  },
+  "smardze": {
+    "grams": {
+      "TEASPOON": 1.5,
+      "TABLESPOON": 4,
+      "GLASS": 60,
+      "PIECE": 8
+    },
+    "notFit": ["PINCH"]
+  },
+  "mozzarella": {
+    "grams": {
+      "TEASPOON": 2.3,
+      "TABLESPOON": 6.8,
+      "GLASS": 113,
+      "PIECE": 125
+    },
+    "notFit": ["PINCH"]
+  },
+  "szczypiorek": {
+    "grams": {
+      "TEASPOON": 0.7,
+      "TABLESPOON": 2,
+      "GLASS": 30,
+      "PINCH": 0.3
+    },
+    "notFit": ["PIECE"]
+  },
+  "czosnek": {
+    "grams": {
+      "TEASPOON": 3,
+      "TABLESPOON": 9,
+      "GLASS": 160,
+      "PIECE": 50
+    },
+    "notFit": ["PINCH"]
+  },
+  "szalwia swieza": {
+    "grams": {
+      "TEASPOON": 0.7,
+      "TABLESPOON": 2,
+      "PINCH": 0.3
+    },
+    "notFit": ["PIECE"]
+  },
+  "indyk tuszka ze skora surowa": {
+    "grams": {
+      "PIECE": 5000
+    },
+    "notFit": ["TEASPOON", "TABLESPOON", "GLASS", "PINCH"]
+  },
+  "pianki marshmallow": {
+    "grams": {
+      "GLASS": 50,
+      "PIECE": 7
+    },
+    "notFit": ["TEASPOON", "TABLESPOON", "PINCH"]
+  },
+  "rozmaryn swiezy": {
+    "grams": {
+      "TEASPOON": 1,
+      "TABLESPOON": 2.5,
+      "GLASS": 40
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "papryczki chili suszone": {
+    "grams": {
+      "TEASPOON": 2,
+      "TABLESPOON": 6,
+      "GLASS": 60,
+      "PINCH": 0.5,
+      "PIECE": 1.5
+    },
+    "notFit": []
+  },
+  "koperek": {
+    "grams": {
+      "TEASPOON": 1,
+      "TABLESPOON": 3,
+      "PINCH": 0.5
+    },
+    "notFit": ["PIECE"]
+  },
+  "migdaly": {
+    "grams": {
+      "TEASPOON": 2.9,
+      "TABLESPOON": 8.6,
+      "GLASS": 143,
+      "PIECE": 1.2
+    },
+    "notFit": ["PINCH"]
+  },
+  "salata": {
+    "grams": {
+      "TEASPOON": 1,
+      "TABLESPOON": 3,
+      "GLASS": 50,
+      "PIECE": 300
+    },
+    "notFit": ["PINCH"]
+  },
+  "pomidor koktajlowy": {
+    "grams": {
+      "TEASPOON": 4,
+      "TABLESPOON": 12,
+      "GLASS": 160,
+      "PIECE": 15
+    },
+    "notFit": ["PINCH"]
+  },
+  "boczek wedzony": {
+    "grams": {
+      "TEASPOON": 3,
+      "TABLESPOON": 10,
+      "GLASS": 150,
+      "PIECE": 10
+    },
+    "notFit": ["PINCH"]
+  },
+  "kapusta biala": {
+    "grams": {
+      "TEASPOON": 1.5,
+      "TABLESPOON": 4.5,
+      "GLASS": 70,
+      "PIECE": 1000
+    },
+    "notFit": ["PINCH"]
+  },
+  "bazylia suszona": {
+    "grams": {
+      "TEASPOON": 1,
+      "TABLESPOON": 3,
+      "GLASS": 50,
+      "PINCH": 0.3
+    },
+    "notFit": ["PIECE"]
+  },
+  "ananas": {
+    "grams": {
+      "TEASPOON": 3.3,
+      "TABLESPOON": 10,
+      "GLASS": 165,
+      "PIECE": 1000
+    },
+    "notFit": ["PINCH"]
+  },
+  "kukurydza": {
+    "grams": {
+      "TEASPOON": 3,
+      "TABLESPOON": 10,
+      "GLASS": 165,
+      "PIECE": 150
+    },
+    "notFit": ["PINCH"]
+  },
+  "orzechy pekan": {
+    "grams": {
+      "TEASPOON": 2.2,
+      "TABLESPOON": 6.5,
+      "GLASS": 110,
+      "PIECE": 4
+    },
+    "notFit": ["PINCH"]
+  },
+  "skorka cytrynowa surowa": {
+    "grams": {
+      "TEASPOON": 2,
+      "TABLESPOON": 6,
+      "GLASS": 80
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "rozmaryn suszony": {
+    "grams": {
+      "PINCH": 0.3
+    },
+    "notFit": ["PIECE"]
+  },
+  "chipsy kukurydziane nature": {
+    "grams": {
+      "TEASPOON": 2,
+      "TABLESPOON": 5,
+      "GLASS": 70
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "zelatyna": {
+    "grams": {
+      "TEASPOON": 3.5,
+      "TABLESPOON": 10,
+      "GLASS": 150
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "szpinak": {
+    "grams": {
+      "TEASPOON": 1,
+      "TABLESPOON": 2,
+      "GLASS": 30
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "orzechy laskowe": {
+    "grams": {
+      "TEASPOON": 3,
+      "TABLESPOON": 9,
+      "GLASS": 135
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "kelp wodorosty brunatne surowy": {
+    "grams": {},
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "szynka gotowana": {
+    "grams": {
+      "TEASPOON": 4,
+      "TABLESPOON": 13,
+      "GLASS": 170,
+      "PIECE": 25
+    },
+    "notFit": ["PINCH"]
+  },
+  "maca": {
+    "grams": {
+      "PIECE": 25
+    },
+    "notFit": ["TEASPOON", "TABLESPOON", "GLASS", "PINCH"]
+  },
+  "sos cebulowy w proszku": {
+    "grams": {
+      "TEASPOON": 3,
+      "TABLESPOON": 8,
+      "GLASS": 125
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "golonka wieprzowa gotowana": {
+    "grams": {
+      "PIECE": 600
+    },
+    "notFit": ["TEASPOON", "TABLESPOON", "GLASS", "PINCH"]
+  },
+  "homar": {
+    "grams": {
+      "PIECE": 500
+    },
+    "notFit": ["TEASPOON", "TABLESPOON", "GLASS", "PINCH"]
+  },
+  "pimento z puszki": {
+    "grams": {
+      "TEASPOON": 4,
+      "TABLESPOON": 12,
+      "GLASS": 150,
+      "PIECE": 30
+    },
+    "notFit": ["PINCH"]
+  },
+  "ser twardy sredni": {
+    "grams": {
+      "TEASPOON": 2,
+      "TABLESPOON": 6,
+      "GLASS": 100
+    },
+    "notFit": ["PINCH", "PIECE"]
+  },
+  "anchois marynowane": {
+    "grams": {
+      "TEASPOON": 4,
+      "TABLESPOON": 12,
+      "GLASS": 200,
+      "PIECE": 5
+    },
+    "notFit": ["PINCH"]
+  },
+  "jablka suszone": {
+    "grams": {
+      "TEASPOON": 3,
+      "TABLESPOON": 9,
+      "GLASS": 110,
+      "PIECE": 5
+    },
+    "notFit": ["PINCH"]
+  },
+  "serca artyszoka z puszki odsaczone": {
+    "grams": {
+      "PIECE": 30
+    },
+    "notFit": ["TEASPOON", "TABLESPOON", "GLASS", "PINCH"]
+  },
+  "tymianek swiezy": {
+    "grams": {
+      "TEASPOON": 1,
+      "TABLESPOON": 3,
+      "GLASS": 45
+    },
+    "notFit": ["PINCH", "PIECE"]
+  }
+}

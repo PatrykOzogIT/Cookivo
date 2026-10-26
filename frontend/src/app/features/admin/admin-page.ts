@@ -10,6 +10,7 @@ import { TranslocoDirective } from '@jsverse/transloco';
 import { apiErrorCode } from '../../core/api-error';
 import { LanguageService } from '../../core/i18n/language.service';
 import { AdminIngredientRequestsPanel } from './admin-ingredient-requests-panel';
+import { AdminUnitsPanel } from './admin-units-panel';
 import { AdminUsersPanel } from './admin-users-panel';
 import { ReportsApi, type QueueItem, type ReportStatus } from '../moderation/reports.api';
 import { AdminSummaryService } from '../../core/admin/admin-summary.service';
@@ -27,6 +28,7 @@ import { AdminSummaryService } from '../../core/admin/admin-summary.service';
     MatTabsModule,
     AdminUsersPanel,
     AdminIngredientRequestsPanel,
+    AdminUnitsPanel,
     TranslocoDirective,
   ],
   templateUrl: './admin-page.html',

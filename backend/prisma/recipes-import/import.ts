@@ -12,7 +12,8 @@ import 'dotenv/config';
 import { PrismaPg } from '@prisma/adapter-pg';
 import { join } from 'node:path';
 import { PrismaClient } from '../../src/generated/prisma/client.js';
-import { IMPORT_FILE, OUT, ensureOut, readJsonl, writeJson } from './lib/files.js';
+import type { UnitEstimates } from './lib/build.js';
+import { IMPORT_FILE, OUT, UNIT_ESTIMATES, ensureOut, readJson, readJsonl, writeJson } from './lib/files.js';
 import { runImport, undoImport } from './lib/importer.js';
 import type { RecipeRecord } from './lib/record.js';
 
@@ -37,7 +38,8 @@ async function main() {
       return;
     }
     const records = readJsonl<RecipeRecord>(IMPORT_FILE);
-    const report = await runImport(prisma, records, { dryRun, limit, log: console.log });
+    const unitEstimates = readJson<UnitEstimates>(UNIT_ESTIMATES, {});
+    const report = await runImport(prisma, records, { dryRun, limit, unitEstimates, log: console.log });
     const { plan, ...summary } = report;
     console.log(summary);
     ensureOut();

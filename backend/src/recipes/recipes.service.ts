@@ -11,6 +11,7 @@ import { normalizeSearch } from '../common/text.js';
 import { Prisma } from '../generated/prisma/client.js';
 import { containsProfanity } from '../moderation/profanity.js';
 import { PhotosService, toPhotoDto } from '../photos/photos.service.js';
+import { inUnitRange, isKitchenUnit } from '../ingredients/kitchen-units.js';
 import { activeGroupsSql, GroupsService } from '../groups/groups.service.js';
 import { HouseholdService } from '../household/household.service.js';
 import { MailService } from '../mail/mail.service.js';
@@ -253,6 +254,7 @@ export class RecipesService {
         unitCode: l.unitCode,
         groupName: l.groupName ?? undefined,
         note: l.note ?? undefined,
+        unitGrams: l.unitGrams ?? undefined,
       })),
       steps: source.steps.map((s) => ({ text: s.text, timerMinutes: s.timerMinutes ?? undefined })),
       photoIds: [],
@@ -452,6 +454,7 @@ export class RecipesService {
     await tx.recipeIngredient.createMany({
       data: lines.map((l, position) => ({ ...l, recipeId, position })),
     });
+    await this.suggestUnits(tx, lines, user.id);
 
     await tx.photo.updateMany({ where: { id: { in: removed } }, data: { recipeId: null } });
     for (const [position, id] of gallery.entries()) {
@@ -508,6 +511,7 @@ export class RecipesService {
       if (!!line.ingredientId === !!line.subRecipeId) fail('LINE_INVALID');
 
       let grams: number | 'UNIT_NOT_ALLOWED';
+      let unitGrams: number | null = null;
       if (line.ingredientId) {
         const ing = ingredientById.get(line.ingredientId);
         const visible = ing && (ing.status === 'APPROVED' || isAdmin(user) || ing.createdById === user.id);
@@ -515,6 +519,12 @@ export class RecipesService {
         // W przepisie widocznym dla innych tylko zatwierdzone składniki - inni nie widzą oczekujących
         if (isShared && ing.status !== 'APPROVED') fail('INGREDIENT_NOT_APPROVED');
         grams = gramsFor(line.amount, line.unitCode, { ingredient: ingredientForMath(ing) }, unitMl);
+        // Miara kuchenna, której składnik nie zna - waga od autora (tylko w tym przepisie)
+        if (grams === 'UNIT_NOT_ALLOWED' && line.unitGrams !== undefined && isKitchenUnit(line.unitCode)) {
+          if (!inUnitRange(line.unitCode, line.unitGrams)) fail('UNIT_GRAMS_INVALID');
+          grams = line.amount * line.unitGrams;
+          unitGrams = line.unitGrams;
+        }
       } else {
         const sub = subById.get(line.subRecipeId!);
         if (!sub || sub.id === recipeId || !canView(sub, user, viewer)) return fail('SUBRECIPE_UNKNOWN');
@@ -530,10 +540,31 @@ export class RecipesService {
         amount: line.amount,
         unitCode: line.unitCode,
         grams: Math.round(grams * 10) / 10,
+        unitGrams,
         groupName: line.groupName ?? null,
         note: line.note ?? null,
       };
     });
+  }
+
+  /**
+   * Waga miary podana przez autora = propozycja dla wszystkich (do akceptacji admina).
+   * Jedna oczekująca propozycja od osoby na parę składnik + miara - nowsza wartość ją zastępuje.
+   */
+  private async suggestUnits(
+    tx: Prisma.TransactionClient,
+    lines: { ingredientId: string | null; unitCode: string; unitGrams: number | null }[],
+    userId: string,
+  ): Promise<void> {
+    const seen = new Set<string>();
+    for (const l of lines) {
+      if (!l.ingredientId || l.unitGrams === null || seen.has(`${l.ingredientId}|${l.unitCode}`)) continue;
+      seen.add(`${l.ingredientId}|${l.unitCode}`);
+      const key = { userId, ingredientId: l.ingredientId, unitCode: l.unitCode, status: 'PENDING' as const };
+      const open = await tx.unitSuggestion.findFirst({ where: key });
+      if (open) await tx.unitSuggestion.update({ where: { id: open.id }, data: { grams: l.unitGrams } });
+      else await tx.unitSuggestion.create({ data: { ...key, grams: l.unitGrams } });
+    }
   }
 
   /** Podprzepis nie może (pośrednio) zawierać edytowanego przepisu; ograniczamy też głębokość. */
@@ -782,6 +813,8 @@ function toDetailDto(
       amount: l.amount,
       unitCode: l.unitCode,
       grams: l.grams,
+      /** Waga 1 miary podana przez autora (składnik jej nie zna) */
+      unitGrams: l.unitGrams,
       note: tr ? (tr.lines[i]?.note ?? null) : l.note,
       ingredient: l.ingredient
         ? {
@@ -789,7 +822,7 @@ function toDetailDto(
             namePl: l.ingredient.namePl,
             nameEn: l.ingredient.nameEn,
             density: l.ingredient.density,
-            units: l.ingredient.units.map((u) => ({ ...localized(u.unit), grams: u.grams })),
+            units: l.ingredient.units.map((u) => ({ ...localized(u.unit), grams: u.grams, basis: u.basis })),
             allergens: l.ingredient.allergens.map((a) => a.allergen.code),
           }
         : null,

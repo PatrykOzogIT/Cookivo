@@ -13,6 +13,11 @@ import type {
   VariantSummary,
 } from './recipes.models';
 
+export type UnitEstimateResult =
+  | { status: 'KNOWN'; grams: number; basis: 'SOURCE' | 'AI' | 'ADMIN' }
+  | { status: 'NOT_FIT' }
+  | { status: 'ASK'; range: [number, number]; reason?: 'LIMIT' | 'DISABLED' | 'FAILED' };
+
 export type UploadEvent = { type: 'progress'; percent: number } | { type: 'done'; photo: Photo };
 
 @Injectable({ providedIn: 'root' })
@@ -36,6 +41,13 @@ export class RecipesApi {
   get(id: string, lang?: string): Promise<RecipeDetail> {
     const params = lang ? new HttpParams().set('lang', lang) : undefined;
     return firstValueFrom(this.http.get<RecipeDetail>(`/api/recipes/${id}`, { params }));
+  }
+
+  /** Waga miary kuchennej składnika: znana / szacunek AI (zapisany dla wszystkich) / pytanie do autora */
+  estimateUnit(ingredientId: string, unitCode: string): Promise<UnitEstimateResult> {
+    return firstValueFrom(
+      this.http.post<UnitEstimateResult>(`/api/ingredients/${ingredientId}/units/${unitCode}/estimate`, {}),
+    );
   }
 
   create(data: SaveRecipe): Promise<RecipeDetail> {

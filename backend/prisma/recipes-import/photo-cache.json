@@ -3600,5 +3600,1595 @@
       "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
       "sourceUrl": "https://commons.wikimedia.org/wiki/File:Caldo_Verde.jpg"
     }
+  },
+  "Banana-Nut-Muffins-2005-Aug-24.jpg": {
+    "ok": false,
+    "reason": "licencja wymaga autora, a go brak"
+  },
+  "Hummus.jpg": {
+    "ok": true,
+    "info": {
+      "name": "Hummus.jpg",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:Hummus.jpg",
+      "thumbUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/df/Hummus.jpg/1920px-Hummus.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 2157,
+      "height": 1482,
+      "mime": "image/jpeg",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
+      "author": "Donovan Govan.",
+      "attributionRequired": true
+    },
+    "photo": {
+      "id": "01a169f6-b9c2-7c09-8eff-472f20299cb8",
+      "file": "Hummus.jpg",
+      "thumbUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/df/Hummus.jpg/1920px-Hummus.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 1600,
+      "height": 1099,
+      "bytes": 123240,
+      "author": "Donovan Govan.",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Hummus.jpg"
+    }
+  },
+  "SaucepanFudgeCrackleCookies.jpg": {
+    "ok": true,
+    "info": {
+      "name": "SaucepanFudgeCrackleCookies.jpg",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:SaucepanFudgeCrackleCookies.jpg",
+      "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/b/b2/SaucepanFudgeCrackleCookies.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "width": 1024,
+      "height": 768,
+      "mime": "image/jpeg",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "author": "No machine-readable author provided. AlbertCahalan~commonswiki assumed (based on copyright claims).",
+      "attributionRequired": false
+    },
+    "photo": {
+      "id": "01a169f6-b230-7a26-8c28-6c1e29c8e912",
+      "file": "SaucepanFudgeCrackleCookies.jpg",
+      "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/b/b2/SaucepanFudgeCrackleCookies.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "width": 1024,
+      "height": 768,
+      "bytes": 336248,
+      "author": "No machine-readable author provided. AlbertCahalan~commonswiki assumed (based on copyright claims).",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:SaucepanFudgeCrackleCookies.jpg"
+    }
+  },
+  "Chocolate Chocolate Chip Muffins.JPG": {
+    "ok": false,
+    "reason": "za małe (503×364)"
+  },
+  "Brittle made of Hazelnuts.jpg": {
+    "ok": true,
+    "info": {
+      "name": "Brittle made of Hazelnuts.jpg",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:Brittle_made_of_Hazelnuts.jpg",
+      "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/7/7d/Brittle_made_of_Hazelnuts.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "width": 1024,
+      "height": 723,
+      "mime": "image/jpeg",
+      "license": "CC BY 2.5",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.5",
+      "author": "No machine-readable author provided. Lyzzy assumed (based on copyright claims).",
+      "attributionRequired": true
+    },
+    "photo": {
+      "id": "01a169f6-ddf5-7103-a605-1efcc863a2e7",
+      "file": "Brittle made of Hazelnuts.jpg",
+      "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/7/7d/Brittle_made_of_Hazelnuts.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "width": 1024,
+      "height": 723,
+      "bytes": 107152,
+      "author": "No machine-readable author provided. Lyzzy assumed (based on copyright claims).",
+      "license": "CC BY 2.5",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.5",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Brittle_made_of_Hazelnuts.jpg"
+    }
+  },
+  "Cucumber soup.jpg": {
+    "ok": true,
+    "info": {
+      "name": "Cucumber soup.jpg",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:Cucumber_soup.jpg",
+      "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/4/40/Cucumber_soup.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "width": 1458,
+      "height": 1165,
+      "mime": "image/jpeg",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "author": "No machine-readable author provided. Mohylek assumed (based on copyright claims).",
+      "attributionRequired": false
+    },
+    "photo": {
+      "id": "01a169f6-ab6f-75bb-bae9-f9d0b4232a68",
+      "file": "Cucumber soup.jpg",
+      "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/4/40/Cucumber_soup.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "width": 1458,
+      "height": 1165,
+      "bytes": 271576,
+      "author": "No machine-readable author provided. Mohylek assumed (based on copyright claims).",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Cucumber_soup.jpg"
+    }
+  },
+  "2005 baking of saffron buns 01.jpg": {
+    "ok": true,
+    "info": {
+      "name": "2005 baking of saffron buns 01.jpg",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:2005_baking_of_saffron_buns_01.jpg",
+      "thumbUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/ba/2005_baking_of_saffron_buns_01.jpg/1920px-2005_baking_of_saffron_buns_01.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 3072,
+      "height": 2048,
+      "mime": "image/jpeg",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "author": "Tomhe",
+      "attributionRequired": true
+    }
+  },
+  "2005 baking of saffron buns 02.jpg": {
+    "ok": true,
+    "info": {
+      "name": "2005 baking of saffron buns 02.jpg",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:2005_baking_of_saffron_buns_02.jpg",
+      "thumbUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/16/2005_baking_of_saffron_buns_02.jpg/1920px-2005_baking_of_saffron_buns_02.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 3072,
+      "height": 2048,
+      "mime": "image/jpeg",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "author": "Tomhe",
+      "attributionRequired": true
+    }
+  },
+  "2005 baking of saffron buns 03.jpg": {
+    "ok": true,
+    "info": {
+      "name": "2005 baking of saffron buns 03.jpg",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:2005_baking_of_saffron_buns_03.jpg",
+      "thumbUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2f/2005_baking_of_saffron_buns_03.jpg/1920px-2005_baking_of_saffron_buns_03.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 3072,
+      "height": 2048,
+      "mime": "image/jpeg",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "author": "Tomhe",
+      "attributionRequired": true
+    }
+  },
+  "2005 baking of saffron buns 04.jpg": {
+    "ok": true,
+    "info": {
+      "name": "2005 baking of saffron buns 04.jpg",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:2005_baking_of_saffron_buns_04.jpg",
+      "thumbUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8b/2005_baking_of_saffron_buns_04.jpg/1920px-2005_baking_of_saffron_buns_04.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 3072,
+      "height": 2048,
+      "mime": "image/jpeg",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "author": "Tomhe",
+      "attributionRequired": true
+    },
+    "photo": {
+      "id": "01a169f6-bc4f-7ac4-9204-f8a08a87c8d7",
+      "file": "2005 baking of saffron buns 04.jpg",
+      "thumbUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8b/2005_baking_of_saffron_buns_04.jpg/1920px-2005_baking_of_saffron_buns_04.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 1600,
+      "height": 1067,
+      "bytes": 200346,
+      "author": "Tomhe",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:2005_baking_of_saffron_buns_04.jpg"
+    }
+  },
+  "Chokladbollar.jpg": {
+    "ok": true,
+    "info": {
+      "name": "Chokladbollar.jpg",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:Chokladbollar.jpg",
+      "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/2/2c/Chokladbollar.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "width": 1000,
+      "height": 688,
+      "mime": "image/jpeg",
+      "license": "CC BY 2.5",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.5",
+      "author": "No machine-readable author provided. Stefan w~commonswiki assumed (based on copyright claims).",
+      "attributionRequired": true
+    },
+    "photo": {
+      "id": "01a169f6-cda3-7ad7-9a2f-dc767c352a17",
+      "file": "Chokladbollar.jpg",
+      "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/2/2c/Chokladbollar.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "width": 1000,
+      "height": 688,
+      "bytes": 201154,
+      "author": "No machine-readable author provided. Stefan w~commonswiki assumed (based on copyright claims).",
+      "license": "CC BY 2.5",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.5",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Chokladbollar.jpg"
+    }
+  },
+  "Fairy cakes close up on tray.jpg": {
+    "ok": true,
+    "info": {
+      "name": "Fairy cakes close up on tray.jpg",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:Fairy_cakes_close_up_on_tray.jpg",
+      "thumbUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e5/Fairy_cakes_close_up_on_tray.jpg/1920px-Fairy_cakes_close_up_on_tray.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 2304,
+      "height": 1536,
+      "mime": "image/jpeg",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
+      "author": "User:Lcarsdata",
+      "attributionRequired": true
+    },
+    "photo": {
+      "id": "01a169f6-a8a2-7f75-8763-1bb475fcd7b8",
+      "file": "Fairy cakes close up on tray.jpg",
+      "thumbUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e5/Fairy_cakes_close_up_on_tray.jpg/1920px-Fairy_cakes_close_up_on_tray.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 1600,
+      "height": 1067,
+      "bytes": 240648,
+      "author": "User:Lcarsdata",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Fairy_cakes_close_up_on_tray.jpg"
+    }
+  },
+  "Mixed spices 01 Pengo.jpg": {
+    "ok": false,
+    "reason": "licencja wymaga autora, a go brak"
+  },
+  "Shakshoka.jpg": {
+    "ok": true,
+    "info": {
+      "name": "Shakshoka.jpg",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:Shakshoka.jpg",
+      "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/e/e2/Shakshoka.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "width": 733,
+      "height": 600,
+      "mime": "image/jpeg",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "author": "Chubbychef",
+      "attributionRequired": true
+    },
+    "photo": {
+      "id": "01a169f6-ded7-73c2-9727-2d878d15832e",
+      "file": "Shakshoka.jpg",
+      "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/e/e2/Shakshoka.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "width": 733,
+      "height": 600,
+      "bytes": 100192,
+      "author": "Chubbychef",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Shakshoka.jpg"
+    }
+  },
+  "Mustering camp.jpg": {
+    "ok": true,
+    "info": {
+      "name": "Mustering camp.jpg",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:Mustering_camp.jpg",
+      "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/6/63/Mustering_camp.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "width": 1255,
+      "height": 846,
+      "mime": "image/jpeg",
+      "license": "CC BY 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/3.0",
+      "author": "N.Goodwin",
+      "attributionRequired": true
+    },
+    "photo": {
+      "id": "01a169f6-b7d6-7b13-8c39-384309af7e45",
+      "file": "Mustering camp.jpg",
+      "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/6/63/Mustering_camp.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "width": 1255,
+      "height": 846,
+      "bytes": 183166,
+      "author": "N.Goodwin",
+      "license": "CC BY 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/3.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Mustering_camp.jpg"
+    }
+  },
+  "Za shopska salata.JPG": {
+    "ok": true,
+    "info": {
+      "name": "Za shopska salata.JPG",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:Za_shopska_salata.JPG",
+      "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/b/be/Za_shopska_salata.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "width": 1632,
+      "height": 1224,
+      "mime": "image/jpeg",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "author": "Biso",
+      "attributionRequired": false
+    },
+    "photo": {
+      "id": "01a169f6-b02a-7f2e-9ba5-891116ba3c8e",
+      "file": "Za shopska salata.JPG",
+      "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/b/be/Za_shopska_salata.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "width": 1600,
+      "height": 1200,
+      "bytes": 179448,
+      "author": "Biso",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Za_shopska_salata.JPG"
+    }
+  },
+  "Ela huevos rancheros.jpg": {
+    "ok": true,
+    "info": {
+      "name": "Ela huevos rancheros.jpg",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:Ela_huevos_rancheros.jpg",
+      "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/3/32/Ela_huevos_rancheros.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "width": 1024,
+      "height": 768,
+      "mime": "image/jpeg",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
+      "author": "Elchavobeer",
+      "attributionRequired": true
+    },
+    "photo": {
+      "id": "01a169f6-c94e-70bc-9f6b-f6c50b840be9",
+      "file": "Ela huevos rancheros.jpg",
+      "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/3/32/Ela_huevos_rancheros.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "width": 1024,
+      "height": 768,
+      "bytes": 234226,
+      "author": "Elchavobeer",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Ela_huevos_rancheros.jpg"
+    }
+  },
+  "Mango Chutney.jpg": {
+    "ok": true,
+    "info": {
+      "name": "Mango Chutney.jpg",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:Mango_Chutney.jpg",
+      "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/b/be/Mango_Chutney.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "width": 1594,
+      "height": 1256,
+      "mime": "image/jpeg",
+      "license": "CC BY-SA 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+      "author": "Simon Law from Montréal, QC, Canada, modified by User:Mike Hayes 2008.09.05",
+      "attributionRequired": true
+    },
+    "photo": {
+      "id": "01a169f6-da7e-7c1f-ad9a-4467ad9004b3",
+      "file": "Mango Chutney.jpg",
+      "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/b/be/Mango_Chutney.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "width": 1594,
+      "height": 1256,
+      "bytes": 223360,
+      "author": "Simon Law from Montréal, QC, Canada, modified by User:Mike Hayes 2008.09.05",
+      "license": "CC BY-SA 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Mango_Chutney.jpg"
+    }
+  },
+  "Plain butterfly cake.jpg": {
+    "ok": true,
+    "info": {
+      "name": "Plain butterfly cake.jpg",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:Plain_butterfly_cake.jpg",
+      "thumbUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1d/Plain_butterfly_cake.jpg/1920px-Plain_butterfly_cake.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 2204,
+      "height": 1988,
+      "mime": "image/jpeg",
+      "license": "CC BY-SA 2.5",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.5",
+      "author": "The original uploader was Mr.Tea at English Wikipedia.",
+      "attributionRequired": true
+    }
+  },
+  "Ravioli Marinara.jpg": {
+    "ok": false,
+    "reason": "za małe (500×375)"
+  },
+  "Straciatella - bowl.JPG": {
+    "ok": true,
+    "info": {
+      "name": "Straciatella - bowl.JPG",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:Straciatella_-_bowl.JPG",
+      "thumbUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b3/Straciatella_-_bowl.JPG/1920px-Straciatella_-_bowl.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 2272,
+      "height": 1704,
+      "mime": "image/jpeg",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "author": "Mike.lifeguard",
+      "attributionRequired": true
+    },
+    "photo": {
+      "id": "01a169f6-e0db-71c2-989d-6555cf331585",
+      "file": "Straciatella - bowl.JPG",
+      "thumbUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b3/Straciatella_-_bowl.JPG/1920px-Straciatella_-_bowl.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 1600,
+      "height": 1200,
+      "bytes": 111146,
+      "author": "Mike.lifeguard",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Straciatella_-_bowl.JPG"
+    }
+  },
+  "Ginny's Toll House Cookies Alc1.jpg": {
+    "ok": true,
+    "info": {
+      "name": "Ginny's Toll House Cookies Alc1.jpg",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:Ginny%27s_Toll_House_Cookies_Alc1.jpg",
+      "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/d/dd/Ginny%27s_Toll_House_Cookies_Alc1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "width": 936,
+      "height": 702,
+      "mime": "image/jpeg",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "author": "Alcinoe",
+      "attributionRequired": false
+    },
+    "photo": {
+      "id": "01a169f6-b4b4-76dc-a5e2-7cec20ddee31",
+      "file": "Ginny's Toll House Cookies Alc1.jpg",
+      "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/d/dd/Ginny%27s_Toll_House_Cookies_Alc1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "width": 936,
+      "height": 702,
+      "bytes": 350168,
+      "author": "Alcinoe",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Ginny%27s_Toll_House_Cookies_Alc1.jpg"
+    }
+  },
+  "Cazuela Gallega.jpg": {
+    "ok": true,
+    "info": {
+      "name": "Cazuela Gallega.jpg",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:Cazuela_Gallega.jpg",
+      "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/8/8f/Cazuela_Gallega.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "width": 1280,
+      "height": 960,
+      "mime": "image/jpeg",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "author": "Lgvanegas at English Wikibooks",
+      "attributionRequired": false
+    },
+    "photo": {
+      "id": "01a169f6-d8c8-7532-b612-15f949e1537a",
+      "file": "Cazuela Gallega.jpg",
+      "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/8/8f/Cazuela_Gallega.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "width": 1280,
+      "height": 960,
+      "bytes": 214212,
+      "author": "Lgvanegas at English Wikibooks",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Cazuela_Gallega.jpg"
+    }
+  },
+  "Frito Pie as Seen Today.jpg": {
+    "ok": false,
+    "reason": "za małe (329×400)"
+  },
+  "Nasi goreng Pattaya.JPG": {
+    "ok": true,
+    "info": {
+      "name": "Nasi goreng Pattaya.JPG",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:Nasi_goreng_Pattaya.JPG",
+      "thumbUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/92/Nasi_goreng_Pattaya.JPG/1920px-Nasi_goreng_Pattaya.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 5184,
+      "height": 3456,
+      "mime": "image/jpeg",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "author": "D.W. Fisher-Freberg",
+      "attributionRequired": true
+    },
+    "photo": {
+      "id": "01a169f6-e4ba-708f-985d-6362c2affc6b",
+      "file": "Nasi goreng Pattaya.JPG",
+      "thumbUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/92/Nasi_goreng_Pattaya.JPG/1920px-Nasi_goreng_Pattaya.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 1600,
+      "height": 1067,
+      "bytes": 136108,
+      "author": "D.W. Fisher-Freberg",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Nasi_goreng_Pattaya.JPG"
+    }
+  },
+  "Grilled Aubergine and Pesto Sandwich03.jpg": {
+    "ok": true,
+    "info": {
+      "name": "Grilled Aubergine and Pesto Sandwich03.jpg",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:Grilled_Aubergine_and_Pesto_Sandwich03.jpg",
+      "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/b/b2/Grilled_Aubergine_and_Pesto_Sandwich03.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "width": 852,
+      "height": 640,
+      "mime": "image/jpeg",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "author": "Homemade-Flavours",
+      "attributionRequired": true
+    },
+    "photo": {
+      "id": "01a169f6-d447-711e-aa0e-e35884813c5b",
+      "file": "Grilled Aubergine and Pesto Sandwich03.jpg",
+      "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/b/b2/Grilled_Aubergine_and_Pesto_Sandwich03.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "width": 852,
+      "height": 640,
+      "bytes": 147698,
+      "author": "Homemade-Flavours",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Grilled_Aubergine_and_Pesto_Sandwich03.jpg"
+    }
+  },
+  "Chocolate Crinkles - After chilling, prep powdered sugar and cookie sheet.jpg": {
+    "ok": true,
+    "info": {
+      "name": "Chocolate Crinkles - After chilling, prep powdered sugar and cookie sheet.jpg",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:Chocolate_Crinkles_-_After_chilling,_prep_powdered_sugar_and_cookie_sheet.jpg",
+      "thumbUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6f/Chocolate_Crinkles_-_After_chilling%2C_prep_powdered_sugar_and_cookie_sheet.jpg/1920px-Chocolate_Crinkles_-_After_chilling%2C_prep_powdered_sugar_and_cookie_sheet.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 4032,
+      "height": 3024,
+      "mime": "image/jpeg",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "author": "John V. Pozniak",
+      "attributionRequired": true
+    }
+  },
+  "Chocolate Crinkles - Add oil and sugar to chocolate.jpg": {
+    "ok": true,
+    "info": {
+      "name": "Chocolate Crinkles - Add oil and sugar to chocolate.jpg",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:Chocolate_Crinkles_-_Add_oil_and_sugar_to_chocolate.jpg",
+      "thumbUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/37/Chocolate_Crinkles_-_Add_oil_and_sugar_to_chocolate.jpg/1920px-Chocolate_Crinkles_-_Add_oil_and_sugar_to_chocolate.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 4032,
+      "height": 3024,
+      "mime": "image/jpeg",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "author": "John V. Pozniak",
+      "attributionRequired": true
+    }
+  },
+  "Chocolate Crinkles - Dough ball in powdered Sugar.jpg": {
+    "ok": true,
+    "info": {
+      "name": "Chocolate Crinkles - Dough ball in powdered Sugar.jpg",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:Chocolate_Crinkles_-_Dough_ball_in_powdered_Sugar.jpg",
+      "thumbUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7d/Chocolate_Crinkles_-_Dough_ball_in_powdered_Sugar.jpg/1920px-Chocolate_Crinkles_-_Dough_ball_in_powdered_Sugar.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 4032,
+      "height": 3024,
+      "mime": "image/jpeg",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "author": "John V. Pozniak",
+      "attributionRequired": true
+    }
+  },
+  "Chocolate Crinkles - Mix chocolate, sugar, and oil.jpg": {
+    "ok": true,
+    "info": {
+      "name": "Chocolate Crinkles - Mix chocolate, sugar, and oil.jpg",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:Chocolate_Crinkles_-_Mix_chocolate,_sugar,_and_oil.jpg",
+      "thumbUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c9/Chocolate_Crinkles_-_Mix_chocolate%2C_sugar%2C_and_oil.jpg/1920px-Chocolate_Crinkles_-_Mix_chocolate%2C_sugar%2C_and_oil.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 4032,
+      "height": 3024,
+      "mime": "image/jpeg",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "author": "John V. Pozniak",
+      "attributionRequired": true
+    }
+  },
+  "Chocolate Crinkles - Mix in dry ingredients.jpg": {
+    "ok": true,
+    "info": {
+      "name": "Chocolate Crinkles - Mix in dry ingredients.jpg",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:Chocolate_Crinkles_-_Mix_in_dry_ingredients.jpg",
+      "thumbUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8c/Chocolate_Crinkles_-_Mix_in_dry_ingredients.jpg/1920px-Chocolate_Crinkles_-_Mix_in_dry_ingredients.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 4032,
+      "height": 3024,
+      "mime": "image/jpeg",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "author": "John V. Pozniak",
+      "attributionRequired": true
+    }
+  },
+  "Chocolate Crinkles - Mix in eggs.jpg": {
+    "ok": true,
+    "info": {
+      "name": "Chocolate Crinkles - Mix in eggs.jpg",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:Chocolate_Crinkles_-_Mix_in_eggs.jpg",
+      "thumbUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e9/Chocolate_Crinkles_-_Mix_in_eggs.jpg/1920px-Chocolate_Crinkles_-_Mix_in_eggs.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 4032,
+      "height": 3024,
+      "mime": "image/jpeg",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "author": "John V. Pozniak",
+      "attributionRequired": true
+    }
+  },
+  "Chocolate Crinkles - Mix in vanilla extract.jpg": {
+    "ok": true,
+    "info": {
+      "name": "Chocolate Crinkles - Mix in vanilla extract.jpg",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:Chocolate_Crinkles_-_Mix_in_vanilla_extract.jpg",
+      "thumbUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e4/Chocolate_Crinkles_-_Mix_in_vanilla_extract.jpg/1920px-Chocolate_Crinkles_-_Mix_in_vanilla_extract.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 4032,
+      "height": 3024,
+      "mime": "image/jpeg",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "author": "John V. Pozniak",
+      "attributionRequired": true
+    }
+  },
+  "Chocolate Crinkles - Place balls on baking sheet 2 in apart.jpg": {
+    "ok": true,
+    "info": {
+      "name": "Chocolate Crinkles - Place balls on baking sheet 2 in apart.jpg",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:Chocolate_Crinkles_-_Place_balls_on_baking_sheet_2_in_apart.jpg",
+      "thumbUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/dd/Chocolate_Crinkles_-_Place_balls_on_baking_sheet_2_in_apart.jpg/1920px-Chocolate_Crinkles_-_Place_balls_on_baking_sheet_2_in_apart.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 4032,
+      "height": 3024,
+      "mime": "image/jpeg",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "author": "John V. Pozniak",
+      "attributionRequired": true
+    }
+  },
+  "Chocolate Crinkles - Put baking sheet in oven.jpg": {
+    "ok": true,
+    "info": {
+      "name": "Chocolate Crinkles - Put baking sheet in oven.jpg",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:Chocolate_Crinkles_-_Put_baking_sheet_in_oven.jpg",
+      "thumbUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fc/Chocolate_Crinkles_-_Put_baking_sheet_in_oven.jpg/1920px-Chocolate_Crinkles_-_Put_baking_sheet_in_oven.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 4032,
+      "height": 3024,
+      "mime": "image/jpeg",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "author": "John V. Pozniak",
+      "attributionRequired": true
+    }
+  },
+  "Chocolate Crinkles - Remove after baking at 350F.jpg": {
+    "ok": true,
+    "info": {
+      "name": "Chocolate Crinkles - Remove after baking at 350F.jpg",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:Chocolate_Crinkles_-_Remove_after_baking_at_350F.jpg",
+      "thumbUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f2/Chocolate_Crinkles_-_Remove_after_baking_at_350F.jpg/1920px-Chocolate_Crinkles_-_Remove_after_baking_at_350F.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 4032,
+      "height": 3024,
+      "mime": "image/jpeg",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "author": "John V. Pozniak",
+      "attributionRequired": true
+    }
+  },
+  "Chocolate Crinkles - sift in flour, salt, baking powder.jpg": {
+    "ok": true,
+    "info": {
+      "name": "Chocolate Crinkles - sift in flour, salt, baking powder.jpg",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:Chocolate_Crinkles_-_sift_in_flour,_salt,_baking_powder.jpg",
+      "thumbUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ac/Chocolate_Crinkles_-_sift_in_flour%2C_salt%2C_baking_powder.jpg/1920px-Chocolate_Crinkles_-_sift_in_flour%2C_salt%2C_baking_powder.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 4032,
+      "height": 3024,
+      "mime": "image/jpeg",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "author": "John V. Pozniak",
+      "attributionRequired": true
+    }
+  },
+  "Chocolate Crinkles.jpg": {
+    "ok": true,
+    "info": {
+      "name": "Chocolate Crinkles.jpg",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:Chocolate_Crinkles.jpg",
+      "thumbUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c4/Chocolate_Crinkles.jpg/1920px-Chocolate_Crinkles.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 4032,
+      "height": 3024,
+      "mime": "image/jpeg",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "author": "John V. Pozniak",
+      "attributionRequired": true
+    },
+    "photo": {
+      "id": "01a169f6-c379-7b56-934e-97e80651140f",
+      "file": "Chocolate Crinkles.jpg",
+      "thumbUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c4/Chocolate_Crinkles.jpg/1920px-Chocolate_Crinkles.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 1600,
+      "height": 1200,
+      "bytes": 484760,
+      "author": "John V. Pozniak",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Chocolate_Crinkles.jpg"
+    }
+  },
+  "Melting Chocolate in Double Boiler.jpg": {
+    "ok": true,
+    "info": {
+      "name": "Melting Chocolate in Double Boiler.jpg",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:Melting_Chocolate_in_Double_Boiler.jpg",
+      "thumbUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/db/Melting_Chocolate_in_Double_Boiler.jpg/1920px-Melting_Chocolate_in_Double_Boiler.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 4032,
+      "height": 3024,
+      "mime": "image/jpeg",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "author": "John V. Pozniak",
+      "attributionRequired": true
+    }
+  },
+  "Pączki final product.png": {
+    "ok": true,
+    "info": {
+      "name": "Pączki final product.png",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:P%C4%85czki_final_product.png",
+      "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/7/7a/P%C4%85czki_final_product.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "width": 926,
+      "height": 695,
+      "mime": "image/png",
+      "license": "CC0",
+      "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "author": "Wolfcat-hybrid",
+      "attributionRequired": false
+    },
+    "photo": {
+      "id": "01a169f6-ea53-7921-a600-c753a0a46302",
+      "file": "Pączki final product.png",
+      "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/7/7a/P%C4%85czki_final_product.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "width": 926,
+      "height": 695,
+      "bytes": 311326,
+      "author": "Wolfcat-hybrid",
+      "license": "CC0",
+      "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:P%C4%85czki_final_product.png"
+    }
+  },
+  "Samosa 1.jpg": {
+    "ok": true,
+    "info": {
+      "name": "Samosa 1.jpg",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:Samosa_1.jpg",
+      "thumbUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8e/Samosa_1.jpg/1920px-Samosa_1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 2560,
+      "height": 1920,
+      "mime": "image/jpeg",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
+      "author": "Zantastik",
+      "attributionRequired": true
+    },
+    "photo": {
+      "id": "01a169f7-2f71-777e-ad08-06d855777819",
+      "file": "Samosa 1.jpg",
+      "thumbUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8e/Samosa_1.jpg/1920px-Samosa_1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 1600,
+      "height": 1200,
+      "bytes": 325502,
+      "author": "Zantastik",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Samosa_1.jpg"
+    }
+  },
+  "Tuna Sushi.jpg": {
+    "ok": true,
+    "info": {
+      "name": "Tuna Sushi.jpg",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:Tuna_Sushi.jpg",
+      "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/a/ab/Tuna_Sushi.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "width": 640,
+      "height": 480,
+      "mime": "image/jpeg",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "author": "Akira Kamikura",
+      "attributionRequired": true
+    },
+    "photo": {
+      "id": "01a169f7-3a03-76a0-8222-c08866feb9b6",
+      "file": "Tuna Sushi.jpg",
+      "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/a/ab/Tuna_Sushi.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "width": 640,
+      "height": 480,
+      "bytes": 70176,
+      "author": "Akira Kamikura",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Tuna_Sushi.jpg"
+    }
+  },
+  "Jachnun.jpg": {
+    "ok": true,
+    "info": {
+      "name": "Jachnun.jpg",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:Jachnun.jpg",
+      "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/2/22/Jachnun.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "width": 1200,
+      "height": 1600,
+      "mime": "image/jpeg",
+      "license": "CC BY-SA 2.5",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.5",
+      "author": "Joshua Herzig-Marx",
+      "attributionRequired": true
+    },
+    "photo": {
+      "id": "01a169f6-fbcb-70cc-9b39-a36bab0f3934",
+      "file": "Jachnun.jpg",
+      "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/2/22/Jachnun.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "width": 1200,
+      "height": 1600,
+      "bytes": 196532,
+      "author": "Joshua Herzig-Marx",
+      "license": "CC BY-SA 2.5",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.5",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Jachnun.jpg"
+    }
+  },
+  "Makówki 344.jpg": {
+    "ok": true,
+    "info": {
+      "name": "Makówki 344.jpg",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:Mak%C3%B3wki_344.jpg",
+      "thumbUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/82/Mak%C3%B3wki_344.jpg/1920px-Mak%C3%B3wki_344.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 3042,
+      "height": 1740,
+      "mime": "image/jpeg",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
+      "author": "Przykuta",
+      "attributionRequired": true
+    },
+    "photo": {
+      "id": "01a169f7-3364-7352-88f2-5e02aa254872",
+      "file": "Makówki 344.jpg",
+      "thumbUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/82/Mak%C3%B3wki_344.jpg/1920px-Mak%C3%B3wki_344.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 1600,
+      "height": 915,
+      "bytes": 329094,
+      "author": "Przykuta",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Mak%C3%B3wki_344.jpg"
+    }
+  },
+  "Zippule.jpg": {
+    "ok": false,
+    "reason": "licencja wymaga autora, a go brak"
+  },
+  "Russian Salad.jpg": {
+    "ok": true,
+    "info": {
+      "name": "Russian Salad.jpg",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:Russian_Salad.jpg",
+      "thumbUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e6/Russian_Salad.jpg/1920px-Russian_Salad.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 2048,
+      "height": 1536,
+      "mime": "image/jpeg",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "author": "Buzzcut50 at English Wikipedia",
+      "attributionRequired": false
+    },
+    "photo": {
+      "id": "01a169f7-41f7-7970-bf45-fb0c7439d479",
+      "file": "Russian Salad.jpg",
+      "thumbUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e6/Russian_Salad.jpg/1920px-Russian_Salad.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 1600,
+      "height": 1200,
+      "bytes": 261314,
+      "author": "Buzzcut50 at English Wikipedia",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Russian_Salad.jpg"
+    }
+  },
+  "Lefse on a griddle.jpg": {
+    "ok": true,
+    "info": {
+      "name": "Lefse on a griddle.jpg",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:Lefse_on_a_griddle.jpg",
+      "thumbUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/90/Lefse_on_a_griddle.jpg/1920px-Lefse_on_a_griddle.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 2592,
+      "height": 1944,
+      "mime": "image/jpeg",
+      "license": "CC BY-SA 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+      "author": "Lance Fisher",
+      "attributionRequired": true
+    },
+    "photo": {
+      "id": "01a169f6-f1ec-7488-b34f-2d8d859683b6",
+      "file": "Lefse on a griddle.jpg",
+      "thumbUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/90/Lefse_on_a_griddle.jpg/1920px-Lefse_on_a_griddle.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 1600,
+      "height": 1200,
+      "bytes": 383824,
+      "author": "Lance Fisher",
+      "license": "CC BY-SA 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Lefse_on_a_griddle.jpg"
+    }
+  },
+  "oatmealstoutbrownies.jpg": {
+    "ok": true,
+    "info": {
+      "name": "Oatmealstoutbrownies.jpg",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:Oatmealstoutbrownies.jpg",
+      "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/d/d3/Oatmealstoutbrownies.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "width": 1027,
+      "height": 691,
+      "mime": "image/jpeg",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "author": "JRStutler",
+      "attributionRequired": false
+    },
+    "photo": {
+      "id": "01a169f6-fddb-7f9b-856d-25cd5cd1c1b9",
+      "file": "oatmealstoutbrownies.jpg",
+      "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/d/d3/Oatmealstoutbrownies.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "width": 1027,
+      "height": 691,
+      "bytes": 143464,
+      "author": "JRStutler",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Oatmealstoutbrownies.jpg"
+    }
+  },
+  "Barbecued chicken drumsticks-01.jpg": {
+    "ok": true,
+    "info": {
+      "name": "Barbecued chicken drumsticks-01.jpg",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:Barbecued_chicken_drumsticks-01.jpg",
+      "thumbUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4f/Barbecued_chicken_drumsticks-01.jpg/1920px-Barbecued_chicken_drumsticks-01.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 2573,
+      "height": 1531,
+      "mime": "image/jpeg",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "author": "Diana from Pennsylvania USA",
+      "attributionRequired": true
+    },
+    "photo": {
+      "id": "01a169f7-2365-7115-80e7-7fb401929708",
+      "file": "Barbecued chicken drumsticks-01.jpg",
+      "thumbUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4f/Barbecued_chicken_drumsticks-01.jpg/1920px-Barbecued_chicken_drumsticks-01.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 1600,
+      "height": 952,
+      "bytes": 374842,
+      "author": "Diana from Pennsylvania USA",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Barbecued_chicken_drumsticks-01.jpg"
+    }
+  },
+  "Coffee with cream and sugar - Evan Swigart.jpg": {
+    "ok": true,
+    "info": {
+      "name": "Coffee with cream and sugar - Evan Swigart.jpg",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:Coffee_with_cream_and_sugar_-_Evan_Swigart.jpg",
+      "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/6/66/Coffee_with_cream_and_sugar_-_Evan_Swigart.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "width": 1024,
+      "height": 681,
+      "mime": "image/jpeg",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "author": "Evan Swigart from Chicago, USA",
+      "attributionRequired": true
+    },
+    "photo": {
+      "id": "01a169f7-35ff-79db-9284-076477ce8fdc",
+      "file": "Coffee with cream and sugar - Evan Swigart.jpg",
+      "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/6/66/Coffee_with_cream_and_sugar_-_Evan_Swigart.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "width": 1024,
+      "height": 681,
+      "bytes": 42158,
+      "author": "Evan Swigart from Chicago, USA",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Coffee_with_cream_and_sugar_-_Evan_Swigart.jpg"
+    }
+  },
+  "Haupia.jpg": {
+    "ok": true,
+    "info": {
+      "name": "Haupia.jpg",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:Haupia.jpg",
+      "thumbUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/95/Haupia.jpg/1920px-Haupia.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 3053,
+      "height": 2037,
+      "mime": "image/jpeg",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "author": "Arnold Gatilao from Fremont, CA, USA",
+      "attributionRequired": true
+    },
+    "photo": {
+      "id": "01a169f6-ef37-7e1c-9f8b-eb15e5a3daad",
+      "file": "Haupia.jpg",
+      "thumbUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/95/Haupia.jpg/1920px-Haupia.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 1600,
+      "height": 1068,
+      "bytes": 85764,
+      "author": "Arnold Gatilao from Fremont, CA, USA",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Haupia.jpg"
+    }
+  },
+  "Tahini with oil.JPG": {
+    "ok": true,
+    "info": {
+      "name": "Tahini with oil.JPG",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:Tahini_with_oil.JPG",
+      "thumbUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/50/Tahini_with_oil.JPG/1920px-Tahini_with_oil.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 2816,
+      "height": 2112,
+      "mime": "image/jpeg",
+      "license": "CC0",
+      "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "author": "Miansari66",
+      "attributionRequired": false
+    },
+    "photo": {
+      "id": "01a169f7-3d84-7e31-8fbf-b57b134fa080",
+      "file": "Tahini with oil.JPG",
+      "thumbUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/50/Tahini_with_oil.JPG/1920px-Tahini_with_oil.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 1600,
+      "height": 1200,
+      "bytes": 357476,
+      "author": "Miansari66",
+      "license": "CC0",
+      "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Tahini_with_oil.JPG"
+    }
+  },
+  "Adjika e-citizen.jpg": {
+    "ok": true,
+    "info": {
+      "name": "Adjika e-citizen.jpg",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:Adjika_e-citizen.jpg",
+      "thumbUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/58/Adjika_e-citizen.jpg/1920px-Adjika_e-citizen.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 3648,
+      "height": 2736,
+      "mime": "image/jpeg",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "author": "Moonsun1981",
+      "attributionRequired": true
+    },
+    "photo": {
+      "id": "01a169f7-3b2a-79b9-9568-299297393c3b",
+      "file": "Adjika e-citizen.jpg",
+      "thumbUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/58/Adjika_e-citizen.jpg/1920px-Adjika_e-citizen.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 1600,
+      "height": 1200,
+      "bytes": 168304,
+      "author": "Moonsun1981",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Adjika_e-citizen.jpg"
+    }
+  },
+  "Cup of turkish coffee.jpg": {
+    "ok": true,
+    "info": {
+      "name": "Cup of turkish coffee.jpg",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:Cup_of_turkish_coffee.jpg",
+      "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/6/61/Cup_of_turkish_coffee.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "width": 557,
+      "height": 564,
+      "mime": "image/jpeg",
+      "license": "CC BY-SA 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+      "author": "Keenan Browe",
+      "attributionRequired": true
+    },
+    "photo": {
+      "id": "01a169f7-3968-7b31-87fa-69ecd48d72ca",
+      "file": "Cup of turkish coffee.jpg",
+      "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/6/61/Cup_of_turkish_coffee.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "width": 557,
+      "height": 564,
+      "bytes": 168588,
+      "author": "Keenan Browe",
+      "license": "CC BY-SA 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Cup_of_turkish_coffee.jpg"
+    }
+  },
+  "Potatoes mixed with flour for lefse-making.jpg": {
+    "ok": true,
+    "info": {
+      "name": "Potatoes mixed with flour for lefse-making.jpg",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:Potatoes_mixed_with_flour_for_lefse-making.jpg",
+      "thumbUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/71/Potatoes_mixed_with_flour_for_lefse-making.jpg/1920px-Potatoes_mixed_with_flour_for_lefse-making.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 2560,
+      "height": 1440,
+      "mime": "image/jpeg",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "author": "MarkTraceur",
+      "attributionRequired": true
+    }
+  },
+  "Putting down flour on lefse rolling surface.jpg": {
+    "ok": true,
+    "info": {
+      "name": "Putting down flour on lefse rolling surface.jpg",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:Putting_down_flour_on_lefse_rolling_surface.jpg",
+      "thumbUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/91/Putting_down_flour_on_lefse_rolling_surface.jpg/1920px-Putting_down_flour_on_lefse_rolling_surface.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 2560,
+      "height": 1440,
+      "mime": "image/jpeg",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "author": "MarkTraceur",
+      "attributionRequired": true
+    }
+  },
+  "A single serving of lefse ready to be rolled out.jpg": {
+    "ok": true,
+    "info": {
+      "name": "A single serving of lefse ready to be rolled out.jpg",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:A_single_serving_of_lefse_ready_to_be_rolled_out.jpg",
+      "thumbUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5c/A_single_serving_of_lefse_ready_to_be_rolled_out.jpg/1920px-A_single_serving_of_lefse_ready_to_be_rolled_out.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 2560,
+      "height": 1440,
+      "mime": "image/jpeg",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "author": "MarkTraceur",
+      "attributionRequired": true
+    }
+  },
+  "Rolling out lefse batter.jpg": {
+    "ok": true,
+    "info": {
+      "name": "Rolling out lefse batter.jpg",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:Rolling_out_lefse_batter.jpg",
+      "thumbUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/16/Rolling_out_lefse_batter.jpg/1920px-Rolling_out_lefse_batter.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 2560,
+      "height": 1440,
+      "mime": "image/jpeg",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "author": "MarkTraceur",
+      "attributionRequired": true
+    }
+  },
+  "Taking lefse batter for rolling out.jpg": {
+    "ok": true,
+    "info": {
+      "name": "Taking lefse batter for rolling out.jpg",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:Taking_lefse_batter_for_rolling_out.jpg",
+      "thumbUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/63/Taking_lefse_batter_for_rolling_out.jpg/1920px-Taking_lefse_batter_for_rolling_out.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 2560,
+      "height": 1440,
+      "mime": "image/jpeg",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "author": "MarkTraceur",
+      "attributionRequired": true
+    }
+  },
+  "Two lefse cooking on a Heritage grill.jpg": {
+    "ok": true,
+    "info": {
+      "name": "Two lefse cooking on a Heritage grill.jpg",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:Two_lefse_cooking_on_a_Heritage_grill.jpg",
+      "thumbUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fd/Two_lefse_cooking_on_a_Heritage_grill.jpg/1920px-Two_lefse_cooking_on_a_Heritage_grill.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 2560,
+      "height": 1440,
+      "mime": "image/jpeg",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "author": "MarkTraceur",
+      "attributionRequired": true
+    }
+  },
+  "Two lefse nearly done on a Heritage grill.jpg": {
+    "ok": true,
+    "info": {
+      "name": "Two lefse nearly done on a Heritage grill.jpg",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:Two_lefse_nearly_done_on_a_Heritage_grill.jpg",
+      "thumbUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6d/Two_lefse_nearly_done_on_a_Heritage_grill.jpg/1920px-Two_lefse_nearly_done_on_a_Heritage_grill.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 2560,
+      "height": 1440,
+      "mime": "image/jpeg",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "author": "MarkTraceur",
+      "attributionRequired": true
+    }
+  },
+  "Türk Kahvesi - Bakir Cezve.jpg": {
+    "ok": true,
+    "info": {
+      "name": "Türk Kahvesi - Bakir Cezve.jpg",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:T%C3%BCrk_Kahvesi_-_Bakir_Cezve.jpg",
+      "thumbUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b5/T%C3%BCrk_Kahvesi_-_Bakir_Cezve.jpg/1920px-T%C3%BCrk_Kahvesi_-_Bakir_Cezve.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 2000,
+      "height": 2317,
+      "mime": "image/jpeg",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "author": "Eaeeae",
+      "attributionRequired": true
+    }
+  },
+  "Yassa poulet, Senegal.jpg": {
+    "ok": true,
+    "info": {
+      "name": "Yassa poulet, Senegal.jpg",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:Yassa_poulet,_Senegal.jpg",
+      "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/9/98/Yassa_poulet%2C_Senegal.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "width": 1224,
+      "height": 1632,
+      "mime": "image/jpeg",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "author": "Alweaver2",
+      "attributionRequired": true
+    },
+    "photo": {
+      "id": "01a169f7-1edf-7efd-88c5-3ece07c39997",
+      "file": "Yassa poulet, Senegal.jpg",
+      "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/9/98/Yassa_poulet%2C_Senegal.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "width": 1224,
+      "height": 1632,
+      "bytes": 770926,
+      "author": "Alweaver2",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Yassa_poulet,_Senegal.jpg"
+    }
+  },
+  "Tortilla canaria.jpg": {
+    "ok": true,
+    "info": {
+      "name": "Tortilla canaria.jpg",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:Tortilla_canaria.jpg",
+      "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/6/6b/Tortilla_canaria.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "width": 1024,
+      "height": 673,
+      "mime": "image/jpeg",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "author": "Secret Tenerife from After 16 years in Tenerife, the Costa del Geriatrico, United Kingdom",
+      "attributionRequired": true
+    },
+    "photo": {
+      "id": "01a169f6-ed0f-7197-a0ff-5421439f2354",
+      "file": "Tortilla canaria.jpg",
+      "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/6/6b/Tortilla_canaria.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "width": 1024,
+      "height": 673,
+      "bytes": 102762,
+      "author": "Secret Tenerife from After 16 years in Tenerife, the Costa del Geriatrico, United Kingdom",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Tortilla_canaria.jpg"
+    }
+  },
+  "Cauliflower cheese side dish.jpg": {
+    "ok": true,
+    "info": {
+      "name": "Cauliflower cheese side dish.jpg",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:Cauliflower_cheese_side_dish.jpg",
+      "thumbUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/51/Cauliflower_cheese_side_dish.jpg/1920px-Cauliflower_cheese_side_dish.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 4011,
+      "height": 3014,
+      "mime": "image/jpeg",
+      "license": "CC BY-SA 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+      "author": "AnemoneProjectors - Peter O'Connor (talk; Flickr)",
+      "attributionRequired": true
+    },
+    "photo": {
+      "id": "01a169f7-00d5-7746-926d-baeb649da992",
+      "file": "Cauliflower cheese side dish.jpg",
+      "thumbUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/51/Cauliflower_cheese_side_dish.jpg/1920px-Cauliflower_cheese_side_dish.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 1600,
+      "height": 1203,
+      "bytes": 428292,
+      "author": "AnemoneProjectors - Peter O'Connor (talk; Flickr)",
+      "license": "CC BY-SA 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Cauliflower_cheese_side_dish.jpg"
+    }
+  },
+  "Khobz Kesra algérien.jpg": {
+    "ok": true,
+    "info": {
+      "name": "Khobz Kesra algérien.jpg",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:Khobz_Kesra_alg%C3%A9rien.jpg",
+      "thumbUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/09/Khobz_Kesra_alg%C3%A9rien.jpg/1920px-Khobz_Kesra_alg%C3%A9rien.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 3264,
+      "height": 2448,
+      "mime": "image/jpeg",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "author": "Wicanto",
+      "attributionRequired": true
+    },
+    "photo": {
+      "id": "01a169f6-f779-7a9c-acd1-f1460f5455b9",
+      "file": "Khobz Kesra algérien.jpg",
+      "thumbUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/09/Khobz_Kesra_alg%C3%A9rien.jpg/1920px-Khobz_Kesra_alg%C3%A9rien.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 1600,
+      "height": 1200,
+      "bytes": 272324,
+      "author": "Wicanto",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Khobz_Kesra_alg%C3%A9rien.jpg"
+    }
+  },
+  "Majablanca.jpg": {
+    "ok": true,
+    "info": {
+      "name": "Majablanca.jpg",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:Majablanca.jpg",
+      "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/7/7d/Majablanca.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "width": 680,
+      "height": 710,
+      "mime": "image/jpeg",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "author": "kawalingpinoy",
+      "attributionRequired": true
+    },
+    "photo": {
+      "id": "01a169f7-2a18-7cdb-b5a0-61cba07a28b5",
+      "file": "Majablanca.jpg",
+      "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/7/7d/Majablanca.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "width": 680,
+      "height": 710,
+      "bytes": 79946,
+      "author": "kawalingpinoy",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Majablanca.jpg"
+    }
+  },
+  "Aunt Caroline’s Corn Bread ingredients.jpg": {
+    "ok": true,
+    "info": {
+      "name": "Aunt Caroline’s Corn Bread ingredients.jpg",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:Aunt_Caroline%E2%80%99s_Corn_Bread_ingredients.jpg",
+      "thumbUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/59/Aunt_Caroline%E2%80%99s_Corn_Bread_ingredients.jpg/1280px-Aunt_Caroline%E2%80%99s_Corn_Bread_ingredients.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 1639,
+      "height": 2162,
+      "mime": "image/jpeg",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "author": "KaMan",
+      "attributionRequired": true
+    }
+  },
+  "Aunt Caroline’s Corn Bread.jpg": {
+    "ok": true,
+    "info": {
+      "name": "Aunt Caroline’s Corn Bread.jpg",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:Aunt_Caroline%E2%80%99s_Corn_Bread.jpg",
+      "thumbUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5a/Aunt_Caroline%E2%80%99s_Corn_Bread.jpg/1920px-Aunt_Caroline%E2%80%99s_Corn_Bread.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 3264,
+      "height": 1836,
+      "mime": "image/jpeg",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "author": "KaMan",
+      "attributionRequired": true
+    }
+  },
+  "Aunt Caroline’s Corn Bread served.jpg": {
+    "ok": true,
+    "info": {
+      "name": "Aunt Caroline’s Corn Bread served.jpg",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:Aunt_Caroline%E2%80%99s_Corn_Bread_served.jpg",
+      "thumbUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fb/Aunt_Caroline%E2%80%99s_Corn_Bread_served.jpg/1920px-Aunt_Caroline%E2%80%99s_Corn_Bread_served.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 3264,
+      "height": 1836,
+      "mime": "image/jpeg",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "author": "KaMan",
+      "attributionRequired": true
+    },
+    "photo": {
+      "id": "01a169f7-451e-7532-b261-539aca5af4d2",
+      "file": "Aunt Caroline’s Corn Bread served.jpg",
+      "thumbUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fb/Aunt_Caroline%E2%80%99s_Corn_Bread_served.jpg/1920px-Aunt_Caroline%E2%80%99s_Corn_Bread_served.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 1600,
+      "height": 900,
+      "bytes": 423438,
+      "author": "KaMan",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Aunt_Caroline%E2%80%99s_Corn_Bread_served.jpg"
+    }
+  },
+  "Sunset Raisin Pie.jpg": {
+    "ok": true,
+    "info": {
+      "name": "Sunset Raisin Pie.jpg",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:Sunset_Raisin_Pie.jpg",
+      "thumbUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1d/Sunset_Raisin_Pie.jpg/1920px-Sunset_Raisin_Pie.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 3264,
+      "height": 1836,
+      "mime": "image/jpeg",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "author": "KaMan",
+      "attributionRequired": true
+    },
+    "photo": {
+      "id": "01a169f7-47cf-774f-87e3-d35ca3085fa5",
+      "file": "Sunset Raisin Pie.jpg",
+      "thumbUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1d/Sunset_Raisin_Pie.jpg/1920px-Sunset_Raisin_Pie.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 1600,
+      "height": 900,
+      "bytes": 216158,
+      "author": "KaMan",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Sunset_Raisin_Pie.jpg"
+    }
+  },
+  "Mango Avocado Salsa.jpg": {
+    "ok": true,
+    "info": {
+      "name": "Mango Avocado Salsa.jpg",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:Mango_Avocado_Salsa.jpg",
+      "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/8/8e/Mango_Avocado_Salsa.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "width": 800,
+      "height": 800,
+      "mime": "image/jpeg",
+      "license": "CC BY 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/3.0",
+      "author": "Sharon Chen",
+      "attributionRequired": true
+    },
+    "photo": {
+      "id": "01a169f6-f5d8-7bb7-9625-a28ff969623b",
+      "file": "Mango Avocado Salsa.jpg",
+      "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/8/8e/Mango_Avocado_Salsa.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "width": 800,
+      "height": 800,
+      "bytes": 144390,
+      "author": "Sharon Chen",
+      "license": "CC BY 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/3.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Mango_Avocado_Salsa.jpg"
+    }
+  },
+  "Dambun hausa.jpg": {
+    "ok": true,
+    "info": {
+      "name": "Dambun hausa.jpg",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:Dambun_hausa.jpg",
+      "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/1/11/Dambun_hausa.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "width": 1280,
+      "height": 960,
+      "mime": "image/jpeg",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "author": "Jamilu Muhammad080",
+      "attributionRequired": true
+    },
+    "photo": {
+      "id": "01a169f7-2bae-76fc-9834-f3b87856888d",
+      "file": "Dambun hausa.jpg",
+      "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/1/11/Dambun_hausa.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "width": 1280,
+      "height": 960,
+      "bytes": 398490,
+      "author": "Jamilu Muhammad080",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Dambun_hausa.jpg"
+    }
+  },
+  "Banana and chocolate cake.jpg": {
+    "ok": true,
+    "info": {
+      "name": "Banana and chocolate cake.jpg",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:Banana_and_chocolate_cake.jpg",
+      "thumbUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/38/Banana_and_chocolate_cake.jpg/1920px-Banana_and_chocolate_cake.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 3024,
+      "height": 3485,
+      "mime": "image/jpeg",
+      "license": "CC0",
+      "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "author": "Siobhan Leachman",
+      "attributionRequired": false
+    },
+    "photo": {
+      "id": "01a169f7-1a0c-71ba-90ee-937873533936",
+      "file": "Banana and chocolate cake.jpg",
+      "thumbUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/38/Banana_and_chocolate_cake.jpg/1920px-Banana_and_chocolate_cake.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 1600,
+      "height": 1844,
+      "bytes": 767448,
+      "author": "Siobhan Leachman",
+      "license": "CC0",
+      "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Banana_and_chocolate_cake.jpg"
+    }
+  },
+  "Pączki after 30 minute rise.png": {
+    "ok": true,
+    "info": {
+      "name": "Pączki after 30 minute rise.png",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:P%C4%85czki_after_30_minute_rise.png",
+      "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/f/f4/P%C4%85czki_after_30_minute_rise.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "width": 926,
+      "height": 695,
+      "mime": "image/png",
+      "license": "CC0",
+      "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "author": "Wolfcat-hybrid",
+      "attributionRequired": false
+    }
+  },
+  "Pickled eggs.jpg": {
+    "ok": true,
+    "info": {
+      "name": "Pickled eggs.jpg",
+      "descriptionUrl": "https://commons.wikimedia.org/wiki/File:Pickled_eggs.jpg",
+      "thumbUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4f/Pickled_eggs.jpg/1920px-Pickled_eggs.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 2815,
+      "height": 3754,
+      "mime": "image/jpeg",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "author": "TarnishedPath",
+      "attributionRequired": true
+    },
+    "photo": {
+      "id": "01a169f7-045f-7d79-a6ff-6337bea3513e",
+      "file": "Pickled eggs.jpg",
+      "thumbUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4f/Pickled_eggs.jpg/1920px-Pickled_eggs.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 1600,
+      "height": 2133,
+      "bytes": 308626,
+      "author": "TarnishedPath",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Pickled_eggs.jpg"
+    }
   }
 }

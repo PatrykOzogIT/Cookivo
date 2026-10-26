@@ -173,14 +173,65 @@
                 <mat-form-field subscriptSizing="dynamic" class="unit">
                   <mat-label>{{ t('ingredients.unit') }}</mat-label>
                   <mat-select formControlName="unitCode">
+                    <mat-select-trigger>{{ unitName(row) }}</mat-select-trigger>
                     @for (u of unitsFor(row); track u.code) {
-                      <mat-option [value]="u.code">{{
-                        u.key ? t(u.key) : (u.name! | localized: lang())
-                      }}</mat-option>
+                      <mat-option [value]="u.code"
+                        >{{ u.key ? t(u.key) : (u.name! | localized: lang()) }}
+                        @if (u.unknown) {
+                          <span class="unit-unknown">{{ t('recipes.units.toSettle') }}</span>
+                        }
+                      </mat-option>
                     }
                   </mat-select>
                 </mat-form-field>
               </div>
+              @switch (unitState(row)?.kind) {
+                @case ('loading') {
+                  <p class="unit-note" role="status">
+                    <span class="material-symbols-rounded" aria-hidden="true">hourglass_top</span>
+                    {{ t('recipes.units.estimating', { unit: unitName(row), name: itemName(row) }) }}
+                  </p>
+                }
+                @case ('notFit') {
+                  <p class="unit-note warn" role="alert">
+                    <span class="material-symbols-rounded" aria-hidden="true">info</span>
+                    {{ t('recipes.units.notFit', { unit: unitName(row), name: itemName(row) }) }}
+                  </p>
+                }
+                @case ('ask') {
+                  <div class="unit-ask">
+                    <p class="unit-question" [id]="'unit-q-' + i">
+                      {{ t('recipes.units.askLabel', { unit: unitName(row), name: itemName(row) }) }}
+                    </p>
+                    <mat-form-field subscriptSizing="dynamic">
+                      <mat-label>{{ t('recipes.units.weight') }}</mat-label>
+                      <input
+                        matInput
+                        type="text"
+                        inputmode="decimal"
+                        formControlName="unitGrams"
+                        autocomplete="off"
+                        required
+                        [attr.aria-describedby]="'unit-q-' + i"
+                      />
+                      <span matTextSuffix>g</span>
+                      <mat-hint>{{
+                        t('recipes.units.askHint', {
+                          min: (askRange(row)[0] | num: lang() : 2),
+                          max: (askRange(row)[1] | num: lang() : 0),
+                        })
+                      }}</mat-hint>
+                      <mat-error>{{
+                        t('recipes.units.askError', {
+                          min: (askRange(row)[0] | num: lang() : 2),
+                          max: (askRange(row)[1] | num: lang() : 0),
+                        })
+                      }}</mat-error>
+                    </mat-form-field>
+                    <p class="muted small">{{ t('recipes.units.askNote') }}</p>
+                  </div>
+                }
+              }
               <div class="line-extra">
                 <mat-form-field subscriptSizing="dynamic">
                   <mat-label>{{ t('recipes.form.note') }}</mat-label>

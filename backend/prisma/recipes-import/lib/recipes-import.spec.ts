@@ -141,7 +141,10 @@ describe('pozycje przepisu', () => {
   it('jednostka bez gęstości czeka na uzupełnienie składnika', () => {
     expect(
       resolveLine(line({ name: 'mleko', catalogName: 'Mleko 3,2%', amount: 1, unit: 'GLASS' }), index, null),
-    ).toEqual({ missingUnit: 'Mleko 3,2% (szklanka)' });
+    ).toEqual({
+      missingUnit: 'Mleko 3,2% (szklanka)',
+      unitNeed: { ingredient: 'Mleko 3,2%', unitCode: 'GLASS' },
+    });
   });
 
   it('bez ilości: przyprawa = szczypta, tłuszcz = łyżka, reszta odrzuca przepis', () => {

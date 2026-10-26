@@ -101,6 +101,7 @@ describe('Zgłoszenia i moderacja (e2e)', () => {
       openReports: 0,
       pendingIngredients: pending,
       ingredientRequests: 0,
+      unitSuggestions: 0,
       total: pending,
     });
 

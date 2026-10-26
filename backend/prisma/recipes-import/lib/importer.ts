@@ -12,6 +12,7 @@ import {
   ingredientForMath,
 } from '../../../src/recipes/recipe-calculator.service.js';
 import { gramsFor } from '../../../src/recipes/recipe-math.js';
+import type { UnitEstimates } from './build.js';
 import type { RecipeRecord } from './record.js';
 
 /** Konto techniczne - właściciel przepisów z biblioteki (nazwa zastrzeżona przy rejestracji) */
@@ -34,6 +35,8 @@ export interface PlanItem {
 
 export interface ImportOptions {
   dryRun: boolean;
+  /** Szacunki wag miar (unit-estimates.json) - brakujące miary zapisujemy w bazie jako `AI` */
+  unitEstimates?: UnitEstimates;
   limit?: number;
   batchSize?: number;
   log?: (msg: string) => void;
@@ -63,7 +66,17 @@ async function systemAuthor(tx: Prisma.TransactionClient): Promise<string> {
   return created.id;
 }
 
-export async function plan(prisma: PrismaClient, records: RecipeRecord[]) {
+/** Miara z szacunku do zapisu w bazie przed przepisem */
+interface UnitInsert {
+  ingredientId: string;
+  unitCode: string;
+  grams: number;
+}
+
+export async function plan(prisma: PrismaClient, records: RecipeRecord[], estimates: UnitEstimates = {}) {
+  const unitInserts = new Map<string, UnitInsert>();
+  /** Klucze miar z szacunku potrzebne przepisowi */
+  const recordUnits = new Map<string, string[]>();
   const [sources, ingredients, mealTypes, recipes, units] = await Promise.all([
     prisma.recipeSource.findMany({
       where: { externalId: { in: records.map((r) => r.key) } },
@@ -91,12 +104,18 @@ export async function plan(prisma: PrismaClient, records: RecipeRecord[]) {
       if (!ing) return { record, action: 'INGREDIENT_MISSING', detail: l.ingredient };
       const shape = { density: ing.density, units: ing.units.map((u) => ({ code: u.unitCode })) };
       if (!unitAllowed(l.unitCode, shape, unitMl)) {
-        return { record, action: 'UNIT_NOT_ALLOWED', detail: `${l.ingredient} (${l.unitCode})` };
+        const grams = estimates[normalizeSearch(ing.namePl)]?.grams[l.unitCode];
+        if (!grams) return { record, action: 'UNIT_NOT_ALLOWED', detail: `${l.ingredient} (${l.unitCode})` };
+        // Szacunek: w pamięci od razu (gramy pozycji), w bazie razem z przepisem
+        const key = `${ing.id}|${l.unitCode}`;
+        unitInserts.set(key, { ingredientId: ing.id, unitCode: l.unitCode, grams });
+        ing.units.push({ ingredientId: ing.id, unitCode: l.unitCode, grams, basis: 'AI' });
+        recordUnits.set(record.key, [...(recordUnits.get(record.key) ?? []), key]);
       }
     }
     return { record, action: 'INSERT' };
   });
-  return { items, byName, unitMl };
+  return { items, byName, unitMl, unitInserts, recordUnits };
 }
 
 async function insertRecipe(
@@ -189,7 +208,7 @@ async function insertRecipe(
 
 export async function runImport(prisma: PrismaClient, records: RecipeRecord[], opts: ImportOptions) {
   const started = Date.now();
-  const { items, byName, unitMl } = await plan(prisma, records);
+  const { items, byName, unitMl, unitInserts, recordUnits } = await plan(prisma, records, opts.unitEstimates);
   const todo = items.filter((p) => p.action === 'INSERT').slice(0, opts.limit ?? Infinity);
   const skipped: Record<string, number> = {};
   for (const p of items) if (p.action !== 'INSERT') skipped[p.action] = (skipped[p.action] ?? 0) + 1;
@@ -203,6 +222,14 @@ export async function runImport(prisma: PrismaClient, records: RecipeRecord[], o
       await prisma.$transaction(
         async (tx) => {
           const authorId = await systemAuthor(tx);
+          // Miary z szacunku potrzebne tej partii (już zapisane - pomijane)
+          const keys = new Set(chunk.flatMap((p) => recordUnits.get(p.record.key) ?? []));
+          if (keys.size) {
+            await tx.ingredientUnit.createMany({
+              data: [...keys].map((k) => ({ ...unitInserts.get(k)!, basis: 'AI' as const })),
+              skipDuplicates: true,
+            });
+          }
           for (const p of chunk) await insertRecipe(tx, calculator, p.record, authorId, byName, unitMl);
           if (opts.dryRun) throw new Rollback();
         },
@@ -221,6 +248,8 @@ export async function runImport(prisma: PrismaClient, records: RecipeRecord[], o
     inserted,
     batches,
     skipped,
+    /** Miary z szacunku AI zapisane razem z przepisami */
+    estimatedUnits: new Set(todo.flatMap((p) => recordUnits.get(p.record.key) ?? [])).size,
     ms: Date.now() - started,
     plan: items,
   };

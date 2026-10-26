@@ -150,6 +150,16 @@ export class RecipeLineDto {
   @MaxLength(32)
   unitCode!: string;
 
+  /**
+   * Waga 1 miary kuchennej podana przez autora, gdy składnik jej nie zna (np. 1 łyżeczka kaszy = 5 g).
+   * Działa tylko w tym przepisie; zakres sprawdza serwer (`inUnitRange`).
+   */
+  @IsOptional()
+  @IsNumber({ maxDecimalPlaces: 2 })
+  @Min(0.01)
+  @Max(5000)
+  unitGrams?: number;
+
   @IsOptional()
   @Transform(emptyToUndefined)
   @IsString()

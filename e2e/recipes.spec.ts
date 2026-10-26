@@ -103,6 +103,47 @@ test.describe('Przepisy', () => {
     await expect(page.getByRole('heading', { level: 1, name: title })).toBeVisible();
   });
 
+  test('miary kuchenne: waga od autora, miara niepasująca, zapis z łyżeczkami', async ({ page, request }) => {
+    const author = await createUser(request, 'miarka');
+    const title = `Kasza testowa ${Date.now().toString(36)}`;
+    // Mąka w sztukach - AI (podmienione) mówi, że miara nie pasuje; kasza - bez AI pytamy autora
+    await page.route('**/api/ingredients/*/units/PIECE/estimate', (route) =>
+      route.fulfill({ json: { status: 'NOT_FIT' } }),
+    );
+
+    await loginUi(page, author);
+    await page.goto('/recipes/new');
+    await page.getByLabel('Nazwa przepisu').fill(title);
+
+    await pickIngredient(page, 0, 'kasza jaglana', 'Kasza jaglana');
+    await page.getByLabel('Ilość').nth(0).fill('2');
+    await page.getByRole('combobox', { name: 'Jednostka' }).nth(0).click();
+    await page.getByRole('option', { name: /^łyżeczka/ }).click();
+    await expect(page.getByText('Ile waży 1 łyżeczka – Kasza jaglana?')).toBeVisible();
+    await page.getByLabel('Waga', { exact: true }).fill('5');
+    await expect(page.getByText('≈ 10 g')).toBeVisible();
+    await expectNoA11yViolations(page);
+
+    await page.getByRole('button', { name: 'Dodaj składnik' }).click();
+    await pickIngredient(page, 1, 'mąka pszenna', 'Mąka pszenna');
+    await page.getByLabel('Ilość').nth(1).fill('100');
+    await page.getByRole('combobox', { name: 'Jednostka' }).nth(1).click();
+    await page.getByRole('option', { name: /^sztuka/ }).click();
+    await expect(
+      page.getByText('Miara „sztuka” nie pasuje do składnika „Mąka pszenna”', { exact: false }),
+    ).toBeVisible();
+    // Poprzednia lista jednostek musi się zamknąć, zanim otworzymy ją ponownie
+    await expect(page.getByRole('listbox')).toBeHidden();
+    await page.getByRole('combobox', { name: 'Jednostka' }).nth(1).click();
+    await page.getByRole('option', { name: 'g', exact: true }).click();
+
+    await page.getByLabel('Krok 1', { exact: true }).fill('Ugotuj kaszę z mąką.');
+    await page.getByRole('button', { name: 'Zapisz przepis' }).click();
+    await expect(page.getByRole('heading', { level: 1, name: title })).toBeVisible();
+    const ingredients = page.locator('section.ingredients');
+    await expect(ingredients.getByText('2 łyżeczki')).toBeVisible();
+  });
+
   test('gość widzi przepisy publiczne i filtruje je', async ({ page, request, browser }) => {
     const author = await createUser(request, 'filtry');
     const title = `Omlet filtrowany ${Date.now().toString(36)}`;

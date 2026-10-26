@@ -1,4 +1,5 @@
-import type { Localized, Unit } from '../ingredients/ingredients.models';
+import type { Localized, Unit, UnitBasis } from '../ingredients/ingredients.models';
+import { KITCHEN_UNITS } from './kitchen-units';
 
 /** Opcje jednostek dla pozycji przepisu - zależą od wybranego składnika / podprzepisu. */
 export interface LineUnitOption {
@@ -8,6 +9,10 @@ export interface LineUnitOption {
   name?: Localized;
   /** Ile gramów to 1 jednostka (null = nie wiadomo z góry, np. porcja podprzepisu) */
   grams: number | null;
+  /** Miara kuchenna, której składnik jeszcze nie zna - waga do ustalenia (szacunek AI albo autor) */
+  unknown?: boolean;
+  /** Waga z szacunku AI */
+  estimated?: boolean;
 }
 
 export interface LineItem {
@@ -15,7 +20,7 @@ export interface LineItem {
   id: string;
   name: Localized;
   density?: number | null;
-  units?: (Localized & { code: string; grams: number })[];
+  units?: (Localized & { code: string; grams: number; basis?: UnitBasis })[];
   servings?: number;
 }
 
@@ -30,7 +35,9 @@ export function unitOptions(item: LineItem | null, dictionary: Unit[]): LineUnit
   const options: LineUnitOption[] = [{ code: 'g', key: 'units.gShort', grams: 1 }];
   const density = item.density ?? null;
   if (density) options.push({ code: 'ml', key: 'units.mlShort', grams: density });
-  for (const u of item.units ?? []) options.push({ code: u.code, name: u, grams: u.grams });
+  for (const u of item.units ?? []) {
+    options.push({ code: u.code, name: u, grams: u.grams, ...(u.basis === 'AI' ? { estimated: true } : {}) });
+  }
   if (density) {
     for (const u of dictionary) {
       if (u.ml && !(item.units ?? []).some((own) => own.code === u.code)) {
@@ -51,6 +58,23 @@ export function unitOptionsWithBulk(item: LineItem, dictionary: Unit[]): LineUni
     options.push(o);
     if (o.code === 'g') options.push({ code: 'kg', key: 'units.kgShort', grams: 1000 });
     if (o.code === 'ml' && o.grams) options.push({ code: 'l', key: 'units.lShort', grams: o.grams * 1000 });
+  }
+  return options;
+}
+
+/**
+ * Formularz przepisu: jak `unitOptionsWithBulk` plus miary kuchenne, których składnik jeszcze nie zna
+ * (łyżeczka, łyżka, szklanka, szczypta, sztuka) - waga ustalana po wyborze.
+ */
+export function recipeUnitOptions(item: LineItem | null, dictionary: Unit[]): LineUnitOption[] {
+  if (!item) return unitOptions(null, dictionary);
+  const options = unitOptionsWithBulk(item, dictionary);
+  if (item.kind !== 'ingredient') return options;
+  for (const code of KITCHEN_UNITS) {
+    const unit = dictionary.find((u) => u.code === code);
+    if (unit && !options.some((o) => o.code === code)) {
+      options.push({ code, name: unit, grams: null, unknown: true });
+    }
   }
   return options;
 }

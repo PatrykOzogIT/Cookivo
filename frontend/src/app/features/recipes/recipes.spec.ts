@@ -6,6 +6,7 @@ import {
   scaleAmount,
   unitOptions,
   unitOptionsWithBulk,
+  recipeUnitOptions,
   type LineItem,
 } from './recipe-units';
 import type { RecipeLine } from './recipes.models';
@@ -86,6 +87,25 @@ describe('jednostki pozycji przepisu', () => {
     // Formularz przepisu: też kg i l
     expect(unitOptionsWithBulk(milk, units).map((u) => u.code)).toEqual(['g', 'kg', 'ml', 'l', 'TABLESPOON']);
     expect(unitOptionsWithBulk(broth, units).map((u) => u.code)).toEqual(['SERVING', 'g', 'kg']);
+    // Formularz przepisu: miary kuchenne, których składnik nie zna - do ustalenia (bez wagi)
+    const groats: LineItem = {
+      kind: 'ingredient',
+      id: 'k',
+      name: { namePl: 'Kasza' },
+      density: null,
+      units: [],
+    };
+    const options = recipeUnitOptions(groats, units);
+    expect(options.map((u) => u.code)).toEqual(['g', 'kg', 'TABLESPOON', 'PIECE']);
+    expect(options.filter((u) => u.unknown).map((u) => u.code)).toEqual(['TABLESPOON', 'PIECE']);
+    // Znana miara (szacunek AI) bez znacznika "do ustalenia", podprzepis bez miar kuchennych
+    const estimated = recipeUnitOptions(
+      { ...egg, units: [{ code: 'PIECE', namePl: 'sztuka', grams: 50, basis: 'AI' }] },
+      units,
+    );
+    expect(estimated.find((u) => u.code === 'PIECE')).toMatchObject({ grams: 50, estimated: true });
+    expect(estimated.find((u) => u.code === 'PIECE')?.unknown).toBeUndefined();
+    expect(recipeUnitOptions(broth, units).some((u) => u.unknown)).toBe(false);
     expect(defaultUnit(broth)).toBe('SERVING');
   });
 });

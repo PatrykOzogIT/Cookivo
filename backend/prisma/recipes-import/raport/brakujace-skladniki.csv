@@ -3,9 +3,9 @@ nasiona gorczycy;17
 garam masala;17
 lody waniliowe;16
 papryka wędzona;16
+bulion warzywny;16
 lód;15
 płatki chili;15
-bulion warzywny;15
 ocet ryżowy;14
 pieprz cytrynowy;12
 papryczka habanero;11
@@ -17,7 +17,6 @@ ostry sos;9
 mieszanka przypraw berbere;9
 musztarda w proszku;8
 goździk;8
-suszona skórka cytrynowa;8
 syrop złoty;7
 nasiona kminu;7
 woda różana;7
@@ -25,6 +24,7 @@ kminek mielony;7
 sól czosnkowa;7
 sos tabasco;7
 kwas cytrynowy;7
+suszona skórka cytrynowa;7
 ser żółty;7
 mirin;6
 kolendra mielona;6
@@ -155,11 +155,9 @@ zioła mieszane;2
 puri;2
 sev;2
 koncentrat soku pomarańczowego;2
-porzeczka suszona;2
 cream of tartar;2
 bukiet garni;2
 zielona papryczka chili;2
-płatki papryki chili;2
 ocet słodowy;2
 wiórki drzewa mesquite;2
 przyprawa do grillowania;2
@@ -197,7 +195,6 @@ pico de gallo;1
 krem winnego kamienia;1
 ciasto na biszkopty mrożone;1
 spód do ciasta z ciastek graham;1
-bakalie suszone;1
 pieprz w ziarnach;1
 żołądek wieprzowy;1
 zagęszczona zupa krem z kurczaka;1
@@ -391,6 +388,7 @@ musztarda creole;1
 przyprawa creole;1
 pasta chili z fasoli;1
 borówki mrożone;1
+kardamon mielony;1
 orzechy mieszane;1
 chipsy z bajgla;1
 beztłuszczowy włoski dressing do sałatek;1
@@ -471,7 +469,6 @@ hard sauce;1
 purée dyniowe;1
 śmietanka kremówka;1
 nasiona anyżu;1
-wiśnia kandyzowana;1
 substytut mięsa mielonego;1
 herbata earl grey;1
 syrop waniliowy;1
@@ -529,8 +526,10 @@ wióry drewna hikory;1
 mieszanka przypraw firecracker rub;1
 dym w płynie (liquid smoke);1
 suchy rub do żeberek;1
+płatki papryki chili;1
 przyprawa country roast chicken;1
 purée z chipotle;1
+ostry sos chipotle wędzony;1
 przyprawa barbecue (rub);1
 suche kawałki drewna hikorowego;1
 konfitura brzoskwiniowa;1
@@ -574,7 +573,6 @@ mandarynka z puszki w syropie;1
 ręcznik ogniotrwały;1
 filet z pompano;1
 chleb cynamonowy;1
-dym hickory w proszku;1
 proszek z papryczki habanero;1
 proszek z papryczki ancho;1
 ciastka imbirowe;1
@@ -671,6 +669,7 @@ mleko wielbłądzie;1
 mahaleb (zmielone pestki wiśni);1
 przyprawa do mięsa kraba;1
 ciastka mleczne;1
+gęsty krem custard;1
 szpinak i rukola;1
 wini kamień;1
 suszone liście limonki kaffir;1
@@ -686,6 +685,7 @@ purée z papryczki chili i pomidorów;1
 słodzik;1
 liście ashwe (roselle);1
 orzech palmowy;1
+porzeczka suszona;1
 trufla lub inny grzyb;1
 olej z suszonych pomidorów;1
 sól sezamowa;1

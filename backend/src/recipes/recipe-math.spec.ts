@@ -120,3 +120,28 @@ describe('derivedNutrition', () => {
     expect(effectiveGrams({ totalGrams: 300, cookedGrams: 0 })).toBe(300);
   });
 });
+
+describe('gramsFor - waga miary z przepisu', () => {
+  const unitMl = { TEASPOON: 5, TABLESPOON: 15, GLASS: 250 };
+  const groats: IngredientForMath = {
+    nutrition: {
+      kcal: 340,
+      protein: 12,
+      fat: 3,
+      saturatedFat: null,
+      carbs: 70,
+      sugars: null,
+      fiber: null,
+      salt: null,
+    },
+    density: null,
+    units: {},
+  };
+  it('składnik nie zna miary - liczymy z wagi podanej w przepisie', () => {
+    expect(gramsFor(2, 'TEASPOON', { ingredient: groats }, unitMl)).toBe('UNIT_NOT_ALLOWED');
+    expect(gramsFor(2, 'TEASPOON', { ingredient: groats }, unitMl, 5)).toBe(10);
+  });
+  it('znana miara ma pierwszeństwo przed wagą z przepisu', () => {
+    expect(gramsFor(1, 'TEASPOON', { ingredient: { ...groats, units: { TEASPOON: 4 } } }, unitMl, 5)).toBe(4);
+  });
+});
