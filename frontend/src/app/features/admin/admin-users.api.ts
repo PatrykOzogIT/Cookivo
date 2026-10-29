@@ -13,6 +13,8 @@ export interface AdminUser {
   emailVerified: boolean;
   createdAt: string;
   lastLoginAt: string | null;
+  /** Ostatnie użycie sesji (albo logowanie), null = nigdy */
+  lastActiveAt: string | null;
   recipesCount: number;
   openReports: number;
   block: { until: string | null; reason: string } | null;

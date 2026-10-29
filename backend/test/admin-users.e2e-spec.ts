@@ -40,6 +40,20 @@ describe('Panel admina: użytkownicy, blokady, role (e2e)', () => {
     const found = (await api().get('/api/admin/users?q=KUCH').set(bearer(admin)).expect(200)).body;
     expect(found.items).toHaveLength(1);
     expect(found.items[0]).toMatchObject({ username: 'kucharz', role: 'USER', block: null, recipesCount: 0 });
+    // Ostatnia aktywność: najnowsze użycie sesji; bez sesji - ostatnie logowanie, bez niego null
+    const cook = await idOf('kucharz');
+    const used = new Date('2026-10-20T10:00:00Z');
+    await t.prisma.session.updateMany({ where: { userId: cook }, data: { lastUsedAt: used } });
+    const again = (await api().get('/api/admin/users?q=kucharz').set(bearer(admin)).expect(200)).body;
+    expect(again.items[0].lastActiveAt).toBe(used.toISOString());
+    await t.prisma.session.deleteMany({ where: { userId: cook } });
+    const login = (await t.prisma.user.findUniqueOrThrow({ where: { id: cook } })).lastLoginAt;
+    const noSessions = (await api().get('/api/admin/users?q=kucharz').set(bearer(admin)).expect(200)).body;
+    expect(noSessions.items[0].lastActiveAt).toBe(login?.toISOString() ?? null);
+    await t.prisma.user.update({ where: { id: cook }, data: { lastLoginAt: null } });
+    const never = (await api().get('/api/admin/users?q=kucharz').set(bearer(admin)).expect(200)).body;
+    expect(never.items[0].lastActiveAt).toBeNull();
+
     const admins = (await api().get('/api/admin/users?filter=admins').set(bearer(admin)).expect(200)).body;
     expect(admins.items.map((u: { username: string }) => u.username).sort()).toEqual([
       'szefowa',

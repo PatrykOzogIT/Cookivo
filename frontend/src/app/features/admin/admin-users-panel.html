@@ -46,7 +46,12 @@
           <h3 [id]="'u-' + u.id">{{ u.username }}</h3>
           <p class="sub">
             {{ u.email }} · {{ t('admin.users.since', { date: formatDate(u.createdAt) }) }} ·
-            {{ t('admin.users.recipes', { n: u.recipesCount }) }}
+            {{
+              u.lastActiveAt
+                ? t('admin.users.active', { when: activeLabel(u.lastActiveAt) })
+                : t('admin.users.neverActive')
+            }}
+            · {{ t('admin.users.recipes', { n: u.recipesCount }) }}
           </p>
           @if (u.block; as b) {
             <p class="sub">

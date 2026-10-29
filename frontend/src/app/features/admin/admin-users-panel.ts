@@ -86,6 +86,14 @@ export class AdminUsersPanel implements OnInit {
     await this.run(u.id, async () => this.patch(u.id, await this.api.setRole(u.id, role)));
   }
 
+  /** Ostatnia aktywność: "dzisiaj", "wczoraj", "3 dni temu", starsze - data */
+  protected activeLabel(iso: string): string {
+    const day = (d: Date) => Date.UTC(d.getFullYear(), d.getMonth(), d.getDate());
+    const days = Math.round((day(new Date()) - day(new Date(iso))) / 86_400_000);
+    if (days < 0 || days >= 7) return this.formatDate(iso);
+    return new Intl.RelativeTimeFormat(this.language.current(), { numeric: 'auto' }).format(-days, 'day');
+  }
+
   protected formatDate(iso: string, withTime = false): string {
     return new Intl.DateTimeFormat(this.language.current(), {
       dateStyle: 'medium',

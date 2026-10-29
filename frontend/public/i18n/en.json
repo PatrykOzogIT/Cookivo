@@ -1716,7 +1716,9 @@
       "period": "For how long",
       "permanent": "Permanently",
       "reason": "Reason (shown to the user)",
-      "blockHint": "The user will be signed out on all devices and receive an email with the reason."
+      "blockHint": "The user will be signed out on all devices and receive an email with the reason.",
+      "active": "active: {{when}}",
+      "neverActive": "never signed in"
     },
     "todo": "items to handle: {{count}}",
     "requests": {

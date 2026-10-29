@@ -1716,7 +1716,9 @@
       "period": "Na jak długo",
       "permanent": "Na stałe",
       "reason": "Powód (zobaczy go użytkownik)",
-      "blockHint": "Użytkownik zostanie wylogowany ze wszystkich urządzeń i dostanie maila z powodem."
+      "blockHint": "Użytkownik zostanie wylogowany ze wszystkich urządzeń i dostanie maila z powodem.",
+      "active": "aktywny: {{when}}",
+      "neverActive": "bez logowania"
     },
     "todo": "sprawy do załatwienia: {{count}}",
     "requests": {

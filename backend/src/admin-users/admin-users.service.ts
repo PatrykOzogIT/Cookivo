@@ -43,6 +43,8 @@ export class AdminUsersService {
         take: PAGE_SIZE,
         include: {
           _count: { select: { recipes: true, reportsAgainst: { where: { status: 'OPEN' } } } },
+          // Ostatnia aktywność = ostatnie odświeżenie sesji (co kilkanaście minut przy otwartej aplikacji)
+          sessions: { select: { lastUsedAt: true }, orderBy: { lastUsedAt: 'desc' }, take: 1 },
         },
       }),
       this.prisma.user.count({ where }),
@@ -61,6 +63,8 @@ export class AdminUsersService {
           emailVerified: !!u.emailVerifiedAt,
           createdAt: u.createdAt,
           lastLoginAt: u.lastLoginAt,
+          /** Sesje sprzątnięte po okresie retencji - zostaje data ostatniego logowania */
+          lastActiveAt: u.sessions[0]?.lastUsedAt ?? u.lastLoginAt,
           recipesCount: u._count.recipes,
           openReports: u._count.reportsAgainst,
           block: block ? { until: block.until, reason: block.reason } : null,
